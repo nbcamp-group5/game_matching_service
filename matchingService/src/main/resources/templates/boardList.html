@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>게시글 리스트 페이지</title>
+</head>
+
+<style>
+  .layout {
+    width: 500px;
+    margin: 0 auto;
+    margin-top: 40px;
+  }
+</style>
+<body>
+
+<div class="layout">
+  <table>
+    <thead>
+    <tr>
+      <th>글번호</th>
+      <th>제목</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="board:${boardList.getContents()}">
+      <td th:text="${board.id}">1</td>
+      <td>
+        <a th:text="${board.content}" th:href="@{/board/view(id=${board.id})}"></a>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+  <th:block
+      th:each="page:${#numbers.sequence(boardList.getCurrentPage(),boardList.getTotalPages())}">
+    <a th:if="${page != boardList.getCurrentPage()}" th:href="@{/board/list(page=${page-1})}"
+       th:text="${page}"></a>
+    <strong th:if="${page==boardList.getCurrentPage()}" th:text="${page}"
+            style="color:red"></strong>
+
+  </th:block>
+</div>
+
+</body>
+</html>
