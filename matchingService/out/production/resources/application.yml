@@ -1,0 +1,20 @@
+spring:
+  h2:
+    console:
+      enabled: true
+
+  datasource:
+    url: jdbc:h2:mem:db;MODE=MYSQL;
+    username: sa
+    password:
+
+  jpa:
+    properties:
+      hibernate.show_sql: true
+      hibernate.format_sql: true
+    hibernate:
+      ddl-auto: create-drop
+
+jwt:
+  secret:
+    key: 7ZWt7ZW0OTntmZTsnbTtjIXtlZzqta3snYTrhIjrqLjshLjqs4TroZzrgpjslYTqsIDsnpDtm4zrpa3tlZzqsJzrsJzsnpDrpbzrp4zrk6TslrTqsIDsnpA
