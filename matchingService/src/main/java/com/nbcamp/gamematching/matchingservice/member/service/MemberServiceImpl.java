@@ -1,9 +1,12 @@
 package com.nbcamp.gamematching.matchingservice.member.service;
 
+import com.nbcamp.gamematching.matchingservice.exception.NotFoundException.NotFoundMemberException;
 import com.nbcamp.gamematching.matchingservice.matchinglog.entity.MatchingLog;
 import com.nbcamp.gamematching.matchingservice.matchinglog.repository.MatchingLogRepository;
 import com.nbcamp.gamematching.matchingservice.member.dto.BoardPageDto;
 import com.nbcamp.gamematching.matchingservice.member.dto.BoardPageDto.BoardContent;
+import com.nbcamp.gamematching.matchingservice.member.dto.BuddyPageDto;
+import com.nbcamp.gamematching.matchingservice.member.dto.BuddyPageDto.BuddyContent;
 import com.nbcamp.gamematching.matchingservice.member.dto.MatchingLogPageDto;
 import com.nbcamp.gamematching.matchingservice.member.dto.MatchingLogPageDto.MatchingLogContent;
 import com.nbcamp.gamematching.matchingservice.member.dto.ProfileDto;
@@ -53,8 +56,8 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public MatchingLogPageDto getMyMatchingList(Member member, Pageable pageable) {
-        // TODO: matchings 내부의 members 리스트에서 내가 있는지 어떻게 조회하지? => QueryDSL? member 리스트는 MatchingLog에!
-        Page<MatchingLog> myMatchingList = matchingLogRepository.findAllByMember(member);
+
+        Page<MatchingLog> myMatchingList = matchingLogRepository.findAllByMember(member, pageable);
 
         List<MatchingLogContent> matchingLogContents = myMatchingList.getContent().stream()
                 .map(MatchingLogContent::new).collect(Collectors.toList());
@@ -67,8 +70,22 @@ public class MemberServiceImpl implements MemberService {
                 .totalElements(myMatchingList.getNumberOfElements()).build();
     }
 
-//    @Override
-//    public BoardPageDto getMyBuddies(Member member, Pageable pageable) {
-//
-//    }
+    @Override
+    public BuddyPageDto getMyBuddies(Long memberId, Pageable pageable) {
+        Member findMember = memberRepository.findById(memberId)
+                .orElseThrow(NotFoundMemberException::new);
+
+        List<BuddyContent> buddyContents = findMember.getBuddies().stream().map(BuddyContent::new)
+                .collect(Collectors.toList());
+
+        return BuddyPageDto.builder()
+                .contents(buddyContents)
+                .currentPage(pageable.getPageNumber())
+                .totalPages(Math.round(
+                        buddyContents.size() / pageable.getPageSize())
+                )       //TODO : 하드코딩 대체할 것, createQuery를 써야하나...이것 하나 때문에 EntityManager를 선언하는 게 맞나?
+                .numberOfElements(buddyContents.size())
+                .build();
+    }
+
 }

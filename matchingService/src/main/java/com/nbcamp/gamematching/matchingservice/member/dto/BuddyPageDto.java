@@ -4,7 +4,10 @@ import com.nbcamp.gamematching.matchingservice.member.entity.Member;
 import com.nbcamp.gamematching.matchingservice.member.entity.Profile;
 import java.util.ArrayList;
 import java.util.List;
+import lombok.Builder;
+import lombok.Getter;
 
+@Getter
 public class BuddyPageDto {
 
     private Integer numberOfElements;
@@ -13,6 +16,7 @@ public class BuddyPageDto {
     private Integer currentPage;
     private List<BuddyContent> contents = new ArrayList<>();
 
+    @Builder
     public BuddyPageDto(Integer numberOfElements, Integer totalElements, Integer totalPages,
             Integer currentPage, List<BuddyContent> contents) {
         this.numberOfElements = numberOfElements;
@@ -22,6 +26,7 @@ public class BuddyPageDto {
         this.contents = contents;
     }
 
+    @Getter
     public static class BuddyContent {
 
         private Profile profile;
