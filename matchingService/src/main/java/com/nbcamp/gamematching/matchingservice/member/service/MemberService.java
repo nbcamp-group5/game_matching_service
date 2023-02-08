@@ -15,5 +15,5 @@ public interface MemberService {
 
     MatchingLogPageDto getMyMatchingList(Member member, Pageable pageable);
 
-    BuddyPageDto getMyBuddies(Member member, Pageable pageable);
+    BuddyPageDto getMyBuddies(Long memberId, Pageable pageable);
 }

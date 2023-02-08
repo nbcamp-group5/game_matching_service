@@ -4,7 +4,6 @@ import com.nbcamp.gamematching.matchingservice.member.entity.Board;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -29,7 +28,7 @@ public class BoardPageDto {
     }
 
 
-    @Data
+    @Getter
     public static class BoardContent {
 
         private Long id;
