@@ -1,10 +1,11 @@
 package com.nbcamp.gamematching.matchingservice.member.entity;
 
-import jakarta.persistence.CascadeType;
+import com.nbcamp.gamematching.matchingservice.member.domain.MemberRoleEnum;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
@@ -33,38 +34,42 @@ public class Member {
     @Embedded
     private Profile profile;
 
+    @Column
+    private String email;
 
+    @Enumerated(EnumType.STRING)
+    private MemberRoleEnum role;
 
     /**
      * 생성자 - 약속된 형태로만 생성가능하도록 합니다.
      */
     @Builder
-    public Member(String password, Profile profile) {
+    public Member(String email, String password, Profile profile, MemberRoleEnum role) {
         this.password = password;
         this.profile = profile;
+        this.email = email;
+        this.role = role;
     }
 
     /**
      * 연관관계 - Foreign Key 값을 따로 컬럼으로 정의하지 않고 연관 관계로 정의합니다.
      */
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany
     @Column(name = "buddy")
     private List<Member> buddies = new ArrayList<>();
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany
     private List<NotYetBuddy> notYetBuddies = new ArrayList<>();
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany
     private List<Board> boards = new ArrayList<>();
-
-    @OneToMany(fetch = FetchType.LAZY)
-    private List<Matching> matchings = new ArrayList<>();
-
 
     /**
      * 연관관계 편의 메소드 - 반대쪽에는 연관관계 편의 메소드가 없도록 주의합니다.
      */
-
+    public void addBoards(Board board) {
+        this.getBoards().add(board);
+    }
 
     /**
      * 서비스 메소드 - 외부에서 엔티티를 수정할 메소드를 정의합니다. (단일 책임을 가지도록 주의합니다.)

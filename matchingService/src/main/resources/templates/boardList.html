@@ -8,8 +8,7 @@
 <style>
   .layout {
     width: 500px;
-    margin: 0 auto;
-    margin-top: 40px;
+    margin: 40px auto 0;
   }
 </style>
 <body>
@@ -25,8 +24,7 @@
     <tbody>
     <tr th:each="board:${boardList.getContents()}">
       <td th:text="${board.id}">1</td>
-      <td>
-        <a th:text="${board.content}" th:href="@{/board/view(id=${board.id})}"></a>
+      <td th:text="${board.content}">내용 sample</a>
       </td>
     </tr>
     </tbody>
@@ -34,7 +32,7 @@
 
   <th:block
       th:each="page:${#numbers.sequence(boardList.getCurrentPage(),boardList.getTotalPages())}">
-    <a th:if="${page != boardList.getCurrentPage()}" th:href="@{/board/list(page=${page-1})}"
+    <a th:if="${page != boardList.getCurrentPage()}" th:href="@{/board/list(page=${page})}"
        th:text="${page}"></a>
     <strong th:if="${page==boardList.getCurrentPage()}" th:text="${page}"
             style="color:red"></strong>
