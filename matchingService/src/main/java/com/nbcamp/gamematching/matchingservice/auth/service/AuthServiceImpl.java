@@ -36,6 +36,10 @@ public class AuthServiceImpl implements AuthService {
             throw new ExistsException.DuplicatedEmail();
         }
 
+        if (memberRepository.existsByEmail(email)) {
+            throw new ExistsException.DuplicatedEmail();
+        }
+
         String encodedPassword = passwordEncoder.encode(password);
         Member member = Member.builder()
                 .email(email)
