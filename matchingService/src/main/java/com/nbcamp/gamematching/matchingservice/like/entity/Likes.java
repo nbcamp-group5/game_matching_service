@@ -1,18 +1,19 @@
 package com.nbcamp.gamematching.matchingservice.like.entity;
 
 import com.nbcamp.gamematching.matchingservice.board.entity.Board;
+import com.nbcamp.gamematching.matchingservice.member.entity.Member;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import javax.persistence.*;
 
 @Getter
 @Entity
 @NoArgsConstructor
-public class Like {
+public class Likes {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "like_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -20,15 +21,11 @@ public class Like {
     private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "board_id", nullable = false)
+    @JoinColumn(name = "board_id")
     private Board board;
 
-    public Like(Board board, Member member) {
+    public Likes(Board board, Member member) {
         this.member = member;
-        this.board = board;
-    }
-
-    public Like(Board board) {
         this.board = board;
     }
 }
