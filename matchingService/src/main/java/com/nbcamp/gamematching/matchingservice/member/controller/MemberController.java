@@ -20,6 +20,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -88,10 +89,16 @@ public class MemberController {
     }
 
     @PatchMapping("/")
-    public ResponseEntity<String> changeMyProfile(@RequestParam ProfileRequest request) {
-
+    public ResponseEntity<String> changeMyProfile(@RequestParam ProfileRequest request,
+            @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        Member member = userDetails.getMember();
+        return memberService.changeMyProfile(member, request);
     }
 
+    @GetMapping("/{userId}")
+    public ProfileDto getOtherProfile(@PathVariable Long userId) {
+        return memberService.getOtherProfile(userId);
+    }
 
     public static Pageable toPageable(Integer currentPage, Integer size) {
         return PageRequest.of((currentPage - 1), size);

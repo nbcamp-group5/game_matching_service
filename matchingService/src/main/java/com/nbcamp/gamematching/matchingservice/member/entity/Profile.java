@@ -2,6 +2,7 @@ package com.nbcamp.gamematching.matchingservice.member.entity;
 
 import com.nbcamp.gamematching.matchingservice.member.domain.GameType;
 import com.nbcamp.gamematching.matchingservice.member.domain.Tier;
+import com.nbcamp.gamematching.matchingservice.member.dto.ProfileRequest;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.EnumType;
@@ -38,5 +39,12 @@ public class Profile {
         this.tier = tier;
         this.game = game;
         this.mannerPoints = mannerPoints;
+    }
+
+    public void changeProfile(ProfileRequest profileRequest) {
+        this.profileImage = profileRequest.getImage();
+        this.nickname = profileRequest.getNickname();
+        this.game = profileRequest.getGame();
+        this.tier = profileRequest.getTier();
     }
 }

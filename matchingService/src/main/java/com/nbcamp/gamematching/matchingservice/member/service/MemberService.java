@@ -5,9 +5,11 @@ import com.nbcamp.gamematching.matchingservice.member.dto.BuddyDto;
 import com.nbcamp.gamematching.matchingservice.member.dto.BuddyRequestDto;
 import com.nbcamp.gamematching.matchingservice.member.dto.MatchingLogPageDto;
 import com.nbcamp.gamematching.matchingservice.member.dto.ProfileDto;
+import com.nbcamp.gamematching.matchingservice.member.dto.ProfileRequest;
 import com.nbcamp.gamematching.matchingservice.member.entity.Member;
 import java.util.List;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 
 public interface MemberService {
 
@@ -20,4 +22,8 @@ public interface MemberService {
     List<BuddyDto> getMyBuddies(Long memberId);
 
     List<BuddyRequestDto> getBuddyRequests(Long memberId);
+
+    ResponseEntity<String> changeMyProfile(Member member, ProfileRequest request);
+
+    ProfileDto getOtherProfile(Long userId);
 }
