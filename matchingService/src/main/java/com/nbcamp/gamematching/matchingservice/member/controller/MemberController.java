@@ -5,6 +5,7 @@ import com.nbcamp.gamematching.matchingservice.member.domain.Tier;
 import com.nbcamp.gamematching.matchingservice.member.dto.BuddyDto;
 import com.nbcamp.gamematching.matchingservice.member.dto.BuddyRequestDto;
 import com.nbcamp.gamematching.matchingservice.member.dto.ProfileDto;
+import com.nbcamp.gamematching.matchingservice.member.dto.ProfileRequest;
 import com.nbcamp.gamematching.matchingservice.member.entity.Member;
 import com.nbcamp.gamematching.matchingservice.member.entity.Profile;
 import com.nbcamp.gamematching.matchingservice.member.service.MemberService;
@@ -13,11 +14,14 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/api/profile")
@@ -83,10 +87,11 @@ public class MemberController {
         return "buddyRequestList";
     }
 
-//    @PatchMapping("/")
-//    public ResponseEntity<String> changeMyProfile(@RequestParam ProfileRequest request) {
-//
-//    }
+    @PatchMapping("/")
+    public ResponseEntity<String> changeMyProfile(@RequestParam ProfileRequest request) {
+
+    }
+
 
     public static Pageable toPageable(Integer currentPage, Integer size) {
         return PageRequest.of((currentPage - 1), size);
