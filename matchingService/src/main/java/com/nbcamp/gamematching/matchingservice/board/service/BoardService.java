@@ -34,7 +34,7 @@ public class BoardService {
         boardRepository.save(board);
     }
 
-    //게시글 조회
+    //게시글 조회 -  페이지값을 입력할 때 게시글과 댓글페이지가 1 2 3 같이 이동?...
     public List<BoardResponse> getBoardList() {
         Page<Board> boardPage = boardRepository.findAll(pageableSetting(1));
         List<BoardResponse> boardResponseList = new ArrayList<>();

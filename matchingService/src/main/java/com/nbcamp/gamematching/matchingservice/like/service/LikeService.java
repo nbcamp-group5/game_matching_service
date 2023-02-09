@@ -49,10 +49,12 @@ public class LikeService {
     }
 
 
-    //게시글 좋아요 취소
+    //게시글
     @Transactional
     public void hateBoard(Long boardId,Member member){
         Board board = boardRepository.findById(boardId).orElseThrow(() -> new IllegalArgumentException(""));
+        Likes likes = likeRepository.findById(member.getId()).orElseThrow(()-> new IllegalArgumentException(""));
+        likes.checkUser(likes,member); //좋아요를 누른사람이 맞는지 확인하는 로직
         Optional<Likes> optionalLike = likeRepository.findById(board.getId());
         if (!optionalLike.isPresent()) {
             throw new IllegalArgumentException("좋아요를 누르신 적이 없습니다.");
@@ -64,6 +66,8 @@ public class LikeService {
     @Transactional
     public void hateAnonymousBoard(Long boardId,Member member){
         AnonymousBoard board = anonymousBoardRepository.findById(boardId).orElseThrow(() -> new IllegalArgumentException(""));
+        AnonymousLikes anonymousLikes = anonymousLikeRepository.findById(member.getId()).orElseThrow(()-> new IllegalArgumentException(""));
+        anonymousLikes.checkUser(anonymousLikes,member);
         Optional<AnonymousLikes> optionalLike = anonymousLikeRepository.findById(board.getId());
         if (!optionalLike.isPresent()) {
             throw new IllegalArgumentException("좋아요를 누르신 적이 없습니다.");

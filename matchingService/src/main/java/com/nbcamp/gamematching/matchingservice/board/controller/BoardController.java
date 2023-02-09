@@ -50,7 +50,7 @@ public class BoardController {
     }
 
     //게시글 수정
-    @PatchMapping("/normal/{boardId}") //인증필요 , 수정할 때 이미지나 내용중 하나만 변경하고 싶을 때는?
+    @PatchMapping("/normal/{boardId}") //수정할 때 이미지나 내용중 하나만 변경하고 싶을 때는?
     public ResponseEntity<String> updateBoard(@PathVariable Long boardId, @RequestBody UpdateBoardRequest updateBoardRequest, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         boardService.updateBoard(boardId,updateBoardRequest,userDetails.getMember());
         return new ResponseEntity<>("게시글 수정완료",HttpStatus.OK);
@@ -64,14 +64,14 @@ public class BoardController {
     }
 
     //게시글 삭제
-    @DeleteMapping("/normal/{boardId}")  //인증필요
+    @DeleteMapping("/normal/{boardId}")
     public ResponseEntity<String> deleteBoard(@PathVariable Long boardId,@AuthenticationPrincipal UserDetailsImpl userDetails) {
         boardService.deleteBoard(boardId,userDetails.getMember());
         return new ResponseEntity<>("게시글 삭제완료",HttpStatus.OK);
     }
 
     //게시글 삭제
-    @DeleteMapping("/anonymous/{boardId}")  //인증필요
+    @DeleteMapping("/anonymous/{boardId}")
     public ResponseEntity<String> deleteAnonymousBoard(@PathVariable Long boardId,@AuthenticationPrincipal UserDetailsImpl userDetails) {
         anonymousBoardService.deleteAnonymousBoard(boardId,userDetails.getMember());
         return new ResponseEntity<>("게시글 삭제완료",HttpStatus.OK);
