@@ -39,7 +39,7 @@ public class Board extends BaseEntity {
     private List<Comment> comments = new ArrayList<>();
 
     public Board(String nickname,String boardImageUrl, String content,Member member) {
-        this.nickname = member.getNickname();
+        this.nickname = member.getProfile().getNickname();
         this.boardImageUrl = boardImageUrl;
         this.content = content;
         this.member = member;
@@ -54,4 +54,5 @@ public class Board extends BaseEntity {
     public void checkUser(Board board, Member member) {
         if (!board.getMember().getEmail().equals(member.getEmail())) throw new IllegalArgumentException("유저 불일치");
     }
+
 }

@@ -59,7 +59,7 @@ public class CommentService {
 
     //댓글 삭제
     @Transactional
-    public void deleteComment(Long commentId,Member member) {
+    public void deleteComment(Long commentId, Member member) {
         Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new IllegalArgumentException(""));
        comment.checkUser(comment,member);
         commentRepository.deleteById(commentId);

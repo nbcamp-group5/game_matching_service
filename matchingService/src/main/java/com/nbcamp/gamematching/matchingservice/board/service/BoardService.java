@@ -30,8 +30,8 @@ public class BoardService {
     private final LikeRepository likeRepository;
 
     //게시글 작성
-    public void createBoard(CreateBoardRequest createBoardRequest,Member member) {
-        Board board = new Board(member.getNickname(), createBoardRequest.getBoardImageUrl(), createBoardRequest.getContent(),member);
+    public void createBoard(CreateBoardRequest createBoardRequest, Member member) {
+        Board board = new Board(member.getProfile().getNickname(), createBoardRequest.getBoardImageUrl(), createBoardRequest.getContent(),member);
         boardRepository.save(board);
     }
 

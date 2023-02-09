@@ -35,7 +35,7 @@ public class LikeController {
 
 
     //게시글 좋아요 취소
-    @PostMapping("/cancel/{boardId}") //게시글 좋아요 취소
+    @PostMapping("/cancel/{boardId}")
     public ResponseEntity<String> hateBoard(@PathVariable Long boardId,@AuthenticationPrincipal UserDetailsImpl userDetails) {
         likeService.hateBoard(boardId,userDetails.getUser());
         return new ResponseEntity<>("좋아요 취소완료", HttpStatus.OK);

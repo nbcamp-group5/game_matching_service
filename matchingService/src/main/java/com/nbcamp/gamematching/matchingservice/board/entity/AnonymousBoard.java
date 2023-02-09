@@ -36,7 +36,6 @@ public class AnonymousBoard extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
-    //id 닉네임
 
     @OneToMany(mappedBy = "anonymousBoard", cascade = CascadeType.REMOVE)
     private List<AnonymousComment> comments = new ArrayList<>();
@@ -53,7 +52,7 @@ public class AnonymousBoard extends BaseEntity {
     public void updateAnonymousBoard(UpdateBoardRequest boardRequestDto, Member member) {
         this.boardImageUrl = boardRequestDto.getBoardImageUrl();
         this.content = boardRequestDto.getContent();
-        this.nickname = member.getNickname();
+        this.nickname = member.getProfile().getNickname();
         this.id = member.getId();
     }
 

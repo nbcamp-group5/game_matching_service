@@ -1,28 +1,25 @@
 package com.nbcamp.gamematching.matchingservice.member.service;
 
+import com.nbcamp.gamematching.matchingservice.board.entity.Board;
+import com.nbcamp.gamematching.matchingservice.board.repository.BoardRepository;
 import com.nbcamp.gamematching.matchingservice.exception.NotFoundException.NotFoundMemberException;
 import com.nbcamp.gamematching.matchingservice.matchinglog.entity.MatchingLog;
 import com.nbcamp.gamematching.matchingservice.matchinglog.repository.MatchingLogRepository;
-import com.nbcamp.gamematching.matchingservice.member.dto.BoardPageDto;
+import com.nbcamp.gamematching.matchingservice.member.dto.*;
 import com.nbcamp.gamematching.matchingservice.member.dto.BoardPageDto.BoardContent;
-import com.nbcamp.gamematching.matchingservice.member.dto.BuddyDto;
-import com.nbcamp.gamematching.matchingservice.member.dto.BuddyRequestDto;
-import com.nbcamp.gamematching.matchingservice.member.dto.MatchingLogPageDto;
 import com.nbcamp.gamematching.matchingservice.member.dto.MatchingLogPageDto.MatchingLogContent;
-import com.nbcamp.gamematching.matchingservice.member.dto.ProfileDto;
-import com.nbcamp.gamematching.matchingservice.member.entity.Board;
 import com.nbcamp.gamematching.matchingservice.member.entity.Member;
 import com.nbcamp.gamematching.matchingservice.member.entity.NotYetBuddy;
 import com.nbcamp.gamematching.matchingservice.member.entity.Profile;
-import com.nbcamp.gamematching.matchingservice.member.repository.BoardRepository;
 import com.nbcamp.gamematching.matchingservice.member.repository.MemberRepository;
-import java.util.List;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor

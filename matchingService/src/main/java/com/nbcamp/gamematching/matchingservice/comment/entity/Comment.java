@@ -36,7 +36,7 @@ public class Comment extends BaseEntity {
         this.content = content;
         this.board = board;
         this.member = member;
-        this.nickname = member.getNickname();
+        this.nickname = member.getProfile().getNickname();
     }
 
     public void updateComment(UpdateCommentRequest updateCommentRequest, Member member) {

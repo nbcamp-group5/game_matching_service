@@ -22,7 +22,7 @@ public class BoardResponse {
 
     public BoardResponse(Board board, List<CommentResponse> comments, Long likeCount) {
         this.id = board.getId();
-        this.nickname = board.getMember().getNickname();
+        this.nickname = board.getMember().getProfile().getNickname();
         this.boardImageUrl = board.getBoardImageUrl();
         this.content = board.getContent();
         this.comments = comments;

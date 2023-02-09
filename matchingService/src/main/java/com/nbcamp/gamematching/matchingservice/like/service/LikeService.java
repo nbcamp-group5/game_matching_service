@@ -26,7 +26,7 @@ public class LikeService {
 
     //게시글 좋아요
     @Transactional
-    public void likeBoard(Long boardId,Member member) {
+    public void likeBoard(Long boardId, Member member) {
         Board board = boardRepository.findById(boardId).orElseThrow(() -> new IllegalArgumentException(""));
         Optional<Likes> optionalLike = likeRepository.findById(boardId);
         if (optionalLike.isPresent()) {
