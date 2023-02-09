@@ -25,7 +25,7 @@ public class AnonymousBoard extends BaseEntity {
 
     @Column(name = "anonymousNickname")
     private String nickname;
-    //닉네임 익명처리??
+    //랜덤닉네임(익명)
 
     private String boardImageUrl;
     //이미지url?

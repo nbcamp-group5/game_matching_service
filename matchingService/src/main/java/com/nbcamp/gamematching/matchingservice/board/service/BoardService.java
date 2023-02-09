@@ -8,6 +8,7 @@ import com.nbcamp.gamematching.matchingservice.board.repository.BoardRepository;
 import com.nbcamp.gamematching.matchingservice.comment.dto.CommentResponse;
 import com.nbcamp.gamematching.matchingservice.comment.entity.Comment;
 import com.nbcamp.gamematching.matchingservice.comment.repository.CommentRepository;
+import com.nbcamp.gamematching.matchingservice.exception.NotFoundException;
 import com.nbcamp.gamematching.matchingservice.like.repository.LikeRepository;
 import com.nbcamp.gamematching.matchingservice.member.entity.Member;
 import lombok.RequiredArgsConstructor;
@@ -50,9 +51,9 @@ public class BoardService {
         return boardResponseList;
     }
 
-    //게시글 수정 닉네임 맴버아이디가 null이됌
+    //게시글 수정
     public void updateBoard(Long boardId, UpdateBoardRequest boardRequest,Member member) {
-        Board board = boardRepository.findById(boardId).orElseThrow(() -> new IllegalArgumentException());
+        Board board = boardRepository.findById(boardId).orElseThrow(() -> new NotFoundException());
         board.checkUser(board,member);
         board.updateBoard(boardRequest,member);
         boardRepository.save(board);
