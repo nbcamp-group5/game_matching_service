@@ -7,6 +7,7 @@ import com.nbcamp.gamematching.matchingservice.exception.SignException;
 import com.nbcamp.gamematching.matchingservice.jwt.JwtUtil;
 import com.nbcamp.gamematching.matchingservice.member.domain.MemberRoleEnum;
 import com.nbcamp.gamematching.matchingservice.member.entity.Member;
+import com.nbcamp.gamematching.matchingservice.member.entity.Profile;
 import com.nbcamp.gamematching.matchingservice.member.repository.MemberRepository;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -44,6 +45,10 @@ public class AuthServiceImpl implements AuthService {
         Member member = Member.builder()
                 .email(email)
                 .password(encodedPassword)
+                .profile(Profile.builder()
+                        .nickname(signupRequest.getNickname())
+                        .profileImage(signupRequest.getMemberImageUrl())
+                        .build())
                 .role(MemberRoleEnum.USER)
                 .build();
         memberRepository.save(member);

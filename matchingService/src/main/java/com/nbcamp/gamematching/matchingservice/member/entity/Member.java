@@ -54,9 +54,10 @@ public class Member {
     /**
      * 연관관계 - Foreign Key 값을 따로 컬럼으로 정의하지 않고 연관 관계로 정의합니다.
      */
+
+
     @OneToMany
-    @Column(name = "buddy")
-    private List<Member> buddies = new ArrayList<>();
+    private List<Member> myBuddies = new ArrayList<>();
 
     @OneToMany
     private List<NotYetBuddy> notYetBuddies = new ArrayList<>();
@@ -72,7 +73,7 @@ public class Member {
     }
 
     public void addBuddies(Member member) {
-        this.getBuddies().add(member);
+        this.getMyBuddies().add(member);
     }
 
     /**

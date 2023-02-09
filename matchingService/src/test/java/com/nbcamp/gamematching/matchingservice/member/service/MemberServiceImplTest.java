@@ -4,12 +4,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.nbcamp.gamematching.matchingservice.member.domain.GameType;
 import com.nbcamp.gamematching.matchingservice.member.domain.Tier;
+import com.nbcamp.gamematching.matchingservice.member.dto.BuddyDto;
 import com.nbcamp.gamematching.matchingservice.member.dto.ProfileDto;
 import com.nbcamp.gamematching.matchingservice.member.entity.Board;
 import com.nbcamp.gamematching.matchingservice.member.entity.Member;
 import com.nbcamp.gamematching.matchingservice.member.entity.Profile;
 import com.nbcamp.gamematching.matchingservice.member.repository.BoardRepository;
 import com.nbcamp.gamematching.matchingservice.member.repository.MemberRepository;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,16 +32,19 @@ class MemberServiceImplTest {
 
     @BeforeEach
     public void beforeEach() {
-        Member member = Member.builder()
-                .password("pass")
-                .profile(Profile.builder().profileImage("localhost:/pic")
-                        .nickname("sh")
-                        .game(GameType.MAPLE)
-                        .tier(Tier.CHALLENGE)
-                        .mannerPoints(100)
-                        .build())
-                .build();
-        memberRepository.save(member);
+        for (int i = 0; i < 4; i++) {
+            Member member = Member.builder()
+                    .email("test" + i + "@gmail.com")
+                    .password("pass" + i)
+                    .profile(Profile.builder().profileImage("localhost:/pic" + i)
+                            .nickname("sh" + i)
+                            .game(GameType.STAR)
+                            .tier(Tier.CHALLENGE)
+                            .mannerPoints(i)
+                            .build())
+                    .build();
+            memberRepository.save(member);
+        }
     }
 
     @Test
@@ -77,6 +82,37 @@ class MemberServiceImplTest {
         // then
         assertThat(findMember.getBoards().size()).isEqualTo(
                 3); //TODO: boardRepository에서 page 객체를 받아 다시 test하기
+    }
+
+    @Test
+    public void getMyMatchingListTest() throws Exception {
+        // given
+
+        // when
+
+        // then
+
+    }
+
+
+    @Test
+    @Transactional
+    public void myBuddiesTest() throws Exception {
+        // given
+        Member member = memberRepository.findById(1L).orElseThrow();
+        for (long i = 2; i <= 4; i++) {
+            Member m = memberRepository.findById(i).orElseThrow();
+            member.addBuddies(m);
+        }
+
+        // when
+        List<BuddyDto> myBuddies = memberService.getMyBuddies(1L);
+
+        // then
+        for (BuddyDto myBuddy : myBuddies) {
+            System.out.println("myBuddy = " + myBuddy.getEmail());
+        }
+        assertThat(myBuddies.size()).isEqualTo(3);
     }
 
 

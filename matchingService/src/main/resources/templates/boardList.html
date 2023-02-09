@@ -23,8 +23,8 @@
     </thead>
     <tbody>
     <tr th:each="board:${boardList.getContents()}">
-      <td th:text="${board.id}">1</td>
-      <td th:text="${board.content}">내용 sample</a>
+      <td th:text="${board.getId()}">1</td>
+      <td th:text="${board.getContents()}">내용 sample</a>
       </td>
     </tr>
     </tbody>

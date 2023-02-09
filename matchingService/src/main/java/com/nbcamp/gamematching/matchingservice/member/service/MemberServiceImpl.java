@@ -5,13 +5,14 @@ import com.nbcamp.gamematching.matchingservice.matchinglog.entity.MatchingLog;
 import com.nbcamp.gamematching.matchingservice.matchinglog.repository.MatchingLogRepository;
 import com.nbcamp.gamematching.matchingservice.member.dto.BoardPageDto;
 import com.nbcamp.gamematching.matchingservice.member.dto.BoardPageDto.BoardContent;
-import com.nbcamp.gamematching.matchingservice.member.dto.BuddyPageDto;
-import com.nbcamp.gamematching.matchingservice.member.dto.BuddyPageDto.BuddyContent;
+import com.nbcamp.gamematching.matchingservice.member.dto.BuddyDto;
+import com.nbcamp.gamematching.matchingservice.member.dto.BuddyRequestDto;
 import com.nbcamp.gamematching.matchingservice.member.dto.MatchingLogPageDto;
 import com.nbcamp.gamematching.matchingservice.member.dto.MatchingLogPageDto.MatchingLogContent;
 import com.nbcamp.gamematching.matchingservice.member.dto.ProfileDto;
 import com.nbcamp.gamematching.matchingservice.member.entity.Board;
 import com.nbcamp.gamematching.matchingservice.member.entity.Member;
+import com.nbcamp.gamematching.matchingservice.member.entity.NotYetBuddy;
 import com.nbcamp.gamematching.matchingservice.member.entity.Profile;
 import com.nbcamp.gamematching.matchingservice.member.repository.BoardRepository;
 import com.nbcamp.gamematching.matchingservice.member.repository.MemberRepository;
@@ -40,6 +41,7 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public BoardPageDto getMyBoards(Long memberId, Pageable pageable) {
+
         Page<Board> boardList = boardRepository.findAllByMemberId(memberId, pageable);
 
         List<BoardContent> boardContents = boardList.getContent().stream().map(BoardContent::new)
@@ -71,21 +73,20 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public BuddyPageDto getMyBuddies(Long memberId, Pageable pageable) {
+    public List<BuddyDto> getMyBuddies(Long memberId) {
         Member findMember = memberRepository.findById(memberId)
                 .orElseThrow(NotFoundMemberException::new);
 
-        List<BuddyContent> buddyContents = findMember.getBuddies().stream().map(BuddyContent::new)
-                .collect(Collectors.toList());
-
-        return BuddyPageDto.builder()
-                .contents(buddyContents)
-                .currentPage(pageable.getPageNumber())
-                .totalPages(Math.round(
-                        buddyContents.size() / pageable.getPageSize())
-                )       //TODO : 하드코딩 대체할 것, createQuery를 써야하나...이것 하나 때문에 EntityManager를 선언하는 게 맞나?
-                .numberOfElements(buddyContents.size())
-                .build();
+        List<Member> buddies = findMember.getMyBuddies();
+        return BuddyDto.of(buddies);
     }
 
+    @Override
+    public List<BuddyRequestDto> getBuddyRequests(Long memberId) {
+        Member findMember = memberRepository.findById(memberId)
+                .orElseThrow(NotFoundMemberException::new);
+
+        List<NotYetBuddy> notYetBuddyList = findMember.getNotYetBuddies();
+        return BuddyRequestDto.of(notYetBuddyList);
+    }
 }

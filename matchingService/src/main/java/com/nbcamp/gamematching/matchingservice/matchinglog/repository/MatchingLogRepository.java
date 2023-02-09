@@ -10,4 +10,5 @@ public interface MatchingLogRepository extends JpaRepository<MatchingLog, Long> 
 
     Page<MatchingLog> findAllByMember(Member member, Pageable pageable);
 
+    Page<MatchingLog> findAllByMemberId(long l, Pageable pageable);
 }
