@@ -78,5 +78,3 @@ public class BoardController {
     }
 
 }
-
-//문제점 보드를 함께 써서 보드 번호가 애매함

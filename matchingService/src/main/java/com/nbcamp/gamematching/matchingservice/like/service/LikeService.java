@@ -5,7 +5,7 @@ import com.nbcamp.gamematching.matchingservice.board.entity.Board;
 import com.nbcamp.gamematching.matchingservice.board.repository.AnonymousBoardRepository;
 import com.nbcamp.gamematching.matchingservice.board.repository.BoardRepository;
 import com.nbcamp.gamematching.matchingservice.like.entity.AnonymousLikes;
-import com.nbcamp.gamematching.matchingservice.like.entity.Likes;
+import com.nbcamp.gamematching.matchingservice.like.entity.Like;
 import com.nbcamp.gamematching.matchingservice.like.repository.AnonymousLikeRepository;
 import com.nbcamp.gamematching.matchingservice.like.repository.LikeRepository;
 import com.nbcamp.gamematching.matchingservice.member.entity.Member;
@@ -28,12 +28,12 @@ public class LikeService {
     @Transactional
     public void likeBoard(Long boardId, Member member) {
         Board board = boardRepository.findById(boardId).orElseThrow(() -> new IllegalArgumentException(""));
-        Optional<Likes> optionalLike = likeRepository.findById(boardId);
+        Optional<Like> optionalLike = likeRepository.findById(boardId);
         if (optionalLike.isPresent()) {
             throw new IllegalArgumentException("이미 좋아요를 누르셨습니다.");
         }
-        Likes likes = new Likes(board,member);
-        likeRepository.save(likes);
+        Like like = new Like(board,member);
+        likeRepository.save(like);
     }
 
     //익명 게시글 좋아요
@@ -53,9 +53,9 @@ public class LikeService {
     @Transactional
     public void hateBoard(Long boardId,Member member){
         Board board = boardRepository.findById(boardId).orElseThrow(() -> new IllegalArgumentException(""));
-        Likes likes = likeRepository.findById(member.getId()).orElseThrow(()-> new IllegalArgumentException(""));
-        likes.checkUser(likes,member); //좋아요를 누른사람이 맞는지 확인하는 로직
-        Optional<Likes> optionalLike = likeRepository.findById(board.getId());
+        Like like = likeRepository.findById(member.getId()).orElseThrow(()-> new IllegalArgumentException(""));
+        like.checkUser(like,member); //좋아요를 누른사람이 맞는지 확인하는 로직
+        Optional<Like> optionalLike = likeRepository.findById(board.getId());
         if (!optionalLike.isPresent()) {
             throw new IllegalArgumentException("좋아요를 누르신 적이 없습니다.");
         }
