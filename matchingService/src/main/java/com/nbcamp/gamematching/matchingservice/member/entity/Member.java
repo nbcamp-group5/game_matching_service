@@ -1,61 +1,59 @@
-package com.nbcamp.gamematching.matchingservice.member;
-
+package com.nbcamp.gamematching.matchingservice.member.entity;
 
 import com.nbcamp.gamematching.matchingservice.common.entity.BaseEntity;
-import lombok.AllArgsConstructor;
+import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Collections;
 
 
-@Entity
+
 @Getter
+@Entity
 @NoArgsConstructor
-@AllArgsConstructor
 public class Member extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "member_id")
     private Long id;
 
-    @Column(name="userId")
-    private String username;
+    @Column(nullable = false, unique = true)
+    private String email;
 
-    private String nickName;
-
-    private String name;
-
-    @Column(name="userPw")
+    @Column(nullable = false)
     private String password;
 
-    private String refreshToken;
+    @Column(nullable = false)
+    private String nickname;
+    @Column(nullable = false)
+    @Enumerated(value = EnumType.STRING)
+    private MemberRoleEnum role;
 
-    @ElementCollection(fetch = FetchType.LAZY)
-    @Enumerated(EnumType.STRING)
-    private List<RoleType> role = new ArrayList<>();
+    @Column
+    private Long buddyId;
+
+    @Column(nullable = false)
+    private int manner = 100;
+
+    @Column
+    private Long noBuddyId;
 
     @Builder
-    public Member(String username, String password, String name, String nickName,List<RoleType> role) {
-        this.username = username;
+    public Member(String email, String password, String nickname, MemberRoleEnum role, Long buddyId, int manner, Long noBuddyId) {
+        this.email = email;
         this.password = password;
-        this.name=name;
-        this.nickName = nickName;
-        if(username.equals("master"))
-            this.role=Collections.singletonList(RoleType.ROLE_ADMIN);
-        else
-            this.role= Collections.singletonList(RoleType.ROLE_USER);
+        this.nickname = nickname;
+        this.role = role;
+        this.buddyId = buddyId;
+        this.manner = manner;
+        this.noBuddyId = noBuddyId;
     }
 
-    public void addRole(RoleType roleType){
-        this.role.add(roleType);
+    public void changeRole(MemberRoleEnum role) {
+        this.role = role;
     }
 
-    public void updateRefreshToken(String refreshToken) {
-        this.refreshToken = refreshToken;
+    public boolean validateUser(Member member) {
+        return this.id.equals(member.getId());
     }
-
 }
