@@ -12,8 +12,8 @@ public class BuddyRequestDto {
     private String nickname;
 
     public BuddyRequestDto(NotYetBuddy notYetBuddy) {
-        this.profileImage = notYetBuddy.getProfileImage();
-        this.nickname = notYetBuddy.getNickname();
+        this.profileImage = notYetBuddy.getMember().getProfile().getProfileImage();
+        this.nickname = notYetBuddy.getMember().getProfile().getNickname();
     }
 
     public static List<BuddyRequestDto> of(List<NotYetBuddy> notYetBuddyList) {

@@ -2,14 +2,20 @@ package com.nbcamp.gamematching.matchingservice.member.entity;
 
 import com.nbcamp.gamematching.matchingservice.board.entity.Board;
 import com.nbcamp.gamematching.matchingservice.member.domain.MemberRoleEnum;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Getter
@@ -71,7 +77,25 @@ public class Member {
         this.getMyBuddies().add(member);
     }
 
+    public void addNotYetBuddies(Member member) {
+        this.getNotYetBuddies().add(new NotYetBuddy(member));
+    }
+
     /**
      * 서비스 메소드 - 외부에서 엔티티를 수정할 메소드를 정의합니다. (단일 책임을 가지도록 주의합니다.)
      */
+    public void changeNotYetBuddies(Long requestMemberId, Boolean answer) {
+        if (answer) {
+            this.getNotYetBuddies().stream().forEach(
+                    (notYetBuddy -> {
+                        if (notYetBuddy.getMember().getId() == requestMemberId) {
+                            notYetBuddy.changeApproval();
+                        }
+
+                    })
+            );
+        }
+        this.getNotYetBuddies().removeIf(notYetBuddy -> (notYetBuddy.getId() == requestMemberId));
+    }
+
 }

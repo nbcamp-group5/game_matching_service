@@ -1,18 +1,20 @@
 package com.nbcamp.gamematching.matchingservice.member.controller;
 
-import com.nbcamp.gamematching.matchingservice.member.domain.GameType;
-import com.nbcamp.gamematching.matchingservice.member.domain.Tier;
+import com.nbcamp.gamematching.matchingservice.member.domain.FileStore;
+import com.nbcamp.gamematching.matchingservice.member.dto.AnswerBuddyRequestDto;
 import com.nbcamp.gamematching.matchingservice.member.dto.BoardPageDto.BoardContent;
 import com.nbcamp.gamematching.matchingservice.member.dto.BuddyDto;
 import com.nbcamp.gamematching.matchingservice.member.dto.BuddyRequestDto;
 import com.nbcamp.gamematching.matchingservice.member.dto.ProfileDto;
-import com.nbcamp.gamematching.matchingservice.member.dto.ProfileRequest;
+import com.nbcamp.gamematching.matchingservice.member.dto.UpdateProfileRequest;
 import com.nbcamp.gamematching.matchingservice.member.entity.Member;
-import com.nbcamp.gamematching.matchingservice.member.entity.Profile;
 import com.nbcamp.gamematching.matchingservice.member.service.MemberService;
 import com.nbcamp.gamematching.matchingservice.security.UserDetailsImpl;
+import java.io.IOException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -22,16 +24,25 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 @RequestMapping("/api/profile")
 @RequiredArgsConstructor
+@Slf4j
 public class MemberController {
 
     private final MemberService memberService;
+
+    @Value("${file.dir}")
+    private String fileDir;
+
+    private final FileStore fileStore;
 
     @GetMapping("/")
     @ResponseBody
@@ -52,54 +63,66 @@ public class MemberController {
         return memberService.getMyBoards(member.getId(), newPageable).getContents();
     }
 
-    @GetMapping("/matchings")
-    public String getMyMatchingList(Model model, Pageable pageable) {
-        // TODO: 커밋할 때 아래 member 객체 지울 것
-        Member member = Member.builder().profile(
-                        Profile.builder().profileImage("localhost:/")
-                                .nickname("sh")
-                                .game(GameType.LOL)
-                                .tier(Tier.CHALLENGE)
-                                .build())
-                .build();
-        Pageable newPageable = toPageable(pageable.getPageNumber(),
-                pageable.getPageSize());
-        model.addAttribute("matchingList", memberService.getMyMatchingList(member, newPageable));
-        return "matchingList";
-    }
+//    @GetMapping("/matchings")
+//    public String getMyMatchingList(Model model, Pageable pageable,
+//            @AuthenticationPrincipal UserDetailsImpl userDetails) {
+//        Member member = userDetails.getMember();
+//        Pageable newPageable = toPageable(pageable.getPageNumber(),
+//                pageable.getPageSize());
+//        model.addAttribute("matchingList", memberService.getMyMatchingList(member, newPageable));
+//        return "matchingList";
+//    }
 
     @GetMapping("/buddy")
-    public String getMyBuddyList(Model model,
+    @ResponseBody
+    public List<BuddyDto> getMyBuddyList(Model model,
             @AuthenticationPrincipal UserDetailsImpl userDetails) {
         Member member = userDetails.getMember();
         List<BuddyDto> myBuddies = memberService.getMyBuddies(member.getId());
-        model.addAttribute("buddyList", myBuddies);
-        return "buddyList";
+//        model.addAttribute("buddyList", myBuddies);
+//        return "buddyList";
+        return myBuddies;
     }
 
-    @GetMapping("/notyetbuddy")
-    public String getBuddyRequest(Model model) {
-        // TODO: 커밋할 때 아래 member 객체 지울 것
-        Member member = Member.builder().profile(
-                        Profile.builder().profileImage("localhost:/")
-                                .nickname("sh")
-                                .game(GameType.STAR)
-                                .tier(Tier.CHALLENGE)
-                                .build())
-                .build();
-        List<BuddyRequestDto> myBuddies = memberService.getBuddyRequests(member.getId());
-        model.addAttribute("buddyList", myBuddies);
-        return "buddyRequestList";
-    }
-
-    @PatchMapping("/")
-    public ResponseEntity<String> changeMyProfile(@RequestParam ProfileRequest request,
+    @GetMapping("/notYetBuddy")
+    @ResponseBody
+    public List<BuddyRequestDto> getBuddyRequest(Model model,
             @AuthenticationPrincipal UserDetailsImpl userDetails) {
         Member member = userDetails.getMember();
-        return memberService.changeMyProfile(member, request);
+        List<BuddyRequestDto> myBuddies = memberService.getBuddyRequests(member.getId());
+//        model.addAttribute("buddyList", myBuddies);
+//        return "buddyRequestList";
+        return myBuddies;
+    }
+
+    // 친구 신청
+    @PatchMapping("/notYetBuddy/{userId}")
+    public ResponseEntity<String> requestBuddy(@PathVariable Long userId,
+            @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        Member member = userDetails.getMember();
+        return memberService.requestBuddy(member.getId(), userId);
+    }
+
+    // 친구 수락/거절
+    @PostMapping("/notYetBuddy")
+    public ResponseEntity<String> answerBuddyRequest(@RequestBody AnswerBuddyRequestDto request,
+            @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        Member member = userDetails.getMember();
+        return memberService.answerBuddyRequest(member.getId(), request.getRequestMemberId(),
+                request.getAnswer());
+    }
+
+    @PostMapping("/")
+    public ResponseEntity<String> changeMyProfile(@RequestPart UpdateProfileRequest request,
+            @RequestPart MultipartFile image,
+            @AuthenticationPrincipal UserDetailsImpl userDetails) throws IOException {
+        Member member = userDetails.getMember();
+        log.info("multipartFile={}", image);
+        return memberService.changeMyProfile(member, request, image);
     }
 
     @GetMapping("/{userId}")
+    @ResponseBody
     public ProfileDto getOtherProfile(@PathVariable Long userId) {
         return memberService.getOtherProfile(userId);
     }

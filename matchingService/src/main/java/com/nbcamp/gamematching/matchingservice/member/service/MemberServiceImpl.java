@@ -3,20 +3,18 @@ package com.nbcamp.gamematching.matchingservice.member.service;
 import com.nbcamp.gamematching.matchingservice.board.entity.Board;
 import com.nbcamp.gamematching.matchingservice.board.repository.BoardRepository;
 import com.nbcamp.gamematching.matchingservice.exception.NotFoundException.NotFoundMemberException;
-import com.nbcamp.gamematching.matchingservice.matchinglog.entity.MatchingLog;
-import com.nbcamp.gamematching.matchingservice.matchinglog.repository.MatchingLogRepository;
+import com.nbcamp.gamematching.matchingservice.member.domain.FileStore;
 import com.nbcamp.gamematching.matchingservice.member.dto.BoardPageDto;
 import com.nbcamp.gamematching.matchingservice.member.dto.BoardPageDto.BoardContent;
 import com.nbcamp.gamematching.matchingservice.member.dto.BuddyDto;
 import com.nbcamp.gamematching.matchingservice.member.dto.BuddyRequestDto;
-import com.nbcamp.gamematching.matchingservice.member.dto.MatchingLogPageDto;
-import com.nbcamp.gamematching.matchingservice.member.dto.MatchingLogPageDto.MatchingLogContent;
 import com.nbcamp.gamematching.matchingservice.member.dto.ProfileDto;
-import com.nbcamp.gamematching.matchingservice.member.dto.ProfileRequest;
+import com.nbcamp.gamematching.matchingservice.member.dto.UpdateProfileRequest;
 import com.nbcamp.gamematching.matchingservice.member.entity.Member;
 import com.nbcamp.gamematching.matchingservice.member.entity.NotYetBuddy;
 import com.nbcamp.gamematching.matchingservice.member.entity.Profile;
 import com.nbcamp.gamematching.matchingservice.member.repository.MemberRepository;
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +24,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @RequiredArgsConstructor
@@ -34,7 +33,7 @@ public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository;
     private final BoardRepository boardRepository;
-    private final MatchingLogRepository matchingLogRepository;
+    private final FileStore fileStore;
 
     @Override
     public ProfileDto getMyProfile(Member member) {
@@ -59,21 +58,21 @@ public class MemberServiceImpl implements MemberService {
                 .build();
     }
 
-    @Override
-    public MatchingLogPageDto getMyMatchingList(Member member, Pageable pageable) {
-
-        Page<MatchingLog> myMatchingList = matchingLogRepository.findAllByMember(member, pageable);
-
-        List<MatchingLogContent> matchingLogContents = myMatchingList.getContent().stream()
-                .map(MatchingLogContent::new).collect(Collectors.toList());
-
-        return MatchingLogPageDto.builder()
-                .contents(matchingLogContents)
-                .numberOfElements(myMatchingList.getNumberOfElements())
-                .totalPages(myMatchingList.getTotalPages())
-                .currentPage(pageable.getPageNumber())
-                .totalElements(myMatchingList.getNumberOfElements()).build();
-    }
+//    @Override
+//    public MatchingLogPageDto getMyMatchingList(Member member, Pageable pageable) {
+//
+//        Page<MatchingLog> myMatchingList = matchingLogRepository.findAllByMembe(member, pageable);
+//
+//        List<MatchingLogContent> matchingLogContents = myMatchingList.getContent().stream()
+//                .map(MatchingLogContent::new).collect(Collectors.toList());
+//
+//        return MatchingLogPageDto.builder()
+//                .contents(matchingLogContents)
+//                .numberOfElements(myMatchingList.getNumberOfElements())
+//                .totalPages(myMatchingList.getTotalPages())
+//                .currentPage(pageable.getPageNumber())
+//                .totalElements(myMatchingList.getNumberOfElements()).build();
+//    }
 
     @Override
     public List<BuddyDto> getMyBuddies(Long memberId) {
@@ -94,12 +93,15 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public ResponseEntity<String> changeMyProfile(Member member, ProfileRequest request) {
+    public ResponseEntity<String> changeMyProfile(Member member, UpdateProfileRequest request,
+            MultipartFile image) throws IOException {
         Member findMember = memberRepository.findById(member.getId())
                 .orElseThrow(NotFoundMemberException::new);
-
         Profile findMemberProfile = findMember.getProfile();
-        findMemberProfile.changeProfile(request);
+
+        String attachFile = fileStore.storeFile(image);
+
+        findMemberProfile.changeProfile(request, attachFile);
         return new ResponseEntity<>("프로필이 변경되었습니다.", HttpStatus.OK);
     }
 
@@ -110,5 +112,26 @@ public class MemberServiceImpl implements MemberService {
         Profile findMemberProfile = findMember.getProfile();
         return new ProfileDto(findMemberProfile);
 
+    }
+
+    @Override
+    public ResponseEntity<String> requestBuddy(Long targetUserId, Long memberId) {
+        Member findMember = memberRepository.findById(memberId)
+                .orElseThrow(NotFoundMemberException::new);
+        Member targetMember = memberRepository.findById(targetUserId)
+                .orElseThrow(NotFoundMemberException::new);
+
+        targetMember.addNotYetBuddies(findMember);
+        return new ResponseEntity<>("친구 요청되었습니다.", HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<String> answerBuddyRequest(Long memberId, Long requestMemberId,
+            Boolean answer) {
+        Member findMember = memberRepository.findById(memberId)
+                .orElseThrow(NotFoundMemberException::new);
+        findMember.changeNotYetBuddies(requestMemberId, answer);
+        String message = answer ? "친구 등록되었습니다." : "요청이 거부되었습니다.";
+        return new ResponseEntity<>(message, HttpStatus.OK);
     }
 }

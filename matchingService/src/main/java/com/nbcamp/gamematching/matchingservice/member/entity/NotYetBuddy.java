@@ -3,6 +3,7 @@ package com.nbcamp.gamematching.matchingservice.member.entity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,8 +18,16 @@ public class NotYetBuddy {
     @GeneratedValue
     private Long id;
 
-    private String profileImage;
+    @OneToOne
+    private Member member;
 
-    private String nickname;
+    private Boolean approval = false;
 
+    public NotYetBuddy(Member member) {
+        this.member = member;
+    }
+
+    public void changeApproval() {
+        this.approval = true;
+    }
 }

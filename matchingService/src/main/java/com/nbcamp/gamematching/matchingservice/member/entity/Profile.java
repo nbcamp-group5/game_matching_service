@@ -2,7 +2,7 @@ package com.nbcamp.gamematching.matchingservice.member.entity;
 
 import com.nbcamp.gamematching.matchingservice.member.domain.GameType;
 import com.nbcamp.gamematching.matchingservice.member.domain.Tier;
-import com.nbcamp.gamematching.matchingservice.member.dto.ProfileRequest;
+import com.nbcamp.gamematching.matchingservice.member.dto.UpdateProfileRequest;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.EnumType;
@@ -20,7 +20,7 @@ public class Profile {
     @Column(nullable = false)
     private String nickname;
 
-    @Column(nullable = false)
+    @Column
     private String profileImage;
 
     @Enumerated(EnumType.STRING)
@@ -39,10 +39,18 @@ public class Profile {
         this.game = game;
     }
 
-    public void changeProfile(ProfileRequest profileRequest) {
-        this.profileImage = profileRequest.getImage();
-        this.nickname = profileRequest.getNickname();
-        this.game = profileRequest.getGame();
-        this.tier = profileRequest.getTier();
+    public void changeProfile(UpdateProfileRequest profileRequest, String imageDir) {
+        if (!imageDir.isEmpty()) {
+            this.profileImage = imageDir;
+        }
+        if (!profileRequest.getNickname().isEmpty()) {
+            this.nickname = profileRequest.getNickname();
+        }
+        if (profileRequest.getGame() != null) {
+            this.game = profileRequest.getGame();
+        }
+        if (profileRequest.getTier() != null) {
+            this.tier = profileRequest.getTier();
+        }
     }
 }
