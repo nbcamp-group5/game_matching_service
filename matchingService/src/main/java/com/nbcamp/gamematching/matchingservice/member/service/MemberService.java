@@ -29,7 +29,7 @@ public interface MemberService {
 
     ProfileDto getOtherProfile(Long memberId);
 
-    ResponseEntity<String> requestBuddy(Long targetUserId, Long memberId);
+    ResponseEntity<String> requestBuddy(Long memberId, Long targetUserId);
 
     ResponseEntity<String> answerBuddyRequest(Long memberId, Long requestUserId, Boolean answer);
 }

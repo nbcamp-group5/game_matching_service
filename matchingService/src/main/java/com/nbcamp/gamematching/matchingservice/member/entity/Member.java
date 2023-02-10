@@ -61,7 +61,7 @@ public class Member {
     private List<Member> myBuddies = new ArrayList<>();
 
     @OneToMany
-    private List<NotYetBuddy> notYetBuddies = new ArrayList<>();
+    private List<Member> notYetBuddies = new ArrayList<>();
 
     @OneToMany
     private List<Board> boards = new ArrayList<>();
@@ -78,7 +78,7 @@ public class Member {
     }
 
     public void addNotYetBuddies(Member member) {
-        this.getNotYetBuddies().add(new NotYetBuddy(member));
+        this.getNotYetBuddies().add(member);
     }
 
     /**
@@ -87,11 +87,10 @@ public class Member {
     public void changeNotYetBuddies(Long requestMemberId, Boolean answer) {
         if (answer) {
             this.getNotYetBuddies().stream().forEach(
-                    (notYetBuddy -> {
-                        if (notYetBuddy.getMember().getId() == requestMemberId) {
-                            notYetBuddy.changeApproval();
+                    (member -> {
+                        if (member.getId() == requestMemberId) {
+                            addBuddies(member);
                         }
-
                     })
             );
         }

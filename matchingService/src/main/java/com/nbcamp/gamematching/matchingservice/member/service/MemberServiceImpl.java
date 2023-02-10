@@ -11,7 +11,6 @@ import com.nbcamp.gamematching.matchingservice.member.dto.BuddyRequestDto;
 import com.nbcamp.gamematching.matchingservice.member.dto.ProfileDto;
 import com.nbcamp.gamematching.matchingservice.member.dto.UpdateProfileRequest;
 import com.nbcamp.gamematching.matchingservice.member.entity.Member;
-import com.nbcamp.gamematching.matchingservice.member.entity.NotYetBuddy;
 import com.nbcamp.gamematching.matchingservice.member.entity.Profile;
 import com.nbcamp.gamematching.matchingservice.member.repository.MemberRepository;
 import java.io.IOException;
@@ -88,7 +87,7 @@ public class MemberServiceImpl implements MemberService {
         Member findMember = memberRepository.findById(memberId)
                 .orElseThrow(NotFoundMemberException::new);
 
-        List<NotYetBuddy> notYetBuddyList = findMember.getNotYetBuddies();
+        List<Member> notYetBuddyList = findMember.getNotYetBuddies();
         return BuddyRequestDto.of(notYetBuddyList);
     }
 
@@ -115,7 +114,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public ResponseEntity<String> requestBuddy(Long targetUserId, Long memberId) {
+    public ResponseEntity<String> requestBuddy(Long memberId, Long targetUserId) {
         Member findMember = memberRepository.findById(memberId)
                 .orElseThrow(NotFoundMemberException::new);
         Member targetMember = memberRepository.findById(targetUserId)
