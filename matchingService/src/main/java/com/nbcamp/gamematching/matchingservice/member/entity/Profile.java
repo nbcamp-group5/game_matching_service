@@ -28,15 +28,13 @@ public class Profile {
     @Enumerated(EnumType.STRING)
     private GameType game;
 
-    private Integer mannerPoints;
+    private Integer mannerPoints = 0;
 
     @Builder
-    public Profile(String nickname, String profileImage, Tier tier, GameType game,
-            Integer mannerPoints) {
+    public Profile(String nickname, String profileImage, Tier tier, GameType game) {
         this.nickname = nickname;
         this.profileImage = profileImage;
         this.tier = tier;
         this.game = game;
-        this.mannerPoints = mannerPoints;
     }
 }

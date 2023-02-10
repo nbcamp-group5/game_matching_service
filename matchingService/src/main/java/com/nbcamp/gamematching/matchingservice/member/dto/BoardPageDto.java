@@ -1,10 +1,11 @@
 package com.nbcamp.gamematching.matchingservice.member.dto;
 
-import com.nbcamp.gamematching.matchingservice.member.entity.Board;
-import java.util.ArrayList;
-import java.util.List;
+import com.nbcamp.gamematching.matchingservice.board.entity.Board;
 import lombok.Builder;
 import lombok.Getter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 public class BoardPageDto {
