@@ -1,5 +1,7 @@
 package com.nbcamp.gamematching.matchingservice.member.service;
 
+import com.nbcamp.gamematching.matchingservice.board.entity.Board;
+import com.nbcamp.gamematching.matchingservice.board.repository.BoardRepository;
 import com.nbcamp.gamematching.matchingservice.exception.NotFoundException.NotFoundMemberException;
 import com.nbcamp.gamematching.matchingservice.matchinglog.entity.MatchingLog;
 import com.nbcamp.gamematching.matchingservice.matchinglog.repository.MatchingLogRepository;
@@ -11,11 +13,9 @@ import com.nbcamp.gamematching.matchingservice.member.dto.MatchingLogPageDto;
 import com.nbcamp.gamematching.matchingservice.member.dto.MatchingLogPageDto.MatchingLogContent;
 import com.nbcamp.gamematching.matchingservice.member.dto.ProfileDto;
 import com.nbcamp.gamematching.matchingservice.member.dto.ProfileRequest;
-import com.nbcamp.gamematching.matchingservice.member.entity.Board;
 import com.nbcamp.gamematching.matchingservice.member.entity.Member;
 import com.nbcamp.gamematching.matchingservice.member.entity.NotYetBuddy;
 import com.nbcamp.gamematching.matchingservice.member.entity.Profile;
-import com.nbcamp.gamematching.matchingservice.member.repository.BoardRepository;
 import com.nbcamp.gamematching.matchingservice.member.repository.MemberRepository;
 import java.util.List;
 import java.util.stream.Collectors;

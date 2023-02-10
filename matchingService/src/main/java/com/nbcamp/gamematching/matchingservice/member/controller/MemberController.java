@@ -2,6 +2,7 @@ package com.nbcamp.gamematching.matchingservice.member.controller;
 
 import com.nbcamp.gamematching.matchingservice.member.domain.GameType;
 import com.nbcamp.gamematching.matchingservice.member.domain.Tier;
+import com.nbcamp.gamematching.matchingservice.member.dto.BoardPageDto.BoardContent;
 import com.nbcamp.gamematching.matchingservice.member.dto.BuddyDto;
 import com.nbcamp.gamematching.matchingservice.member.dto.BuddyRequestDto;
 import com.nbcamp.gamematching.matchingservice.member.dto.ProfileDto;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @RequestMapping("/api/profile")
@@ -32,18 +34,22 @@ public class MemberController {
     private final MemberService memberService;
 
     @GetMapping("/")
-    public ProfileDto getMyProfile(UserDetailsImpl userDetails) {
+    @ResponseBody
+    public ProfileDto getMyProfile(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         Member member = userDetails.getMember();
         return memberService.getMyProfile(member);
     }
 
     @GetMapping("/boards")
-    public String getMyBoardList(Model model, Pageable pageable, UserDetailsImpl userDetails) {
+    @ResponseBody
+    public List<BoardContent> getMyBoardList(Model model, Pageable pageable,
+            @AuthenticationPrincipal UserDetailsImpl userDetails) {
         Member member = userDetails.getMember();
         Pageable newPageable = toPageable(pageable.getPageNumber(),
                 pageable.getPageSize());
-        model.addAttribute("boardList", memberService.getMyBoards(member.getId(), newPageable));
-        return "boardList";
+//        model.addAttribute("boardList", memberService.getMyBoards(member.getId(), newPageable));
+//        return "boardList";
+        return memberService.getMyBoards(member.getId(), newPageable).getContents();
     }
 
     @GetMapping("/matchings")
@@ -54,7 +60,6 @@ public class MemberController {
                                 .nickname("sh")
                                 .game(GameType.LOL)
                                 .tier(Tier.CHALLENGE)
-                                .mannerPoints(10)
                                 .build())
                 .build();
         Pageable newPageable = toPageable(pageable.getPageNumber(),
@@ -80,7 +85,6 @@ public class MemberController {
                                 .nickname("sh")
                                 .game(GameType.STAR)
                                 .tier(Tier.CHALLENGE)
-                                .mannerPoints(10)
                                 .build())
                 .build();
         List<BuddyRequestDto> myBuddies = memberService.getBuddyRequests(member.getId());

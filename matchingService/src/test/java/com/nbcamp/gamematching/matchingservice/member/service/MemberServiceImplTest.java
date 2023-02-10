@@ -1,22 +1,23 @@
 package com.nbcamp.gamematching.matchingservice.member.service;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
+import com.nbcamp.gamematching.matchingservice.board.entity.Board;
+import com.nbcamp.gamematching.matchingservice.board.repository.BoardRepository;
 import com.nbcamp.gamematching.matchingservice.member.domain.GameType;
 import com.nbcamp.gamematching.matchingservice.member.domain.Tier;
 import com.nbcamp.gamematching.matchingservice.member.dto.BuddyDto;
 import com.nbcamp.gamematching.matchingservice.member.dto.ProfileDto;
-import com.nbcamp.gamematching.matchingservice.member.entity.Board;
 import com.nbcamp.gamematching.matchingservice.member.entity.Member;
 import com.nbcamp.gamematching.matchingservice.member.entity.Profile;
-import com.nbcamp.gamematching.matchingservice.member.repository.BoardRepository;
 import com.nbcamp.gamematching.matchingservice.member.repository.MemberRepository;
-import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 class MemberServiceImplTest {
