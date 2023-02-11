@@ -1,5 +1,7 @@
 package com.nbcamp.gamematching.matchingservice.member.entity;
 
+import static java.util.regex.Pattern.matches;
+
 import com.nbcamp.gamematching.matchingservice.board.entity.Board;
 import com.nbcamp.gamematching.matchingservice.member.domain.MemberRoleEnum;
 import jakarta.persistence.Column;
@@ -46,10 +48,14 @@ public class Member {
      */
     @Builder
     public Member(String email, String password, Profile profile, MemberRoleEnum role) {
+        if (matches("\\w+@\\w+\\.\\w+(\\.\\w+)?", email)) {
+            this.email = email;
+        }
         this.password = password;
         this.profile = profile;
-        this.email = email;
-        this.role = role;
+        if (MemberRoleEnum.isContains(role)) {
+            this.role = role;
+        }
     }
 
     /**

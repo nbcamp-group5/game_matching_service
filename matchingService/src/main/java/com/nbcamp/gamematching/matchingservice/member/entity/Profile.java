@@ -7,6 +7,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import java.util.regex.Pattern;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -33,10 +34,17 @@ public class Profile {
 
     @Builder
     public Profile(String nickname, String profileImage, Tier tier, GameType game) {
-        this.nickname = nickname;
+        if (Pattern.matches("\\w{2,8}", nickname)) {
+            this.nickname = nickname;
+        }
         this.profileImage = profileImage;
-        this.tier = tier;
-        this.game = game;
+
+        if (Tier.isContains(tier)) {
+            this.tier = tier;
+        }
+        if (GameType.isContains(game)) {
+            this.game = game;
+        }
     }
 
     public void changeProfile(UpdateProfileRequest profileRequest, String imageDir) {

@@ -4,8 +4,8 @@ import com.nbcamp.gamematching.matchingservice.auth.dto.SigninRequest;
 import com.nbcamp.gamematching.matchingservice.auth.dto.SignupRequest;
 import com.nbcamp.gamematching.matchingservice.auth.service.AuthService;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,10 +15,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RequestMapping("/api/auth")
 public class AuthController {
+
     private final AuthService authService;
 
     @PostMapping("/signup")
-    public void signup(@RequestBody @Validated SignupRequest signupRequest) {
+    public void signup(@RequestBody @Valid SignupRequest signupRequest) {
         authService.signUp(signupRequest);
     }
 
