@@ -18,6 +18,11 @@ public class AuthController {
 
     private final AuthService authService;
 
+//    @GetMapping("/signup")
+//    public String signupForm(@ModelAttribute("signupRequest") SignupRequest signupRequest) {
+//        return "auth/signup";
+//    }
+
     @PostMapping("/signup")
     public void signup(@RequestBody @Valid SignupRequest signupRequest) {
         authService.signUp(signupRequest);

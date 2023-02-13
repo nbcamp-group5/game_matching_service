@@ -20,7 +20,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -49,17 +48,19 @@ public class MemberController {
     public ProfileDto getMyProfile(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         Member member = userDetails.getMember();
         return memberService.getMyProfile(member);
+//        model.addAttribute("profile", memberService.getMyProfile(member));
+//        return "member/profile";
     }
 
     @GetMapping("/boards")
     @ResponseBody
-    public List<BoardContent> getMyBoardList(Model model, Pageable pageable,
+    public List<BoardContent> getMyBoardList(Pageable pageable,
             @AuthenticationPrincipal UserDetailsImpl userDetails) {
         Member member = userDetails.getMember();
         Pageable newPageable = toPageable(pageable.getPageNumber(),
                 pageable.getPageSize());
 //        model.addAttribute("boardList", memberService.getMyBoards(member.getId(), newPageable));
-//        return "boardList";
+//        return "member/boardList";
         return memberService.getMyBoards(member.getId(), newPageable).getContents();
     }
 
@@ -75,23 +76,22 @@ public class MemberController {
 
     @GetMapping("/buddy")
     @ResponseBody
-    public List<BuddyDto> getMyBuddyList(Model model,
-            @AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public List<BuddyDto> getMyBuddyList(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         Member member = userDetails.getMember();
         List<BuddyDto> myBuddies = memberService.getMyBuddies(member.getId());
 //        model.addAttribute("buddyList", myBuddies);
-//        return "buddyList";
+//        return "member/buddyList";
         return myBuddies;
     }
 
     @GetMapping("/notYetBuddy")
     @ResponseBody
-    public List<BuddyRequestDto> getBuddyRequest(Model model,
+    public List<BuddyRequestDto> getBuddyRequest(
             @AuthenticationPrincipal UserDetailsImpl userDetails) {
         Member member = userDetails.getMember();
         List<BuddyRequestDto> myBuddies = memberService.getBuddyRequests(member.getId());
-//        model.addAttribute("buddyList", myBuddies);
-//        return "buddyRequestList";
+//        model.addAttribute("buddyRequestList", myBuddies);
+//        return "member/buddyRequestList";
         return myBuddies;
     }
 
@@ -121,10 +121,12 @@ public class MemberController {
         return memberService.changeMyProfile(member, request, image);
     }
 
-    @GetMapping("/{userId}")
+    @GetMapping("/{memberId}")
     @ResponseBody
-    public ProfileDto getOtherProfile(@PathVariable Long userId) {
-        return memberService.getOtherProfile(userId);
+    public ProfileDto getOtherProfile(@PathVariable Long memberId) {
+        return memberService.getOtherProfile(memberId);
+//        model.addAttribute("profile", memberService.getOtherProfile(memberId));
+//        return "member/profile";
     }
 
     public static Pageable toPageable(Integer currentPage, Integer size) {

@@ -61,8 +61,6 @@ public class Member {
     /**
      * 연관관계 - Foreign Key 값을 따로 컬럼으로 정의하지 않고 연관 관계로 정의합니다.
      */
-
-
     @OneToMany
     private List<Member> myBuddies = new ArrayList<>();
 
@@ -71,6 +69,7 @@ public class Member {
 
     @OneToMany
     private List<Board> boards = new ArrayList<>();
+
 
     /**
      * 연관관계 편의 메소드 - 반대쪽에는 연관관계 편의 메소드가 없도록 주의합니다.
