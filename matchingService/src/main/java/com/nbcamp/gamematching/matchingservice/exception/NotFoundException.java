@@ -1,7 +1,8 @@
 package com.nbcamp.gamematching.matchingservice.exception;
 
-public class NotFoundException extends RuntimeException{
+import java.util.concurrent.ExecutionException;
 
+public class NotFoundException extends RuntimeException{
 
     public static class NotFoundMemberException extends NotFoundException {}
 
