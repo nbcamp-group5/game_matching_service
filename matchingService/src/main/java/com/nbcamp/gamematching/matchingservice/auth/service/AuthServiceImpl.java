@@ -29,19 +29,8 @@ public class AuthServiceImpl implements AuthService {
     public void signUp(SignupRequest signupRequest) {
         String email = signupRequest.getEmail();
         String password = signupRequest.getPassword();
-
-        if (memberRepository.existsByEmail(email)) {
-            throw new ExistsException.DuplicatedEmail();
-        }
-
-        if (memberRepository.existsByEmail(email)) {
-            throw new ExistsException.DuplicatedEmail();
-        }
-
-        if (memberRepository.existsByEmail(email)) {
-            throw new ExistsException.DuplicatedEmail();
-        }
-
+        if(memberRepository.existsByEmail(email)) {
+            throw new ExistsException.DuplicatedEmail();}
         String encodedPassword = passwordEncoder.encode(password);
         Member member = Member.builder()
                 .email(email)
@@ -60,9 +49,8 @@ public class AuthServiceImpl implements AuthService {
     public void signIn(SigninRequest signinRequest, HttpServletResponse response) {
         String email = signinRequest.getEmail();
         String password = signinRequest.getPassword();
-
         Member member = memberRepository.findByEmail(email).orElseThrow(SignException::new);
-        if (!passwordEncoder.matches(password, member.getPassword())) {
+        if(!passwordEncoder.matches(password, member.getPassword())) {
             throw new SignException();
         }
         response.addHeader(JwtUtil.AUTHORIZATION_HEADER,
