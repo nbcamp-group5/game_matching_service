@@ -1,8 +1,5 @@
 package com.nbcamp.gamematching.matchingservice.matching.dto;
 
-import com.nbcamp.gamematching.matchingservice.matching.entity.GameType;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,7 +10,7 @@ import lombok.NoArgsConstructor;
 public class RequestMatching {
 
     private String gameMode;
-    private String gamename;
+    private String gameName;
 
     private Long memberId;
     private String memberNumbers;
@@ -22,14 +19,14 @@ public class RequestMatching {
     private String key;
 
     @Builder
-    public RequestMatching(String gameMode, String gamename,Long memberId, String discordId, String memberNumbers, String discordUrl) {
+    public RequestMatching(String gameMode, String gameName,Long memberId, String discordId, String memberNumbers, String discordUrl) {
         this.gameMode = gameMode;
-        this.gamename = gamename;
+        this.gameName = gameName;
         this.memberId = memberId;
         this.discordId = discordId;
         this.memberNumbers = memberNumbers;
         this.discordUrl = discordUrl;
-        this.key = this.gamename + this.memberNumbers;
+        this.key = this.gameName + this.memberNumbers;
     }
 
 }

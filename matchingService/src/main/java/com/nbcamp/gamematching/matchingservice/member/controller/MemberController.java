@@ -47,22 +47,6 @@ public class MemberController {
         return memberService.getMyBoards(member.getId(), newPageable).getContents();
     }
 
-    @GetMapping("/matchings")
-    public String getMyMatchingList(Model model, Pageable pageable) {
-        // TODO: 커밋할 때 아래 member 객체 지울 것
-        Member member = Member.builder().profile(
-                        Profile.builder().profileImage("localhost:/")
-                                .nickname("sh")
-                                .game(GameType.LOL)
-                                .tier(Tier.CHALLENGE)
-                                .build())
-                .build();
-        Pageable newPageable = toPageable(pageable.getPageNumber(),
-                pageable.getPageSize());
-        model.addAttribute("matchingList", memberService.getMyMatchingList(member, newPageable));
-        return "matchingList";
-    }
-
     @GetMapping("/buddy")
     public String getMyBuddyList(Model model,
             @AuthenticationPrincipal UserDetailsImpl userDetails) {

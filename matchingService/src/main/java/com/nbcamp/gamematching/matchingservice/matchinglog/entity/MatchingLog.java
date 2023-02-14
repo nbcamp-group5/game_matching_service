@@ -1,6 +1,6 @@
 package com.nbcamp.gamematching.matchingservice.matchinglog.entity;
 
-import com.nbcamp.gamematching.matchingservice.member.entity.Matching;
+import com.nbcamp.gamematching.matchingservice.matching.entity.Matching;
 import com.nbcamp.gamematching.matchingservice.member.entity.Member;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

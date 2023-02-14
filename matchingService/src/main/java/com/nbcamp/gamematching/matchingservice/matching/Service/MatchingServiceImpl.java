@@ -5,6 +5,7 @@ import com.nbcamp.gamematching.matchingservice.discord.service.DiscordService;
 import com.nbcamp.gamematching.matchingservice.matching.dto.MatchingStatusEnum;
 import com.nbcamp.gamematching.matchingservice.matching.dto.RequestMatching;
 import com.nbcamp.gamematching.matchingservice.matching.dto.ResponseMatching;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,7 +13,6 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.async.DeferredResult;
 
-import javax.annotation.PostConstruct;
 import java.util.*;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
@@ -56,7 +56,7 @@ public class MatchingServiceImpl implements MatchingService {
         try {
             lock.writeLock().lock();
             JoinResult(waitingQueue.get(request.getKey()).remove(request),
-                    new ResponseMatching(MatchingStatusEnum.TIMEOUT,request.getGameMode(),request.getGamename()));
+                    new ResponseMatching(MatchingStatusEnum.TIMEOUT,request.getGameMode(),request.getGameName()));
         } finally {
             lock.writeLock().unlock();
         }
@@ -66,7 +66,7 @@ public class MatchingServiceImpl implements MatchingService {
         try {
             lock.writeLock().lock();
             JoinResult(waitingQueue.get(request.getKey()).remove(request),
-                    new ResponseMatching(MatchingStatusEnum.TIMEOUT,request.getGameMode(),request.getGamename()));
+                    new ResponseMatching(MatchingStatusEnum.TIMEOUT,request.getGameMode(),request.getGameName()));
         } finally {
             lock.writeLock().unlock();
         }
@@ -109,7 +109,7 @@ public class MatchingServiceImpl implements MatchingService {
                 roomUserValue.get(i).setResult(
                         ResponseMatching.builder()
                         .metchingEunm(MatchingStatusEnum.SUCCESS)
-                        .playModeEnum(request.getGameMode())
+                        .playMode(request.getGameMode())
                         .gameName(request.getGameMode())
                         .memberNumbers(request.getMemberNumbers())
                         .discordUrl(url)
