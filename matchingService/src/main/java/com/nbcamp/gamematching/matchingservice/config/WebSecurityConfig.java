@@ -26,6 +26,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @EnableWebSecurity
 @EnableMethodSecurity(securedEnabled = true)
 public class WebSecurityConfig implements WebMvcConfigurer {
+
     private final JwtUtil jwtUtil;
 
     @Bean
@@ -47,20 +48,22 @@ public class WebSecurityConfig implements WebMvcConfigurer {
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.authorizeHttpRequests()
                 .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
-                .requestMatchers(HttpMethod.OPTIONS,"/**").permitAll()
+                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .requestMatchers("/api/auth/**").permitAll()
+                .requestMatchers("/api/**").permitAll() //테스트용
                 .anyRequest().authenticated()
-                .and().addFilterBefore(new JwtAuthFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class);
+                .and().addFilterBefore(new JwtAuthFilter(jwtUtil),
+                        UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
 
     @Override
-    public void addCorsMappings(CorsRegistry registry){
-            registry.addMapping("/**")
-                    .allowedOriginPatterns("*")
-                    .allowedMethods("*")
-                    .exposedHeaders("*")
-                    .allowCredentials(false);
-        }
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**")
+                .allowedOriginPatterns("*")
+                .allowedMethods("*")
+                .exposedHeaders("*")
+                .allowCredentials(false);
+    }
 }

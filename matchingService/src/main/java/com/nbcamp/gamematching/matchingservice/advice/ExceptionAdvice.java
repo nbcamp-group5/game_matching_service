@@ -25,8 +25,10 @@ public class ExceptionAdvice {
             return new RestApiException(Status.APPLY_NOT_APPLIED);
         else if (e instanceof NotFoundException.NotFoundMemberException)
             return new RestApiException(Status.NOT_FOUND_MEMBER);
-        else if (e instanceof  NotFoundException.NotFoundRoomException) {
+        else if (e instanceof  NotFoundException.NotFoundRoomException)
             return new RestApiException(Status.NOT_FOUND_ROOM);
+        else if (e instanceof  NotFoundException.NotFoundDiscordNameException) {
+            return new RestApiException(Status.NOT_FOUND_DISCORDNAME);
         }
         return new RestApiException(Status.NOT_FOUND);
     }
