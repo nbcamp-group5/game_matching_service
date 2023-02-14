@@ -2,8 +2,15 @@ package com.nbcamp.gamematching.matchingservice.chat.pubsub;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nbcamp.gamematching.matchingservice.chat.entity.ChatMessage;
+import com.nbcamp.gamematching.matchingservice.chat.entity.MessageType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
+import org.springframework.data.redis.connection.Message;
+import org.springframework.data.redis.connection.MessageListener;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.listener.ChannelTopic;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Service;
 
@@ -11,22 +18,26 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class RedisSubscriber {
+public class RedisSubscriber implements MessageListener {
 
     private final ObjectMapper objectMapper;
+    private final ChannelTopic channelTopic;
+    private final StringRedisTemplate redisTemplate;
     private final SimpMessageSendingOperations messagingTemplate;
 
-    //redis에서 메세지 발행되면 대기하고 있던 redis subscriber가 메세지를 받아 처리
-    public void sendMessage(String publishMessage) {
-        try {
-            //발행된 메세지를 객체 형태로 바꿈
-            ChatMessage chatMessage = objectMapper.readValue(publishMessage, ChatMessage.class);
-            //채팅방을 구독한 클라이언트에 메세지 발송
-            messagingTemplate.convertAndSend("/sub/chat/room/" + chatMessage.getRoomId(), chatMessage);
-            ChatMessage message = new ChatMessage();
 
+
+    @Override
+    public void onMessage(Message message, byte[] pattern) {
+        try {
+            String publishMessage = redisTemplate.getStringSerializer().deserialize(message.getBody());
+            ChatMessage msg = objectMapper.readValue(publishMessage, ChatMessage.class);
+            log.debug("RedisSubscriber : " + msg.toString());
+            if (msg.getType() == MessageType.ENTER) {
+                messagingTemplate.convertAndSend(channelTopic.getTopic(), msg);
+            }
         } catch (Exception e) {
-            log.error("Exception {}", e);
+            log.error(e.getMessage());
         }
     }
 

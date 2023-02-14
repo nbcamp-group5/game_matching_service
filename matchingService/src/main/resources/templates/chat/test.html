@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>채팅</title>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" type="text/css" rel="stylesheet">
+
+    <link type="text/css" th:href="@{/css/chat.css}" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <h3 class=" text-center">Messaging</h3>
+    <div class="messaging">
+        <div class="inbox_msg">
+            <div class="inbox_people">
+                <div class="headind_srch">
+                    <div class="recent_heading">
+                        <h4>Recent</h4>
+                    </div>
+                    <div class="srch_bar">
+                        <div class="stylish-input-group">
+                            <input type="text" class="search-bar"  placeholder="Search" >
+                            <span class="input-group-addon">
+                <button type="button"> <i class="fa fa-search" aria-hidden="true"></i> </button>
+                </span> </div>
+                    </div>
+                </div>
+                <div class="inbox_chat">
+                    <div class="chat_list active_chat" th:each="room : ${rooms}">
+                        <div class="chat_people">
+                            <div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
+                            <div class="chat_ib">
+                                <h5 th:text="${room.getReceiver()}">Sunil Rajput <span class="chat_date">Dec 25</span></h5>
+                                <p>Test, which is a new approach to have all solutions
+                                    astrology under one roof.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mesgs">
+                <div class="msg_history">
+
+                    <div class="incoming_msg">
+                        <div class="incoming_msg_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
+                        <div class="received_msg">
+                            <div class="received_withd_msg">
+                                <p>Test which is a new approach to have all
+                                    solutions</p>
+                                <span class="time_date"> 11:01 AM    |    June 9</span></div>
+                        </div>
+                    </div>
+                    <div class="outgoing_msg">
+                        <div class="sent_msg">
+                            <p>Test which is a new approach to have all
+                                solutions</p>
+                            <span class="time_date"> 11:01 AM    |    June 9</span> </div>
+                    </div>
+
+                <div class="type_msg">
+                    <div class="input_msg_write">
+                        <input type="text" class="write_msg" placeholder="Type a message" />
+                        <button class="msg_send_btn" type="button"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <p class="text-center top_spac"> Design by <a target="_blank" href="https://www.linkedin.com/in/sunil-rajput-nattho-singh/">Sunil Rajput</a></p>
+
+    </div></div>
+</body>
+</html>
+<script src="/webjars/sockjs-client/1.1.2/sockjs.min.js"></script>
+<script src="/webjars/stomp-websocket/2.3.3-1/stomp.min.js"></script>
+<script>
+    var sock = new SockJS("/ws-stomp");
+    var ws = Stomp.over(sock);
+    var reconnect = 0;
+
+    // 처음 로딩 시 내 채팅방 정보 가져오기
+    $(document).ready(function () {
+        // cookie 여부 확인하여 로그인 확인
+        const auth = getToken();
+
+        // 처음 로딩 시 사용자 정보 가져오기 (이름 및 폴더)
+        if (auth !== '') {
+
+            var nickname =
+
+            $.ajax({
+                type: 'GET',
+                url: `/api/rooms/${nickname}`,
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader("Authorization", auth);
+                },
+                success: function (response) {
+                    if (response === 'fail') {
+                        logout();
+                        window.location.reload();
+                    } else {
+                        $('#username').text(response);
+                    }
+                },
+                error(error, status, request) {
+                    console.error(error);
+                    logout();
+                    window.location.href = host + "/api/user/login-page";
+                }
+            });
+
+            // 로그인한 유저의 폴더
+            $.ajax({
+                type: 'GET',
+                url: `/api/user-folder`,
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader("Authorization", auth);
+                },
+                error(error) {
+                    console.error(error);
+                    logout();
+                    window.location.href = host + "/api/user/login-page";
+                }
+            }).done(function (fragment) {
+                // console.log(fragment);
+                $('#fragment').replaceWith(fragment);
+            });
+
+            $('#login-true').show();
+            $('#login-false').hide();
+
+            showProduct();
+        } else {
+            $('#login-false').show();
+            $('#login-true').hide();
+        }
+
+    })
+</script>

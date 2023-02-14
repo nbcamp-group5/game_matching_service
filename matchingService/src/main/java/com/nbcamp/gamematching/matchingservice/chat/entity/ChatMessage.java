@@ -36,5 +36,7 @@ public class ChatMessage {
     public void changeSender(String username) {
         this.sender = username;
     }
+
+
 }
 

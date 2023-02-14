@@ -1,6 +1,6 @@
 package com.nbcamp.gamematching.matchingservice.discord.controller;
 
-import com.example.board.exception.NotFoundException;
+//import com.example.board.exception.NotFoundException;
 import com.nbcamp.gamematching.matchingservice.discord.service.DiscordService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +21,7 @@ public class DiscordController {
     ) {
         List<String> list = new ArrayList<>();
         if(!userCheck(discordname)){
-            throw new NotFoundException.NotFoundDiscordNameException();
+            throw new IllegalArgumentException();
         }
         list.add(discordname);
         discordService.createChannel("ㅈㄱㅃㄱ", list);

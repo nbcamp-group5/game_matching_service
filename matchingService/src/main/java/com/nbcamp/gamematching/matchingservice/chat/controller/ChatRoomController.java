@@ -25,7 +25,7 @@ public class ChatRoomController {
     //채팅 페이지
     @GetMapping("/room")
     public String rooms() {
-        return "/chat/room";
+        return "/chat";
     }
 
     //내 채팅룸 가져오기 => 수정해야할 수 있음
