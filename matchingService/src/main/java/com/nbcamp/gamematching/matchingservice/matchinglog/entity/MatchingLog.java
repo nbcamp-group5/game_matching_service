@@ -1,27 +1,25 @@
 package com.nbcamp.gamematching.matchingservice.matchinglog.entity;
 
-import com.nbcamp.gamematching.matchingservice.member.entity.Matching;
-import com.nbcamp.gamematching.matchingservice.member.entity.Member;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import lombok.Getter;
-
-@Entity
-@Getter
-public class MatchingLog {
-
-    @Id
-    @GeneratedValue
-    private Long id;
-
-    @ManyToOne
-    @JoinColumn(name = "member_id")
-    private Member member;
-
-    @ManyToOne
-    @JoinColumn(name = "matching_id")
-    private Matching matching;
-}
+//@Getter
+//@NoArgsConstructor
+//public class MatchingLog {
+//
+//    @Id
+//    @GeneratedValue
+//    private Long id;
+//
+//    @Enumerated(EnumType.STRING)
+//    private MatchingType matchingType; //
+//
+//    private Long queueId; // 1 [1,2,3] / 2 [1,2,4]
+//
+//    // example : 매칭이 2명일 때
+//    private Long memberId1;
+//    private Long memberId2;
+//
+//
+//
+//    public MatchingLog(List<Member> members) {
+//        this.members = members;
+//    }
+//}
