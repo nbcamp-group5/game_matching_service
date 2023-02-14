@@ -40,6 +40,9 @@ public class Member {
      */
     @Builder
     public Member(String email, String password, Profile profile, MemberRoleEnum role) {
+        if (matches("\\w+@\\w+\\.\\w+(\\.\\w+)?", email)) {
+            this.email = email;
+        }
         this.password = password;
         this.profile = profile;
         this.email = email;
@@ -49,16 +52,15 @@ public class Member {
     /**
      * 연관관계 - Foreign Key 값을 따로 컬럼으로 정의하지 않고 연관 관계로 정의합니다.
      */
-
-
     @OneToMany
     private List<Member> myBuddies = new ArrayList<>();
 
     @OneToMany
-    private List<NotYetBuddy> notYetBuddies = new ArrayList<>();
+    private List<Member> notYetBuddies = new ArrayList<>();
 
     @OneToMany
     private List<Board> boards = new ArrayList<>();
+
 
     /**
      * 연관관계 편의 메소드 - 반대쪽에는 연관관계 편의 메소드가 없도록 주의합니다.
@@ -71,7 +73,24 @@ public class Member {
         this.getMyBuddies().add(member);
     }
 
+    public void addNotYetBuddies(Member member) {
+        this.getNotYetBuddies().add(member);
+    }
+
     /**
      * 서비스 메소드 - 외부에서 엔티티를 수정할 메소드를 정의합니다. (단일 책임을 가지도록 주의합니다.)
      */
+    public void changeNotYetBuddies(Long requestMemberId, Boolean answer) {
+        if (answer) {
+            this.getNotYetBuddies().stream().forEach(
+                    (member -> {
+                        if (member.getId() == requestMemberId) {
+                            addBuddies(member);
+                        }
+                    })
+            );
+        }
+        this.getNotYetBuddies().removeIf(notYetBuddy -> (notYetBuddy.getId() == requestMemberId));
+    }
+
 }

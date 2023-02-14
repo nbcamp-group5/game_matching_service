@@ -1,6 +1,6 @@
 package com.nbcamp.gamematching.matchingservice.member.dto;
 
-import com.nbcamp.gamematching.matchingservice.member.entity.NotYetBuddy;
+import com.nbcamp.gamematching.matchingservice.member.entity.Member;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.Getter;
@@ -11,12 +11,12 @@ public class BuddyRequestDto {
     private String profileImage;
     private String nickname;
 
-    public BuddyRequestDto(NotYetBuddy notYetBuddy) {
-        this.profileImage = notYetBuddy.getProfileImage();
-        this.nickname = notYetBuddy.getNickname();
+    public BuddyRequestDto(Member notYetBuddy) {
+        this.profileImage = notYetBuddy.getProfile().getProfileImage();
+        this.nickname = notYetBuddy.getProfile().getNickname();
     }
 
-    public static List<BuddyRequestDto> of(List<NotYetBuddy> notYetBuddyList) {
+    public static List<BuddyRequestDto> of(List<Member> notYetBuddyList) {
         return notYetBuddyList.stream().map(BuddyRequestDto::new).collect(Collectors.toList());
     }
 }

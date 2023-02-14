@@ -21,12 +21,12 @@ public class ExceptionAdvice {
     public RestApiException NotFoundException(NotFoundException e) {
         log.info("e = {}", e.getMessage());
 
-        if (e instanceof NotFoundException.APPLYNOTAPPLIED)
-            return new RestApiException(Status.APPLY_NOT_APPLIED);
-        else if (e instanceof NotFoundException.NotFoundMemberException)
-            return new RestApiException(Status.NOT_FOUND_MEMBER);
-        else if (e instanceof  NotFoundException.NotFoundRoomException)
-            return new RestApiException(Status.NOT_FOUND_ROOM);
+        if (e instanceof NotFoundException.APPLYNOTAPPLIED){
+            return new RestApiException(Status.APPLY_NOT_APPLIED);}
+        else if (e instanceof NotFoundException.NotFoundMemberException){
+            return new RestApiException(Status.NOT_FOUND_MEMBER);}
+        else if (e instanceof  NotFoundException.NotFoundRoomException) {
+            return new RestApiException(Status.NOT_FOUND_ROOM);}
         else if (e instanceof  NotFoundException.NotFoundDiscordNameException) {
             return new RestApiException(Status.NOT_FOUND_DISCORDNAME);
         }
@@ -38,13 +38,12 @@ public class ExceptionAdvice {
     public RestApiException CommonException(CommonException e) {
         log.info("e = {}", e.getMessage());
 
-        if (e instanceof CommonException.MemberAuthorityException)
+        if (e instanceof CommonException.MemberAuthorityException) {
             return new RestApiException(Status.MEMBER_AUTHORITY);
-        else if (e instanceof CommonException.RefreshTokenNotFoundException)
+        } else if (e instanceof CommonException.RefreshTokenNotFoundException) {
             return new RestApiException(Status.REFRESHTOKEN_NOT_FOUND);
-        else if (e instanceof CommonException.IllegalAgumentException)
-            return new RestApiException(Status.ILLEGAL_ARGUMENT);
-
+        } else if (e instanceof CommonException.IllegalAgumentException) {
+            return new RestApiException(Status.ILLEGAL_ARGUMENT);}
         return new RestApiException(Status.AUTHORITY);
     }
 
@@ -55,14 +54,15 @@ public class ExceptionAdvice {
     public RestApiException ExistsException(ExistsException e) {
         log.info("e = {}", e.getMessage());
 
-        if(e instanceof ExistsException.DuplicatedEmail)
+        if (e instanceof ExistsException.DuplicatedEmail) {
             return new RestApiException(Status.DUPLICATED_EMAIL);
-        else if(e instanceof ExistsException.AlreadyFriendException)
+        } else if (e instanceof ExistsException.AlreadyFriendException) {
             return new RestApiException(Status.ALREADY_FRIEND);
-        else if(e instanceof ExistsException.AlreadyMemberException)
+        } else if (e instanceof ExistsException.AlreadyMemberException) {
             return new RestApiException(Status.ALREADY_MEMBER_EXISTS);
-        else if(e instanceof ExistsException.AlreadydApplyFriendException)
+        } else if (e instanceof AlreadyApplyFriendException) {
             return new RestApiException(Status.ALREADY_APPLIED_FRIEND);
+        }
 
         return new RestApiException(Status.DUPLICATED);
     }

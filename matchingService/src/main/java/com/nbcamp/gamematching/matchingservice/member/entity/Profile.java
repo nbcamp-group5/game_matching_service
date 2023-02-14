@@ -2,10 +2,12 @@ package com.nbcamp.gamematching.matchingservice.member.entity;
 
 import com.nbcamp.gamematching.matchingservice.member.domain.GameType;
 import com.nbcamp.gamematching.matchingservice.member.domain.Tier;
+import com.nbcamp.gamematching.matchingservice.member.dto.UpdateProfileRequest;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import java.util.regex.Pattern;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -19,7 +21,7 @@ public class Profile {
     @Column(nullable = false)
     private String nickname;
 
-    @Column(nullable = false)
+    @Column
     private String profileImage;
 
     @Enumerated(EnumType.STRING)
@@ -32,9 +34,31 @@ public class Profile {
 
     @Builder
     public Profile(String nickname, String profileImage, Tier tier, GameType game) {
-        this.nickname = nickname;
+        if (Pattern.matches("\\w{2,8}", nickname)) {
+            this.nickname = nickname;
+        }
         this.profileImage = profileImage;
-        this.tier = tier;
-        this.game = game;
+
+        if (Tier.isContains(tier)) {
+            this.tier = tier;
+        }
+        if (GameType.isContains(game)) {
+            this.game = game;
+        }
+    }
+
+    public void changeProfile(UpdateProfileRequest profileRequest, String imageDir) {
+        if (!imageDir.isEmpty()) {
+            this.profileImage = imageDir;
+        }
+        if (!profileRequest.getNickname().isEmpty()) {
+            this.nickname = profileRequest.getNickname();
+        }
+        if (profileRequest.getGame() != null) {
+            this.game = profileRequest.getGame();
+        }
+        if (profileRequest.getTier() != null) {
+            this.tier = profileRequest.getTier();
+        }
     }
 }

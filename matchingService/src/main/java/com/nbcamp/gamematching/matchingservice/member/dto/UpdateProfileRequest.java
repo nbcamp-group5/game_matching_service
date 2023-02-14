@@ -1,13 +1,15 @@
 package com.nbcamp.gamematching.matchingservice.member.dto;
 
 import com.nbcamp.gamematching.matchingservice.member.domain.GameType;
+import com.nbcamp.gamematching.matchingservice.member.domain.Tier;
 import lombok.Getter;
+import lombok.ToString;
 
 @Getter
-public class ProfileRequest {
+@ToString
+public class UpdateProfileRequest {
 
-    private String image;
     private String nickname;
-    private Integer score;
+    private Tier tier;
     private GameType game;
 }
