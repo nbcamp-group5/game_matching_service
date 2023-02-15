@@ -5,7 +5,6 @@ import com.nbcamp.gamematching.matchingservice.comment.entity.Comment;
 import com.nbcamp.gamematching.matchingservice.common.entity.BaseEntity;
 import com.nbcamp.gamematching.matchingservice.member.entity.Member;
 import jakarta.persistence.*;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -54,17 +53,6 @@ public class Board extends BaseEntity {
     }
 
     public void checkUser(Board board, Member member) {
-        if (!board.getMember().getEmail().equals(member.getEmail())) throw new IllegalArgumentException("유저 불일치");
-    }
-
-//테스트 코드..?
-    @Builder
-    public Board(Long id, String nickname, String boardImage, String content, Member member, List<Comment> comments) {
-        this.id = id;
-        this.nickname = nickname;
-        this.boardImage = boardImage;
-        this.content = content;
-        this.member = member;
-        this.comments = comments;
+        if (!board.getMember().getEmail().equals(member.getEmail())) throw new IllegalArgumentException("유저가 일치하지 않습니다.");
     }
 }

@@ -63,7 +63,7 @@ public class BoardService {
 
     //게시글 수정
     public void updateBoard(Long boardId, UpdateBoardRequest boardRequest,Member member,MultipartFile image) throws IOException {
-        Board board = boardRepository.findById(boardId).orElseThrow(() -> new NotFoundException());
+        Board board = boardRepository.findById(boardId).orElseThrow(()-> new NotFoundException());
         board.checkUser(board,member);
         String imageFile = fileStore.storeFile(image);
         board.updateBoard(boardRequest,imageFile,member);
@@ -72,7 +72,7 @@ public class BoardService {
 
     //게시글 삭제
     public void deleteBoard(Long boardId,Member member) {
-        Board board = boardRepository.findById(boardId).orElseThrow(() -> new IllegalArgumentException(""));
+        Board board = boardRepository.findById(boardId).orElseThrow(() -> new NotFoundException());
         board.checkUser(board,member);
         boardRepository.deleteById(boardId);
     }
@@ -84,22 +84,6 @@ public class BoardService {
         Pageable pageable = PageRequest.of(page - 1, 10, sort);
         return pageable;
     }
-
-    //게시글 조회 -  페이지값을 입력할 때 게시글과 댓글페이지가 1 2 3 같이 이동?...
-//    public List<BoardResponse> getBoardList1(String searchName) {
-//        Page<Board> boardPage = boardRepositoryImpl.pageList(searchName,pageableSetting(1));
-//        List<BoardResponse> boardResponseList = new ArrayList<>();
-//        for (Board board : boardPage) {
-//            Page<Comment> commentPage = commentRepository.findAllByBoardId(board.getId(), pageableSetting(1));
-//            List<CommentResponse> commentList = new ArrayList<>();
-//            for (Comment comment : commentPage) {
-//                commentList.add(new CommentResponse(comment));
-//            }
-//            Long likeCount = likeRepository.countByBoardId(board.getId());
-//            boardResponseList.add(new BoardResponse(board, commentList, likeCount));
-//        }
-//        return boardResponseList;
-//    }
 
     //게시글 검색
     public List<BoardResponse> getBoardList1(String searchName) {
