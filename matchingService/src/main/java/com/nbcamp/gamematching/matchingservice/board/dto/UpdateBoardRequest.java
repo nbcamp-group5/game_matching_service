@@ -7,6 +7,9 @@ import lombok.Getter;
 @Builder
 public class UpdateBoardRequest {
 
-    private String boardImageUrl;
     private String content;
+
+    public UpdateBoardRequest(String content) {
+        this.content = content;
+    }
 }

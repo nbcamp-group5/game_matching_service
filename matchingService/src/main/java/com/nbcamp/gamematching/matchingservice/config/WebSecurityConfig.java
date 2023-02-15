@@ -3,6 +3,9 @@ package com.nbcamp.gamematching.matchingservice.config;
 
 import com.nbcamp.gamematching.matchingservice.jwt.JwtAuthFilter;
 import com.nbcamp.gamematching.matchingservice.jwt.JwtUtil;
+import com.querydsl.jpa.impl.JPAQueryFactory;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
@@ -65,5 +68,18 @@ public class WebSecurityConfig implements WebMvcConfigurer {
                 .allowedMethods("*")
                 .exposedHeaders("*")
                 .allowCredentials(false);
+    }
+
+    @Configuration
+    public class BeanConfig {
+
+        @PersistenceContext
+        private EntityManager entityManager; // 엔티티를 관리하는 클래스
+
+        @Bean
+        public JPAQueryFactory jpaQueryFactory() { // JPAQueryFactory Bean 등록
+            return new JPAQueryFactory(entityManager);
+        }
+
     }
 }

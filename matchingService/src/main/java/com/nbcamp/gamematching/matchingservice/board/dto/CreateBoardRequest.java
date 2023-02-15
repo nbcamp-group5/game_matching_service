@@ -5,6 +5,9 @@ import lombok.Getter;
 @Getter
 public class CreateBoardRequest {
 
-    private String boardImageUrl;
     private String content;
+
+    public CreateBoardRequest(String content) {
+        this.content = content;
+    }
 }

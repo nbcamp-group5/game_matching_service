@@ -5,11 +5,14 @@ import com.nbcamp.gamematching.matchingservice.comment.entity.Comment;
 import com.nbcamp.gamematching.matchingservice.common.entity.BaseEntity;
 import com.nbcamp.gamematching.matchingservice.member.entity.Member;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
 
 
 @Getter
@@ -24,8 +27,7 @@ public class Board extends BaseEntity {
 
     private String nickname;
 
-    private String boardImageUrl;
-    //이미지url?
+    private String boardImage;
 
     @Column(nullable = false)
     private String content;
@@ -38,15 +40,15 @@ public class Board extends BaseEntity {
     @OneToMany(mappedBy = "board",cascade = CascadeType.REMOVE)
     private List<Comment> comments = new ArrayList<>();
 
-    public Board(String nickname,String boardImageUrl, String content,Member member) {
+    public Board(String nickname, String boardImage, String content, Member member) throws IOException {
         this.nickname = member.getProfile().getNickname();
-        this.boardImageUrl = boardImageUrl;
+        this.boardImage = boardImage;
         this.content = content;
         this.member = member;
     }
 
-    public void updateBoard(UpdateBoardRequest boardRequestDto,Member member) {
-        this.boardImageUrl = boardRequestDto.getBoardImageUrl();
+    public void updateBoard(UpdateBoardRequest boardRequestDto,String boardImageUrl,Member member) throws IOException {
+        this.boardImage = boardImageUrl;
         this.content = boardRequestDto.getContent();
         this.member = member;
     }
@@ -55,4 +57,14 @@ public class Board extends BaseEntity {
         if (!board.getMember().getEmail().equals(member.getEmail())) throw new IllegalArgumentException("유저 불일치");
     }
 
+//테스트 코드..?
+    @Builder
+    public Board(Long id, String nickname, String boardImage, String content, Member member, List<Comment> comments) {
+        this.id = id;
+        this.nickname = nickname;
+        this.boardImage = boardImage;
+        this.content = content;
+        this.member = member;
+        this.comments = comments;
+    }
 }
