@@ -4,6 +4,7 @@ import com.nbcamp.gamematching.matchingservice.board.entity.Board;
 import com.nbcamp.gamematching.matchingservice.board.repository.BoardRepository;
 import com.nbcamp.gamematching.matchingservice.exception.NotFoundException.NotFoundMemberException;
 import com.nbcamp.gamematching.matchingservice.member.domain.FileStore;
+import com.nbcamp.gamematching.matchingservice.member.domain.MannerPoint;
 import com.nbcamp.gamematching.matchingservice.member.dto.BoardPageDto;
 import com.nbcamp.gamematching.matchingservice.member.dto.BoardPageDto.BoardContent;
 import com.nbcamp.gamematching.matchingservice.member.dto.BuddyDto;
@@ -132,5 +133,20 @@ public class MemberServiceImpl implements MemberService {
         findMember.changeNotYetBuddies(requestMemberId, answer);
         String message = answer ? "친구 등록되었습니다." : "요청이 거부되었습니다.";
         return new ResponseEntity<>(message, HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<String> changeMannerPoints(Long memberId, MannerPoint mannerPoint) {
+
+        Member findMember = memberRepository.findById(memberId)
+                .orElseThrow(NotFoundMemberException::new);
+
+        Profile findMemberProfile = findMember.getProfile();
+
+        findMemberProfile.modifyMannerPoints(mannerPoint);
+
+        memberRepository.save(findMember);
+
+        return new ResponseEntity<>("매너점수가 변경되었습니다",HttpStatus.OK);
     }
 }

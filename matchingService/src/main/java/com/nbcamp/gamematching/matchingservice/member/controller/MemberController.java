@@ -1,6 +1,7 @@
 package com.nbcamp.gamematching.matchingservice.member.controller;
 
 import com.nbcamp.gamematching.matchingservice.member.domain.FileStore;
+import com.nbcamp.gamematching.matchingservice.member.domain.MannerPoint;
 import com.nbcamp.gamematching.matchingservice.member.dto.AnswerBuddyRequestDto;
 import com.nbcamp.gamematching.matchingservice.member.dto.BoardPageDto.BoardContent;
 import com.nbcamp.gamematching.matchingservice.member.dto.BuddyDto;
@@ -127,6 +128,18 @@ public class MemberController {
         return memberService.getOtherProfile(memberId);
 //        model.addAttribute("profile", memberService.getOtherProfile(memberId));
 //        return "member/profile";
+    }
+
+    @PatchMapping("/mannerpoints/{userId}/plus")
+    public ResponseEntity<String> plusMannerPoints(@PathVariable Long userId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        Member member = userDetails.getMember();
+        return memberService.changeMannerPoints(userId, MannerPoint.PLUS);
+    }
+
+    @PatchMapping("/mannerpoints/{userId}/minus")
+    public ResponseEntity<String> minusMannerPoints(@PathVariable Long userId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        Member member = userDetails.getMember();
+        return memberService.changeMannerPoints(userId, MannerPoint.MINUS);
     }
 
     public static Pageable toPageable(Integer currentPage, Integer size) {

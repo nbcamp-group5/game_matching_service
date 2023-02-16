@@ -1,6 +1,7 @@
 package com.nbcamp.gamematching.matchingservice.member.entity;
 
 import com.nbcamp.gamematching.matchingservice.member.domain.GameType;
+import com.nbcamp.gamematching.matchingservice.member.domain.MannerPoint;
 import com.nbcamp.gamematching.matchingservice.member.domain.Tier;
 import com.nbcamp.gamematching.matchingservice.member.dto.UpdateProfileRequest;
 import jakarta.persistence.Column;
@@ -18,7 +19,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Profile {
 
-    @Column(nullable = false)
+    @Column
     private String nickname;
 
     @Column
@@ -59,6 +60,15 @@ public class Profile {
         }
         if (profileRequest.getTier() != null) {
             this.tier = profileRequest.getTier();
+        }
+    }
+
+    public void modifyMannerPoints(MannerPoint mannerPoint) {
+
+        if (mannerPoint == MannerPoint.PLUS) {
+            this.mannerPoints += 10;
+        } else if (mannerPoint == MannerPoint.MINUS) {
+            this.mannerPoints -= 10;
         }
     }
 }

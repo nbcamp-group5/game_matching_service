@@ -1,5 +1,6 @@
 package com.nbcamp.gamematching.matchingservice.member.service;
 
+import com.nbcamp.gamematching.matchingservice.member.domain.MannerPoint;
 import com.nbcamp.gamematching.matchingservice.member.dto.BoardPageDto;
 import com.nbcamp.gamematching.matchingservice.member.dto.BuddyDto;
 import com.nbcamp.gamematching.matchingservice.member.dto.BuddyRequestDto;
@@ -32,4 +33,6 @@ public interface MemberService {
     ResponseEntity<String> requestBuddy(Long memberId, Long targetUserId);
 
     ResponseEntity<String> answerBuddyRequest(Long memberId, Long requestUserId, Boolean answer);
+
+    public ResponseEntity<String> changeMannerPoints(Long memberId, MannerPoint mannerPoint);
 }
