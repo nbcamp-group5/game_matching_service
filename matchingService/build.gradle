@@ -60,12 +60,13 @@ dependencies {
     implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
     implementation group: 'javax.servlet', name: 'jstl', version: '1.2'
 
-    //Redis
-    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
-
     //Discord JDA
     implementation "net.dv8tion:JDA:4.3.0_277"
     implementation 'org.javacord:javacord:3.7.0'
+
+    //PostgreSQL
+    runtimeOnly 'org.postgresql:postgresql'
+    implementation group: 'org.postgresql', name: 'postgresql', version: '42.2.27'
 
 }
 

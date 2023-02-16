@@ -12,6 +12,7 @@ public class SignupRequest {
     private String password;
     @Pattern(regexp = "\\w{2,8}", message = "닉네임 형식이 올바르지 않습니다.")
     private String nickname;
+    private String profileImageUrl;
 
 }
 
