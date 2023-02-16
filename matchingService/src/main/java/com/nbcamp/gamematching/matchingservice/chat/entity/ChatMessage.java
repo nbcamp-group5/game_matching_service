@@ -16,10 +16,6 @@ public class ChatMessage {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
-    @Enumerated(value = EnumType.STRING)
-    private MessageType type;
-
     @Column(nullable = false)
     private String roomId;
 
@@ -29,8 +25,6 @@ public class ChatMessage {
     @Column(nullable = false)
     private String sender;
 
-    @Column(nullable = false)
-    private String receiver;
 
 
     public void changeSender(String username) {
