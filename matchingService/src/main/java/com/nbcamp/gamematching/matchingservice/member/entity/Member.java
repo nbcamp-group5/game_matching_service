@@ -2,16 +2,11 @@ package com.nbcamp.gamematching.matchingservice.member.entity;
 
 import static java.util.regex.Pattern.matches;
 
+import com.nbcamp.gamematching.matchingservice.chat.entity.ChatRoom;
 import com.nbcamp.gamematching.matchingservice.exception.SignException;
 import com.nbcamp.gamematching.matchingservice.member.domain.MemberRoleEnum;
-import jakarta.persistence.Column;
-import jakarta.persistence.Embedded;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
+
 import java.util.ArrayList;
 import java.util.List;
 import lombok.AccessLevel;
@@ -39,6 +34,10 @@ public class Member {
 
     @Column
     private String email;
+
+    @Column
+    @OneToMany(cascade = CascadeType.REMOVE)
+    private List<ChatRoom> chatRooms = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     private MemberRoleEnum role;
