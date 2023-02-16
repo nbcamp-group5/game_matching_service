@@ -110,7 +110,6 @@ public class MemberServiceImpl implements MemberService {
                 .orElseThrow(NotFoundMemberException::new);
         Profile findMemberProfile = findMember.getProfile();
         return new ProfileDto(findMemberProfile);
-
     }
 
     @Override

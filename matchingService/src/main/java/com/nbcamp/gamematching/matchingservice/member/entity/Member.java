@@ -2,7 +2,7 @@ package com.nbcamp.gamematching.matchingservice.member.entity;
 
 import static java.util.regex.Pattern.matches;
 
-import com.nbcamp.gamematching.matchingservice.board.entity.Board;
+import com.nbcamp.gamematching.matchingservice.exception.SignException;
 import com.nbcamp.gamematching.matchingservice.member.domain.MemberRoleEnum;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
@@ -50,8 +50,12 @@ public class Member {
     public Member(String email, String password, Profile profile, MemberRoleEnum role) {
         if (matches("\\w+@\\w+\\.\\w+(\\.\\w+)?", email)) {
             this.email = email;
+        } else {
+            throw new SignException.InvalidEmail();
         }
+
         this.password = password;
+
         this.profile = profile;
         if (MemberRoleEnum.isContains(role)) {
             this.role = role;
@@ -67,17 +71,16 @@ public class Member {
     @OneToMany
     private List<Member> notYetBuddies = new ArrayList<>();
 
-    @OneToMany
-    private List<Board> boards = new ArrayList<>();
+//    @OneToMany
+//    private List<Board> boards = new ArrayList<>();
 
 
     /**
      * 연관관계 편의 메소드 - 반대쪽에는 연관관계 편의 메소드가 없도록 주의합니다.
      */
-    public void addBoards(Board board) {
-        this.getBoards().add(board);
-    }
-
+//    public void addBoards(Board board) {
+//        this.getBoards().add(board);
+//    }
     public void addBuddies(Member member) {
         this.getMyBuddies().add(member);
     }
