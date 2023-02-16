@@ -1,6 +1,8 @@
 package com.nbcamp.gamematching.matchingservice.member.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 
 import com.nbcamp.gamematching.matchingservice.board.dto.CreateBoardRequest;
 import com.nbcamp.gamematching.matchingservice.board.service.BoardService;
@@ -17,52 +19,63 @@ import com.nbcamp.gamematching.matchingservice.member.entity.Member;
 import com.nbcamp.gamematching.matchingservice.member.entity.Profile;
 import com.nbcamp.gamematching.matchingservice.member.repository.MemberRepository;
 import java.util.List;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.transaction.annotation.Transactional;
 
-@SpringBootTest
-class MemberServiceImplTest {
+class MemberServiceImplUnitTest {
 
-    @Autowired
+    @InjectMocks
     private MemberService memberService;
 
-    @Autowired
+    @Mock
     private BoardService boardService;
 
-    @Autowired
+    @Mock
     private MemberRepository memberRepository;
 
     @Autowired
     private FileStore fileStore;
 
-    @BeforeEach
-    public void beforeEach() {
-        for (int i = 0; i < 4; i++) {
-            Member member = Member.builder()
-                    .email("test" + i + "@gmail.com")
-                    .password("password" + i)
-                    .profile(Profile.builder().profileImage("localhost:/pic" + i)
-                            .nickname("she" + i)
-                            .game(GameType.STAR)
-                            .tier(Tier.CHALLENGE)
-                            .build())
-                    .build();
-            memberRepository.save(member);
-        }
-    }
+//    @BeforeEach
+//    public void beforeEach() {
+//        for (int i = 0; i < 4; i++) {
+//            Member member = Member.builder()
+//                    .email("test" + i + "@gmail.com")
+//                    .password("password" + i)
+//                    .profile(Profile.builder().profileImage("localhost:/pic" + i)
+//                            .nickname("she" + i)
+//                            .game(GameType.STAR)
+//                            .tier(Tier.CHALLENGE)
+//                            .build())
+//                    .build();
+//            memberRepository.save(member);
+//        }
+//    }
 
 
     @Test
     @DisplayName("내 프로필 닉네임 검증")
     public void myNicknameTest() throws Exception {
         // given
+        Member member = Member.builder()
+                .email("test" + "@gmail.com")
+                .password("password")
+                .profile(Profile.builder().profileImage("localhost:/pic")
+                        .nickname("shef")
+                        .game(GameType.STAR)
+                        .tier(Tier.CHALLENGE)
+                        .build())
+                .build();
+        when(memberRepository.findById().thenReturn(member);
+
+
         Member member = memberRepository.findById(1L).orElseThrow();
         // when
         ProfileDto myProfile = memberService.getMyProfile(member);
