@@ -53,7 +53,10 @@ public class WebSecurityConfig implements WebMvcConfigurer {
                 .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .requestMatchers("/api/auth/**").permitAll()
-                .requestMatchers("/api/**").permitAll() //테스트용
+                .requestMatchers("/api/**").permitAll()
+                .requestMatchers("/GGTalk/**").permitAll()
+                .requestMatchers("/pub/**").permitAll()
+                .requestMatchers("/sub/**").permitAll()//테스트용
                 .anyRequest().authenticated()
                 .and().addFilterBefore(new JwtAuthFilter(jwtUtil),
                         UsernamePasswordAuthenticationFilter.class);

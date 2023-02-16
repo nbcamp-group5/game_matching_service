@@ -1,20 +1,18 @@
 package com.nbcamp.gamematching.matchingservice.chat.entity;
 
+import com.nbcamp.gamematching.matchingservice.member.entity.Member;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
-import java.util.UUID;
+import java.util.*;
 
 @Entity
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ChatRoom implements Serializable {
-
-    private static final long serialVersionUID = 6494678977089006639L;
+public class ChatRoom {
 
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
@@ -22,20 +20,29 @@ public class ChatRoom implements Serializable {
     private Long id;
 
     @Column(nullable = false)
-    private String roomId;
+    private String roomName;
 
-    @Column(nullable = false)
-    private String sender;
 
-    @Column(nullable = false)
-    private String receiver;
+    @JoinColumn(nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Member user1;
 
-    public static ChatRoom create(String sender, String receiver) {
+    @JoinColumn(nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Member user2;
+
+    static public ChatRoom create(Member user1, Member user2) {
         ChatRoom chatRoom = new ChatRoom();
-        chatRoom.roomId = UUID.randomUUID().toString();
-        chatRoom.sender = sender;
-        chatRoom.receiver = receiver;
+        chatRoom.roomName = createRoomName(user1.getProfile().getNickname(), user2.getProfile().getNickname());
+        chatRoom.user1 = user1;
+        chatRoom.user2 = user2;
         return chatRoom;
+    }
+
+    static public String createRoomName(String name1, String name2) {
+        String[] names = {name1, name2};
+        Arrays.sort(names);
+        return names[0] + "-" + names[1];
     }
 
 
