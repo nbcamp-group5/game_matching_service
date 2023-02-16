@@ -26,8 +26,8 @@ public class DiscordController {
             @PathVariable String discordname
     ) {
         List<String> list = new ArrayList<>();
-        if (!userCheck(discordname)) {
-            throw new NotFoundException.NotFoundMemberException();
+        if(!userCheck(discordname)){
+            throw new IllegalArgumentException();
         }
         list.add(discordname);
         discordService.createChannel("ㅈㄱㅃㄱ", list);

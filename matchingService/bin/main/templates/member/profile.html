@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>내 프로필</title>
+</head>
+
+<body>
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet"
+      id="bootstrap-css">
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+
+<link th:href="${profile.getImage()}" rel="stylesheet">
+<div class="container">
+  <div class="row">
+    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+      <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="border-radius: 16px;">
+          <div class="well profile col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="col-lg-16 col-md-16 col-sm-16 col-xs-16 text-center">
+              <figure>
+                <img
+                    th:src="@{/Users/seungho/sparta/nbcamp/final/matchingService/src/main/resources/static/files/{img_url}(img_url=${profile.getImage()})}"
+                    th:if="${profile.getImage()} != null"
+                    alt="" class="img-circle" style="width:75px;" id="user-img">
+              </figure>
+              <h5 th:text="${profile.getNickname()}" style="text-align:center;">
+                <strong id="user-name">my name</strong></h5>
+              <p style="text-align:center;font-size: smaller;"><strong>Most Pick</strong>
+              </p>
+              <p th:text="${profile.getGame()}"
+                 style="text-align:center;font-size: smaller;" id="user-role">LOL</p>
+              <div class="col-lg-6 left"
+                   style="text-align:center;overflow-wrap: break-word;">
+                <h4><p th:text="${profile.getMannerPoints()}"
+                       style="text-align: center;"><strong
+                    id="user-globe-rank">245 </strong></p></h4>
+                <p><small class="label label-success">Manner Points</small></p>
+                <!--<button class="btn btn-success btn-block"><span class="fa fa-plus-circle"></span> Follow </button>-->
+              </div>
+              <div class=" col-lg-6 left"
+                   style="text-align:center;overflow-wrap: break-word;">
+                <h4><p th:text="${profile.getTier()}"
+                       style="text-align: center;"><strong
+                    id="user-college-rank">BRONZE </strong></p></h4>
+                <p><small class="label label-warning">Tier</small></p>
+                <!-- <button class="btn btn-info btn-block"><span class="fa fa-user"></span> View Profile </button>-->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
+
+
