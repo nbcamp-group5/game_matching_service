@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Profile {
 
-    @Column(nullable = false)
+    @Column
     private String nickname;
 
     @Column
