@@ -5,12 +5,22 @@ import static java.util.regex.Pattern.matches;
 import com.nbcamp.gamematching.matchingservice.chat.entity.ChatRoom;
 import com.nbcamp.gamematching.matchingservice.exception.SignException;
 import com.nbcamp.gamematching.matchingservice.member.domain.MemberRoleEnum;
-import jakarta.persistence.*;
-
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
-
-import static java.util.regex.Pattern.matches;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
@@ -67,16 +77,10 @@ public class Member {
     @OneToMany
     private List<Member> notYetBuddies = new ArrayList<>();
 
-//    @OneToMany
-//    private List<Board> boards = new ArrayList<>();
-
 
     /**
      * 연관관계 편의 메소드 - 반대쪽에는 연관관계 편의 메소드가 없도록 주의합니다.
      */
-//    public void addBoards(Board board) {
-//        this.getBoards().add(board);
-//    }
     public void addBuddies(Member member) {
         this.getMyBuddies().add(member);
     }
