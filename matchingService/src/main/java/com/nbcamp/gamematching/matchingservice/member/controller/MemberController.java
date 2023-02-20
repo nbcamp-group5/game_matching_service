@@ -64,16 +64,6 @@ public class MemberController {
         return memberService.getMyBoards(member.getId(), newPageable).getContents();
     }
 
-//    @GetMapping("/matchings")
-//    public String getMyMatchingList(Model model, Pageable pageable,
-//            @AuthenticationPrincipal UserDetailsImpl userDetails) {
-//        Member member = userDetails.getMember();
-//        Pageable newPageable = toPageable(pageable.getPageNumber(),
-//                pageable.getPageSize());
-//        model.addAttribute("matchingList", memberService.getMyMatchingList(member, newPageable));
-//        return "matchingList";
-//    }
-
     @GetMapping("/buddy")
     @ResponseBody
     public List<BuddyDto> getMyBuddyList(@AuthenticationPrincipal UserDetailsImpl userDetails) {

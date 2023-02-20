@@ -5,6 +5,15 @@ import com.nbcamp.gamematching.matchingservice.discord.service.DiscordService;
 import com.nbcamp.gamematching.matchingservice.matching.dto.MatchingStatusEnum;
 import com.nbcamp.gamematching.matchingservice.matching.dto.RequestMatching;
 import com.nbcamp.gamematching.matchingservice.matching.dto.ResponseMatching;
+import java.util.ArrayList;
+import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
+import javax.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,13 +21,10 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.async.DeferredResult;
 
-import javax.annotation.PostConstruct;
-import java.util.*;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
-
 @Service
 @RequiredArgsConstructor
 public class MatchingServiceImpl implements MatchingService {
+
     private static final Logger logger = LoggerFactory.getLogger(MatchingService.class);
     private Map<String, Map<RequestMatching, DeferredResult<ResponseMatching>>> waitingQueue;
     // {key : websocket session id, value : chat room id}
@@ -30,9 +36,12 @@ public class MatchingServiceImpl implements MatchingService {
         this.lock = new ReentrantReadWriteLock();
         this.waitingQueue = new Hashtable<>();
     }
+
     @Async("asyncThreadPool")
-    public void joinMatchingRoom(RequestMatching request, DeferredResult<ResponseMatching> deferredResult) {
-        logger.info("## Join chat room request. {}[{}]", Thread.currentThread().getName(), Thread.currentThread().getId());
+    public void joinMatchingRoom(RequestMatching request,
+            DeferredResult<ResponseMatching> deferredResult) {
+        logger.info("## Join chat room request. {}[{}]", Thread.currentThread().getName(),
+                Thread.currentThread().getId());
         if (request == null || deferredResult == null) {
             return;
         }
@@ -56,7 +65,8 @@ public class MatchingServiceImpl implements MatchingService {
         try {
             lock.writeLock().lock();
             JoinResult(waitingQueue.get(request.getKey()).remove(request),
-                    new ResponseMatching(MatchingStatusEnum.TIMEOUT,request.getGameMode(),request.getGamename()));
+                    new ResponseMatching(MatchingStatusEnum.TIMEOUT, request.getGameMode(),
+                            request.getGamename()));
         } finally {
             lock.writeLock().unlock();
         }
@@ -66,7 +76,8 @@ public class MatchingServiceImpl implements MatchingService {
         try {
             lock.writeLock().lock();
             JoinResult(waitingQueue.get(request.getKey()).remove(request),
-                    new ResponseMatching(MatchingStatusEnum.TIMEOUT,request.getGameMode(),request.getGamename()));
+                    new ResponseMatching(MatchingStatusEnum.TIMEOUT, request.getGameMode(),
+                            request.getGamename()));
         } finally {
             lock.writeLock().unlock();
         }
@@ -76,7 +87,8 @@ public class MatchingServiceImpl implements MatchingService {
         try {
             logger.debug("현재 대기 유저 : " + waitingQueue.get(request.getKey()).size());
             lock.readLock().lock();
-            if (waitingQueue.get(request.getKey()).size() < Integer.parseInt(request.getMemberNumbers())) {//유저가 특정수 이하 면 컷
+            if (waitingQueue.get(request.getKey()).size() < Integer.parseInt(
+                    request.getMemberNumbers())) {//유저가 특정수 이하 면 컷
                 return;
             }
             Iterator<RequestMatching> itr = waitingQueue.get(request.getKey()).keySet().iterator();
@@ -91,7 +103,8 @@ public class MatchingServiceImpl implements MatchingService {
                 discordIdList.add(matchingRequest.getDiscordId());
             }
             // 방을 생성하고 초대코드를 가져온다
-            Optional<String> getUrl = discordService.createChannel(request.getGameMode(),discordIdList);
+            Optional<String> getUrl = discordService.createChannel(request.getGameMode(),
+                    discordIdList);
 
             String url = "";
             if (getUrl.isPresent()) {
@@ -108,13 +121,14 @@ public class MatchingServiceImpl implements MatchingService {
             for (int i = 0; i < Integer.parseInt(request.getMemberNumbers()); i++) {
                 roomUserValue.get(i).setResult(
                         ResponseMatching.builder()
-                        .metchingEunm(MatchingStatusEnum.SUCCESS)
-                        .playModeEnum(request.getGameMode())
-                        .gameName(request.getGameMode())
-                        .memberNumbers(request.getMemberNumbers())
-                        .discordUrl(url)
-                        .members(roomUserKey)
-                        .build());}
+                                .metchingEunm(MatchingStatusEnum.SUCCESS)
+                                .playModeEnum(request.getGameMode())
+                                .gameName(request.getGameMode())
+                                .memberNumbers(request.getMemberNumbers())
+                                .discordUrl(url)
+                                .members(roomUserKey)
+                                .build());
+            }
         } catch (Exception e) {
             logger.warn("Exception occur while checking waiting users", e);
         } finally {
@@ -126,5 +140,9 @@ public class MatchingServiceImpl implements MatchingService {
         if (result != null) {
             result.setResult(response);
         }
+    }
+
+    public Map<String, Map<RequestMatching, DeferredResult<ResponseMatching>>> getWaitingQueue() {
+        return waitingQueue;
     }
 }
