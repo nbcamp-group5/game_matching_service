@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+      rel="stylesheet"
+      id="bootstrap-css"
+    />
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <title>매칭 신청</title>
+    <link rel="stylesheet" href="../menu.css" />
+    <link rel="stylesheet" href="matching-request.css" />
+    <script>
+      $(document).ready(function () {
+        $(".input").focus(function () {
+          $(this).parent().find(".label-txt").addClass("label-active");
+        });
+
+        $(".input").focusout(function () {
+          if ($(this).val() == "") {
+            $(this).parent().find(".label-txt").removeClass("label-active");
+          }
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <nav class="menu">
+      <div>
+        <h1>ㅈㄱ</h1>
+        <h1>ㅃㄱ</h1>
+      </div>
+
+      <ul class="menu__list">
+        <li class="menu__btn">
+          <a class="menu__link" href="#">
+            <div class="menu__link__explain">
+              <span><i class="fa-solid fa-clipboard-user fa-lg"></i></span>
+              <span>일반</span>
+            </div>
+          </a>
+        </li>
+
+        <li class="menu__btn">
+          <a class="menu__link" href="#">
+            <div class="menu__link__explain">
+              <span><i class="fa-solid fa-clipboard-question fa-lg"></i></span>
+              <span>익명</span>
+            </div>
+          </a>
+        </li>
+
+        <li class="menu__btn">
+          <a class="menu__link" href="#">
+            <div class="menu__link__explain">
+              <span><i class="fa-solid fa-comment fa-lg"></i></span>
+              <span>메시지</span>
+            </div>
+          </a>
+        </li>
+
+        <li class="menu__btn">
+          <a class="menu__link" href="#">
+            <div class="menu__link__explain">
+              <span><i class="fa-solid fa-gamepad"></i></span>
+              <span>매칭</span>
+            </div>
+          </a>
+        </li>
+
+        <li class="menu__btn">
+          <a class="menu__link" href="#">
+            <div class="menu__link__explain">
+              <span><i class="fa-solid fa-user fa-lg"></i></span>
+              <span>프로필</span>
+            </div>
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <form action="matching.html" method="get">
+      <label>
+        <p class="label-txt">게임 선택</p>
+      </label>
+      <div class="form-group select-box">
+        <select
+          class="form-control select-box__select"
+          id="exampleFormControlSelect1"
+        >
+          <option>LOL</option>
+          <option>STAR</option>
+        </select>
+      </div>
+
+      <label>
+        <p class="label-txt">인원 선택</p>
+      </label>
+      <div class="form-group select-box">
+        <select
+          class="form-control select-box__select"
+          id="exampleFormControlSelect1"
+        >
+          <option>2</option>
+          <option>5</option>
+        </select>
+      </div>
+
+      <div class="form-group check-box">
+        <label
+          ><input type="radio" name="gameMode" required value="enjoy" checked />
+          즐겜</label
+        >
+        <label
+          ><input type="radio" name="gameMode" required value="hard" />
+          빡겜</label
+        >
+      </div>
+
+      <button type="submit">매칭하기</button>
+    </form>
+
+    <script
+      src="https://kit.fontawesome.com/0f7e35127c.js"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
