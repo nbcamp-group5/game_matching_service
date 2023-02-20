@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+        <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+        <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+        <script>
+            $(document).ready(function() {
+                var panels = $('.user-infos');
+                var panelsButton = $('.dropdown-user');
+                panels.hide();
+
+                //Click dropdown
+                panelsButton.click(function() {
+                    //get data-for attribute
+                    var dataFor = $(this).attr('data-for');
+                    var idFor = $(dataFor);
+
+                    //current button
+                    var currentButton = $(this);
+                    idFor.slideToggle(400, function() {
+                        //Completed slidetoggle
+                        if(idFor.is(':visible'))
+                        {
+                            currentButton.html('<i class="glyphicon glyphicon-chevron-up text-muted"></i>');
+                        }
+                        else
+                        {
+                            currentButton.html('<i class="glyphicon glyphicon-chevron-down text-muted"></i>');
+                        }
+                    })
+                });
+
+
+                $('[data-toggle="tooltip"]').tooltip();
+
+                $('button').click(function(e) {
+                    e.preventDefault();
+                    alert("This is a demo.\n :-)");
+                });
+            });
+        </script>
+        <link rel="stylesheet" href="profile.css" />
+        <link rel="stylesheet" href="../menu.css" />
+    </head>
+
+    <body>
+        
+        <nav class="menu">
+            <div>
+              <h1>ㅈㄱ</h1>
+              <h1>ㅃㄱ</h1>
+            </div>
+      
+            <ul class="menu__list">
+              <li class="menu__btn">
+                <a class="menu__link" href="#">
+                  <div class="menu__link__explain">
+                    <span><i class="fa-solid fa-clipboard-user fa-lg"></i></span>
+                    <span>일반</span>
+                  </div>
+                </a>
+              </li>
+      
+              <li class="menu__btn">
+                <a class="menu__link" href="#">
+                  <div class="menu__link__explain">
+                    <span><i class="fa-solid fa-clipboard-question fa-lg"></i></span>
+                    <span>익명</span>
+                  </div>
+                </a>
+              </li>
+      
+              <li class="menu__btn">
+                <a class="menu__link" href="#">
+                  <div class="menu__link__explain">
+                    <span><i class="fa-solid fa-comment fa-lg"></i></span>
+                    <span>메시지</span>
+                  </div>
+                </a>
+              </li>
+      
+              <li class="menu__btn">
+                <a class="menu__link" href="#">
+                  <div class="menu__link__explain">
+                    <span><i class="fa-solid fa-gamepad"></i></span>
+                    <span>매칭</span>
+                  </div>
+                </a>
+              </li>
+      
+              <li class="menu__btn">
+                <a class="menu__link" href="#">
+                  <div class="menu__link__explain">
+                    <span><i class="fa-solid fa-user fa-lg"></i></span>
+                    <span>프로필</span>
+                  </div>
+                </a>
+              </li>
+            </ul>
+          </nav>
+      
+          <script
+            src="https://kit.fontawesome.com/0f7e35127c.js"
+            crossorigin="anonymous"
+          ></script>
+
+          <div class="container">
+            <div class="row">
+                <div class="col-md-5  toppad  pull-right col-md-offset-3 ">
+                    <A href="profile.html" style="margin-left: 40px;" >프로필 가기</A>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad" >
+            
+            
+                    <div class="panel panel-info profile-box">
+                        <div class="panel-heading profile-box__title" style="width: 100px;">
+                            <h3 class="panel-title">프로필</h3>
+                        </div>
+                        
+                        <div class="panel-body">
+                          <form method="post">
+                            <div class="row">
+                              <div id="panel-body__img-box">
+                                  <img src="https://www.freecodecamp.org/korean/news/content/images/2022/07/5f9c9a4c740569d1a4ca24c2.jpeg"/>
+                              </div>
+                              
+                              <table class="table table-user-information profile-box__info">
+                                  <tbody>
+                                      <tr>
+                                          <td>닉네임:</td>
+                                          <td><input class="form-control" type="text" name="nickname" value="Programming"/></td>
+                                      </tr>
+                                      <tr>
+                                          <td>매너 점수:</td>
+                                          <td>8410</td>
+                                      </tr>
+                                      <tr>
+                                          <td>티어:</td>
+                                          <td><input class="form-control" type="text" name="tier" value="BRONZE"/></td>
+                                      </tr>
+                                  
+                                      <tr>
+                                          <td>관심 게임:</td>
+                                          <td><input class="form-control" type="text" name="game" value="귀여운 Mobile Game"/></td>
+                                      </tr>
+                                      <tr>
+                                          <td>Email:</td>
+                                          <td><input class="form-control" type="email" name="email" value="info@supprot.com"/></td>
+                                      </tr>
+                                          
+                                      </tr>
+                                  
+                                  </tbody>
+                              </table>
+                              
+                              <a href="#" class="btn btn-primary">변경하기</a>
+                          </div>
+                          </form>
+                            
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </body>
+</html>
+
+
