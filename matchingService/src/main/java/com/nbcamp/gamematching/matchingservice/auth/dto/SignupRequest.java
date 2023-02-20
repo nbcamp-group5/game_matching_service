@@ -10,7 +10,6 @@ public class SignupRequest {
     private String email;
     private String password;
     private String nickname;
-    private String profileImageUrl;
 
     public SignupRequest(String email, String password, String nickname) {
         this.email = email;
