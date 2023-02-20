@@ -3,10 +3,12 @@ package com.nbcamp.gamematching.matchingservice.config;
 
 import com.nbcamp.gamematching.matchingservice.jwt.JwtAuthFilter;
 import com.nbcamp.gamematching.matchingservice.jwt.JwtUtil;
+import com.nbcamp.gamematching.matchingservice.security.PrincipalOauth2UserService;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -32,6 +34,9 @@ public class WebSecurityConfig implements WebMvcConfigurer {
 
     private final JwtUtil jwtUtil;
 
+    @Autowired
+    private PrincipalOauth2UserService principalOauth2UserService;
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -44,6 +49,7 @@ public class WebSecurityConfig implements WebMvcConfigurer {
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations());
     }
 
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf().disable().cors();
@@ -53,13 +59,17 @@ public class WebSecurityConfig implements WebMvcConfigurer {
                 .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .requestMatchers("/api/auth/**").permitAll()
-                .requestMatchers("/api/**").permitAll()
+                .requestMatchers("/**").permitAll()
                 .requestMatchers("/GGTalk/**").permitAll()
                 .requestMatchers("/pub/**").permitAll()
                 .requestMatchers("/sub/**").permitAll()//테스트용
                 .anyRequest().authenticated()
                 .and().addFilterBefore(new JwtAuthFilter(jwtUtil),
-                        UsernamePasswordAuthenticationFilter.class);
+                        UsernamePasswordAuthenticationFilter.class)
+                .oauth2Login()
+                .loginPage("/login")
+                .userInfoEndpoint()
+                .userService(principalOauth2UserService);
 
         return http.build();
     }
