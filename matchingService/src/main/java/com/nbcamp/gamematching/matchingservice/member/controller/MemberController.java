@@ -47,7 +47,9 @@ public class MemberController {
     @ResponseBody
     public ProfileDto getMyProfile(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         Member member = userDetails.getMember();
-        return memberService.getMyProfile(member);
+        memberService.getMyProfile(member);
+        model.addAttribute("profile", memberService.getMyProfile(member));
+        return "member/profile";
     }
 
     @GetMapping("/boards")
