@@ -4,6 +4,7 @@ import com.nbcamp.gamematching.matchingservice.auth.dto.SigninRequest;
 import com.nbcamp.gamematching.matchingservice.auth.dto.SignupRequest;
 import com.nbcamp.gamematching.matchingservice.exception.ExistsException;
 import com.nbcamp.gamematching.matchingservice.exception.SignException;
+import com.nbcamp.gamematching.matchingservice.exception.SignException.InvalidPassword;
 import com.nbcamp.gamematching.matchingservice.jwt.JwtUtil;
 import com.nbcamp.gamematching.matchingservice.member.domain.MemberRoleEnum;
 import com.nbcamp.gamematching.matchingservice.member.entity.Member;
@@ -27,15 +28,19 @@ public class AuthServiceImpl implements AuthService {
     public void signUp(SignupRequest signupRequest) {
         String email = signupRequest.getEmail();
         String password = signupRequest.getPassword();
-        if(memberRepository.existsByEmail(email)) {
-            throw new ExistsException.DuplicatedEmail();}
+        if (memberRepository.existsByEmail(email)) {
+            throw new ExistsException.DuplicatedEmail();
+        }
+        if (!password.matches("\\w{8,16}")) {
+            throw new InvalidPassword();
+        }
+
         String encodedPassword = passwordEncoder.encode(password);
         Member member = Member.builder()
                 .email(email)
                 .password(encodedPassword)
                 .profile(Profile.builder()
                         .nickname(signupRequest.getNickname())
-                        .profileImage(signupRequest.getMemberImageUrl())
                         .build())
                 .role(MemberRoleEnum.USER)
                 .build();

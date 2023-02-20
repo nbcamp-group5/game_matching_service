@@ -1,5 +1,6 @@
 package com.nbcamp.gamematching.matchingservice.member.entity;
 
+import com.nbcamp.gamematching.matchingservice.exception.SignException.InvalidNickname;
 import com.nbcamp.gamematching.matchingservice.member.domain.GameType;
 import com.nbcamp.gamematching.matchingservice.member.domain.Tier;
 import com.nbcamp.gamematching.matchingservice.member.dto.UpdateProfileRequest;
@@ -18,7 +19,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Profile {
 
-    @Column(nullable = false)
+    @Column
     private String nickname;
 
     @Column
@@ -36,7 +37,10 @@ public class Profile {
     public Profile(String nickname, String profileImage, Tier tier, GameType game) {
         if (Pattern.matches("\\w{2,8}", nickname)) {
             this.nickname = nickname;
+        } else {
+            throw new InvalidNickname();
         }
+
         this.profileImage = profileImage;
 
         if (Tier.isContains(tier)) {

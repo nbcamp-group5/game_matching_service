@@ -47,7 +47,9 @@ public class MemberController {
     @ResponseBody
     public ProfileDto getMyProfile(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         Member member = userDetails.getMember();
-        return memberService.getMyProfile(member);
+        memberService.getMyProfile(member);
+        model.addAttribute("profile", memberService.getMyProfile(member));
+        return "member/profile";
     }
 
     @GetMapping("/boards")
@@ -61,16 +63,6 @@ public class MemberController {
 //        return "member/boardList";
         return memberService.getMyBoards(member.getId(), newPageable).getContents();
     }
-
-//    @GetMapping("/matchings")
-//    public String getMyMatchingList(Model model, Pageable pageable,
-//            @AuthenticationPrincipal UserDetailsImpl userDetails) {
-//        Member member = userDetails.getMember();
-//        Pageable newPageable = toPageable(pageable.getPageNumber(),
-//                pageable.getPageSize());
-//        model.addAttribute("matchingList", memberService.getMyMatchingList(member, newPageable));
-//        return "matchingList";
-//    }
 
     @GetMapping("/buddy")
     @ResponseBody

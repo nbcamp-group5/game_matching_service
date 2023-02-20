@@ -1,5 +1,6 @@
 package com.nbcamp.gamematching.matchingservice.advice;
 
+
 import com.nbcamp.gamematching.matchingservice.exception.*;
 import com.nbcamp.gamematching.matchingservice.exception.api.RestApiException;
 import com.nbcamp.gamematching.matchingservice.exception.api.Status;
@@ -60,7 +61,7 @@ public class ExceptionAdvice {
             return new RestApiException(Status.ALREADY_FRIEND);
         } else if (e instanceof ExistsException.AlreadyMemberException) {
             return new RestApiException(Status.ALREADY_MEMBER_EXISTS);
-        } else if (e instanceof AlreadyApplyFriendException) {
+        } else if (e instanceof ExistsException.AlreadydApplyFriendException) {
             return new RestApiException(Status.ALREADY_APPLIED_FRIEND);
         }
 
@@ -99,6 +100,13 @@ public class ExceptionAdvice {
     public RestApiException SignException(SignException e) {
         log.info("e = {}", e.getMessage());
 
+        if (e instanceof InvalidPassword) {
+            return new RestApiException(Status.INVALID_PASSWORD);
+        } else if (e instanceof InvalidNickname) {
+            return new RestApiException(Status.INVALID_NICKNAME);
+        } else if (e instanceof InvalidEmail) {
+            return new RestApiException(Status.INVALID_EMAIL);
+        }
         return new RestApiException(Status.NOT_FOUND_MEMBER_NOT_MATCHES);
     }
 
