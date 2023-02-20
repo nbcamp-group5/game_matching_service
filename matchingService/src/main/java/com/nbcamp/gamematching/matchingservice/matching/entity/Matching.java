@@ -3,7 +3,7 @@ package com.nbcamp.gamematching.matchingservice.matching.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-@Entity(name = "Matching")
+@Entity
 @Getter
 @NoArgsConstructor
 public class Matching {
@@ -13,14 +13,12 @@ public class Matching {
     private Long id;
 
     @Column(nullable = false, unique = true)
-    @Enumerated(value = EnumType.STRING)
-    private PlayModeEnum playModeEnum ;
+    private String playMode;
 
     @Column(nullable = false)
-    @Enumerated(value = EnumType.STRING)
-    private GameType game;
+    private String gameName;
 
     @Column(nullable = false)
-    private int participantNumbers;
+    private String memberNumbers;
 
 }

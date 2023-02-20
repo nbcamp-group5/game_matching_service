@@ -2,6 +2,8 @@ package com.nbcamp.gamematching.matchingservice.discord.controller;
 
 import com.nbcamp.gamematching.matchingservice.discord.service.DiscordService;
 import com.nbcamp.gamematching.matchingservice.exception.NotFoundException;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;

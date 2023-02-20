@@ -14,13 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RequestMapping("/api/auth")
 public class AuthController {
-
     private final AuthService authService;
-
-//    @GetMapping("/signup")
-//    public String signupForm(@ModelAttribute("signupRequest") SignupRequest signupRequest) {
-//        return "auth/signup";
-//    }
 
     @PostMapping("/signup")
     public void signup(@RequestBody SignupRequest signupRequest) {

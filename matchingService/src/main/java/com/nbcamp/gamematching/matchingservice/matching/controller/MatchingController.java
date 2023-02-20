@@ -4,21 +4,21 @@ package com.nbcamp.gamematching.matchingservice.matching.controller;
 import com.nbcamp.gamematching.matchingservice.matching.Service.MatchingService;
 import com.nbcamp.gamematching.matchingservice.matching.dto.RequestMatching;
 import com.nbcamp.gamematching.matchingservice.matching.dto.ResponseMatching;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.async.DeferredResult;
 
 @RestController
-@CrossOrigin("*")
 @RequestMapping("/matching")
 @Slf4j
+@RequiredArgsConstructor
 public class MatchingController {
-
-
-    @Autowired
-    private MatchingService matchingService;
+    private final MatchingService matchingService;
 
     @GetMapping("/join")
     @ResponseBody

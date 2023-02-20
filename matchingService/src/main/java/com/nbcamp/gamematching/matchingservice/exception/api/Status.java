@@ -18,6 +18,7 @@ public enum Status {
     NOT_FOUND(404, "유효성 오류"),
     NOT_FOUND_MEMBER(403, "회원을 찾을 수 없습니다."),
     NOT_FOUND_ROOM(400, "존재하지 않는 방 입니다."),
+    NOT_FOUND_DISCORDNAME(400, "존재하지 디스코드계정 입니다."),
     APPLY_NOT_APPLIED(404, "친구 신청한 이력이 없습니다."),
     INVALID_EMAIL(401, "올바르지 않는 이메일 형식입니다."),
     INVALID_PASSWORD(401, "올바르지 않는 비밀번호 형식입니다."),
