@@ -10,6 +10,8 @@ import com.nbcamp.gamematching.matchingservice.member.dto.BuddyDto;
 import com.nbcamp.gamematching.matchingservice.member.dto.BuddyRequestDto;
 import com.nbcamp.gamematching.matchingservice.member.dto.ProfileDto;
 import com.nbcamp.gamematching.matchingservice.member.dto.UpdateProfileRequest;
+import com.nbcamp.gamematching.matchingservice.member.entity.Member;
+import com.nbcamp.gamematching.matchingservice.member.entity.Profile;
 import com.nbcamp.gamematching.matchingservice.member.repository.MemberRepository;
 import java.io.IOException;
 import java.util.List;
@@ -54,22 +56,7 @@ public class MemberServiceImpl implements MemberService {
                 .currentPage(pageable.getPageNumber())
                 .build();
     }
-
-//    @Override
-//    public MatchingLogPageDto getMyMatchingList(Member member, Pageable pageable) {
-//
-//        Page<MatchingLog> myMatchingList = matchingLogRepository.findAllByMembe(member, pageable);
-//
-//        List<MatchingLogContent> matchingLogContents = myMatchingList.getContent().stream()
-//                .map(MatchingLogContent::new).collect(Collectors.toList());
-//
-//        return MatchingLogPageDto.builder()
-//                .contents(matchingLogContents)
-//                .numberOfElements(myMatchingList.getNumberOfElements())
-//                .totalPages(myMatchingList.getTotalPages())
-//                .currentPage(pageable.getPageNumber())
-//                .totalElements(myMatchingList.getNumberOfElements()).build();
-//    }
+    
 
     @Override
     public List<BuddyDto> getMyBuddies(Long memberId) {

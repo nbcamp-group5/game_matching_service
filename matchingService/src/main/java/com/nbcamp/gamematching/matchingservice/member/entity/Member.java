@@ -12,7 +12,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import java.util.ArrayList;
@@ -31,15 +30,12 @@ public class Member {
      * 컬럼 - 연관관계 컬럼을 제외한 컬럼을 정의합니다.
      */
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long Id;
-
+    @GeneratedValue
+    private Long id;
     @Column(nullable = false)
     public String password;
-
     @Embedded
     private Profile profile;
-
     @Column
     private String email;
 
@@ -60,12 +56,11 @@ public class Member {
         } else {
             throw new SignException.InvalidEmail();
         }
-
         this.password = password;
-
         this.profile = profile;
-        this.email = email;
-        this.role = role;
+        if (MemberRoleEnum.isContains(role)) {
+            this.role = role;
+        }
     }
 
     /**
@@ -73,14 +68,17 @@ public class Member {
      */
     @OneToMany
     private List<Member> myBuddies = new ArrayList<>();
-
     @OneToMany
     private List<Member> notYetBuddies = new ArrayList<>();
-
+//    @OneToMany
+//    private List<Board> boards = new ArrayList<>();
 
     /**
      * 연관관계 편의 메소드 - 반대쪽에는 연관관계 편의 메소드가 없도록 주의합니다.
      */
+//    public void addBoards(Board board) {
+//        this.getBoards().add(board);
+//    }
     public void addBuddies(Member member) {
         this.getMyBuddies().add(member);
     }
@@ -104,5 +102,4 @@ public class Member {
         }
         this.getNotYetBuddies().removeIf(notYetBuddy -> (notYetBuddy.getId() == requestMemberId));
     }
-
 }
