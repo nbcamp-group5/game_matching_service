@@ -5,12 +5,21 @@ import static java.util.regex.Pattern.matches;
 import com.nbcamp.gamematching.matchingservice.chat.entity.ChatRoom;
 import com.nbcamp.gamematching.matchingservice.exception.SignException;
 import com.nbcamp.gamematching.matchingservice.member.domain.MemberRoleEnum;
-import jakarta.persistence.*;
-
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
-
-import static java.util.regex.Pattern.matches;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
@@ -21,15 +30,12 @@ public class Member {
      * 컬럼 - 연관관계 컬럼을 제외한 컬럼을 정의합니다.
      */
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long Id;
-
+    @GeneratedValue
+    private Long id;
     @Column(nullable = false)
     public String password;
-
     @Embedded
     private Profile profile;
-
     @Column
     private String email;
 
@@ -50,12 +56,11 @@ public class Member {
         } else {
             throw new SignException.InvalidEmail();
         }
-
         this.password = password;
-
         this.profile = profile;
-        this.email = email;
-        this.role = role;
+        if (MemberRoleEnum.isContains(role)) {
+            this.role = role;
+        }
     }
 
     /**
@@ -63,13 +68,10 @@ public class Member {
      */
     @OneToMany
     private List<Member> myBuddies = new ArrayList<>();
-
     @OneToMany
     private List<Member> notYetBuddies = new ArrayList<>();
-
 //    @OneToMany
 //    private List<Board> boards = new ArrayList<>();
-
 
     /**
      * 연관관계 편의 메소드 - 반대쪽에는 연관관계 편의 메소드가 없도록 주의합니다.
@@ -100,5 +102,4 @@ public class Member {
         }
         this.getNotYetBuddies().removeIf(notYetBuddy -> (notYetBuddy.getId() == requestMemberId));
     }
-
 }
