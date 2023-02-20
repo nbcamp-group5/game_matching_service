@@ -41,7 +41,6 @@ public class AuthServiceImpl implements AuthService {
                 .password(encodedPassword)
                 .profile(Profile.builder()
                         .nickname(signupRequest.getNickname())
-                        .profileImage(signupRequest.getProfileImageUrl())
                         .build())
                 .role(MemberRoleEnum.USER)
                 .build();
