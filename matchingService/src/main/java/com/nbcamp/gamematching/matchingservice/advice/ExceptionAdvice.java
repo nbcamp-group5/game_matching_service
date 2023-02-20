@@ -1,14 +1,7 @@
 package com.nbcamp.gamematching.matchingservice.advice;
 
-import com.nbcamp.gamematching.matchingservice.exception.CommonException;
-import com.nbcamp.gamematching.matchingservice.exception.ExistsException;
-import com.nbcamp.gamematching.matchingservice.exception.ExistsException.AlreadyApplyFriendException;
-import com.nbcamp.gamematching.matchingservice.exception.NotFoundException;
-import com.nbcamp.gamematching.matchingservice.exception.SignException;
-import com.nbcamp.gamematching.matchingservice.exception.SignException.InvalidEmail;
-import com.nbcamp.gamematching.matchingservice.exception.SignException.InvalidNickname;
-import com.nbcamp.gamematching.matchingservice.exception.SignException.InvalidPassword;
-import com.nbcamp.gamematching.matchingservice.exception.TokenException;
+
+import com.nbcamp.gamematching.matchingservice.exception.*;
 import com.nbcamp.gamematching.matchingservice.exception.api.RestApiException;
 import com.nbcamp.gamematching.matchingservice.exception.api.Status;
 import lombok.extern.log4j.Log4j2;
@@ -29,12 +22,14 @@ public class ExceptionAdvice {
     public RestApiException NotFoundException(NotFoundException e) {
         log.info("e = {}", e.getMessage());
 
-        if (e instanceof NotFoundException.APPLYNOTAPPLIED) {
-            return new RestApiException(Status.APPLY_NOT_APPLIED);
-        } else if (e instanceof NotFoundException.NotFoundMemberException) {
-            return new RestApiException(Status.NOT_FOUND_MEMBER);
-        } else if (e instanceof NotFoundException.NotFoundRoomException) {
-            return new RestApiException(Status.NOT_FOUND_ROOM);
+        if (e instanceof NotFoundException.APPLYNOTAPPLIED){
+            return new RestApiException(Status.APPLY_NOT_APPLIED);}
+        else if (e instanceof NotFoundException.NotFoundMemberException){
+            return new RestApiException(Status.NOT_FOUND_MEMBER);}
+        else if (e instanceof  NotFoundException.NotFoundRoomException) {
+            return new RestApiException(Status.NOT_FOUND_ROOM);}
+        else if (e instanceof  NotFoundException.NotFoundDiscordNameException) {
+            return new RestApiException(Status.NOT_FOUND_DISCORDNAME);
         }
         return new RestApiException(Status.NOT_FOUND);
     }
@@ -49,11 +44,10 @@ public class ExceptionAdvice {
         } else if (e instanceof CommonException.RefreshTokenNotFoundException) {
             return new RestApiException(Status.REFRESHTOKEN_NOT_FOUND);
         } else if (e instanceof CommonException.IllegalAgumentException) {
-            return new RestApiException(Status.ILLEGAL_ARGUMENT);
-        }
-
+            return new RestApiException(Status.ILLEGAL_ARGUMENT);}
         return new RestApiException(Status.AUTHORITY);
     }
+
 
 
     @ExceptionHandler(ExistsException.class)
@@ -67,12 +61,13 @@ public class ExceptionAdvice {
             return new RestApiException(Status.ALREADY_FRIEND);
         } else if (e instanceof ExistsException.AlreadyMemberException) {
             return new RestApiException(Status.ALREADY_MEMBER_EXISTS);
-        } else if (e instanceof AlreadyApplyFriendException) {
+        } else if (e instanceof ExistsException.AlreadydApplyFriendException) {
             return new RestApiException(Status.ALREADY_APPLIED_FRIEND);
         }
 
         return new RestApiException(Status.DUPLICATED);
     }
+
 
 
     // 커스텀 외 익셉션
