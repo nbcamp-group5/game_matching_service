@@ -6,8 +6,8 @@ import com.nbcamp.gamematching.matchingservice.exception.NotFoundException.NotFo
 import com.nbcamp.gamematching.matchingservice.member.domain.FileStore;
 import com.nbcamp.gamematching.matchingservice.member.dto.BoardPageDto;
 import com.nbcamp.gamematching.matchingservice.member.dto.BoardPageDto.BoardContent;
-import com.nbcamp.gamematching.matchingservice.member.dto.BuddyDto;
 import com.nbcamp.gamematching.matchingservice.member.dto.BuddyRequestDto;
+import com.nbcamp.gamematching.matchingservice.member.dto.MannerPointsRequest;
 import com.nbcamp.gamematching.matchingservice.member.dto.ProfileDto;
 import com.nbcamp.gamematching.matchingservice.member.dto.UpdateProfileRequest;
 import com.nbcamp.gamematching.matchingservice.member.entity.Member;
@@ -37,7 +37,8 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public ProfileDto getMyProfile(Member member) {
         Profile myProfile = member.getProfile();
-        return new ProfileDto(myProfile);
+        String email = member.getEmail();
+        return new ProfileDto(myProfile, email);
     }
 
     @Override
@@ -56,15 +57,15 @@ public class MemberServiceImpl implements MemberService {
                 .currentPage(pageable.getPageNumber())
                 .build();
     }
-    
+
 
     @Override
-    public List<BuddyDto> getMyBuddies(Long memberId) {
+    public List<ProfileDto> getMyBuddies(Long memberId) {
         Member findMember = memberRepository.findById(memberId)
                 .orElseThrow(NotFoundMemberException::new);
 
         List<Member> buddies = findMember.getMyBuddies();
-        return BuddyDto.of(buddies);
+        return ProfileDto.of(buddies);
     }
 
     @Override
@@ -83,7 +84,8 @@ public class MemberServiceImpl implements MemberService {
                 .orElseThrow(NotFoundMemberException::new);
         Profile findMemberProfile = findMember.getProfile();
 
-        String attachFile = fileStore.storeFile(image);
+        String fileId = fileStore.storeFile(image);
+        String attachFile = fileStore.getFullPath(fileId);
 
         findMemberProfile.changeProfile(request, attachFile);
         return new ResponseEntity<>("프로필이 변경되었습니다.", HttpStatus.OK);
@@ -94,7 +96,8 @@ public class MemberServiceImpl implements MemberService {
         Member findMember = memberRepository.findById(userId)
                 .orElseThrow(NotFoundMemberException::new);
         Profile findMemberProfile = findMember.getProfile();
-        return new ProfileDto(findMemberProfile);
+        String findMemberEmail = findMember.getEmail();
+        return new ProfileDto(findMemberProfile, findMemberEmail);
     }
 
     @Override
@@ -116,5 +119,14 @@ public class MemberServiceImpl implements MemberService {
         findMember.changeNotYetBuddies(requestMemberId, answer);
         String message = answer ? "친구 등록되었습니다." : "요청이 거부되었습니다.";
         return new ResponseEntity<>(message, HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<String> changeMannerPoints(MannerPointsRequest request) {
+        Member targetMember = memberRepository.findById(request.getTargetId())
+                .orElseThrow(NotFoundMemberException::new);
+
+        targetMember.changeMannerPoints(request.getUpDown());
+        return new ResponseEntity<>("평가가 완료되었습니다.", HttpStatus.OK);
     }
 }

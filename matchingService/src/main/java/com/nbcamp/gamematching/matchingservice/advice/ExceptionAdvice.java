@@ -68,7 +68,7 @@ public class ExceptionAdvice {
             return new RestApiException(Status.ALREADY_FRIEND);
         } else if (e instanceof ExistsException.AlreadyMemberException) {
             return new RestApiException(Status.ALREADY_MEMBER_EXISTS);
-        } else if (e instanceof ExistsException.AlreadydApplyFriendException) {
+        } else if (e instanceof ExistsException.AlreadyApplyFriendException) {
             return new RestApiException(Status.ALREADY_APPLIED_FRIEND);
         }
 
