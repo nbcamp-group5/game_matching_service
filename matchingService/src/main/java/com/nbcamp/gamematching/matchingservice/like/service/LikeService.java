@@ -4,7 +4,8 @@ import com.nbcamp.gamematching.matchingservice.board.entity.AnonymousBoard;
 import com.nbcamp.gamematching.matchingservice.board.entity.Board;
 import com.nbcamp.gamematching.matchingservice.board.repository.AnonymousBoardRepository;
 import com.nbcamp.gamematching.matchingservice.board.repository.BoardRepository;
-import com.nbcamp.gamematching.matchingservice.like.entity.AnonymousLikes;
+import com.nbcamp.gamematching.matchingservice.exception.NotFoundException;
+import com.nbcamp.gamematching.matchingservice.like.entity.AnonymousLike;
 import com.nbcamp.gamematching.matchingservice.like.entity.Like;
 import com.nbcamp.gamematching.matchingservice.like.repository.AnonymousLikeRepository;
 import com.nbcamp.gamematching.matchingservice.like.repository.LikeRepository;
@@ -27,10 +28,10 @@ public class LikeService {
     //게시글 좋아요
     @Transactional
     public void likeBoard(Long boardId, Member member) {
-        Board board = boardRepository.findById(boardId).orElseThrow(() -> new IllegalArgumentException(""));
+        Board board = boardRepository.findById(boardId).orElseThrow(() -> new NotFoundException());
         Optional<Like> optionalLike = likeRepository.findById(boardId);
         if (optionalLike.isPresent()) {
-            throw new IllegalArgumentException("이미 좋아요를 누르셨습니다.");
+            likeRepository.delete(optionalLike.get());
         }
         Like like = new Like(board,member);
         likeRepository.save(like);
@@ -39,12 +40,12 @@ public class LikeService {
     //익명 게시글 좋아요
     @Transactional
     public void likeAnonymousBoard(Long boardId, Member member) {
-        AnonymousBoard board = anonymousBoardRepository.findById(boardId).orElseThrow(() -> new IllegalArgumentException(""));
-        Optional<AnonymousLikes> optionalLike = anonymousLikeRepository.findById(boardId);
+        AnonymousBoard board = anonymousBoardRepository.findById(boardId).orElseThrow(() -> new NotFoundException());
+        Optional<AnonymousLike> optionalLike = anonymousLikeRepository.findById(boardId);
         if (optionalLike.isPresent()) {
             throw new IllegalArgumentException("이미 좋아요를 누르셨습니다.");
         }
-        AnonymousLikes likes = new AnonymousLikes(board,member);
+        AnonymousLike likes = new AnonymousLike(board,member);
         anonymousLikeRepository.save(likes);
     }
 
@@ -52,8 +53,8 @@ public class LikeService {
     //게시글
     @Transactional
     public void hateBoard(Long boardId,Member member){
-        Board board = boardRepository.findById(boardId).orElseThrow(() -> new IllegalArgumentException(""));
-        Like like = likeRepository.findById(member.getId()).orElseThrow(()-> new IllegalArgumentException(""));
+        Board board = boardRepository.findById(boardId).orElseThrow(() -> new NotFoundException());
+        Like like = likeRepository.findById(member.getId()).orElseThrow(()-> new NotFoundException());
         like.checkUser(like,member); //좋아요를 누른사람이 맞는지 확인하는 로직
         Optional<Like> optionalLike = likeRepository.findById(board.getId());
         if (!optionalLike.isPresent()) {
@@ -66,9 +67,9 @@ public class LikeService {
     @Transactional
     public void hateAnonymousBoard(Long boardId,Member member){
         AnonymousBoard board = anonymousBoardRepository.findById(boardId).orElseThrow(() -> new IllegalArgumentException(""));
-        AnonymousLikes anonymousLikes = anonymousLikeRepository.findById(member.getId()).orElseThrow(()-> new IllegalArgumentException(""));
-        anonymousLikes.checkUser(anonymousLikes,member);
-        Optional<AnonymousLikes> optionalLike = anonymousLikeRepository.findById(board.getId());
+        AnonymousLike anonymousLike = anonymousLikeRepository.findById(member.getId()).orElseThrow(()-> new IllegalArgumentException(""));
+        anonymousLike.checkUser(anonymousLike,member);
+        Optional<AnonymousLike> optionalLike = anonymousLikeRepository.findById(board.getId());
         if (!optionalLike.isPresent()) {
             throw new IllegalArgumentException("좋아요를 누르신 적이 없습니다.");
         }

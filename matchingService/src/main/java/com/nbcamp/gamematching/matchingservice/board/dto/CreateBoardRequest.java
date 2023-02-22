@@ -7,11 +7,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CreateBoardRequest {
 
-    private String boardImageUrl;
     private String content;
 
-    public CreateBoardRequest(String boardImageUrl, String content) {
-        this.boardImageUrl = boardImageUrl;
+    public CreateBoardRequest(String content) {
         this.content = content;
     }
 }

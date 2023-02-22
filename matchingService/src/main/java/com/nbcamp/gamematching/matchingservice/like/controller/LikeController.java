@@ -7,10 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,10 +17,10 @@ public class LikeController {
     private final LikeService likeService;
 
     //게시글 좋아요
-    @PostMapping("/{boardId}")
+    @GetMapping("/{boardId}")
     public ResponseEntity<String> likeBoard(@PathVariable Long boardId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         likeService.likeBoard(boardId,userDetails.getUser());
-        return new ResponseEntity<>("좋아요 완료", HttpStatus.OK);
+        return new ResponseEntity<>("좋아요", HttpStatus.OK);
     }
 
     //익명 게시글 좋아요

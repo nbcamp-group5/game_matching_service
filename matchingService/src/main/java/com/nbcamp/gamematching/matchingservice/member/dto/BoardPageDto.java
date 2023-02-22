@@ -38,7 +38,7 @@ public class BoardPageDto {
         public BoardContent(Board board) {
             this.id = board.getId();
             this.nickname = board.getNickname();
-            this.boardImageUrl = board.getBoardImageUrl();
+            this.boardImageUrl = board.getBoardImage();
             contents = board.getContent();
         }
     }
