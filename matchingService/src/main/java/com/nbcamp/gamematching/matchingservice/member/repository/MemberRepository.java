@@ -14,8 +14,7 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
 
     Optional<Member> findByEmail(String email);
-
     boolean existsByEmail(String email);
 
-    Page<BuddiesMapping> findBy(Long memberId, Pageable pageable);
+    Member findByProfileNickname(String friendNick);
 }

@@ -130,4 +130,8 @@ public class MemberServiceImpl implements MemberService {
         targetMember.changeMannerPoints(request.getUpDown());
         return new ResponseEntity<>("평가가 완료되었습니다.", HttpStatus.OK);
     }
+
+    public Member responseMemberByMemberId(Long memberId) {
+        return memberRepository.findById(memberId).orElseThrow(NotFoundMemberException::new);
+    }
 }

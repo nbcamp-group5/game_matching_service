@@ -29,7 +29,7 @@
         <input type="text" id="login-email" placeholder="이메일" />
         <input type="password" id="login-password" placeholder="비밀번호" />
       </div>
-      <button onclick="signUpRequest()">확인</button>
+      <button onclick="signInRequest()">확인</button>
     </form>
   </div>
   <div class="overlay-container">
@@ -343,8 +343,8 @@
         "Content-Type": "application/json"
       },
       "data": JSON.stringify({
-        "userName": $('#signUpId').val(),
-        "userPassword": $('#signUpPassword').val()
+        "email": $('#signUpId').val(),
+        "password": $('#signUpPassword').val()
       })
     };
 
@@ -358,6 +358,7 @@
 
 
   function signInRequest() {
+
     var settings = {
       "url": "http://localhost:8080/api/auth/signin",
       "method": "POST",
@@ -366,25 +367,17 @@
         "Content-Type": "application/json",
       },
       "data": JSON.stringify({
-        "email": $('#email').val(),
-        "password": $('#password').val()
+        "email": $('#login-email').val(),
+        "password": $('#login-password').val()
       }),
     };
 
     $.ajax(settings).done(function (response, status, xhr) {
-      console.log(response);
-      console.log(xhr.getResponseHeader('Authorization'));
-      // localStorage.setItem('accessToken',xhr.getResponseHeader('Authorization')),
-      sessionStorage.setItem('accessToken', xhr.getResponseHeader('Authorization'))
-        (window.location = '/chat.html');
+      localStorage.setItem('Authorization', xhr.getResponseHeader('Authorization'))
+      window.location = ("/matching/matching-request.html")
     })
       .fail(function (response) {
-        if (response.responseJSON.statusCode === 403) {
-          alert("아이디와 비밀번호를 확인해주삼")
-        }
-        else {
-          alert("예상치 못한 에러ㅓㅓㅓㅓㅓ")
-        }
+        alert("아이디와 비밀번호를 확인해해주세요")
       });
   }
 </script>

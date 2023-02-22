@@ -3,7 +3,7 @@ package com.nbcamp.gamematching.matchingservice.matching.Service;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.nbcamp.gamematching.matchingservice.matching.dto.RequestMatching;
-import com.nbcamp.gamematching.matchingservice.matching.dto.ResponseMatching;
+import com.nbcamp.gamematching.matchingservice.matching.entity.MatchingLog;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -21,26 +21,25 @@ class MatchingServiceImplTest {
     private MatchingService matchingService;
 
     List<RequestMatching> requestMatchingList = new ArrayList<>();
-    List<DeferredResult<ResponseMatching>> deferredResultList = new ArrayList<>();
+    List<DeferredResult<MatchingLog>> deferredResultList = new ArrayList<>();
 
-    @BeforeEach
-    public void beforeEach() {
+//    @BeforeEach
+//    public void beforeEach() {
+//
+//        for (long i = 1; i < 6; i++) {
+//            RequestMatching requestMatching = RequestMatching.builder()
+//                    .gameMode("ㅈㄱ")
+//                    .gameName("LOL")
+//                    .memberNumbers("5")
+//                    .memberId(i)
+//                    .discordId("#2357" + i)
+//                    .build();
+//            requestMatchingList.add(requestMatching);
+//            DeferredResult<MatchingLog> deferredResult = new DeferredResult<>(null);
+//            deferredResultList.add(deferredResult);
+//        }
 
-        for (long i = 1; i < 6; i++) {
-            RequestMatching requestMatching = RequestMatching.builder()
-                    .gameMode("enjoy")
-                    .gamename("LOL")
-                    .discordUrl("/discord_url" + i)
-                    .memberNumbers("5")
-                    .memberId(i)
-                    .discordId("#2357" + i)
-                    .build();
-            requestMatchingList.add(requestMatching);
-            DeferredResult<ResponseMatching> deferredResult = new DeferredResult<>(null);
-            deferredResultList.add(deferredResult);
-        }
-
-    }
+//    }
 
     @Test
     @DisplayName("LOL 5인큐에서 5인 매칭 신청했을 때")
@@ -52,7 +51,7 @@ class MatchingServiceImplTest {
             matchingService.joinMatchingRoom(requestMatchingList.get(i), deferredResultList.get(i));
         }
         // then
-        Map<String, Map<RequestMatching, DeferredResult<ResponseMatching>>> waitingQueue = matchingService.getWaitingQueue();
+        Map<String, Map<RequestMatching, DeferredResult<MatchingLog>>> waitingQueue = matchingService.getWaitingQueue();
         for (String s : waitingQueue.keySet()) {
             System.out.println("waitingQueue.get(s) = " + waitingQueue.get(s).values().size());
         }
@@ -70,7 +69,7 @@ class MatchingServiceImplTest {
             matchingService.joinMatchingRoom(requestMatchingList.get(i), deferredResultList.get(i));
         }
         // then
-        Map<String, Map<RequestMatching, DeferredResult<ResponseMatching>>> waitingQueue = matchingService.getWaitingQueue();
+        Map<String, Map<RequestMatching, DeferredResult<MatchingLog>>> waitingQueue = matchingService.getWaitingQueue();
         for (String s : waitingQueue.keySet()) {
             System.out.println("waitingQueue.get(s) = " + waitingQueue.get(s).values().size());
         }
@@ -83,7 +82,7 @@ class MatchingServiceImplTest {
     public void joinMatchingRoomTest() throws Exception {
         // given
         RequestMatching requestMatching = requestMatchingList.get(0);
-        DeferredResult<ResponseMatching> responseMatchingDeferredResult = deferredResultList.get(0);
+        DeferredResult<MatchingLog> responseMatchingDeferredResult = deferredResultList.get(0);
 
         // when
         matchingService.joinMatchingRoom(requestMatching, responseMatchingDeferredResult);
