@@ -1,40 +1,104 @@
 <!DOCTYPE html>
+
+  <link
+    href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+    rel="stylesheet"
+    id="bootstrap-css"
+  />
+  <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+  <script src="js/jquery.magnific-popup.min.js"></script>
+  <script src="js/jquery-3.3.1.min.js"></script>
+  <script src="js/jquery-ui.js"></script>
+  <script>
+      function matching() {
+        console.log( 
+          "discordId:" +$('#discordId').val(),
+          "discordNum:" +$('#discordNum').val(),
+          "gameName:"+ $('#gameSelect').val(),
+          "memberNumbers:" +$('#capacity').val(),
+          "gameMode:"+ $('#gameMode').val());
+          console.log(localStorage.getItem("Authorization"));
+      var settings = {
+        "url": "http://localhost:8080/api/matching/join",
+        "method": "POST",
+        "timeout": 0,
+        "headers": {
+          "Authorization" : localStorage.getItem("Authorization"),
+          "Content-Type": "application/json",
+        },
+        "data": JSON.stringify({
+          "discordId": $('#discordId').val(),
+          "discordNum": $('#discordNum').val(),
+          "gameName": $('#gameSelect').val(),
+          "memberNumbers": $('#capacity').val(),
+          "gameMode": $('#gameMode').val()
+  
+        }),
+      };
+$.ajax(settings).done(function (response, status, xhr) {
+        alert("디스코드 연결 성공.")
+    })
+      .fail(function (response) {
+        alert("디스코드 연결 실패.")
+      });
+
+    }
+
+  function validDiscordId() {
+    var settings = {
+      "url": "http://localhost:8080/api/discord/check",
+      "method": "POST",
+      "timeout": 0,
+      "headers": {
+        "Content-Type": "application/json",
+      },
+      "data": JSON.stringify({
+        "discordId": $('#discordId').val(),
+        "discordNum": $('#discordNum').val()
+      }),
+    };
+
+    $.ajax(settings).done(function () {
+      alert("디스코드 연결 성공.")})
+    .fail(function (response) {
+            alert("연결 실패.")
+    });
+}
+
+  </script>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
-      rel="stylesheet"
-      id="bootstrap-css"
-    />
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  
+
     <title>매칭 신청</title>
     <link rel="stylesheet" href="../menu.css" />
     <link rel="stylesheet" href="matching-request.css" />
-    <script>
-      $(document).ready(function () {
-        $(".input").focus(function () {
-          $(this).parent().find(".label-txt").addClass("label-active");
-        });
+  
+  <style>
+footer{
+    width: 700px;
+    margin-top: 100px;
+    background: #B7E5DD;
+    padding: 60px 120px 80px 120px;
+    box-shadow: 2px 2px 3px rgba(0,0,0,0.1);
+    margin-left: 400px;
+  }
+p{width: 120px;
+  inline-size: 20;
+}
 
-        $(".input").focusout(function () {
-          if ($(this).val() == "") {
-            $(this).parent().find(".label-txt").removeClass("label-active");
-          }
-        });
-      });
-    </script>
-  </head>
+</style>
+
+</head>
   <body>
     <nav class="menu">
       <div>
         <h1>ㅈㄱ</h1>
         <h1>ㅃㄱ</h1>
       </div>
-
       <ul class="menu__list">
         <li class="menu__btn">
           <a class="menu__link" href="#">
@@ -82,15 +146,20 @@
         </li>
       </ul>
     </nav>
-
-    <form action="matching.html" method="get">
+<footer name = "box">
+        <p class="txt" name ="name" style="margin-top:180px"> 디스코드 아이디</p>
+        <input type="text" id="discordId" style=" width:130px;" >
+        <p class="txt" style=" margin-right: 200px; margin-top: 10px;"> 디스코드 숫자</p>
+        <input type="text" id="discordNum" style=" width:130px;" >
+        <button onclick="validDiscordId()" >중복 확인</button>
+      </div>
       <label>
         <p class="label-txt">게임 선택</p>
       </label>
       <div class="form-group select-box">
         <select
           class="form-control select-box__select"
-          id="exampleFormControlSelect1"
+          id="gameSelect"
         >
           <option>LOL</option>
           <option>STAR</option>
@@ -103,30 +172,32 @@
       <div class="form-group select-box">
         <select
           class="form-control select-box__select"
-          id="exampleFormControlSelect1"
-        >
+          id="capacity">
           <option>2</option>
           <option>5</option>
         </select>
       </div>
 
-      <div class="form-group check-box">
-        <label
-          ><input type="radio" name="gameMode" required value="enjoy" checked />
-          즐겜</label
-        >
-        <label
-          ><input type="radio" name="gameMode" required value="hard" />
-          빡겜</label
-        >
+      <label>
+        <p class="label-txt">게임 모드</p>
+      </label>
+      <div class="form-group select-box">
+        <select
+          class="form-control select-box__select"
+          id="gameMode">
+          <option>즐겜</option>
+          <option>빡겜</option>
+        </select>
       </div>
 
-      <button type="submit">매칭하기</button>
-    </form>
-
-    <script
+      <button onclick="matching()">매칭하기</button>
+</footer>
+</body>
+<script
       src="https://kit.fontawesome.com/0f7e35127c.js"
-      crossorigin="anonymous"
-    ></script>
-  </body>
+      crossorigin="anonymous">
+
+
+
+</script>
 </html>
