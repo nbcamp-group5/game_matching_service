@@ -4,7 +4,6 @@ import com.nbcamp.gamematching.matchingservice.board.dto.BoardResponse;
 import com.nbcamp.gamematching.matchingservice.board.dto.CreateBoardRequest;
 import com.nbcamp.gamematching.matchingservice.board.dto.UpdateBoardRequest;
 import com.nbcamp.gamematching.matchingservice.board.entity.Board;
-import com.nbcamp.gamematching.matchingservice.board.entity.QBoard;
 import com.nbcamp.gamematching.matchingservice.board.repository.BoardRepository;
 import com.nbcamp.gamematching.matchingservice.comment.dto.CommentResponse;
 import com.nbcamp.gamematching.matchingservice.comment.entity.Comment;
@@ -13,7 +12,6 @@ import com.nbcamp.gamematching.matchingservice.exception.NotFoundException;
 import com.nbcamp.gamematching.matchingservice.like.repository.LikeRepository;
 import com.nbcamp.gamematching.matchingservice.member.domain.FileStore;
 import com.nbcamp.gamematching.matchingservice.member.entity.Member;
-import com.querydsl.core.BooleanBuilder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -86,23 +84,19 @@ public class BoardService {
     }
 
     //게시글 검색
-    public List<BoardResponse> getBoardList1(String searchName) {
-        BooleanBuilder booleanBuilder = new BooleanBuilder();
-        QBoard qboard = QBoard.board;
-        booleanBuilder.and(qboard.content.contains(searchName));
-        booleanBuilder.or(qboard.member.profile.nickname.contains(searchName));
-        Page<Board> boardPage = boardRepository.findAll(booleanBuilder,pageableSetting(1));
-        List<BoardResponse> boardResponseList = new ArrayList<>();
-        for (Board board : boardPage) {
-            Page<Comment> commentPage = commentRepository.findAllByBoardId(board.getId(), pageableSetting(1));
-            List<CommentResponse> commentList = new ArrayList<>();
-            for (Comment comment : commentPage) {
-                commentList.add(new CommentResponse(comment));
-            }
-            Long likeCount = likeRepository.countByBoardId(board.getId());
-            boardResponseList.add(new BoardResponse(board, commentList, likeCount));
-        }
-        return boardResponseList;
-    }
+//    public List<BoardResponse> getBoardList1(String searchName) {
+//        Page<Board> boardPage = boardRepository.findAll(pageableSetting(1));
+//        List<BoardResponse> boardResponseList = new ArrayList<>();
+//        for (Board board : boardPage) {
+//            Page<Comment> commentPage = commentRepository.findAllByBoardId(board.getId(), pageableSetting(1));
+//            List<CommentResponse> commentList = new ArrayList<>();
+//            for (Comment comment : commentPage) {
+//                commentList.add(new CommentResponse(comment));
+//            }
+//            Long likeCount = likeRepository.countByBoardId(board.getId());
+//            boardResponseList.add(new BoardResponse(board, commentList, likeCount));
+//        }
+//        return boardResponseList;
+//    }
 }
 
