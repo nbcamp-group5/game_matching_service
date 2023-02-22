@@ -6,6 +6,10 @@ import com.nbcamp.gamematching.matchingservice.chat.entity.ChatRoom;
 import com.nbcamp.gamematching.matchingservice.exception.SignException;
 import com.nbcamp.gamematching.matchingservice.member.domain.MemberRoleEnum;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,9 +54,7 @@ public class Member {
         } else {
             throw new SignException.InvalidEmail();
         }
-
         this.password = password;
-
         this.profile = profile;
         this.email = email;
         this.role = role;

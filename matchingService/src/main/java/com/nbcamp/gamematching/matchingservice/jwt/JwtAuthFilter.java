@@ -1,8 +1,11 @@
 package com.nbcamp.gamematching.matchingservice.jwt;
 
+import com.nbcamp.gamematching.matchingservice.exception.NotFoundException;
+import com.nbcamp.gamematching.matchingservice.member.entity.Member;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +16,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.io.NotActiveException;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -20,23 +24,44 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     private final JwtUtil jwtUtil;
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request,
+                                    HttpServletResponse response, FilterChain filterChain)
+            throws ServletException, IOException {
         String token = jwtUtil.resolveToken(request);
         if (token != null) {
             if (!jwtUtil.validateToken(token)) {
-                return;
+                Cookie[] rc = request.getCookies();
+                String refreshtoken = "";
+                for (Cookie cookie : rc) {
+                        if (cookie.getName().equals("refreshtoken")) {
+                            refreshtoken = cookie.getValue();
+                        }else {
+                            return;
+                        }
+                Claims ATInfo = AuthenticatedUserByToken(token);
+                if (jwtUtil.getRefreshTokenIsTrue(ATInfo.getSubject(), refreshtoken)) {
+                    var member = jwtUtil.AuthenticatedMember(ATInfo.getSubject());
+                    log.info("= AccessToken Response = MEMBEREMAIL {}",member.getEmail());
+                    response.addHeader(jwtUtil.AUTHORIZATION_HEADER,
+                            jwtUtil.createAccessToken(member.getEmail(),member.getRole()));
+                }
             }
-            Claims info = jwtUtil.getUserInfoFromToken(token);
-            setAuthentication(info.getSubject());
         }
-        filterChain.doFilter(request, response);
+            AuthenticatedUserByToken(token);
     }
+        filterChain.doFilter(request, response);
+}
 
-    public void setAuthentication(String username) {
+public void setAuthentication(String username) {
         SecurityContext context = SecurityContextHolder.createEmptyContext();
         Authentication authentication = jwtUtil.createAuthentication(username);
         context.setAuthentication(authentication);
         SecurityContextHolder.setContext(context);
     }
 
+    private Claims AuthenticatedUserByToken(String token) {
+        Claims accessTokenInfo = jwtUtil.getUserInfoFromToken(token);
+        setAuthentication(accessTokenInfo.getSubject());
+        return accessTokenInfo;
+    }
 }

@@ -1,10 +1,12 @@
 package com.nbcamp.gamematching.matchingservice.discord.service;
 
 import com.nbcamp.gamematching.matchingservice.config.DiscordJdaConfig;
+import com.nbcamp.gamematching.matchingservice.discord.dto.DiscordRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,11 +19,11 @@ public class DiscordServiceImpl implements DiscordService {
     private final DiscordJdaConfig jdaConfig;
 
     @Transactional
-    public Optional<String> createChannel(String category, List<String> discordIdList) {
+    public Optional<String> createChannel(String category, List<String> discordIdList, int matchingQuota) {
         Optional<String> url = Optional.ofNullable(null);
 
         try {
-            url = Optional.ofNullable(jdaConfig.createVoiceChannel(category,discordIdList));
+            url = Optional.ofNullable(jdaConfig.createVoiceChannel(category, discordIdList, matchingQuota));
         } catch (ExecutionException | InterruptedException | NullPointerException e) {
             e.printStackTrace();
         }
@@ -36,7 +38,9 @@ public class DiscordServiceImpl implements DiscordService {
     }
 
     @Transactional
-    public boolean userCheck(String discordId) {
-        return jdaConfig.checkMember(discordId);
+    public boolean userCheck(DiscordRequest discordRequest) {
+        if (jdaConfig.checkMember(discordRequest)) {
+            return true;
+        }else throw new IllegalArgumentException("아이디없음");
     }
 }

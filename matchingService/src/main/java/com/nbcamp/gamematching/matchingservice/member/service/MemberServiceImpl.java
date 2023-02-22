@@ -132,4 +132,8 @@ public class MemberServiceImpl implements MemberService {
         String message = answer ? "친구 등록되었습니다." : "요청이 거부되었습니다.";
         return new ResponseEntity<>(message, HttpStatus.OK);
     }
+
+    @Override
+    public Member responseMemberByMemberId(Long memberId) {
+        return memberRepository.findById(memberId).orElseThrow(NotFoundMemberException::new); }
 }
