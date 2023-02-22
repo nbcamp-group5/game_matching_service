@@ -1,21 +1,15 @@
 package com.nbcamp.gamematching.matchingservice.discord.controller;
 
+import com.nbcamp.gamematching.matchingservice.discord.dto.DiscordRequest;
 import com.nbcamp.gamematching.matchingservice.discord.service.DiscordService;
-import com.nbcamp.gamematching.matchingservice.exception.NotFoundException;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.ArrayList;
 import java.util.List;
-import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
-@CrossOrigin(originPatterns = "*")
 @RestController
-@RequestMapping("/discord")
+@RequestMapping("/api/discord")
 @RequiredArgsConstructor
 public class DiscordController {
 
@@ -26,16 +20,17 @@ public class DiscordController {
             @PathVariable String discordname
     ) {
         List<String> list = new ArrayList<>();
-        if(!userCheck(discordname)){
-            throw new IllegalArgumentException();
-        }
+//        if(!vaildDiscordId(discordname)){
+//            throw new IllegalArgumentException();
+//        }
         list.add(discordname);
-        discordService.createChannel("ㅈㄱㅃㄱ", list);
+        int limitPlayer = 5;
+        discordService.createChannel("ㅈㄱㅃㄱ", list,limitPlayer);
     }
 
-    @GetMapping("/check")
-    public Boolean userCheck(String userTag) {
-        return discordService.userCheck(userTag);
+    @PostMapping("/check") //        /api/discord/check
+    public boolean vaildDiscordId(@RequestBody DiscordRequest discordRequest) {
+        return discordService.userCheck(discordRequest);
     }
 
     @DeleteMapping("/test")

@@ -14,11 +14,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 public interface MemberService {
 
-    public ProfileDto getMyProfile(Member member);
+    ProfileDto getMyProfile(Member member);
 
     BoardPageDto getMyBoards(Long memberId, Pageable pageable);
-
-//    MatchingLogPageDto getMyMatchingList(Member member, Pageable pageable);
 
     List<BuddyDto> getMyBuddies(Long memberId);
 
@@ -32,4 +30,6 @@ public interface MemberService {
     ResponseEntity<String> requestBuddy(Long memberId, Long targetUserId);
 
     ResponseEntity<String> answerBuddyRequest(Long memberId, Long requestUserId, Boolean answer);
+
+    Member responseMemberByMemberId(Long memberId);
 }

@@ -1,13 +1,13 @@
 package com.nbcamp.gamematching.matchingservice.exception;
 
-import java.util.concurrent.ExecutionException;
+import java.io.IOException;
 
 public class NotFoundException extends RuntimeException{
 
+    public static class NotFoundRefreshTokenException extends NotFoundException {}
+    public static class NotFoundDiscordNameException extends NotFoundException {}
     public static class NotFoundMemberException extends NotFoundException {}
-
     public static class NotFoundRoomException extends NotFoundException {}
-
     public static class APPLYNOTAPPLIED extends NotFoundException {}
 
 

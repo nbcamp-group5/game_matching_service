@@ -1,8 +1,5 @@
 package com.nbcamp.gamematching.matchingservice.matching.dto;
 
-import com.nbcamp.gamematching.matchingservice.matching.entity.GameType;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,24 +9,35 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class RequestMatching {
 
-    private String gameMode;
-    private String gamename;
-
-    private Long memberId;
-    private String memberNumbers;
     private String discordId;
-    private String discordUrl;
+    private String discordNum;
+    private String dicordName;
+    private String memberNumbers;
+    private String gameMode;
+    private String gameName;
+    private Long memberId;
     private String key;
 
+
     @Builder
-    public RequestMatching(String gameMode, String gamename,Long memberId, String discordId, String memberNumbers, String discordUrl) {
-        this.gameMode = gameMode;
-        this.gamename = gamename;
+    public RequestMatching(RequestMatching requestMatching,Long memberId) {
+        this.gameMode = requestMatching.getGameMode();
+        this.gameName = requestMatching.getGameName();
+        this.memberNumbers = requestMatching.getMemberNumbers();
+        this.discordId = requestMatching.getDiscordId();
+        this.discordNum = requestMatching.getDiscordNum();
         this.memberId = memberId;
-        this.discordId = discordId;
-        this.memberNumbers = memberNumbers;
-        this.discordUrl = discordUrl;
-        this.key = this.gamename + this.memberNumbers;
+        this.dicordName = this.discordId+this.discordNum;
+        this.key = this.gameName + this.memberNumbers;
     }
 
+    public RequestMatching(String discordId, String discordNum, String dicordName, String memberNumbers, String gameMode, String gameName,String key) {
+        this.discordId = discordId;
+        this.discordNum = discordNum;
+        this.dicordName = dicordName;
+        this.memberNumbers = memberNumbers;
+        this.gameMode = gameMode;
+        this.gameName = gameName;
+        this.key = key;
+    }
 }

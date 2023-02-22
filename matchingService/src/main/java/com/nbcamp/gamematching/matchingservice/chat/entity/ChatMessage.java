@@ -17,19 +17,13 @@ public class ChatMessage {
     private Long id;
 
     @Column(nullable = false)
-    private String roomId;
+    private Long roomId;
 
     @Column(nullable = false)
     private String message;
 
     @Column(nullable = false)
-    private String sender;
-
-
-
-    public void changeSender(String username) {
-        this.sender = username;
-    }
+    private String receiver;
 
 
 }

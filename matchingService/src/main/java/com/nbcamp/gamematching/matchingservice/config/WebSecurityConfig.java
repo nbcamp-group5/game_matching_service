@@ -3,12 +3,7 @@ package com.nbcamp.gamematching.matchingservice.config;
 
 import com.nbcamp.gamematching.matchingservice.jwt.JwtAuthFilter;
 import com.nbcamp.gamematching.matchingservice.jwt.JwtUtil;
-import com.nbcamp.gamematching.matchingservice.security.PrincipalOauth2UserService;
-import com.querydsl.jpa.impl.JPAQueryFactory;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -34,9 +29,6 @@ public class WebSecurityConfig implements WebMvcConfigurer {
 
     private final JwtUtil jwtUtil;
 
-    @Autowired
-    private PrincipalOauth2UserService principalOauth2UserService;
-
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -49,7 +41,6 @@ public class WebSecurityConfig implements WebMvcConfigurer {
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations());
     }
 
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf().disable().cors();
@@ -59,18 +50,13 @@ public class WebSecurityConfig implements WebMvcConfigurer {
                 .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .requestMatchers("/api/auth/**").permitAll()
-                .requestMatchers("/**").permitAll()
+                .requestMatchers("/api/**").permitAll()
                 .requestMatchers("/GGTalk/**").permitAll()
                 .requestMatchers("/pub/**").permitAll()
                 .requestMatchers("/sub/**").permitAll()//테스트용
                 .anyRequest().authenticated()
                 .and().addFilterBefore(new JwtAuthFilter(jwtUtil),
-                        UsernamePasswordAuthenticationFilter.class)
-                .oauth2Login()
-                .loginPage("/login")
-                .userInfoEndpoint()
-                .userService(principalOauth2UserService);
-
+                        UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 
@@ -81,18 +67,5 @@ public class WebSecurityConfig implements WebMvcConfigurer {
                 .allowedMethods("*")
                 .exposedHeaders("*")
                 .allowCredentials(false);
-    }
-
-    @Configuration
-    public class BeanConfig {
-
-        @PersistenceContext
-        private EntityManager entityManager; // 엔티티를 관리하는 클래스
-
-        @Bean
-        public JPAQueryFactory jpaQueryFactory() { // JPAQueryFactory Bean 등록
-            return new JPAQueryFactory(entityManager);
-        }
-
     }
 }

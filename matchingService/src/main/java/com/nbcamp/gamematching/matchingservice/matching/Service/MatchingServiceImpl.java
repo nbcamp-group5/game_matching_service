@@ -1,148 +1,89 @@
 package com.nbcamp.gamematching.matchingservice.matching.Service;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nbcamp.gamematching.matchingservice.discord.service.DiscordService;
-import com.nbcamp.gamematching.matchingservice.matching.dto.MatchingStatusEnum;
 import com.nbcamp.gamematching.matchingservice.matching.dto.RequestMatching;
-import com.nbcamp.gamematching.matchingservice.matching.dto.ResponseMatching;
-import java.util.ArrayList;
-import java.util.Hashtable;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
-import javax.annotation.PostConstruct;
+import com.nbcamp.gamematching.matchingservice.matching.entity.MatchingLog;
+import com.nbcamp.gamematching.matchingservice.matching.repository.MatchingLogRepository;
+import com.nbcamp.gamematching.matchingservice.member.entity.Member;
+import com.nbcamp.gamematching.matchingservice.member.service.MemberService;
+import com.nbcamp.gamematching.matchingservice.redis.RedisService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.scheduling.annotation.Async;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.web.context.request.async.DeferredResult;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class MatchingServiceImpl implements MatchingService {
 
-    private static final Logger logger = LoggerFactory.getLogger(MatchingService.class);
-    private Map<String, Map<RequestMatching, DeferredResult<ResponseMatching>>> waitingQueue;
-    // {key : websocket session id, value : chat room id}
-    private ReentrantReadWriteLock lock;
     private final DiscordService discordService;
 
-    @PostConstruct
-    private void setUp() {
-        this.lock = new ReentrantReadWriteLock();
-        this.waitingQueue = new Hashtable<>();
-    }
+    private final MatchingLogRepository matchingLogRepository;
+    private final MemberService memberService;
+    private final RedisService redisService;
 
-    @Async("asyncThreadPool")
-    public void joinMatchingRoom(RequestMatching request,
-            DeferredResult<ResponseMatching> deferredResult) {
-        logger.info("## Join chat room request. {}[{}]", Thread.currentThread().getName(),
-                Thread.currentThread().getId());
-        if (request == null || deferredResult == null) {
+    public void joinMatchingRoom(RequestMatching request, HttpServletRequest servletRequest) throws JsonProcessingException {
+        Long matchingQuota= Long.valueOf(request.getMemberNumbers());
+        redisService.machedEnterByRedis(request.getKey(),request);
+        //캔슬을 위한 세션 대기
+        var session = servletRequest.getSession();
+        session.setAttribute("UserSession",request);
+        session.setMaxInactiveInterval(10*60);
+        System.out.println("waitingUserCount = " + redisService.waitingUserCountByRedis(request.getKey()));
+
+        if(redisService.waitingUserCountByRedis(request.getKey()) < matchingQuota){
+
             return;
         }
-        try {
-            lock.writeLock().lock();
-            if (waitingQueue.containsKey(request.getKey())) {//이미 생성된 키가 있으면
-                waitingQueue.get(request.getKey()).put(request, deferredResult);
-            } else {
-                Map<RequestMatching, DeferredResult<ResponseMatching>> newUserPool = new LinkedHashMap<>();
-                newUserPool.put(request, deferredResult);
-                waitingQueue.put(request.getKey(), newUserPool);
-            }
-            //waitingUsers.put(request, deferredResult);
-        } finally {
-            lock.writeLock().unlock();
-            cratedMatchingRoom(request);
+
+        var resualtMemberList =
+                redisService.getMatchingMemberByRedis(request.getKey(),matchingQuota,RequestMatching.class);
+
+        List<Member> members =
+                resualtMemberList.stream().map(o->memberService.responseMemberByMemberId(o.getMemberId())).toList();
+
+        List<String> discordIdList = new ArrayList<>();
+        for (RequestMatching member : resualtMemberList) {
+            discordIdList.add(member.getDiscordId());
+        }
+        Optional<String> resultUrl = discordService.createChannel(request.getGameMode(),discordIdList,matchingQuota.intValue());
+
+        String url = "";
+        if (resultUrl.isPresent()) {
+            System.out.println(url);
+            url = resultUrl.get();
+        }else{
+            return;
+        }
+
+        var responseMatching = MatchingLog.builder()
+                .gameName(request.getGameName())
+                .playMode(request.getGameMode())
+                .discordUrl(url)
+                .matchingMemberList(members)
+                .build();
+        matchingLogRepository.save(responseMatching);
+
+
+        for (int i = 0; i < resualtMemberList.size(); i++) {
+            //각 멤버들에게 url을 날리는 메소드 호출
+//            resualtMemberList
+
         }
     }
 
-    public void MatchingCancel(RequestMatching request) {
-        try {
-            lock.writeLock().lock();
-            JoinResult(waitingQueue.get(request.getKey()).remove(request),
-                    new ResponseMatching(MatchingStatusEnum.TIMEOUT, request.getGameMode(),
-                            request.getGamename()));
-        } finally {
-            lock.writeLock().unlock();
-        }
-    }
+    //매칭이 성사되면 각 멤버들에게 url전송
+    //조인컨ㅌ트롤러를 발동시켜서 각 유저에게 요청을 하지않고 응답을 받을수있게 바꿔준다.
 
-    public void timeout(RequestMatching request) {
-        try {
-            lock.writeLock().lock();
-            JoinResult(waitingQueue.get(request.getKey()).remove(request),
-                    new ResponseMatching(MatchingStatusEnum.TIMEOUT, request.getGameMode(),
-                            request.getGamename()));
-        } finally {
-            lock.writeLock().unlock();
-        }
-    }
 
-    public void cratedMatchingRoom(RequestMatching request) {
-        try {
-            logger.debug("현재 대기 유저 : " + waitingQueue.get(request.getKey()).size());
-            lock.readLock().lock();
-            if (waitingQueue.get(request.getKey()).size() < Integer.parseInt(
-                    request.getMemberNumbers())) {//유저가 특정수 이하 면 컷
-                return;
-            }
-            Iterator<RequestMatching> itr = waitingQueue.get(request.getKey()).keySet().iterator();
-            List<RequestMatching> roomUserKey = new ArrayList<>();
-            List<DeferredResult<ResponseMatching>> roomUserValue = new ArrayList<>();
-            for (int i = 0; i < Integer.parseInt(request.getMemberNumbers()); i++) {
-                roomUserKey.add(itr.next());
-            }
 
-            List<String> discordIdList = new ArrayList<>();
-            for (RequestMatching matchingRequest : roomUserKey) {
-                discordIdList.add(matchingRequest.getDiscordId());
-            }
-            // 방을 생성하고 초대코드를 가져온다
-            Optional<String> getUrl = discordService.createChannel(request.getGameMode(),
-                    discordIdList);
 
-            String url = "";
-            if (getUrl.isPresent()) {
-                System.out.println(url);
-                url = getUrl.get();
-            } else {
-                // url을 못갖고 오는 경우를 처리
-                return;
-            }
 
-            for (int i = 0; i < Integer.parseInt(request.getMemberNumbers()); i++) {
-                roomUserValue.add(waitingQueue.get(request.getKey()).remove(roomUserKey.get(i)));
-            }
-            for (int i = 0; i < Integer.parseInt(request.getMemberNumbers()); i++) {
-                roomUserValue.get(i).setResult(
-                        ResponseMatching.builder()
-                                .metchingEunm(MatchingStatusEnum.SUCCESS)
-                                .playModeEnum(request.getGameMode())
-                                .gameName(request.getGameMode())
-                                .memberNumbers(request.getMemberNumbers())
-                                .discordUrl(url)
-                                .members(roomUserKey)
-                                .build());
-            }
-        } catch (Exception e) {
-            logger.warn("Exception occur while checking waiting users", e);
-        } finally {
-            lock.readLock().unlock();
-        }
-    }
-
-    public void JoinResult(DeferredResult<ResponseMatching> result, ResponseMatching response) {
-        if (result != null) {
-            result.setResult(response);
-        }
-    }
-
-    public Map<String, Map<RequestMatching, DeferredResult<ResponseMatching>>> getWaitingQueue() {
-        return waitingQueue;
-    }
 }
