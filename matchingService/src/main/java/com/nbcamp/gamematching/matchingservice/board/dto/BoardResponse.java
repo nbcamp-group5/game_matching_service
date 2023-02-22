@@ -12,7 +12,7 @@ public class BoardResponse {
 
     private final Long id;
     private final String nickname;
-    private final String boardImageUrl;
+    private final String boardImage;
     private final String content;
     private final List<CommentResponse> comments;
     private final Long likeCount;
@@ -23,7 +23,7 @@ public class BoardResponse {
     public BoardResponse(Board board, List<CommentResponse> comments, Long likeCount) {
         this.id = board.getId();
         this.nickname = board.getMember().getProfile().getNickname();
-        this.boardImageUrl = board.getBoardImageUrl();
+        this.boardImage = board.getBoardImage();
         this.content = board.getContent();
         this.comments = comments;
         this.likeCount = likeCount;

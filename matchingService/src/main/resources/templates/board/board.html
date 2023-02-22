@@ -2,464 +2,734 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BoardList</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BoardList</title>
 
-  <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
-    integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+          integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 
-  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-    crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
-    integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
-    crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
-    integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
-    crossorigin="anonymous"></script>
-  <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-  <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+            integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+            integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+            crossorigin="anonymous"></script>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 </head>
 
 <body>
-  <nav class="navbar navbar-light bg-white">
-    <img href="#" class="" src="../../static/img/nav/logo2.png" />
+<nav class="navbar navbar-light bg-white">
+    <img href="#" class="" src="../../static/img/nav/logo2.png"/>
     <form class="form-inline">
-      <div class="input-group">
-        <input type="text" class="search-box">
-        <div class="input-group-append">
-          <button class="search-btn" type="button">
-            <i class="fa fa-search btn-color"></i>
-          </button>
+        <div class="input-group">
+            <input type="text" class="search-box">
+            <div class="input-group-append">
+                <button class="search-btn" type="button">
+                    <i class="fa fa-search btn-color"></i>
+                </button>
+            </div>
         </div>
-      </div>
     </form>
-  </nav>
+</nav>
 
 
-  <div class="container-fluid gedf-wrapper">
+<div class="container-fluid gedf-wrapper">
     <div class="row">
-      <div class="col-md-3">
-        <div>여긴 메뉴바</div>
-      </div>
-
-
-      <div class="col-md-6 gedf-main">
-        <!--- \\\\\\\입력-->
-        <div class="card gedf-card" style="border-radius: 20px; margin-bottom: 25px; border: none;">
-          <div class="card-header" style="border-top-left-radius: 20px; border-top-right-radius: 20px;">
-            <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
-              <li class="nav-item">
-                <a class="nav-link active" id="posts-tab" data-toggle="tab" href="#posts" role="tab"
-                  aria-controls="posts" aria-selected="true">✒️</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" id="images-tab" data-toggle="tab" role="tab" aria-controls="images"
-                  aria-selected="false" href="#images">📷</a>
-              </li>
-            </ul>
-          </div>
-          <div class="card-body">
-            <div class="tab-content" id="myTabContent">
-              <div class="tab-pane fade show active" id="posts" role="tabpanel" aria-labelledby="posts-tab">
-                <div class="form-group">
-                  <label class="sr-only" for="message">post</label>
-                  <textarea class="form-control" id="message" rows="3" placeholder="문구 입력"></textarea>
-                </div>
-
-              </div>
-              <div class="tab-pane fade" id="images" role="tabpanel" aria-labelledby="images-tab">
-                <div class="form-group">
-                  <div class="custom-file">
-                    <input type="file" class="custom-file-input" id="customFile">
-                    <label class="custom-file-label" for="customFile">이미지 업로드</label>
-                  </div>
-                </div>
-                <div class="py-4"></div>
-              </div>
-            </div>
-            <div class="btn-toolbar">
-              <button type="submit" class="btn post-btn">게시</button>
-            </div>
-          </div>
+        <div class="col-md-3">
+            <div>여긴 메뉴바</div>
         </div>
-        <!-- Post /////-->
 
-        <!--- \\\\\\\Post-->
-        <div class="card gedf-card" style="margin-bottom: 25px; border-radius: 20px;">
-          <div class="card-header" style="border-top-left-radius: 20px; border-top-right-radius: 20px;">
-            <div class="d-flex justify-content-between align-items-center">
-              <div class="d-flex justify-content-between align-items-center">
-                <div class="mr-2">
-                  <img class="rounded-circle" width="45" src="https://picsum.photos/50/50" alt="">
-                </div>
-                <div class="ml-2">
-                  <div class="h6 m-0">이어쩌구</div>
-                </div>
-              </div>
-              <div>
-                <div class="dropdown">
-                  <button class="btn btn-link dropdown-toggle" type="button" id="gedf-drop1" data-toggle="dropdown"
-                    aria-haspopup="true" aria-expanded="false">
-                    <i class="fa fa-ellipsis-h" style="color: #9A86A4;"></i>
-                  </button>
-                  <div class="dropdown-menu dropdown-menu-right" aria-labelledby="gedf-drop1">
-                    <div class="h6 dropdown-header">편집</div>
-                    <a class="dropdown-item" href="#">수정</a>
-                    <a class="dropdown-item" href="#">삭제</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="card-body" style="padding: 0;">
-            <div style="position: relative;">
-              <img src="../../static/img/board/5.jpg" alt="" style="width: 100%; height: 100%; object-fit: cover;">
-              <div class="text-muted h7 mb-2" style="position: absolute; bottom: 1%; padding-left: 15px;"> <i
-                  class="fa fa-clock-o"></i>10 min ago</div>
-            </div>
-            <div style="padding: 15px;">
-              <a class="card-link" href="#">
-                <h7 class="card-title" style="color: #9A86A4;">만약 제목이 있다면 여기</h7>
-              </a>
 
-              <p class="card-text">
-                여기는 글의 내용이 오는 곳입니다.
-                여기는 글의 내용이 오는 곳입니다.
-                여기는 글의 내용이 오는 곳입니다.
-              </p>
+        <div class="col-md-6 gedf-main">
+            <!--- \\\\\\\입력-->
+            <div class="card gedf-card" style="border-radius: 20px; margin-bottom: 25px; border: none;">
+                <div class="card-header" style="border-top-left-radius: 20px; border-top-right-radius: 20px;">
+                    <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="posts-tab" data-toggle="tab" href="#posts" role="tab"
+                               aria-controls="posts" aria-selected="true">✒️</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="images-tab" data-toggle="tab" role="tab" aria-controls="images"
+                               aria-selected="false" href="#images">📷</a>
+                        </li>
+                    </ul>
+                </div>
+                <!--        게시글 작성-->
+                <div class="card-body">
+                    <div class="tab-content" id="myTabContent">
+                        <div class="tab-pane fade show active" id="posts" role="tabpanel" aria-labelledby="posts-tab">
+                            <div class="form-group">
+                                <label class="sr-only" for="message">post</label>
+                                <textarea class="form-control" id="message" rows="3" placeholder="문구 입력"></textarea>
+                            </div>
+
+                        </div>
+                        <div class="tab-pane fade" id="images" role="tabpanel" aria-labelledby="images-tab">
+                            <div class="form-group">
+                                <div class="custom-file">
+                                    <!--                  게시글 이미지 업로드-->
+                                    <input type="file" class="custom-file-input" id="customFile">
+                                    <label class="custom-file-label" for="customFile">이미지 업로드</label>
+                                </div>
+                            </div>
+                            <div class="py-4"></div>
+                        </div>
+                    </div>
+                    <div class="btn-toolbar">
+                        <button onclick="save_board()" type="submit" class="btn post-btn">게시</button>
+                    </div>
+                </div>
             </div>
-          </div>
-          <div class="card-footer" style="border-radius: 20px;">
-            <a href="#" class="card-link" style="color: #9A86A4;"><i class="fa fa-gittip" style="color: #9A86A4;"></i>
-              좋아요</a>
-            <a id="btn-modal" href="#" class="card-link" style="color: #9A86A4;"><i class="fa fa-comment"
-                style="color: #9A86A4;"></i> 댓글</a>
-          </div>
+            <!-- Post /////-->
+
+
+            <!--- \\\\\\\게시글 작성-->
+            <div class="card gedf-card" style="margin-bottom: 25px; border-radius: 20px;" id="boardList">
+                <div class="card-header" style="border-top-left-radius: 20px; border-top-right-radius: 20px;">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="mr-2">
+                                <img class="rounded-circle" id="작성자 사진" width="45" src="https://picsum.photos/50/50"
+                                     alt="">
+                            </div>
+                            <div class="ml-2">
+                                <div class="h6 m-0" id="작성자 이름">작성자 이름</div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="dropdown">
+                                <button class="btn btn-link dropdown-toggle" type="button" id="gedf-drop1"
+                                        data-toggle="dropdown"
+                                        aria-haspopup="true" aria-expanded="false">
+                                    <i class="fa fa-ellipsis-h" style="color: #9A86A4;"></i>
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="gedf-drop1">
+                                    <div class="h6 dropdown-header">편집</div>
+                                    <a onclick="update_board(boardId)" class="dropdown-item" href="/normal">수정</a>
+                                    <a onclick="delete_board(boardId)" class="dropdown-item" href="#">삭제</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body" style="padding: 0;">
+                    <div style="position: relative;">
+                        <img src="../../static/img/board/5.jpg" id="게시글 사진" alt=""
+                             style="width: 100%; height: 100%; object-fit: cover;">
+                        <div class="text-muted h7 mb-2" style="position: absolute; bottom: 1%; padding-left: 15px;"><i
+                                class="fa fa-clock-o"></i>게시글 작성 시간
+                        </div>
+                    </div>
+                    <div style="padding: 15px;">
+                        <p class="card-text" id="게시글 내용">
+                            여기는 글의 내용이 오는 곳입니다.
+                            여기는 글의 내용이 오는 곳입니다.
+                        </p>
+                    </div>
+                </div>
+                <div class="card-footer" style="border-radius: 20px;">
+                    <a onclick="save_like()" href="#" class="card-link" id="좋아요" style="color: #9A86A4;"><i class="fa fa-gittip"
+                                                                                      style="color: #9A86A4;"></i>
+                        좋아요</a>
+                    <a id="btn-modal" href="#" class="card-link" style="color: #9A86A4;"><i class="fa fa-comment"
+                                                                                            style="color: #9A86A4;"></i>
+                        댓글</a>
+                </div>
+
+                <!--        게시글 작성 끝-->
+
+            </div>
+            <div id="modal" class="modal-overlay">
+                <div class="modal-window">
+
+                    <div class="title" style="padding-top: 10px;">
+                        <h5>댓글</h5>
+                    </div>
+
+                    <div class="close-area">X</div>
+
+                    <div class="form-group" style="margin-top: 10px;">
+                        <label class="sr-only" for="message">post</label>
+                        <textarea class="form-control" id="cm_message" rows="2" placeholder="댓글 입력"></textarea>
+                        <div class="btn-toolbar" style="margin-top: 10px;">
+                            <button onclick="save_comment()" type="submit" class="btn post-btn">게시</button>
+                        </div>
+                    </div>
+
+                    <!--          댓글-->
+                    <div class="content">
+                        <div class="comment" id="commentList">
+                            <div class="comment-header">
+                                <img class="rounded-circle" width="30" height="30" src="https://picsum.photos/50/50"
+                                     alt="">
+                                <p id="댓글 닉네임">닉네임</p>
+                            </div>
+                            <span id="댓글 내용">댓글 내용이 오는 곳입니다.</span>
+                        </div>
+                        <div class="dropdown">
+                            <button class="btn btn-link dropdown-toggle" type="button" id="gedf-drop1"
+                                    data-toggle="dropdown"
+                                    aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-ellipsis-h" style="color: #9A86A4;"></i>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="gedf-drop1">
+                                <div class="h6 dropdown-header">편집</div>
+                                <a onclick="update_comment(boardId)" class="dropdown-item" href="/normal">수정</a>
+                                <a onclick="delete_comment(boardId)" class="dropdown-item" href="#">삭제</a>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+
+
+                    <!-- Post /////-->
+
+
+                </div>
+
+            </div>
         </div>
-        <div id="modal" class="modal-overlay">
-          <div class="modal-window">
-            
-            <div class="title" style="padding-top: 10px;">
-              <h5>댓글</h5>
-            </div>
-
-            <div class="close-area">X</div>
-
-            <div class="form-group" style="margin-top: 10px;">
-              <label class="sr-only" for="message">post</label>
-              <textarea class="form-control" id="message" rows="2" placeholder="댓글 입력"></textarea>
-              <div class="btn-toolbar" style="margin-top: 10px;">
-                <button type="submit" class="btn post-btn">게시</button>
-              </div>
-            </div>
-
-            <div class="content">
-              <div class="comment">
-                <div class="comment-header">
-                  <img class="rounded-circle" width="30" height="30" src="https://picsum.photos/50/50" alt="">
-                  <p>닉네임</p>
-                </div>
-                <span>댓글 내용이 오는 곳입니다.</span>
-              </div>
-            </div>
-
-            <div class="content">
-              <div class="comment">
-                <div class="comment-header">
-                  <img class="rounded-circle" width="30" height="30" src="https://picsum.photos/50/50" alt="">
-                  <p>닉네임</p>
-                </div>
-                <span>댓글 내용이 오는 곳입니다.
-                  댓글 내용이 오는 곳입니다. 댓글 내용이 오는 곳입니다. 댓글 내용이 오는 곳입니다.</span>
-              </div>
-            </div>
-
-            <div class="content">
-              <div class="comment">
-                <div class="comment-header">
-                  <img class="rounded-circle" width="30" height="30" src="https://picsum.photos/50/50" alt="">
-                  <p>닉네임</p>
-                </div>
-                <span>댓글 내용이 오는 곳입니다.</span>
-              </div>
-            </div>
-
-            <div class="content">
-              <div class="comment">
-                <div class="comment-header">
-                  <img class="rounded-circle" width="30" height="30" src="https://picsum.photos/50/50" alt="">
-                  <p>닉네임</p>
-                </div>
-                <span>댓글 내용이 오는 곳입니다.</span>
-              </div>
-            </div>
-
-            <div class="content">
-              <div class="comment">
-                <div class="comment-header">
-                  <img class="rounded-circle" width="30" height="30" src="https://picsum.photos/50/50" alt="">
-                  <p>닉네임</p>
-                </div>
-                <span>댓글 내용이 오는 곳입니다.</span>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </div>
-        <!-- Post /////-->
-        
-
     </div>
-
-    <!-- <div class="col-md-3 text-font" style="padding-right: 3%;">
-      <div class="card" style="text-align: center; border-radius: 20px; border: 0;">
-        <div class="card-body">
-          <div>
-            <img src="" alt="">
-          </div>
-          <div class="h6">김어쩌구</div>
-        </div>
-        <div class="">
-          <div class="cnt-box">
-            <span class="h7 text-muted cnt-title">매칭</span>
-            <span class="h6">5.2342</span>
-          </div>
-          <div class="cnt-box">
-            <span class="h7 text-muted cnt-title">매너</span>
-            <span class="h6">6758</span>
-          </div>
-        </div>
-      </div>
-    </div> -->
-  </div>
-  </div>
+</div>
 </body>
 
 </html>
 
 <style>
-  @font-face {
-    font-family: 'MICEGothic Bold';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2206-01@1.0/MICEGothic Bold.woff2') format('woff2');
-    font-weight: 700;
-    font-style: normal;
-  }
-
-  @font-face {
-    font-family: 'TTTtangsbudaejjigaeB';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2212@1.0/TTTtangsbudaejjigaeB.woff2') format('woff2');
-    font-weight: 700;
-    font-style: normal;
-  }
-
-  @font-face {
-    font-family: 'SEBANG_Gothic_Bold';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2104@1.0/SEBANG_Gothic_Bold.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-  }
-
-  .title-font {
-    font-family: 'TTTtangsbudaejjigaeB';
-  }
-
-  .text-font {
-    font-family: 'SEBANG_Gothic_Bold';
-  }
-
-  nav img {
-    width: 50px;
-  }
-
-  .search-box {
-    outline: none;
-    padding: 0.375rem 0.75rem;
-    font-size: 1rem;
-    line-height: 1.5;
-    color: #495057;
-    background-color: #fff;
-    background-clip: padding-box;
-    border: 1px solid #9A86A4;
-    border-top-left-radius: 0.25rem;
-    border-bottom-left-radius: 0.25rem;
-    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
-  }
-
-  .search-btn {
-    outline: none !important;
-    display: inline-block;
-    font-weight: 400;
-    text-align: center;
-    white-space: nowrap;
-    vertical-align: middle;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    border: 1px solid transparent;
-    padding: 0.375rem 0.75rem;
-    font-size: 1rem;
-    line-height: 1.5;
-    border-top-right-radius: 0.25rem;
-    border-bottom-right-radius: 0.25rem;
-    border: 1px solid #9A86A4;
-    background-color: #9A86A4;
-  }
-
-  .btn-color {
-    color: white;
-  }
-
-  .cnt-title {
-    margin-bottom: 10px;
-  }
-
-  .cnt-box {
-    display: flex;
-    justify-content: space-between;
-    margin: 0 15px;
-  }
-
-  .post-btn {
-    margin-left: auto;
-    background-color: #9A86A4;
-    border-radius: 10px;
-    color: #fff;
-    font-family: 'MICEGothic Bold';
-    font-size: smaller;
-  }
-
-  body {
-    background-color: #b1bce62f;
-  }
-
-  .h7 {
-    font-size: 0.8rem;
-  }
-
-  .gedf-wrapper {
-    margin-top: 0.97rem;
-  }
-
-  @media (min-width: 992px) {
-    .gedf-main {
-      padding-left: 4rem;
-      padding-right: 4rem;
+    @font-face {
+        font-family: 'MICEGothic Bold';
+        src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2206-01@1.0/MICEGothic Bold.woff2') format('woff2');
+        font-weight: 700;
+        font-style: normal;
     }
 
-    .gedf-card {
-      margin-bottom: 2.77rem;
+    @font-face {
+        font-family: 'TTTtangsbudaejjigaeB';
+        src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2212@1.0/TTTtangsbudaejjigaeB.woff2') format('woff2');
+        font-weight: 700;
+        font-style: normal;
     }
-  }
 
-  /**Reset Bootstrap*/
-  .dropdown-toggle::after {
-    content: none;
-    display: none;
-  }
+    @font-face {
+        font-family: 'SEBANG_Gothic_Bold';
+        src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2104@1.0/SEBANG_Gothic_Bold.woff') format('woff');
+        font-weight: normal;
+        font-style: normal;
+    }
 
-  /* 모달창 */
+    .title-font {
+        font-family: 'TTTtangsbudaejjigaeB';
+    }
 
-  #modal.modal-overlay {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    left: 0;
-    top: 0;
-    display: none;
-    /* display: flex; */
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background: rgba(255, 255, 255, 0.493);
-    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-    backdrop-filter: blur(1.5px);
-    -webkit-backdrop-filter: blur(1.5px);
-    border-radius: 10px;
-    border: 1px solid rgba(255, 255, 255, 0.18);
-  }
+    .text-font {
+        font-family: 'SEBANG_Gothic_Bold';
+    }
 
-  #modal .modal-window {
-    background: #b1bce62f;
-    backdrop-filter: blur(13.5px);
-    -webkit-backdrop-filter: blur(13.5px);
-    border-radius: 10px;
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    /* width: 500px; */
-    margin: 20px;
-    height: auto;
-    position: relative;
-    top: -100px;
-    padding: 10px;
-  }
+    nav img {
+        width: 50px;
+    }
 
-  #modal .title {
-    padding-left: 10px;
-    display: inline;
-    color: #9A86A4;
-  }
+    .search-box {
+        outline: none;
+        padding: 0.375rem 0.75rem;
+        font-size: 1rem;
+        line-height: 1.5;
+        color: #495057;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid #9A86A4;
+        border-top-left-radius: 0.25rem;
+        border-bottom-left-radius: 0.25rem;
+        transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+    }
 
-  #modal .title h5 {
-    display: inline;
-    font-weight: bolder;
-  }
+    .search-btn {
+        outline: none !important;
+        display: inline-block;
+        font-weight: 400;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        border: 1px solid transparent;
+        padding: 0.375rem 0.75rem;
+        font-size: 1rem;
+        line-height: 1.5;
+        border-top-right-radius: 0.25rem;
+        border-bottom-right-radius: 0.25rem;
+        border: 1px solid #9A86A4;
+        background-color: #9A86A4;
+    }
 
-  #modal .close-area {
-    display: inline;
-    float: right;
-    padding-right: 10px;
-    cursor: pointer;
-    text-shadow: 1px 1px 2px gray;
-    color: white;
-  }
+    .btn-color {
+        color: white;
+    }
 
-  #modal .content {
-    margin-top: 20px;
-    padding: 0px 10px;
-  }
+    .cnt-title {
+        margin-bottom: 10px;
+    }
 
-  .comment {
-    margin-bottom: 10px;
-    word-break: break-all;
-  }
+    .cnt-box {
+        display: flex;
+        justify-content: space-between;
+        margin: 0 15px;
+    }
 
-  .comment-header {
-    display: flex;
-    align-items: center;
-    margin-bottom: 5px;
-  }
+    .post-btn {
+        margin-left: auto;
+        background-color: #9A86A4;
+        border-radius: 10px;
+        color: #fff;
+        font-family: 'MICEGothic Bold';
+        font-size: smaller;
+    }
 
-  .comment img {
-    margin-right: 10px;
-  }
+    body {
+        background-color: #b1bce62f;
+    }
 
-  .comment p {
-    margin-bottom: 0;
-    font-weight: bolder;
-  }
+    .h7 {
+        font-size: 0.8rem;
+    }
+
+    .gedf-wrapper {
+        margin-top: 0.97rem;
+    }
+
+    @media (min-width: 992px) {
+        .gedf-main {
+            padding-left: 4rem;
+            padding-right: 4rem;
+        }
+
+        .gedf-card {
+            margin-bottom: 2.77rem;
+        }
+    }
+
+    /**Reset Bootstrap*/
+    .dropdown-toggle::after {
+        content: none;
+        display: none;
+    }
+
+    /* 모달창 */
+
+    #modal.modal-overlay {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        left: 0;
+        top: 0;
+        display: none;
+        /* display: flex; */
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: rgba(255, 255, 255, 0.493);
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        backdrop-filter: blur(1.5px);
+        -webkit-backdrop-filter: blur(1.5px);
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+    }
+
+    #modal .modal-window {
+        background: #b1bce62f;
+        backdrop-filter: blur(13.5px);
+        -webkit-backdrop-filter: blur(13.5px);
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        /* width: 500px; */
+        margin: 20px;
+        height: auto;
+        position: relative;
+        top: -100px;
+        padding: 10px;
+    }
+
+    #modal .title {
+        padding-left: 10px;
+        display: inline;
+        color: #9A86A4;
+    }
+
+    #modal .title h5 {
+        display: inline;
+        font-weight: bolder;
+    }
+
+    #modal .close-area {
+        display: inline;
+        float: right;
+        padding-right: 10px;
+        cursor: pointer;
+        text-shadow: 1px 1px 2px gray;
+        color: white;
+    }
+
+    #modal .content {
+        margin-top: 20px;
+        padding: 0px 10px;
+    }
+
+    .comment {
+        margin-bottom: 10px;
+        word-break: break-all;
+    }
+
+    .comment-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 5px;
+    }
+
+    .comment img {
+        margin-right: 10px;
+    }
+
+    .comment p {
+        margin-bottom: 0;
+        font-weight: bolder;
+    }
 </style>
 
 <script>
-  const modal = document.getElementById("modal")
-  const btnModal = document.getElementById("btn-modal")
-  btnModal.addEventListener("click", e => {
-    modal.style.display = "flex"
-  })
 
-  const closeBtn = modal.querySelector(".close-area")
-  closeBtn.addEventListener("click", e => {
-    modal.style.display = "none"
-  })
+    const modal = document.getElementById("modal")
+    const btnModal = document.getElementById("btn-modal")
+    btnModal.addEventListener("click", e => {
+        modal.style.display = "flex"
+    })
 
-  modal.addEventListener("click", e => {
-    const evTarget = e.target
-    if (evTarget.classList.contains("modal-overlay")) {
-      modal.style.display = "none"
+    const closeBtn = modal.querySelector(".close-area")
+    closeBtn.addEventListener("click", e => {
+        modal.style.display = "none"
+    })
+
+    modal.addEventListener("click", e => {
+        const evTarget = e.target
+        if (evTarget.classList.contains("modal-overlay")) {
+            modal.style.display = "none"
+        }
+    })
+
+    const auth = localStorage.getItem('accessToken');
+
+
+    $(document).ready(function () {
+        show_board()
+    });
+
+    // 게시글 작성
+    function save_board() {
+        var data = {
+            content: $('#message').val()
+        };
+        var formData = new FormData();
+        formData.append('image', $('#customFile')[0].files[0]);
+        formData.append('requestDto', new Blob([JSON.stringify(data)] , {type: "application/json"}));
+        var settings = {
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("Authorization", auth);
+            },
+            "url": "http://localhost:8080/normal",
+            "method": "POST",
+            "timeout": 0,
+            "processData": false,
+            "mimeType": "multipart/form-data",
+            "contentType": false,
+            "data": formData
+        };
+
+        $.ajax(settings).done(function (response,code) {
+            console.log(response);
+            console.log(code);
+
+            });
     }
-  })
+
+
+    //게시글 수정
+    function update_board(boardId) {
+        var data = {
+            content: $('#message').val()
+        };
+        var formData = new FormData();
+        formData.append('image', $('#customFile')[0].files[0]);
+        formData.append('requestDto', new Blob([JSON.stringify(data)] , {type: "application/json"}));
+        var settings = {
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("Authorization", auth);
+            },
+            "url": "http://localhost:8080/normal/"+boardId,
+            "method": "PUT",
+            "timeout": 0,
+            "processData": false,
+            "mimeType": "multipart/form-data",
+            "contentType": false,
+            "data": formData
+        };
+
+        $.ajax(settings).done(function (response) {
+            console.log(response);
+        });
+    }
+
+    //게시글 삭제
+    function delete_board(boardId) {
+        var settings = {
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("Authorization", auth);
+            },
+            "url": "http://localhost:8080/normal/"+boardId,
+            "method": "DELETE",
+            "timeout": 0
+        };
+
+        $.ajax(settings).done(function (response) {
+            console.log(response);
+        });
+    }
+
+    //게시글 목록
+    function show_board() {
+        $.ajax({
+            type: "GET",
+            url: "http://localhost:8080/normal",
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("Authorization", auth);
+            },
+            data: {},
+            success: function(response) {
+                $(response).each(function() {
+                console.log(response);
+
+                    let temp_html = `<div class="card gedf-card" style="margin-bottom: 25px; border-radius: 20px;">
+        <div class="card-header" style="border-top-left-radius: 20px; border-top-right-radius: 20px;">
+        <a>${this.id}</a>
+          <div class="d-flex justify-content-between align-items-center">
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="mr-2">
+                <img class="rounded-circle"  width="45" src="https://picsum.photos/50/50" alt="">
+              </div>
+              <div class="ml-2">
+                <div class="h6 m-0">${this.nickname}</div>
+              </div>
+            </div>
+            <div>
+              <div class="dropdown">
+                <button class="btn btn-link dropdown-toggle" type="button" id="gedf-drop1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="fa fa-ellipsis-h" style="color: #9A86A4;"></i>
+                </button>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="gedf-drop1">
+                  <div class="h6 dropdown-header">편집</div>
+                  <a onclick="update_board(${this.id})" class="dropdown-item" href="#">수정</a>
+                  <a onclick="delete_board(${this.id})" class="dropdown-item" href="#">삭제</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-body" style="padding: 0;">
+          <div style="position: relative;">
+            <img  src="${this.boardImage}" alt="" style="width: 100%; height: 100%; object-fit: cover;">
+            <div class="text-muted h7 mb-2" style="position: absolute; bottom: 1%; padding-left: 15px;"> <i class="fa fa-clock-o"></i>${this.modifiedAt} 작성시간</div>
+          </div>
+          <div style="padding: 15px;">
+
+            <p class="card-text">
+             ${this.content}
+            </p>
+          </div>
+        </div>
+        <div class="card-footer" style="border-radius: 20px;">
+          <a href="#" class="card-link"  style="color: #9A86A4;"><i class="fa fa-gittip" style="color: #9A86A4;"></i>
+            ${this.likeCount}</a>
+          <a onclick="show_comment(${this.id})" id="btn-modal" href="#" class="card-link" style="color: #9A86A4;"><i class="fa fa-comment" style="color: #9A86A4;" onclick="showComment(${this.Id}})"></i>댓글</a>
+        </div>
+      </div>
+                    <!-- Post /////-->
+
+
+                </div>
+
+            </div>`
+
+                    $(`#boardList`).append(temp_html)
+                })
+            }
+        });
+    }
+
+    //댓글 작성
+    function save_comment(boardId) {
+        let content = $(`#cm_message`).val()
+        var settings = {
+            "url": "http://localhost:8080/api/comments/"+boardId,
+            "method": "POST",
+            "timeout": 0,
+            "headers": {
+                "Authorization": auth,
+                "Content-Type": "application/json"
+            },
+            "data": JSON.stringify({
+                "content": content
+            }),
+        };
+        $.ajax(settings).done(function (response) {
+            console.log(response);
+        });
+    }
+
+    //댓글 수정
+    function update_comment(boardId) {
+        let content = $(`#cm_message`).val()
+        var settings = {
+            "url": "http://localhost:8080/api/comments/"+boardId,
+            "method": "PATCH",
+            "timeout": 0,
+            "headers": {
+                "Authorization": auth,
+                "Content-Type": "application/json"
+            },
+            "data": JSON.stringify({
+                "content": content
+            }),
+        };
+
+        $.ajax(settings).done(function (response) {
+            console.log(response);
+        });
+    }
+
+    //댓글 삭제
+    function delete_comment(boardId) {
+        var settings = {
+            "url": "http://localhost:8080/api/comments/"+boardId,
+            "method": "DELETE",
+            "timeout": 0,
+            "headers": {
+                "Authorization": auth
+            },
+        };
+
+        $.ajax(settings).done(function (response) {
+            console.log(response);
+        });
+    }
+
+
+
+    btnModal.addEventListener("click", e => {
+        modal.style.display = "flex"
+    })
+
+    const closeBtn = modal.querySelector(".close-area")
+    closeBtn.addEventListener("click", e => {
+        modal.style.display = "none"
+    })
+
+    modal.addEventListener("click", e => {
+        const evTarget = e.target
+        if (evTarget.classList.contains("modal-overlay")) {
+            modal.style.display = "none"
+
+        }
+    })
+
+    //댓글 목록
+    function show_comment(boardId) {
+
+        $.ajax({
+            type: "GET",
+            url: "http://localhost:8080/normals"+boardId,
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("Authorization", auth);
+            },
+            data: {},
+            success: function(response) {
+                $(response).each(function() {
+                    console.log(response);
+
+
+                    let temp_html = `<div class="content">
+                        <div class="comment" >
+                            <div class="comment-header">
+                                <img class="rounded-circle" width="30" height="30" src="https://picsum.photos/50/50"
+                                     alt="">
+                                <p>${this.comments[0].nickname}</p>
+                            </div>
+                            <span id="댓글 내용">${this.comments[0].content}</span>
+                        </div>
+                    </div>`
+                    $(`#commentList`).append(temp_html)
+                })
+            }
+        });
+    }
+
+    //좋아요 등록
+    // function save_like(boardId) {
+    //     var settings = {
+    //         "url": "http://localhost:8080/api/like/"+boardId,
+    //         "method": "POST",
+    //         "timeout": 0,
+    //         "headers": {
+    //             "Authorization": auth
+    //         },
+    //     };
+    //
+    //     $.ajax(settings).done(function (response) {
+    //         console.log(response);
+    //     });
+    // }
+
+    //좋아요 등록 다른방법
+    function save_like(boardId) {
+    $.ajax({
+        type: "POST",
+        url: "http://localhost:8080/api/like/" + boardId,
+        contentType: "application/json",
+        data: {},
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader("Authorization", auth);
+        },
+        error: function (e) {
+            console.log(e);
+        },
+        success: function (response) {
+            console.log(response);
+
+        }
+    })
+
+    }
+
+    //좋아요 취소
+    function delete_like() {
+        var settings = {
+            "url": "http://localhost:8080/api/like/cancel/"+boardId,
+            "method": "POST",
+            "timeout": 0,
+            "headers": {
+                "Authorization": auth
+            },
+        };
+
+        $.ajax(settings).done(function (response) {
+            console.log(response);
+        });
+    }
 </script>

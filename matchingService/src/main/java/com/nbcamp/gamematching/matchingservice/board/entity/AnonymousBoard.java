@@ -8,6 +8,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -16,6 +17,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 @Entity
+@Table(name = "anonymous_board")
 public class AnonymousBoard extends BaseEntity {
 
     @Id
@@ -27,8 +29,7 @@ public class AnonymousBoard extends BaseEntity {
     private String nickname;
     //랜덤닉네임(익명)
 
-    private String boardImageUrl;
-    //이미지url?
+    private String boardImage;
 
     @Column(nullable = false)
     private String content;
@@ -40,17 +41,16 @@ public class AnonymousBoard extends BaseEntity {
     @OneToMany(mappedBy = "anonymousBoard", cascade = CascadeType.REMOVE)
     private List<AnonymousComment> comments = new ArrayList<>();
 
-    //nickname을 어떻게 처리해야할까?
-    public AnonymousBoard(String nickname, String boardImageUrl, String content, Member member) {
+    public AnonymousBoard(String nickname, String boardImage, String content, Member member) throws IOException {
         this.nickname = nNick();
-        this.boardImageUrl = boardImageUrl;
+        this.boardImage = boardImage;
         this.content = content;
         this.member = member;
     }
 
 
-    public void updateAnonymousBoard(UpdateBoardRequest boardRequestDto, Member member) {
-        this.boardImageUrl = boardRequestDto.getBoardImageUrl();
+    public void updateAnonymousBoard(UpdateBoardRequest boardRequestDto,String boardImage, Member member) throws IOException {
+        this.boardImage = boardImage;
         this.content = boardRequestDto.getContent();
         this.nickname = member.getProfile().getNickname();
         this.id = member.getId();
@@ -70,4 +70,5 @@ public class AnonymousBoard extends BaseEntity {
         String nickname = nick.get(0) + name.get(0);
         return nickname;
     }
+
 }

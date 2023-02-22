@@ -9,6 +9,7 @@ import com.nbcamp.gamematching.matchingservice.comment.entity.AnonymousComment;
 import com.nbcamp.gamematching.matchingservice.comment.entity.Comment;
 import com.nbcamp.gamematching.matchingservice.comment.repository.AnonymousCommentRepository;
 import com.nbcamp.gamematching.matchingservice.comment.repository.CommentRepository;
+import com.nbcamp.gamematching.matchingservice.exception.NotFoundException;
 import com.nbcamp.gamematching.matchingservice.member.entity.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,7 +27,7 @@ public class CommentService {
     //댓글 작성
     @Transactional
     public void createComment(Long boardId, String content, Member member) {
-        Board board = boardRepository.findById(boardId).orElseThrow(() -> new IllegalArgumentException(""));
+        Board board = boardRepository.findById(boardId).orElseThrow(() -> new NotFoundException());
         Comment comment = new Comment(content, board,member);
         commentRepository.save(comment);
     }
@@ -34,7 +35,7 @@ public class CommentService {
     //익명 댓글 작성
     @Transactional
     public void createAnonymousComment(Long boardId, String content,Member member) {
-        AnonymousBoard board = anonymousBoardRepository.findById(boardId).orElseThrow(() -> new IllegalArgumentException(""));
+        AnonymousBoard board = anonymousBoardRepository.findById(boardId).orElseThrow(() -> new NotFoundException());
         AnonymousComment comment = new AnonymousComment(content, board,member);
         anonymousCommentRepository.save(comment);
     }
@@ -42,7 +43,7 @@ public class CommentService {
     //댓글 수정
     @Transactional
     public void updateComment(Long commentId, UpdateCommentRequest updateCommentRequest, Member member) {
-        Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new IllegalArgumentException(""));
+        Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new NotFoundException());
         comment.checkUser(comment,member);
         comment.updateComment(updateCommentRequest,member);
         commentRepository.save(comment);
@@ -51,7 +52,7 @@ public class CommentService {
     //익명 댓글 수정
     @Transactional
     public void updateAnonymousComment(Long commentId,UpdateCommentRequest updateCommentRequest,Member member) {
-        AnonymousComment comment = anonymousCommentRepository.findById(commentId).orElseThrow(() -> new IllegalArgumentException(""));
+        AnonymousComment comment = anonymousCommentRepository.findById(commentId).orElseThrow(() -> new NotFoundException());
         comment.checkUser(comment,member);
         comment.updateComment(updateCommentRequest,member);
         anonymousCommentRepository.save(comment);
@@ -60,7 +61,7 @@ public class CommentService {
     //댓글 삭제
     @Transactional
     public void deleteComment(Long commentId, Member member) {
-        Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new IllegalArgumentException(""));
+        Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new NotFoundException());
        comment.checkUser(comment,member);
         commentRepository.deleteById(commentId);
     }
@@ -68,7 +69,7 @@ public class CommentService {
     //익명 댓글 삭제
     @Transactional
     public void deleteAnonymousComment(Long commentId,Member member) {
-        AnonymousComment comment = anonymousCommentRepository.findById(commentId).orElseThrow(() -> new IllegalArgumentException(""));
+        AnonymousComment comment = anonymousCommentRepository.findById(commentId).orElseThrow(() -> new NotFoundException());
         comment.checkUser(comment,member);
         anonymousCommentRepository.deleteById(commentId);
     }
