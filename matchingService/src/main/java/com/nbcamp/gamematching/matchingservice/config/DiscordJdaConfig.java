@@ -1,5 +1,6 @@
 package com.nbcamp.gamematching.matchingservice.config;
 
+import com.nbcamp.gamematching.matchingservice.discord.dto.DiscordRequest;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
@@ -41,15 +42,15 @@ public class DiscordJdaConfig {
     }
 
     //디스코드 아이디 체크 : ex) 리릭#1633
-    public boolean checkMember(String discordId) {
-        Optional<User> getMember = Optional.ofNullable(jda.getUserByTag(discordId));
+    public boolean checkMember(DiscordRequest discordRequest) {
+        Optional<User> getMember = Optional.ofNullable(jda.getUserByTag(discordRequest.getDiscordId(),discordRequest.getDiscordNum()));
         if (getMember.isPresent()) {
             return true;
         }
         return false;
     }
 
-    public String createVoiceChannel(String category, List<String> discordIdList)
+    public String createVoiceChannel(String category, List<String> discordIdList,int matchingQuota)
             throws ExecutionException, InterruptedException {
         String channelUrl = "";
         Guild guild = jda.getGuildById(guildId);
@@ -57,10 +58,10 @@ public class DiscordJdaConfig {
         try {
             switch (category) {
                 case ("ㅈㄱ"):
-                    return getUrl("ㅈㄱ", discordIdList, channelUrl, guild, EgcategoryId);
+                    return getUrl("ㅈㄱ", discordIdList, channelUrl, guild, EgcategoryId,matchingQuota);
 
                 case ("ㅃㄱ"):
-                    return getUrl("ㅃㄱ", discordIdList, channelUrl, guild, HgcategoryId);
+                    return getUrl("ㅃㄱ", discordIdList, channelUrl, guild, HgcategoryId,matchingQuota);
             }
         } catch (RuntimeException e) {
             e.printStackTrace();
@@ -70,7 +71,7 @@ public class DiscordJdaConfig {
     }
 
     private String getUrl (String channelName, List <String> discordIdList, String channelUrl,
-                           Guild guild, String categoryId){
+                           Guild guild, String categoryId,int matchingQuota){
         Category category = guild.getCategoryById(categoryId);
         try {
             VoiceChannel voiceChannel = category.createVoiceChannel(channelName)
@@ -83,7 +84,7 @@ public class DiscordJdaConfig {
                 //각 멤버 채널 초대
                 voiceChannel.createPermissionOverride(member).setAllow(Permission.VIEW_CHANNEL).queue();
             }
-            voiceChannel.getManager().setUserLimit(5).queue();
+            voiceChannel.getManager().setUserLimit(matchingQuota).queue();
             channelUrl = voiceChannel.createInvite().setMaxAge(300).submit().get().getUrl();
         } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();

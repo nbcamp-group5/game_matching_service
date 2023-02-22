@@ -34,8 +34,10 @@ public class Member {
     private Long id;
     @Column(nullable = false)
     public String password;
+
     @Embedded
     private Profile profile;
+
     @Column
     private String email;
 
@@ -68,10 +70,13 @@ public class Member {
      */
     @OneToMany
     private List<Member> myBuddies = new ArrayList<>();
+
     @OneToMany
     private List<Member> notYetBuddies = new ArrayList<>();
+
 //    @OneToMany
 //    private List<Board> boards = new ArrayList<>();
+
 
     /**
      * 연관관계 편의 메소드 - 반대쪽에는 연관관계 편의 메소드가 없도록 주의합니다.
@@ -102,4 +107,5 @@ public class Member {
         }
         this.getNotYetBuddies().removeIf(notYetBuddy -> (notYetBuddy.getId() == requestMemberId));
     }
+
 }
