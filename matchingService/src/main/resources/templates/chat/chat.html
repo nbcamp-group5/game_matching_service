@@ -6,12 +6,66 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="https://kit.fontawesome.com/0f7e35127c.js" crossorigin="anonymous"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" type="text/css"
           rel="stylesheet">
 
 </head>
 
 <body>
+<nav class="menu">
+    <div>
+        <h1>ㅈㄱ</h1>
+        <h1>ㅃㄱ</h1>
+    </div>
+
+    <ul class="menu__list">
+        <li class="menu__btn">
+            <a class="menu__link" href="#">
+                <div class="menu__link__explain">
+                    <span><i class="fa-solid fa-clipboard-user fa-lg"></i></span>
+                    <span>일반</span>
+                </div>
+            </a>
+        </li>
+
+        <li class="menu__btn">
+            <a class="menu__link" href="#">
+                <div class="menu__link__explain">
+                    <span><i class="fa-solid fa-clipboard-question fa-lg"></i></span>
+                    <span>익명</span>
+                </div>
+            </a>
+        </li>
+
+        <li class="menu__btn">
+            <a class="menu__link" href="#">
+                <div class="menu__link__explain">
+                    <span><i class="fa-solid fa-comment fa-lg"></i></span>
+                    <span>메시지</span>
+                </div>
+            </a>
+        </li>
+
+        <li class="menu__btn">
+            <a class="menu__link" href="#">
+                <div class="menu__link__explain">
+                    <span><i class="fa-solid fa-gamepad"></i></span>
+                    <span>매칭</span>
+                </div>
+            </a>
+        </li>
+
+        <li class="menu__btn">
+            <a class="menu__link" href="#">
+                <div class="menu__link__explain">
+                    <span><i class="fa-solid fa-user fa-lg"></i></span>
+                    <span>프로필</span>
+                </div>
+            </a>
+        </li>
+    </ul>
+</nav>
 <div class="container">
     <div class="messaging">
         <div class="inbox_msg">
@@ -88,8 +142,10 @@
 
     .container {
         max-width: 1170px;
+        width: auto;
         margin: auto;
         margin-top: 100px;
+        margin-left: 200px;
     }
 
     img {
@@ -279,6 +335,52 @@
     .msg_history {
         height: 516px;
         overflow-y: auto;
+    }
+
+    /* 메뉴바 */
+
+    .menu {
+        background-color: #F9F9FA;
+        padding: 15px 15px;
+        border-top: 1px solid rgba(0, 0, 0, 0.05);
+        position: fixed;
+        top: 0;
+        box-sizing: border-box;
+        width: 200px;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .menu a {
+        text-decoration: none;
+        color: black;
+    }
+
+    .menu > div {
+        text-align: center;
+        font-size: 20px;
+    }
+
+    .menu li {
+        list-style: none;
+    }
+
+    .menu > div > h1 {
+        margin: 5px 0px;
+    }
+
+    .menu__btn {
+        margin-top: 35px;
+    }
+
+    .menu__link__explain {
+        display: flex;
+        font-size: 20px;
+    }
+
+    .menu__link__explain span {
+        margin-left: 10px;
     }
 </style>
 
