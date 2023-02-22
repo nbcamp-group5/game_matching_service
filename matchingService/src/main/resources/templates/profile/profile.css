@@ -1,4 +1,6 @@
-
+body {
+    min-width: 1000px;
+}
 
 .user-row {
     margin-bottom: 14px;
@@ -49,6 +51,10 @@
 .profile-box {
     border: none;
     padding: 10px 30px;
+}
+
+#profile-outer-box {
+    margin-left: 50px;
 }
 
 .profile-box__info {

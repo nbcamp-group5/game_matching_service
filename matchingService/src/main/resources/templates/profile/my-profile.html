@@ -5,11 +5,76 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Document</title>
+        <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
         <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
         <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
-        <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+        
         <link rel="stylesheet" href="profile.css" />
         <link rel="stylesheet" href="../menu.css" />
+        <script>
+          $(document).ready(function () {
+           $("#profile-content-box").empty();
+           $.ajax({
+               type:"GET",
+               url:"http://localhost:8080/api/profile/",
+               headers:{
+                "Content-Type": "application/json",
+                "Authorization":localStorage.getItem("accessToken")
+               },
+               data:{},
+               success: function (response) {
+                   let nickname = response['nickname'];
+                   let imageUrl = response['image'];
+                   let game = response['game'];
+                   let tier = response['tier'];
+                   let mannerPoints = response['mannerPoints'];
+                   let email = response['email'];
+
+                    let temp = ` <div class="panel panel-info profile-box">
+                        
+                        <div id="profile-content-box" class="panel-body">
+                            <div class="row">
+                                <div id="panel-body__img-box">
+                                    <img src="${imageUrl}"/>
+                                </div>
+                                
+                                <table class="table table-user-information profile-box__info">
+                                    <tbody>
+                                        <tr>
+                                            <td>닉네임:</td>
+                                            <td>${nickname}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>매너 점수:</td>
+                                            <td>${mannerPoints}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>티어:</td>
+                                            <td>${tier}</td>
+                                        </tr>
+                                    
+                                        <tr>
+                                            <td>관심 게임:</td>
+                                            <td>${game}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Email</td>
+                                            <td><a href="mailto:${email}"></a>${email}</td>
+                                        </tr>
+                                            
+                                        </tr>
+                                    
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>`
+                    $("#profile-content-box").append(temp);
+               }
+           })
+        })
+        </script>
     </head>
 
     <body>
@@ -74,7 +139,7 @@
           ></script>
 
           <div class="container">
-            <div class="row">
+            <div class="row" id="profile-outer-box">
                 <div class="col-md-5  toppad  pull-right col-md-offset-3 ">
                     <A href="edit-profile.html" style="margin-left: 7px;" >Edit Profile</A>
 
@@ -89,7 +154,7 @@
                             <h3 class="panel-title">프로필</h3>
                         </div>
                         
-                        <div class="panel-body">
+                        <div id="profile-content-box" class="panel-body">
                             <div class="row">
                                 <div id="panel-body__img-box">
                                     <img src="https://www.freecodecamp.org/korean/news/content/images/2022/07/5f9c9a4c740569d1a4ca24c2.jpeg"/>
@@ -124,7 +189,6 @@
                                     </tbody>
                                 </table>
                                 
-                                <a href="#" class="btn btn-primary">친구 신청</a>
                             </div>
                         </div>
 
