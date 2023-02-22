@@ -21,6 +21,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
     private MemberRepository memberRepository;
 
 
+
     // userRequest 는 code를 받아서 accessToken을 응답 받은 객체
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
@@ -38,27 +39,28 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 
         // Attribute를 파싱해서 공통 객체로 묶는다. 관리가 편함.
         OAuth2UserInfo oAuth2UserInfo = null;
-//        if(userRequest.getClientRegistration().getRegistrationId().equals("google")) {
-//            System.out.println("구글 로그인 요청~~");
-//            oAuth2UserInfo = new GoogleUserInfo(oAuth2User.getAttributes());
-//        }
-      userRequest.getClientRegistration().getRegistrationId().equals("kakao");
-            System.out.println("카카오 로그인 요청~~");
-            oAuth2UserInfo = new KakaoUserInfo(oAuth2User.getAttributes());
+        if(userRequest.getClientRegistration().getRegistrationId().equals("google")) {
+            System.out.println("구글 로그인 요청~~");
+            oAuth2UserInfo = new GoogleUserInfo(oAuth2User.getAttributes());
+        }
 
 
 
-        System.out.println("oAuth2UserInfo.getProvider() : " + oAuth2UserInfo.getProvider());
-        System.out.println("oAuth2UserInfo.getProviderId() : " + oAuth2UserInfo.getProviderId());
-        System.out.println("getname :" + oAuth2UserInfo.getName());
-        System.out.println("getemail :" + oAuth2UserInfo.getEmail());
-        System.out.println(oAuth2User.getAttributes());
-        System.out.println(oAuth2User.getName());
+//
+//        System.out.println("oAuth2UserInfo.getProvider() : " + oAuth2UserInfo.getProvider());
+//        System.out.println("oAuth2UserInfo.getProviderId() : " + oAuth2UserInfo.getProviderId());
+//        System.out.println("getname :" + oAuth2UserInfo.getName());
+//        System.out.println("getemail :" + oAuth2UserInfo.getEmail());
+//        System.out.println(oAuth2User.getAttributes());
+//        System.out.println(oAuth2User.getName());
         Optional<Member> userOptional =
                 memberRepository.findByEmail(oAuth2UserInfo.getEmail());
 
+
         Member user;
-        if (userOptional.isPresent()) {
+        if (userOptional.isPresent() && oAuth2UserInfo.getProvider().equals("gogle")){
+            user = userOptional.get();
+         } else if (userOptional.isPresent()) {
             user = Member.builder()
                     .email(oAuth2UserInfo.getEmail().substring(2))
                     .password(oAuth2UserInfo.getProviderId().substring(0,8))
@@ -69,7 +71,8 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
                             .nickname(oAuth2UserInfo.getName()).build())
                     .build();
             memberRepository.save(user);
-        } else {
+        }
+        else {
             // user의 패스워드가 null이기 때문에 OAuth 유저는 일반적인 로그인을 할 수 없음.
             user = Member.builder()
                     .email(oAuth2UserInfo.getEmail().substring(2))

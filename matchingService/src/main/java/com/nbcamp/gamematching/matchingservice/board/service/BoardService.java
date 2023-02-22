@@ -41,7 +41,7 @@ public class BoardService {
     //게시글 작성
     public void createBoard(CreateBoardRequest createBoardRequest, Member member, MultipartFile image) throws IOException {
         String imageFile = fileStore.storeFile(image);
-        Board board = new Board(member.getProfile().getNickname(), imageFile, createBoardRequest.getContent(),member);
+        Board board = new Board(member.getProfile().getNickname(),imageFile, createBoardRequest.getContent(),member);
         boardRepository.save(board);
     }
 

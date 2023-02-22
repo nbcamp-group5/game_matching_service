@@ -21,7 +21,6 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/boards")
 public class BoardController {
 
     private final BoardService boardService;
@@ -33,9 +32,10 @@ public class BoardController {
     private final FileStore fileStore;
 
 
+
     //게시글 작성
     @PostMapping(value = "/normal")
-    public ResponseEntity<String> createBoard(@RequestPart CreateBoardRequest createBoardRequest, @AuthenticationPrincipal UserDetailsImpl userDetails,@RequestPart(required=false) MultipartFile image) throws IOException {
+        public ResponseEntity<String> createBoard(@RequestPart("requestDto") CreateBoardRequest createBoardRequest, @AuthenticationPrincipal UserDetailsImpl userDetails, @RequestPart("image") MultipartFile image) throws IOException {
         boardService.createBoard(createBoardRequest, userDetails.getUser(),image);
         return new ResponseEntity<>("게시글 작성 완료", HttpStatus.CREATED);
 //        return "board/create";
@@ -50,9 +50,9 @@ public class BoardController {
     }
 
     //게시글 조회
-    @GetMapping(value = "/normal")
+    @GetMapping("/normal")
     public List<BoardResponse> getBoardList() {
-        return boardService.getBoardList();
+       return boardService.getBoardList();
 //        model.addAttribute("boardResponseList",boardResponseList);
 //        model.addAttribute("board",board);
 //        return "board/main";
@@ -68,8 +68,8 @@ public class BoardController {
     }
 
     //게시글 수정
-    @PatchMapping(value = "/normal/{boardId}") //수정할 때 이미지나 내용중 하나만 변경하고 싶을 때는?
-    public ResponseEntity<String> updateBoard(@PathVariable Long boardId, @RequestPart UpdateBoardRequest updateBoardRequest, @AuthenticationPrincipal UserDetailsImpl userDetails,@RequestPart MultipartFile image) throws IOException {
+    @PutMapping(value = "/normal/{boardId}") //수정할 때 이미지나 내용중 하나만 변경하고 싶을 때는?
+    public ResponseEntity<String> updateBoard(@PathVariable("boardId") Long boardId, @RequestPart UpdateBoardRequest updateBoardRequest, @AuthenticationPrincipal UserDetailsImpl userDetails,@RequestPart MultipartFile image) throws IOException {
         boardService.updateBoard(boardId,updateBoardRequest,userDetails.getMember(),image);
         return new ResponseEntity<>("게시글 수정완료",HttpStatus.OK);
         //        return "board/update";
@@ -85,7 +85,7 @@ public class BoardController {
 
     //게시글 삭제
     @DeleteMapping(value = "/normal/{boardId}")
-    public ResponseEntity<String> deleteBoard(@PathVariable Long boardId,@AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public ResponseEntity<String> deleteBoard(@PathVariable("boardId") Long boardId,@AuthenticationPrincipal UserDetailsImpl userDetails) {
         boardService.deleteBoard(boardId,userDetails.getMember());
         return new ResponseEntity<>("게시글 삭제완료",HttpStatus.OK);
 //        return "board/delete";

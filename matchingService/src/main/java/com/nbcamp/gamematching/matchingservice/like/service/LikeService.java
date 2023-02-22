@@ -31,7 +31,7 @@ public class LikeService {
         Board board = boardRepository.findById(boardId).orElseThrow(() -> new NotFoundException());
         Optional<Like> optionalLike = likeRepository.findById(boardId);
         if (optionalLike.isPresent()) {
-            throw new IllegalArgumentException("이미 좋아요를 누르셨습니다.");
+            likeRepository.delete(optionalLike.get());
         }
         Like like = new Like(board,member);
         likeRepository.save(like);
