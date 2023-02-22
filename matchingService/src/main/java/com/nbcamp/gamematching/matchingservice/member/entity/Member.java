@@ -6,7 +6,6 @@ import com.nbcamp.gamematching.matchingservice.chat.entity.ChatRoom;
 import com.nbcamp.gamematching.matchingservice.exception.SignException;
 import com.nbcamp.gamematching.matchingservice.member.domain.MemberRoleEnum;
 import jakarta.persistence.*;
-
 import java.util.ArrayList;
 import java.util.List;
 import lombok.AccessLevel;

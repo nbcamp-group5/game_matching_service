@@ -37,8 +37,10 @@ import org.springframework.web.multipart.MultipartFile;
 public class MemberController {
 
     private final MemberService memberService;
+
     @Value("${file.dir}")
     private String fileDir;
+
     private final FileStore fileStore;
 
     @GetMapping("/")
