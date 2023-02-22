@@ -56,22 +56,7 @@ public class MemberServiceImpl implements MemberService {
                 .currentPage(pageable.getPageNumber())
                 .build();
     }
-
-//    @Override
-//    public MatchingLogPageDto getMyMatchingList(Member member, Pageable pageable) {
-//
-//        Page<MatchingLog> myMatchingList = matchingLogRepository.findAllByMembe(member, pageable);
-//
-//        List<MatchingLogContent> matchingLogContents = myMatchingList.getContent().stream()
-//                .map(MatchingLogContent::new).collect(Collectors.toList());
-//
-//        return MatchingLogPageDto.builder()
-//                .contents(matchingLogContents)
-//                .numberOfElements(myMatchingList.getNumberOfElements())
-//                .totalPages(myMatchingList.getTotalPages())
-//                .currentPage(pageable.getPageNumber())
-//                .totalElements(myMatchingList.getNumberOfElements()).build();
-//    }
+    
 
     @Override
     public List<BuddyDto> getMyBuddies(Long memberId) {

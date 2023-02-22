@@ -18,8 +18,6 @@ public interface MemberService {
 
     BoardPageDto getMyBoards(Long memberId, Pageable pageable);
 
-//    MatchingLogPageDto getMyMatchingList(Member member, Pageable pageable);
-
     List<BuddyDto> getMyBuddies(Long memberId);
 
     List<BuddyRequestDto> getBuddyRequests(Long memberId);

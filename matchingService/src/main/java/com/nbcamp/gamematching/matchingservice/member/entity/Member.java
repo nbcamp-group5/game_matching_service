@@ -56,8 +56,9 @@ public class Member {
         }
         this.password = password;
         this.profile = profile;
-        this.email = email;
-        this.role = role;
+        if (MemberRoleEnum.isContains(role)) {
+            this.role = role;
+        }
     }
 
     /**
