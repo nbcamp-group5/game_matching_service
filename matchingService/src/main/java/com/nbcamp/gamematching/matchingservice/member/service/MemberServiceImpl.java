@@ -36,9 +36,11 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public ProfileDto getMyProfile(Member member) {
-        Profile myProfile = member.getProfile();
-        String email = member.getEmail();
-        return new ProfileDto(myProfile, email);
+        // 혹시 요청한 멤버가 삭제된 멤버일 수 있으니 Repository 에 찾아서 DTO 를 만든다
+        Member findMember = memberRepository.findById(member.getId())
+                .orElseThrow(NotFoundMemberException::new);
+
+        return new ProfileDto(findMember);
     }
 
     @Override
@@ -95,9 +97,8 @@ public class MemberServiceImpl implements MemberService {
     public ProfileDto getOtherProfile(Long userId) {
         Member findMember = memberRepository.findById(userId)
                 .orElseThrow(NotFoundMemberException::new);
-        Profile findMemberProfile = findMember.getProfile();
-        String findMemberEmail = findMember.getEmail();
-        return new ProfileDto(findMemberProfile, findMemberEmail);
+
+        return new ProfileDto(findMember);
     }
 
     @Override
