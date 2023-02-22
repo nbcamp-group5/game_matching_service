@@ -111,4 +111,8 @@ public class Member {
     public void changeMannerPoints(String upDown) {
         this.getProfile().changeMannerPoints(upDown);
     }
+
+    public void deleteBuddy(Long memberId) {
+        this.getMyBuddies().removeIf(member -> (member.getId() == memberId));
+    }
 }

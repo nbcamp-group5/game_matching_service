@@ -134,4 +134,13 @@ public class MemberServiceImpl implements MemberService {
     public Member responseMemberByMemberId(Long memberId) {
         return memberRepository.findById(memberId).orElseThrow(NotFoundMemberException::new);
     }
+
+    @Override
+    public ResponseEntity<String> deleteMyBuddy(Long memberId, Long buddyId) {
+        Member findMember = memberRepository.findById(memberId)
+                .orElseThrow(NotFoundMemberException::new);
+
+        findMember.deleteBuddy(buddyId);
+        return new ResponseEntity<>("친구가 삭제되었습니다.", HttpStatus.OK);
+    }
 }
