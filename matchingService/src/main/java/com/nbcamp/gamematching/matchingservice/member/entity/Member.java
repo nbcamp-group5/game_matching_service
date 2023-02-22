@@ -5,7 +5,17 @@ import static java.util.regex.Pattern.matches;
 import com.nbcamp.gamematching.matchingservice.chat.entity.ChatRoom;
 import com.nbcamp.gamematching.matchingservice.exception.SignException;
 import com.nbcamp.gamematching.matchingservice.member.domain.MemberRoleEnum;
-import jakarta.persistence.*;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -25,9 +35,8 @@ public class Member {
      * 컬럼 - 연관관계 컬럼을 제외한 컬럼을 정의합니다.
      */
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long Id;
-
+    @GeneratedValue
+    private Long id;
     @Column(nullable = false)
     public String password;
 
