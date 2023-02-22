@@ -37,19 +37,15 @@ import org.springframework.web.multipart.MultipartFile;
 public class MemberController {
 
     private final MemberService memberService;
-
     @Value("${file.dir}")
     private String fileDir;
-
     private final FileStore fileStore;
 
     @GetMapping("/")
     @ResponseBody
     public ProfileDto getMyProfile(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         Member member = userDetails.getMember();
-        memberService.getMyProfile(member);
-        model.addAttribute("profile", memberService.getMyProfile(member));
-        return "member/profile";
+        return memberService.getMyProfile(member);
     }
 
     @GetMapping("/boards")
@@ -59,8 +55,6 @@ public class MemberController {
         Member member = userDetails.getMember();
         Pageable newPageable = toPageable(pageable.getPageNumber(),
                 pageable.getPageSize());
-//        model.addAttribute("boardList", memberService.getMyBoards(member.getId(), newPageable));
-//        return "member/boardList";
         return memberService.getMyBoards(member.getId(), newPageable).getContents();
     }
 
@@ -69,8 +63,6 @@ public class MemberController {
     public List<BuddyDto> getMyBuddyList(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         Member member = userDetails.getMember();
         List<BuddyDto> myBuddies = memberService.getMyBuddies(member.getId());
-//        model.addAttribute("buddyList", myBuddies);
-//        return "member/buddyList";
         return myBuddies;
     }
 
@@ -80,8 +72,6 @@ public class MemberController {
             @AuthenticationPrincipal UserDetailsImpl userDetails) {
         Member member = userDetails.getMember();
         List<BuddyRequestDto> myBuddies = memberService.getBuddyRequests(member.getId());
-//        model.addAttribute("buddyRequestList", myBuddies);
-//        return "member/buddyRequestList";
         return myBuddies;
     }
 
@@ -115,8 +105,6 @@ public class MemberController {
     @ResponseBody
     public ProfileDto getOtherProfile(@PathVariable Long memberId) {
         return memberService.getOtherProfile(memberId);
-//        model.addAttribute("profile", memberService.getOtherProfile(memberId));
-//        return "member/profile";
     }
 
     public static Pageable toPageable(Integer currentPage, Integer size) {

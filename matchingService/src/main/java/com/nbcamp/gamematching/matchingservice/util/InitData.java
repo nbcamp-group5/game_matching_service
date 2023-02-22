@@ -1,14 +1,10 @@
 package com.nbcamp.gamematching.matchingservice.util;
 
-import com.nbcamp.gamematching.matchingservice.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 @Component
 @RequiredArgsConstructor
@@ -109,5 +105,5 @@ public class InitData implements ApplicationRunner {
 //    lock.writeLock().unlock();
 //        }
 //    }
-
+    }
 }
