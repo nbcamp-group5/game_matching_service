@@ -1,175 +1,256 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Document</title>
-        <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-        <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
-        <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-        <script>
-            $(document).ready(function() {
-                var panels = $('.user-infos');
-                var panelsButton = $('.dropdown-user');
-                panels.hide();
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+    
+    
+    <script>
+      $(document).ready(function () {
+        $("#profile-edit-form-box").empty();
 
-                //Click dropdown
-                panelsButton.click(function() {
-                    //get data-for attribute
-                    var dataFor = $(this).attr('data-for');
-                    var idFor = $(dataFor);
+        $.ajax({
+          type: "GET",
+          url: "http://localhost:8080/api/profile/",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": localStorage.getItem("accessToken"),
+          },
+          data: {},
+          success: function (response) {
+            let nickname = response["nickname"];
+            let imageUrl = response["image"];
+            let game = response["game"];
+            let tier = response["tier"];
+            let mannerPoints = response["mannerPoints"];
+            let email = response["email"];
 
-                    //current button
-                    var currentButton = $(this);
-                    idFor.slideToggle(400, function() {
-                        //Completed slidetoggle
-                        if(idFor.is(':visible'))
-                        {
-                            currentButton.html('<i class="glyphicon glyphicon-chevron-up text-muted"></i>');
-                        }
-                        else
-                        {
-                            currentButton.html('<i class="glyphicon glyphicon-chevron-down text-muted"></i>');
-                        }
-                    })
-                });
+            let temp = `  <div class="panel panel-info profile-box">
+                                <div id="editForm" enctype="multipart/form-data">
+                                  <div class="row">
+                                    <div id="panel-body__img-box">
+                                      <label class=newbtn>
+                                        <img id="blah" src="http://placehold.it/120x120" >
+                                        <input id="image" class='pis' onchange="readURL(this);" type="file" name="file" >
+                                    </label>
+                                    </div>
+                                    
+                                    <table class="table table-user-information profile-box__info">
+                                        <tbody>
+                                            <tr>
+                                                <td>닉네임:</td>
+                                                <td><input id="nickname" class="form-control" type="text" name="nickname" value="${nickname}"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td>매너 점수:</td>
+                                                <td>${mannerPoints}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>티어:</td>
+                                                <td><input id="tier" class="form-control" type="text" name="tier" value="${tier}"/></td>
+                                            </tr>
+                                        
+                                            <tr>
+                                                <td>관심 게임:</td>
+                                                <td><input id="game" class="form-control" type="text" name="game" value="${game}"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Email:</td>
+                                                <td>${email}</td>
+                                            </tr>
+                                                
+                                            </tr>
+                                        
+                                        </tbody>
+                                    </table>   
+                                </div>
+                                <button onclick="editProfile()" class="btn btn-primary">변경하기</button>
+                                </div>
+                                
+                              </div>`
 
+            $("#profile-edit-form-box").append(temp);
+          },
+        });
+      });
 
-                $('[data-toggle="tooltip"]').tooltip();
+      function editProfile () {
+        var data = {
+          nickname: $('#nickname').val(),
+          tier: $('#tier').val(),
+          game: $('#game').val()
+        };
 
-                $('button').click(function(e) {
-                    e.preventDefault();
-                    alert("This is a demo.\n :-)");
-                });
-            });
-        </script>
-        <link rel="stylesheet" href="profile.css" />
-        <link rel="stylesheet" href="../menu.css" />
-    </head>
-
-    <body>
+        // var form =$('#editForm')[0];
+        var formData = new FormData();
+        formData.append('image', $('#image')[0].files[0]);
+        formData.append('requestDto', new Blob([JSON.stringify(data)] , {type: "application/json"}));
         
-        <nav class="menu">
-            <div>
-              <h1>ㅈㄱ</h1>
-              <h1>ㅃㄱ</h1>
-            </div>
-      
-            <ul class="menu__list">
-              <li class="menu__btn">
-                <a class="menu__link" href="#">
-                  <div class="menu__link__explain">
-                    <span><i class="fa-solid fa-clipboard-user fa-lg"></i></span>
-                    <span>일반</span>
-                  </div>
-                </a>
-              </li>
-      
-              <li class="menu__btn">
-                <a class="menu__link" href="#">
-                  <div class="menu__link__explain">
-                    <span><i class="fa-solid fa-clipboard-question fa-lg"></i></span>
-                    <span>익명</span>
-                  </div>
-                </a>
-              </li>
-      
-              <li class="menu__btn">
-                <a class="menu__link" href="#">
-                  <div class="menu__link__explain">
-                    <span><i class="fa-solid fa-comment fa-lg"></i></span>
-                    <span>메시지</span>
-                  </div>
-                </a>
-              </li>
-      
-              <li class="menu__btn">
-                <a class="menu__link" href="#">
-                  <div class="menu__link__explain">
-                    <span><i class="fa-solid fa-gamepad"></i></span>
-                    <span>매칭</span>
-                  </div>
-                </a>
-              </li>
-      
-              <li class="menu__btn">
-                <a class="menu__link" href="#">
-                  <div class="menu__link__explain">
-                    <span><i class="fa-solid fa-user fa-lg"></i></span>
-                    <span>프로필</span>
-                  </div>
-                </a>
-              </li>
-            </ul>
-          </nav>
-      
-          <script
-            src="https://kit.fontawesome.com/0f7e35127c.js"
-            crossorigin="anonymous"
-          ></script>
+        $.ajax({
+                type: 'POST',
+                url: 'http://localhost:8080/api/profile/',
+                processData: false,
+                contentType: false,
+                headers: {
+                  "Authorization": localStorage.getItem("accessToken"),
+                },
+                data: formData,
+            })
+            .done(function(data, status, xhr) {
+                alert('프로필이 수정되었습니다.');
+                window.location.href='./my-profile.html';
+            }).fail(function (error) {
+                alert(JSON.stringify(error));
+            });
+      }
+    </script>
+    <link rel="stylesheet" href="profile.css" />
+    <link rel="stylesheet" href="../menu.css" />
+    <link rel="stylesheet" href="edit-profile.css" />
+    <script>
+      $(".newbtn").bind("click", function () {
+        $("#pic").click();
+      });
 
-          <div class="container">
-            <div class="row">
-                <div class="col-md-5  toppad  pull-right col-md-offset-3 ">
-                    <A href="profile.html" style="margin-left: 40px;" >프로필 가기</A>
-                </div>
-                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad" >
-            
-            
-                    <div class="panel panel-info profile-box">
-                        <div class="panel-heading profile-box__title" style="width: 100px;">
-                            <h3 class="panel-title">프로필</h3>
+      function readURL(input) {
+        if (input.files && input.files[0]) {
+          var reader = new FileReader();
+
+          reader.onload = function (e) {
+            $("#blah").attr("src", e.target.result);
+          };
+
+          reader.readAsDataURL(input.files[0]);
+        }
+      }
+    </script>
+  </head>
+
+  <body>
+    <nav class="menu">
+      <div>
+        <h1>ㅈㄱ</h1>
+        <h1>ㅃㄱ</h1>
+      </div>
+
+      <ul class="menu__list">
+        <li class="menu__btn">
+          <a class="menu__link" href="#">
+            <div class="menu__link__explain">
+              <span><i class="fa-solid fa-clipboard-user fa-lg"></i></span>
+              <span>일반</span>
+            </div>
+          </a>
+        </li>
+
+        <li class="menu__btn">
+          <a class="menu__link" href="#">
+            <div class="menu__link__explain">
+              <span><i class="fa-solid fa-clipboard-question fa-lg"></i></span>
+              <span>익명</span>
+            </div>
+          </a>
+        </li>
+
+        <li class="menu__btn">
+          <a class="menu__link" href="#">
+            <div class="menu__link__explain">
+              <span><i class="fa-solid fa-comment fa-lg"></i></span>
+              <span>메시지</span>
+            </div>
+          </a>
+        </li>
+
+        <li class="menu__btn">
+          <a class="menu__link" href="#">
+            <div class="menu__link__explain">
+              <span><i class="fa-solid fa-gamepad"></i></span>
+              <span>매칭</span>
+            </div>
+          </a>
+        </li>
+
+        <li class="menu__btn">
+          <a class="menu__link" href="#">
+            <div class="menu__link__explain">
+              <span><i class="fa-solid fa-user fa-lg"></i></span>
+              <span>프로필</span>
+            </div>
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <script
+      src="https://kit.fontawesome.com/0f7e35127c.js"
+      crossorigin="anonymous"
+    ></script>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-md-5 toppad pull-right col-md-offset-3">
+          <a href="my-profile.html" style="margin-left: 40px">프로필 가기</a>
+        </div>
+        <div
+          class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad"
+        >
+          <div class="panel panel-info profile-box">
+            <div class="panel-heading profile-box__title" style="width: 100px">
+              <h3 class="panel-title">프로필</h3>
+            </div>
+
+            <div class="panel-body" id="profile-edit-form-box">
+              <form>
+                      <div class="row">
+                        <div id="panel-body__img-box">
+                          <label class=newbtn>
+                            <img id="blah" src="http://placehold.it/120x120" >
+                            <input id="pic" class='pis' onchange="readURL(this);" type="file">
+                        </label>
                         </div>
                         
-                        <div class="panel-body">
-                          <form method="post">
-                            <div class="row">
-                              <div id="panel-body__img-box">
-                                  <img src="https://www.freecodecamp.org/korean/news/content/images/2022/07/5f9c9a4c740569d1a4ca24c2.jpeg"/>
-                              </div>
-                              
-                              <table class="table table-user-information profile-box__info">
-                                  <tbody>
-                                      <tr>
-                                          <td>닉네임:</td>
-                                          <td><input class="form-control" type="text" name="nickname" value="Programming"/></td>
-                                      </tr>
-                                      <tr>
-                                          <td>매너 점수:</td>
-                                          <td>8410</td>
-                                      </tr>
-                                      <tr>
-                                          <td>티어:</td>
-                                          <td><input class="form-control" type="text" name="tier" value="BRONZE"/></td>
-                                      </tr>
-                                  
-                                      <tr>
-                                          <td>관심 게임:</td>
-                                          <td><input class="form-control" type="text" name="game" value="귀여운 Mobile Game"/></td>
-                                      </tr>
-                                      <tr>
-                                          <td>Email:</td>
-                                          <td><input class="form-control" type="email" name="email" value="info@supprot.com"/></td>
-                                      </tr>
-                                          
-                                      </tr>
-                                  
-                                  </tbody>
-                              </table>
-                              
-                              <a href="#" class="btn btn-primary">변경하기</a>
-                          </div>
-                          </form>
+                        <table class="table table-user-information profile-box__info">
+                            <tbody>
+                                <tr>
+                                    <td>닉네임:</td>
+                                    <td><input id="nickname" class="form-control" type="text" name="nickname" value="Programming"/></td>
+                                </tr>
+                                <tr>
+                                    <td>매너 점수:</td>
+                                    <td>8410</td>
+                                </tr>
+                                <tr>
+                                    <td>티어:</td>
+                                    <td><input id="tier" class="form-control" type="text" name="tier" value="BRONZE"/></td>
+                                </tr>
                             
-                        </div>
-
+                                <tr>
+                                    <td>관심 게임:</td>
+                                    <td><input id="game" class="form-control" type="text" name="game" value="귀여운 Mobile Game"/></td>
+                                </tr>
+                                <tr>
+                                    <td>Email:</td>
+                                    <td>info@supprot.com</td>
+                                </tr>
+                                    
+                                </tr>
+                            
+                            </tbody>
+                        </table>
+                        <button onclick="changeProfile()" type="submit" class="btn btn-primary">변경하기</button>
                     </div>
-                </div>
+              </form>
+              
+
             </div>
+          </div>
         </div>
-
-    </body>
+      </div>
+    </div>
+  </body>
 </html>
-
-

@@ -49,6 +49,7 @@ public class WebSecurityConfig implements WebMvcConfigurer {
         http.authorizeHttpRequests()
                 .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                .requestMatchers("/").permitAll()
                 .requestMatchers("/api/auth/**").permitAll()
                 .requestMatchers("/api/**").permitAll()
                 .requestMatchers("/GGTalk/**").permitAll()

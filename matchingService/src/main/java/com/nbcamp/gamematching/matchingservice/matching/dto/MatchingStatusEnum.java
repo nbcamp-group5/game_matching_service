@@ -1,5 +1,5 @@
-package com.nbcamp.gamematching.matchingservice.matching.entity;
+package com.nbcamp.gamematching.matchingservice.matching.dto;
 
 public enum MatchingStatusEnum {
-    SUCCESS,CANCEL,WAITING
+    SUCCESS, CANCEL, WAITING
 }
