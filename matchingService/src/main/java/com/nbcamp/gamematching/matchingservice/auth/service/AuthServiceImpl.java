@@ -16,6 +16,7 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.UnsupportedEncodingException;
+import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -75,7 +76,8 @@ public class AuthServiceImpl implements AuthService {
         String accessToken = jwtUtil.createAccessToken(member.getEmail(), member.getRole());
         response.addCookie(cookie);
         response.addHeader(JwtUtil.AUTHORIZATION_HEADER, accessToken);
-//        redisService.addRefreshTokenByRedis(email,refreshToken, Duration.ofMillis(REFRESH_TOKEN_TIME));
+        redisService.addRefreshTokenByRedis(email, refreshToken,
+                Duration.ofMillis(REFRESH_TOKEN_TIME));
         log.info("로그인 멤버 : " + email);
     }
 

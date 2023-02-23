@@ -24,6 +24,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -86,13 +87,9 @@ public class BoardService {
         return pageable;
     }
 
-//    //게시글 검색
+    //게시글 검색
 //    public List<BoardResponse> getBoardList1(String searchName) {
-//        BooleanBuilder booleanBuilder = new BooleanBuilder();
-//        QBoard qboard = QBoard.board;
-//        booleanBuilder.and(qboard.content.contains(searchName));
-//        booleanBuilder.or(qboard.member.profile.nickname.contains(searchName));
-//        Page<Board> boardPage = boardRepository.findAll(booleanBuilder,pageableSetting(1));
+//        Page<Board> boardPage = boardRepository.findAll(pageableSetting(1));
 //        List<BoardResponse> boardResponseList = new ArrayList<>();
 //        for (Board board : boardPage) {
 //            Page<Comment> commentPage = commentRepository.findAllByBoardId(board.getId(), pageableSetting(1));

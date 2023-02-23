@@ -1,5 +1,6 @@
 package com.nbcamp.gamematching.matchingservice.matching.entity;
 
+import com.nbcamp.gamematching.matchingservice.matching.dto.MatchingStatusEnum;
 import com.nbcamp.gamematching.matchingservice.member.entity.Member;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -25,7 +26,7 @@ public class MatchingLog {
     @Column(name = "response_matching_id")
     private Long id;
     @Enumerated(value = EnumType.STRING)
-    private com.nbcamp.gamematching.matchingservice.matching.entity.MatchingStatusEnum metchingEunm;
+    private MatchingStatusEnum metchingEunm;
     @Column(nullable = false)
     private String playMode;
     @Column(nullable = false)
@@ -37,7 +38,7 @@ public class MatchingLog {
 
     @Builder
     public MatchingLog(
-            com.nbcamp.gamematching.matchingservice.matching.entity.MatchingStatusEnum metchingEunm,
+            MatchingStatusEnum metchingEunm,
             String playMode,
             String gameName, String discordUrl, List<Member> matchingMemberList) {
         this.metchingEunm = metchingEunm;
@@ -49,7 +50,7 @@ public class MatchingLog {
 
     @Builder
     public MatchingLog(
-            com.nbcamp.gamematching.matchingservice.matching.entity.MatchingStatusEnum metchingEunm,
+            MatchingStatusEnum metchingEunm,
             String playMode, String gameName) {
         this.metchingEunm = metchingEunm;
         this.playMode = playMode;
