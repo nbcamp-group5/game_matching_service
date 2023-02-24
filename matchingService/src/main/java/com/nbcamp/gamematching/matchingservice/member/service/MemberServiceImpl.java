@@ -131,8 +131,8 @@ public class MemberServiceImpl implements MemberService {
         return new ResponseEntity<>("평가가 완료되었습니다.", HttpStatus.OK);
     }
 
-    public Member responseMemberByMemberId(Long memberId) {
-        return memberRepository.findById(memberId).orElseThrow(NotFoundMemberException::new);
+    public Member responseMemberByMemberEmail(Long memberId) {
+        return memberRepository.findByEmail(memberId).orElseThrow(NotFoundMemberException::new);
     }
 
     @Override

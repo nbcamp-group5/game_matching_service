@@ -33,7 +33,7 @@ public interface MemberService {
 
     ResponseEntity<String> changeMannerPoints(MannerPointsRequest request);
 
-    Member responseMemberByMemberId(Long memberId);
+    Member responseMemberByMemberEmail(Long memberId);
 
     ResponseEntity<String> deleteMyBuddy(Long memberId, Long buddyId);
 }
