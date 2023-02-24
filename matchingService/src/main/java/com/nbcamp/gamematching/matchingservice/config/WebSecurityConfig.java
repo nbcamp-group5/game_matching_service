@@ -55,6 +55,7 @@ public class WebSecurityConfig implements WebMvcConfigurer {
                 .requestMatchers("/GGTalk/**").permitAll()
                 .requestMatchers("/pub/**").permitAll()
                 .requestMatchers("/sub/**").permitAll()//테스트용
+                .requestMatchers("js/**", "css/**", "images/**", "files/**").permitAll()
                 .anyRequest().authenticated()
                 .and().addFilterBefore(new JwtAuthFilter(jwtUtil),
                         UsernamePasswordAuthenticationFilter.class);
