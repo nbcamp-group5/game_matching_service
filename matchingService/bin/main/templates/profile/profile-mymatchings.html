@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+        <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+        <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+        <script>
+            $(document).ready(function() {
+                var panels = $('.user-infos');
+                var panelsButton = $('.dropdown-user');
+                panels.hide();
+
+                //Click dropdown
+                panelsButton.click(function() {
+                    //get data-for attribute
+                    var dataFor = $(this).attr('data-for');
+                    var idFor = $(dataFor);
+
+                    //current button
+                    var currentButton = $(this);
+                    idFor.slideToggle(400, function() {
+                        //Completed slidetoggle
+                        if(idFor.is(':visible'))
+                        {
+                            currentButton.html('<i class="glyphicon glyphicon-chevron-up text-muted"></i>');
+                        }
+                        else
+                        {
+                            currentButton.html('<i class="glyphicon glyphicon-chevron-down text-muted"></i>');
+                        }
+                    })
+                });
+
+
+                $('[data-toggle="tooltip"]').tooltip();
+
+                $('button').click(function(e) {
+                    e.preventDefault();
+                    alert("This is a demo.\n :-)");
+                });
+            });
+        </script>
+        <link rel="stylesheet" href="profile.css" />
+        <link rel="stylesheet" href="../menu.css" />
+    </head>
+
+    <body>
+        
+        <nav class="menu">
+            <div>
+              <h1>ㅈㄱ</h1>
+              <h1>ㅃㄱ</h1>
+            </div>
+      
+            <ul class="menu__list">
+              <li class="menu__btn">
+                <a class="menu__link" href="#">
+                  <div class="menu__link__explain">
+                    <span><i class="fa-solid fa-clipboard-user fa-lg"></i></span>
+                    <span>일반</span>
+                  </div>
+                </a>
+              </li>
+      
+              <li class="menu__btn">
+                <a class="menu__link" href="#">
+                  <div class="menu__link__explain">
+                    <span><i class="fa-solid fa-clipboard-question fa-lg"></i></span>
+                    <span>익명</span>
+                  </div>
+                </a>
+              </li>
+      
+              <li class="menu__btn">
+                <a class="menu__link" href="#">
+                  <div class="menu__link__explain">
+                    <span><i class="fa-solid fa-comment fa-lg"></i></span>
+                    <span>메시지</span>
+                  </div>
+                </a>
+              </li>
+      
+              <li class="menu__btn">
+                <a class="menu__link" href="#">
+                  <div class="menu__link__explain">
+                    <span><i class="fa-solid fa-gamepad"></i></span>
+                    <span>매칭</span>
+                  </div>
+                </a>
+              </li>
+      
+              <li class="menu__btn">
+                <a class="menu__link" href="#">
+                  <div class="menu__link__explain">
+                    <span><i class="fa-solid fa-user fa-lg"></i></span>
+                    <span>프로필</span>
+                  </div>
+                </a>
+              </li>
+            </ul>
+          </nav>
+      
+          <script
+            src="https://kit.fontawesome.com/0f7e35127c.js"
+            crossorigin="anonymous"
+          ></script>
+
+          <div class="container">
+            <div class="row">
+                <div class="col-md-5  toppad  pull-right col-md-offset-3 ">
+                    <A href="edit.html" style="margin-left: 7px;" >Edit Profile</A>
+
+                    <A href="edit.html" style="margin-left: 10px;" >Logout</A>
+
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad" >
+            
+            
+                    <div class="panel panel-info profile-box">
+                        <div class="panel-heading profile-box__title" style="width: 100px;">
+                            <h3 class="panel-title">프로필</h3>
+                        </div>
+                        
+                        <div class="panel-body">
+                            <div class="row">
+                                <div id="panel-body__img-box">
+                                    <img src="https://www.freecodecamp.org/korean/news/content/images/2022/07/5f9c9a4c740569d1a4ca24c2.jpeg"/>
+                                </div>
+                                
+                                <table class="table table-user-information profile-box__info">
+                                    <tbody>
+                                        <tr>
+                                            <td>닉네임:</td>
+                                            <td>Programming</td>
+                                        </tr>
+                                        <tr>
+                                            <td>매너 점수:</td>
+                                            <td>8410</td>
+                                        </tr>
+                                        <tr>
+                                            <td>티어:</td>
+                                            <td>BRONZE</td>
+                                        </tr>
+                                    
+                                        <tr>
+                                            <td>관심 게임:</td>
+                                            <td>귀여운 Mobile Game</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Email</td>
+                                            <td><a href="mailto:info@support.com">info@support.com</a></td>
+                                        </tr>
+                                            
+                                        </tr>
+                                    
+                                    </tbody>
+                                </table>
+                                
+                                <a href="#" class="btn btn-primary">친구 신청</a>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="more-suggestions">
+            <div class="more-suggestions__menu">
+                <a href="profile-mybuddies.html" type="button">내 친구</a>
+            </div>
+            <div class="more-suggestions__menu">
+                <a href="profile-myboards.html">내 게시글</a>
+            </div>
+            <div class="more-suggestions__menu">
+                <a style="font-weight: bold;" href="profile-mymatchings.html">내 매칭</a>
+            </div>
+            <div class="more-suggestions__menu">
+                <a href="profile-requestbuddy.html">친구 신청</a>
+            </div>
+        </div>
+
+        
+
+        <div class="btn-toolbar more-suggestions__list">
+            <h4>매칭 목록</h4>
+        </div>
+        <div class="well table-box">
+            <table class="table user-table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th class="more-suggestions__list__user-table">User1</th>
+                  <th class="more-suggestions__list__user-table">User2</th>
+                  <th class="more-suggestions__list__user-table">User3</th>
+                  <th class="more-suggestions__list__user-table">User4</th>
+                  <th class="more-suggestions__list__user-table">User5</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1</td>
+                  <td>나</td>
+                  <td>루비</td>
+                  <td>시원</td>
+                  <td>재형</td>
+                  <td>수</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>나</td>
+                    <td>루비</td>
+                    <td>시원</td>
+                    <td>재형</td>
+                    <td>수</td>
+                  </tr>
+                  <tr>
+                    <td>3</td>
+                    <td>나</td>
+                    <td>루비</td>
+                    <td>시원</td>
+                    <td>재형</td>
+                    <td>수</td>
+                  </tr>
+              </tbody>
+            </table>
+        </div>
+
+        <div class="modal small hide fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h3 id="myModalLabel">Delete Confirmation</h3>
+            </div>
+            <div class="modal-body">
+                <p class="error-text">Are you sure you want to delete the user?</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+                <button class="btn btn-danger" data-dismiss="modal">Delete</button>
+            </div>
+        </div>
+
+
+
+    </body>
+</html>
+
+
