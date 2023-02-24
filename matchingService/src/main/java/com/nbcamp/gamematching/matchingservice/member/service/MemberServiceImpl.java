@@ -119,6 +119,6 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public Member responseMemberByMemberId(Long memberId) {
-        return memberRepository.findById(memberId).orElseThrow(NotFoundMemberException::new); }
+    public Member responseMemberByMemberEmail(String memberEmail) {
+        return memberRepository.findByEmail(memberEmail).orElseThrow(NotFoundMemberException::new); }
 }

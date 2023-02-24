@@ -15,18 +15,18 @@ public class RequestMatching {
     private String memberNumbers;
     private String gameMode;
     private String gameName;
-    private Long memberId;
+    private String memberEmail;
     private String key;
 
 
     @Builder
-    public RequestMatching(RequestMatching requestMatching,Long memberId) {
+    public RequestMatching(RequestMatching requestMatching,String memberEmail) {
         this.gameMode = requestMatching.getGameMode();
         this.gameName = requestMatching.getGameName();
         this.memberNumbers = requestMatching.getMemberNumbers();
         this.discordId = requestMatching.getDiscordId();
         this.discordNum = requestMatching.getDiscordNum();
-        this.memberId = memberId;
+        this.memberEmail = memberEmail;
         this.dicordName = this.discordId+this.discordNum;
         this.key = this.gameName + this.memberNumbers;
     }

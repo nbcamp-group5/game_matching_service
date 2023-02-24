@@ -1,6 +1,5 @@
 package com.nbcamp.gamematching.matchingservice.matching.entity;
 
-import com.nbcamp.gamematching.matchingservice.matching.dto.MatchingStatusEnum;
 import com.nbcamp.gamematching.matchingservice.member.entity.Member;
 import jakarta.persistence.*;
 import lombok.Builder;

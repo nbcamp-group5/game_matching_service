@@ -31,5 +31,5 @@ public interface MemberService {
 
     ResponseEntity<String> answerBuddyRequest(Long memberId, Long requestUserId, Boolean answer);
 
-    Member responseMemberByMemberId(Long memberId);
+    Member responseMemberByMemberEmail(String memberEmail);
 }

@@ -25,10 +25,10 @@ public class MatchingController {
                               @AuthenticationPrincipal UserDetailsImpl userDetails,
                               HttpServletRequest servletRequest) throws JsonProcessingException {
         var member = userDetails.getMember();
-        var requestmember = new RequestMatching(requestMatching,member.getId());
-        matchingService.joinMatchingRoom(requestmember,servletRequest);
+        var matchingMember = new RequestMatching(requestMatching,member.getEmail());
+        matchingService.joinMatchingRoom(matchingMember,servletRequest);
         log.info("Join Matching Useremail{} UserDiscordId{}",member.getEmail(),requestMatching.getDiscordId());
-        return "redirect:/";
+        return "success";
     }
 
     @GetMapping("/cancel")
@@ -43,8 +43,10 @@ public class MatchingController {
         }
         redisService.matchingCancelByRedis(sessionInfo);
         log.info(" = Matching Cancel Success= ");
-        return "redirect:/";
+        return "success";
     }
+
+
 
 
 

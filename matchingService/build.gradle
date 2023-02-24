@@ -68,8 +68,21 @@ dependencies {
     runtimeOnly 'org.postgresql:postgresql'
     implementation group: 'org.postgresql', name: 'postgresql', version: '42.2.27'
 
+
+    implementation("org.springframework.kafka:spring-kafka")
+
+
+    implementation("com.google.guava:guava:31.1-jre")
+
 }
 
 tasks.named('test') {
     useJUnitPlatform()
+}
+
+jar {
+    enabled=true
+    manifest {
+        attributes 'Main-Class' : 'kafka.publisher.KafkaPublisherSpringBootApplication'
+    }
 }
