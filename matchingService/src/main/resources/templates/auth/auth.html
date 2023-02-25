@@ -374,7 +374,7 @@
 
     $.ajax(settings).done(function (response, status, xhr) {
       localStorage.setItem('Authorization', xhr.getResponseHeader('Authorization'))
-      window.location = ("/matching/matching-request.html")
+      window.location = ("localhost:5555/matching/matching-request.html")
     })
       .fail(function (response) {
         alert("아이디와 비밀번호를 확인해해주세요")

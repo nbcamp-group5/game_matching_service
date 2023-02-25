@@ -17,10 +17,7 @@ import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 @Service
@@ -31,15 +28,13 @@ public class RedisService {
     private final StringRedisTemplate stringRedisTemplate;
     private final RedisTemplate<String, Object> redisTemplate;
     private final ObjectMapper objectMapper = new ObjectMapper();
-    private  final Subscribe subscribe;
-    private final RedisMessageListenerContainer redisMessageListener;
-    private Map<String, ChannelTopic> topics = new HashMap<>();
 
 
 
-    public void machedEnterByRedis(String email, RequestMatching member) throws JsonProcessingException {
+
+    public void machedEnterByRedis(String key, RequestMatching member) throws JsonProcessingException {
         var mappperv = objectMapper.writeValueAsString(member);
-        redisTemplate.opsForList().leftPush(email, mappperv);
+        redisTemplate.opsForList().leftPush(key, mappperv);
     }
 
     public Long waitingUserCountByRedis(String key) {
@@ -47,10 +42,11 @@ public class RedisService {
         return list.size(key);
     }
 
-    public RequestMatching findByFirsJoinUserByRedis(String key,Class<RequestMatching> count) throws JsonProcessingException {
+    public RequestMatching findByFirstJoinUserByRedis(String key, Class<RequestMatching> count) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         var json =(String) redisTemplate.opsForList().index(key,0);
         return mapper.readValue(json, count);
+
 
     }
 
@@ -58,7 +54,7 @@ public class RedisService {
         ObjectMapper mapper = new ObjectMapper();
         List<RequestMatching> resualtlist = new ArrayList<>();
         try {
-            List<Object> jsonList = redisTemplate.opsForList().rightPop(key, matchingQuota);
+            List<Object> jsonList = redisTemplate.opsForList().leftPop(key, matchingQuota);
             for (int i = 0; i < jsonList.size(); i++) {
                 resualtlist.add(mapper.readValue((String) jsonList.get(i), count));
             }
@@ -95,21 +91,5 @@ public class RedisService {
         stringRedisTemplate.delete(email);
     }
 
-
-
-    // -- 룸채팅
-
-
-    public void publishUrl(ChannelTopic topic, MatchingMessage matchingMessage){
-        redisTemplate.convertAndSend(topic.getTopic(), matchingMessage);
-    }
-
-    public void enterTopic(String roomName) {
-            var topic = new ChannelTopic(roomName);
-            redisMessageListener.addMessageListener(subscribe, topic);
-    }
-    public ChannelTopic getTopic(String roomName) {
-        return topics.get(roomName);
-    }
 
 }

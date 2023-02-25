@@ -2,10 +2,10 @@ package com.nbcamp.gamematching.matchingservice.matching.Service;
 
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.nbcamp.gamematching.matchingservice.chat.dto.ResponseMatch;
 import com.nbcamp.gamematching.matchingservice.discord.service.DiscordService;
 import com.nbcamp.gamematching.matchingservice.matching.dto.RequestMatching;
 import com.nbcamp.gamematching.matchingservice.matching.entity.MatchingLog;
-import com.nbcamp.gamematching.matchingservice.matching.entity.MatchingMessage;
 import com.nbcamp.gamematching.matchingservice.matching.repository.MatchingLogRepository;
 import com.nbcamp.gamematching.matchingservice.member.entity.Member;
 import com.nbcamp.gamematching.matchingservice.member.service.MemberService;
@@ -28,76 +28,74 @@ public class MatchingServiceImpl implements MatchingService {
     private final MemberService memberService;
     private final RedisService redisService;
 
-    public void joinMatchingRoom(RequestMatching request, HttpServletRequest servletRequest) throws JsonProcessingException {
-        Long matchingQuota= Long.valueOf(request.getMemberNumbers());
+
+    public ResponseMatch joinMatchingRoom(RequestMatching request, HttpServletRequest servletRequest) throws JsonProcessingException {
+        Long matchingQuota = Long.valueOf(request.getMemberNumbers());
         //캔슬을 위한 세션 대기
-        var session = servletRequest.getSession();
-        session.setAttribute("UserSession",request);
-        session.setMaxInactiveInterval(10*60);
-
-        var topicNameSelector
-                = redisService.findByFirsJoinUserByRedis(request.getKey(),RequestMatching.class);
+//        var session = servletRequest.getSession();
+//        session.setAttribute("UserSession", request);
+//        session.setMaxInactiveInterval(10 * 60);
+        if (redisService.waitingUserCountByRedis(request.getKey()) < matchingQuota-1) {
+            redisService.machedEnterByRedis(request.getKey(), request);
         var topicName = "";
-        if(topicNameSelector == null){
-            topicName = request.getMemberEmail();
-        } else topicName = topicNameSelector.getMemberEmail();
-
+        var topicNameSelector
+                = redisService.findByFirstJoinUserByRedis(request.getKey(), RequestMatching.class);
+        topicName = topicNameSelector.getMemberEmail();
         System.out.println("current waitingUserCount = "
                 + redisService.waitingUserCountByRedis(request.getKey()));
-
-        if(redisService.waitingUserCountByRedis(request.getKey()) < matchingQuota){
-            redisService.machedEnterByRedis(request.getKey(),request);
-            redisService.enterSuccessMatchingRoom(topicName,request.getMemberEmail());
-
-            return;
+        return new ResponseMatch(topicName);
         }
+
 
 
         //매칭 정원이 찻을 경우
         var resualtMemberList =
-                redisService.getMatchingMemberByRedis(request.getKey(),matchingQuota,RequestMatching.class);
+                redisService.getMatchingMemberByRedis(request.getKey(), matchingQuota, RequestMatching.class);
+
+//            redisService.enterSuccessMatchingRoom(topicName,request.getMemberEmail());
 
         // 매칭 정원이 다 찻을경우 새로운 곳으로 옮기기 ?
         // 현재 토픽에있는 전원에게 보낼경우 6번째 멤버도 혹시나 받지 않을까 ?
 
-        List<Member> members =
-                resualtMemberList.stream().map(o->memberService.responseMemberByMemberEmail(o.getMemberEmail())).toList();
-
-        for (Member member : members) {
-        redisService.(topicName,member.getEmail());
-        }
-
         List<String> discordIdList = new ArrayList<>();
         for (RequestMatching member : resualtMemberList) {
-            discordIdList.add(member.getDiscordId());}
+            discordIdList.add(member.getDicordName());
+        }
+//        resualtMemberList.stream().map(o -> memberService.responseMemberByMemberEmail(o.getMemberEmail())).toList();
+
+        List<Member> members = new ArrayList<>();
+        for (RequestMatching requestMatching : resualtMemberList) {
+            members.add(memberService.responseMemberByMemberEmail(requestMatching.getMemberEmail()));
+        }
 
 
-       var resultUrl = discordService.createChannel(request.getGameMode(),
-                discordIdList,matchingQuota.intValue());
-
+        var resultUrl = discordService.createChannel(resualtMemberList.get(0).getGameMode(),
+                discordIdList, Integer.parseInt(resualtMemberList.get(0).getMemberNumbers()));
         String url = "";
         if (resultUrl.isPresent()) {
             System.out.println(url);
             url = resultUrl.get();
-        }else{
-            return;
+        } else {
+            throw new IllegalArgumentException("오류");
         }
+        var topicName = resualtMemberList.get(0).getMemberEmail();
         var responseMatching = MatchingLog.builder()
-                .gameName(request.getGameName())
-                .playMode(request.getGameMode())
+                .gameName(resualtMemberList.get(0).getGameName())
+                .playMode(resualtMemberList.get(0).getGameMode())
                 .discordUrl(url)
                 .matchingMemberList(members)
                 .build();
-
-        var message= MatchingMessage.builder()
-                .matchingRoomName(topicName)
-                .email(topicName)
-                .url(url)
-                .build();
+//
+//        MatchingLog response = new MatchingLog(resualtMemberList.get(0).getGameMode(),
+//                resualtMemberList.get(0).getGameName(), url,members);
 
         matchingLogRepository.save(responseMatching);
-        redisService.publishUrl(redisService.getTopic(topicName), message);
+
+        return new ResponseMatch(topicName,url);
     }
+}
+
+
 
 
     //매칭 버튼 누르면     //매칭중엔 소켓연결 시작해서 세션관리 시작
@@ -122,9 +120,6 @@ public class MatchingServiceImpl implements MatchingService {
 
 
 
-
-
-}
 
 
 

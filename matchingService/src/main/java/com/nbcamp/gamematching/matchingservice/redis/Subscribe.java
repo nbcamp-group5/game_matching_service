@@ -21,8 +21,11 @@ public class Subscribe implements MessageListener {
     public void onMessage(Message message, byte[] pattern) {
         try{
             String publishMessage = (String) redisTemplate.getStringSerializer().deserialize(message.getBody());
-            var matchingMessage = objectMapper.readValue(publishMessage, MatchingMessage.class);
-            matchingMessage.getEmail();
+
+
+
+//            var matchingMessage = objectMapper.readValue(publishMessage, MatchingMessage.class);
+//            matchingMessage.getEmail();
         } catch (Exception e){
             log.error(e.getMessage());
         }

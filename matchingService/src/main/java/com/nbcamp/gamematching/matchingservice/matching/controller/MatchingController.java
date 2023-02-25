@@ -1,5 +1,7 @@
 package com.nbcamp.gamematching.matchingservice.matching.controller;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.nbcamp.gamematching.matchingservice.chat.dto.ResponseMatch;
 import com.nbcamp.gamematching.matchingservice.exception.NotFoundException;
 import com.nbcamp.gamematching.matchingservice.matching.Service.MatchingService;
 import com.nbcamp.gamematching.matchingservice.matching.dto.RequestMatching;
@@ -8,6 +10,8 @@ import com.nbcamp.gamematching.matchingservice.security.UserDetailsImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,17 +22,18 @@ import org.springframework.web.bind.annotation.*;
 public class MatchingController {
     private final MatchingService matchingService;
     private final RedisService redisService;
+    private final SimpMessagingTemplate template;
 
     @PostMapping("/join")
     @ResponseBody
-    public String joinRequest(@RequestBody RequestMatching requestMatching,
-                              @AuthenticationPrincipal UserDetailsImpl userDetails,
-                              HttpServletRequest servletRequest) throws JsonProcessingException {
+    public ResponseMatch joinRequest(@RequestBody RequestMatching requestMatching,
+                                     @AuthenticationPrincipal UserDetailsImpl userDetails,
+                                     HttpServletRequest servletRequest) throws JsonProcessingException {
+
         var member = userDetails.getMember();
         var matchingMember = new RequestMatching(requestMatching,member.getEmail());
-        matchingService.joinMatchingRoom(matchingMember,servletRequest);
         log.info("Join Matching Useremail{} UserDiscordId{}",member.getEmail(),requestMatching.getDiscordId());
-        return "success";
+        return matchingService.joinMatchingRoom(matchingMember,servletRequest);
     }
 
     @GetMapping("/cancel")
@@ -44,6 +49,10 @@ public class MatchingController {
         redisService.matchingCancelByRedis(sessionInfo);
         log.info(" = Matching Cancel Success= ");
         return "success";
+    }
+    @MessageMapping(value = "/url")
+    public void message(ResponseMatch responseMatch){
+        template.convertAndSend("/matchingsub/" + responseMatch.getTopicName(),responseMatch.getUrl());
     }
 
 

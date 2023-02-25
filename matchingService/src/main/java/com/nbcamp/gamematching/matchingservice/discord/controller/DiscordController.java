@@ -1,8 +1,10 @@
 package com.nbcamp.gamematching.matchingservice.discord.controller;
 
+import com.nbcamp.gamematching.matchingservice.chat.entity.ChatMessage;
 import com.nbcamp.gamematching.matchingservice.discord.dto.DiscordRequest;
 import com.nbcamp.gamematching.matchingservice.discord.service.DiscordService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -32,9 +34,10 @@ public class DiscordController {
     public boolean vaildDiscordId(@RequestBody DiscordRequest discordRequest) {
         return discordService.userCheck(discordRequest);
     }
-
     @DeleteMapping("/test")
     public void delete() {
         discordService.deleteChannel();
     }
+
+
 }

@@ -57,11 +57,11 @@ public class DiscordJdaConfig {
 
         try {
             switch (category) {
-                case ("ㅈㄱ"):
-                    return getUrl("ㅈㄱ", discordIdList, channelUrl, guild, EgcategoryId,matchingQuota);
+                case ("즐겜"):
+                    return getUrl("즐겜", discordIdList, channelUrl, guild, EgcategoryId,matchingQuota);
 
-                case ("ㅃㄱ"):
-                    return getUrl("ㅃㄱ", discordIdList, channelUrl, guild, HgcategoryId,matchingQuota);
+                case ("빡겜"):
+                    return getUrl("빡겜", discordIdList, channelUrl, guild, HgcategoryId ,matchingQuota);
             }
         } catch (RuntimeException e) {
             e.printStackTrace();
@@ -71,7 +71,7 @@ public class DiscordJdaConfig {
     }
 
     private String getUrl (String channelName, List <String> discordIdList, String channelUrl,
-                           Guild guild, String categoryId,int matchingQuota){
+                           Guild guild, String categoryId, int matchingQuota){
         Category category = guild.getCategoryById(categoryId);
         try {
             VoiceChannel voiceChannel = category.createVoiceChannel(channelName)

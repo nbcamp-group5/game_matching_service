@@ -17,8 +17,8 @@
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
     <script>
 
-    function connect(roomName, fnick) {
-    getMessage(roomName, fnick);
+    function connect(roomName) {
+    getMessage(roomName);
     var sockJs = new SockJS("http://localhost:8080/GGMatching");
     var stomp = Stomp.over(sockJs);
 
@@ -26,14 +26,13 @@
 
         console.log("stomp 연결");
 
-        stomp.subscribe("/matchingsub/chat/room/" + roomName, function (response) {
+        stomp.subscribe("/matchingsub/" + roomName, function (response) {
             console.log("stomp 구독");
             console.log(response);
 
             var content = JSON.parse(response.body);
-            var receiver = content.receiver;
-            var message = content.message;
-            $(`#msg-history`).append(temp_html);
+            var url = content.url;
+            console.log(url);
         });
     });
 

@@ -51,6 +51,7 @@ public class WebSecurityConfig implements WebMvcConfigurer {
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .requestMatchers("/api/auth/**").permitAll()
                 .requestMatchers("/api/**").permitAll()
+                .requestMatchers("/GGMatching/**","/matchingpub/**","/matchingsub/**").permitAll()
                 .requestMatchers("/GGTalk/**").permitAll()
                 .requestMatchers("/pub/**").permitAll()
                 .requestMatchers("/sub/**").permitAll()//테스트용

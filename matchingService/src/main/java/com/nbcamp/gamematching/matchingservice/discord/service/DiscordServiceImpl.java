@@ -32,7 +32,7 @@ public class DiscordServiceImpl implements DiscordService {
 
     // 매일 자정 12시마다 비어있는 방을 지운다.
     @Transactional
-    @Scheduled(cron = "0 0 0 * * *")
+//    @Scheduled(cron = "0 0 0 * * *")
     public void deleteChannel() {
         jdaConfig.deleteVoiceChannel();
     }

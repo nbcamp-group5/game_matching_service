@@ -13,12 +13,12 @@ import java.util.List;
 @Entity
 @NoArgsConstructor
 public class MatchingLog {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "response_matching_id")
     private Long id;
-    @Enumerated(value = EnumType.STRING)
-    private MatchingStatusEnum metchingEunm;
+
     @Column(nullable = false)
     private String playMode;
     @Column(nullable = false)
@@ -29,18 +29,11 @@ public class MatchingLog {
     private List<Member> matchingMemberList = new ArrayList<>();
 
     @Builder
-    public MatchingLog(MatchingStatusEnum metchingEunm, String playMode,
+    public MatchingLog(String playMode,
                        String gameName, String discordUrl, List<Member> matchingMemberList) {
-        this.metchingEunm = metchingEunm;
         this.playMode = playMode;
         this.gameName = gameName;
         this.discordUrl = discordUrl;
         this.matchingMemberList = matchingMemberList;
-    }
-    @Builder
-    public MatchingLog(MatchingStatusEnum metchingEunm, String playMode, String gameName) {
-        this.metchingEunm = metchingEunm;
-        this.playMode = playMode;
-        this.gameName = gameName;
     }
 }
