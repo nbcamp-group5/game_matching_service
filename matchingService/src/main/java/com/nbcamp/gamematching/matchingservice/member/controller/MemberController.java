@@ -106,6 +106,13 @@ public class MemberController {
         return memberService.changeMyProfile(member, request, image);
     }
 
+    private final FileUploadService fileUploadService;
+
+    @PostMapping("/upload")
+    public ResponseEntity<FileDetail> post(@RequestPart("file") MultipartFile multipartFile) {
+        return ResponseEntity.ok(fileUploadService.save(multipartFile));
+    }
+
     @GetMapping("/{memberId}")
     @ResponseBody
     public ProfileDto getOtherProfile(@PathVariable Long memberId) {

@@ -86,8 +86,8 @@ public class MemberServiceImpl implements MemberService {
                 .orElseThrow(NotFoundMemberException::new);
         Profile findMemberProfile = findMember.getProfile();
 
-        String fileId = fileStore.storeFile(image);
-        String attachFile = fileStore.getFullPath(fileId);
+        String attachFile = fileStore.storeFile(image);
+//        String attachFile = fileStore.getFullPath(fileId);
 
         findMemberProfile.changeProfile(request, attachFile);
         return new ResponseEntity<>("프로필이 변경되었습니다.", HttpStatus.OK);
@@ -131,8 +131,8 @@ public class MemberServiceImpl implements MemberService {
         return new ResponseEntity<>("평가가 완료되었습니다.", HttpStatus.OK);
     }
 
-    public Member responseMemberByMemberEmail(Long memberId) {
-        return memberRepository.findByEmail(memberId).orElseThrow(NotFoundMemberException::new);
+    public Member responseMemberByMemberId(Long memberId) {
+        return memberRepository.findById(memberId).orElseThrow(NotFoundMemberException::new);
     }
 
     @Override
