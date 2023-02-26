@@ -1,4 +1,4 @@
-package com.nbcamp.gamematching.matchingservice.member.controller;
+package com.nbcamp.gamematching.matchingservice.member.domain;
 
 import java.time.LocalDateTime;
 import lombok.AccessLevel;

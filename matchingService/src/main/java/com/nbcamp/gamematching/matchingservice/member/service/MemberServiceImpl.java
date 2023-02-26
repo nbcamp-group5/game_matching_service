@@ -3,7 +3,7 @@ package com.nbcamp.gamematching.matchingservice.member.service;
 import com.nbcamp.gamematching.matchingservice.board.entity.Board;
 import com.nbcamp.gamematching.matchingservice.board.repository.BoardRepository;
 import com.nbcamp.gamematching.matchingservice.exception.NotFoundException.NotFoundMemberException;
-import com.nbcamp.gamematching.matchingservice.member.domain.FileStore;
+import com.nbcamp.gamematching.matchingservice.member.domain.FileDetail;
 import com.nbcamp.gamematching.matchingservice.member.dto.BoardPageDto;
 import com.nbcamp.gamematching.matchingservice.member.dto.BoardPageDto.BoardContent;
 import com.nbcamp.gamematching.matchingservice.member.dto.BuddyRequestDto;
@@ -32,7 +32,7 @@ public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository;
     private final BoardRepository boardRepository;
-    private final FileStore fileStore;
+    private final FileUploadService fileUploadService;
 
     @Override
     public ProfileDto getMyProfile(Member member) {
@@ -86,10 +86,9 @@ public class MemberServiceImpl implements MemberService {
                 .orElseThrow(NotFoundMemberException::new);
         Profile findMemberProfile = findMember.getProfile();
 
-        String attachFile = fileStore.storeFile(image);
-//        String attachFile = fileStore.getFullPath(fileId);
+        FileDetail fileDetail = fileUploadService.save(image);
 
-        findMemberProfile.changeProfile(request, attachFile);
+        findMemberProfile.changeProfile(request, fileDetail.getPath());
         return new ResponseEntity<>("프로필이 변경되었습니다.", HttpStatus.OK);
     }
 

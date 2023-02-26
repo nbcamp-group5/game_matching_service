@@ -1,5 +1,7 @@
-package com.nbcamp.gamematching.matchingservice.member.controller;
+package com.nbcamp.gamematching.matchingservice.member.service;
 
+import com.nbcamp.gamematching.matchingservice.member.domain.AmazonS3ResourceStorage;
+import com.nbcamp.gamematching.matchingservice.member.domain.FileDetail;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;

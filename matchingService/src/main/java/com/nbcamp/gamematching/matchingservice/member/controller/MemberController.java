@@ -1,5 +1,6 @@
 package com.nbcamp.gamematching.matchingservice.member.controller;
 
+import com.nbcamp.gamematching.matchingservice.member.domain.FileDetail;
 import com.nbcamp.gamematching.matchingservice.member.domain.FileStore;
 import com.nbcamp.gamematching.matchingservice.member.dto.AnswerBuddyRequestDto;
 import com.nbcamp.gamematching.matchingservice.member.dto.BoardPageDto.BoardContent;
@@ -8,6 +9,7 @@ import com.nbcamp.gamematching.matchingservice.member.dto.MannerPointsRequest;
 import com.nbcamp.gamematching.matchingservice.member.dto.ProfileDto;
 import com.nbcamp.gamematching.matchingservice.member.dto.UpdateProfileRequest;
 import com.nbcamp.gamematching.matchingservice.member.entity.Member;
+import com.nbcamp.gamematching.matchingservice.member.service.FileUploadService;
 import com.nbcamp.gamematching.matchingservice.member.service.MemberService;
 import com.nbcamp.gamematching.matchingservice.security.UserDetailsImpl;
 import java.io.IOException;
