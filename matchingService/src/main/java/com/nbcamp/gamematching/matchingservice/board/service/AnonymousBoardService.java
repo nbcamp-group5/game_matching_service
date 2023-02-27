@@ -17,6 +17,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -24,6 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class AnonymousBoardService {
 
@@ -70,6 +72,7 @@ public class AnonymousBoardService {
     public void deleteAnonymousBoard(Long boardId,Member member) {
         AnonymousBoard board = anonymousBoardRepository.findById(boardId).orElseThrow(() -> new IllegalArgumentException(""));
         board.checkUser(board,member);
+        anonymousLikeRepository.deleteAllByAnonymousBoardId(boardId);
         anonymousBoardRepository.deleteById(boardId);
     }
 
@@ -79,5 +82,11 @@ public class AnonymousBoardService {
         Sort sort = Sort.by(direction, "modifiedAt");
         Pageable pageable = PageRequest.of(page - 1, 10, sort);
         return pageable;
+    }
+
+    public AnonymousBoardResponse getAnonymousBoard(Long boardId) {
+        AnonymousBoard board = anonymousBoardRepository.findById(boardId).orElseThrow(()-> new IllegalArgumentException(""));
+        AnonymousBoardResponse anonymousBoardResponse = new AnonymousBoardResponse(board);
+        return anonymousBoardResponse;
     }
 }

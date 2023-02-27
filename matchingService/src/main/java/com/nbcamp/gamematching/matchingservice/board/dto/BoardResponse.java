@@ -12,10 +12,11 @@ public class BoardResponse {
 
     private final Long id;
     private final String nickname;
+    private final String memberImage;
     private final String boardImage;
     private final String content;
-    private final List<CommentResponse> comments;
-    private final Long likeCount;
+    private List<CommentResponse> comments;
+    private Long likeCount;
     private final LocalDateTime createAt;
     private final LocalDateTime modifiedAt;
 
@@ -23,6 +24,7 @@ public class BoardResponse {
     public BoardResponse(Board board, List<CommentResponse> comments, Long likeCount) {
         this.id = board.getId();
         this.nickname = board.getMember().getProfile().getNickname();
+        this.memberImage = board.getMember().getProfile().getProfileImage();
         this.boardImage = board.getBoardImage();
         this.content = board.getContent();
         this.comments = comments;
@@ -30,4 +32,16 @@ public class BoardResponse {
         this.createAt = board.getCreatedAt();
         this.modifiedAt = board.getModifiedAt();
     }
+
+    public BoardResponse(Board board) {
+        this.id = board.getId();
+        this.nickname = board.getMember().getProfile().getNickname();
+        this.memberImage = board.getMember().getProfile().getProfileImage();
+        this.boardImage = board.getBoardImage();
+        this.content = board.getContent();
+        this.createAt = board.getCreatedAt();
+        this.modifiedAt = board.getModifiedAt();
+    }
+
+
 }

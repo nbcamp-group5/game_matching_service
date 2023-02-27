@@ -12,9 +12,6 @@ import com.nbcamp.gamematching.matchingservice.exception.NotFoundException;
 import com.nbcamp.gamematching.matchingservice.like.repository.LikeRepository;
 import com.nbcamp.gamematching.matchingservice.member.domain.FileStore;
 import com.nbcamp.gamematching.matchingservice.member.entity.Member;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -24,6 +21,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @Transactional
@@ -37,11 +37,9 @@ public class BoardService {
     private final FileStore fileStore;
 
     //게시글 작성
-    public void createBoard(CreateBoardRequest createBoardRequest, Member member,
-            MultipartFile image) throws IOException {
+    public void createBoard(CreateBoardRequest createBoardRequest, Member member, MultipartFile image) throws IOException {
         String imageFile = fileStore.storeFile(image);
-        Board board = new Board(member.getProfile().getNickname(), imageFile,
-                createBoardRequest.getContent(), member);
+        Board board = new Board(member.getProfile().getNickname(), imageFile, createBoardRequest.getContent(), member);
         boardRepository.save(board);
     }
 
@@ -50,8 +48,7 @@ public class BoardService {
         Page<Board> boardPage = boardRepository.findAll(pageableSetting(1));
         List<BoardResponse> boardResponseList = new ArrayList<>();
         for (Board board : boardPage) {
-            Page<Comment> commentPage = commentRepository.findAllByBoardId(board.getId(),
-                    pageableSetting(1));
+            Page<Comment> commentPage = commentRepository.findAllByBoardId(board.getId(), pageableSetting(1));
             List<CommentResponse> commentList = new ArrayList<>();
             for (Comment comment : commentPage) {
                 commentList.add(new CommentResponse(comment));
@@ -63,8 +60,7 @@ public class BoardService {
     }
 
     //게시글 수정
-    public void updateBoard(Long boardId, UpdateBoardRequest boardRequest, Member member,
-            MultipartFile image) throws IOException {
+    public void updateBoard(Long boardId, UpdateBoardRequest boardRequest, Member member, MultipartFile image) throws IOException {
         Board board = boardRepository.findById(boardId).orElseThrow(() -> new NotFoundException());
         board.checkUser(board, member);
         String imageFile = fileStore.storeFile(image);
@@ -76,20 +72,25 @@ public class BoardService {
     public void deleteBoard(Long boardId, Member member) {
         Board board = boardRepository.findById(boardId).orElseThrow(() -> new NotFoundException());
         board.checkUser(board, member);
+        likeRepository.deleteAllByBoardId(boardId);
         boardRepository.deleteById(boardId);
     }
 
     //페이징
-    public Pageable pageableSetting(int page) {
+    public static Pageable pageableSetting(int page) {
         Sort.Direction direction = Sort.Direction.DESC;
         Sort sort = Sort.by(direction, "modifiedAt");
         Pageable pageable = PageRequest.of(page - 1, 10, sort);
         return pageable;
     }
 
-    //게시글 검색
+//    //게시글 검색
 //    public List<BoardResponse> getBoardList1(String searchName) {
-//        Page<Board> boardPage = boardRepository.findAll(pageableSetting(1));
+//        BooleanBuilder booleanBuilder = new BooleanBuilder();
+//        QBoard qboard = QBoard.board;
+//        booleanBuilder.and(qboard.content.contains(searchName));
+//        booleanBuilder.or(qboard.member.profile.nickname.contains(searchName));
+//        Page<Board> boardPage = boardRepository.findAll(booleanBuilder, pageableSetting(1));
 //        List<BoardResponse> boardResponseList = new ArrayList<>();
 //        for (Board board : boardPage) {
 //            Page<Comment> commentPage = commentRepository.findAllByBoardId(board.getId(), pageableSetting(1));
@@ -102,5 +103,10 @@ public class BoardService {
 //        }
 //        return boardResponseList;
 //    }
-}
 
+    public BoardResponse getBoard(Long boardId) {
+        Board board = boardRepository.findById(boardId).orElseThrow(()-> new IllegalArgumentException(""));
+        BoardResponse boardResponse = new BoardResponse(board);
+        return boardResponse;
+    }
+}

@@ -17,15 +17,14 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 @Entity
-@Table(name = "anonymous_board")
 public class AnonymousBoard extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "anonymousBoard_id")
+    @Column(name = "anonymous_board_id")
     private Long id;
 
-    @Column(name = "anonymousNickname")
+    @Column(name = "anonymous_nickname")
     private String nickname;
     //랜덤닉네임(익명)
 

@@ -22,7 +22,7 @@ public class AnonymousLike {
     private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "anonymousBoard_id")
+    @JoinColumn(name = "anonymous_board_id")
     private AnonymousBoard anonymousBoard;
 
     public AnonymousLike(AnonymousBoard board, Member member) {
