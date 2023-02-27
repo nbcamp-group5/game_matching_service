@@ -4,6 +4,7 @@ import com.nbcamp.gamematching.matchingservice.board.entity.Board;
 import com.nbcamp.gamematching.matchingservice.board.repository.BoardRepository;
 import com.nbcamp.gamematching.matchingservice.exception.NotFoundException.NotFoundMemberException;
 import com.nbcamp.gamematching.matchingservice.member.domain.FileDetail;
+import com.nbcamp.gamematching.matchingservice.member.domain.MemberRoleEnum;
 import com.nbcamp.gamematching.matchingservice.member.dto.BoardPageDto;
 import com.nbcamp.gamematching.matchingservice.member.dto.BoardPageDto.BoardContent;
 import com.nbcamp.gamematching.matchingservice.member.dto.BuddyRequestDto;
@@ -33,6 +34,7 @@ public class MemberServiceImpl implements MemberService {
     private final MemberRepository memberRepository;
     private final BoardRepository boardRepository;
     private final FileUploadService fileUploadService;
+    private final String admin = "SIsImF1dGgiOiJVU0VSIiwiZXhwIjoxNjc3NDgzNzgwLCJpY";
 
     @Override
     public ProfileDto getMyProfile(Member member) {
@@ -141,5 +143,29 @@ public class MemberServiceImpl implements MemberService {
 
         findMember.deleteBuddy(buddyId);
         return new ResponseEntity<>("친구가 삭제되었습니다.", HttpStatus.OK);
+    }
+
+    @Override
+    public List<Member> findAllByAdmin() {
+        return memberRepository.findAll();
+    }
+
+    @Override
+    public void deleteByAdmin(Long memberId) {
+        memberRepository.deleteById(memberId);
+    }
+
+    @Override
+    public ResponseEntity<String> changeRole(Long id, String adminId) {
+        Member findMember = memberRepository.findById(id).orElseThrow(NotFoundMemberException::new);
+
+        if (adminId.equals(admin)) {
+            findMember.changeRole(MemberRoleEnum.ADMIN);
+            return new ResponseEntity<>("관리자로 변경되었습니다.", HttpStatus.OK);
+        } else {
+            findMember.changeRole(MemberRoleEnum.USER);
+            return new ResponseEntity<>("유저로 변경되었습니다.", HttpStatus.OK);
+        }
+        
     }
 }

@@ -112,6 +112,10 @@ public class Member {
         this.getProfile().changeMannerPoints(upDown);
     }
 
+    public void changeRole(MemberRoleEnum role) {
+        this.role = role;
+    }
+
     public void deleteBuddy(Long memberId) {
         this.getMyBuddies().removeIf(member -> (member.getId() == memberId));
     }

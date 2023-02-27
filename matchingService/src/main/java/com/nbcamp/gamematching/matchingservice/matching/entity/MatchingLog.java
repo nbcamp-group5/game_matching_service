@@ -2,6 +2,7 @@ package com.nbcamp.gamematching.matchingservice.matching.entity;
 
 import com.nbcamp.gamematching.matchingservice.matching.dto.MatchingStatusEnum;
 import com.nbcamp.gamematching.matchingservice.member.entity.Member;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -33,7 +34,7 @@ public class MatchingLog {
     private String gameName;
     @Column(nullable = false)
     private String discordUrl;
-    @OneToMany
+    @OneToMany(cascade = CascadeType.REMOVE)
     private List<Member> matchingMemberList = new ArrayList<>();
 
     @Builder

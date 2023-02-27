@@ -5,6 +5,7 @@ import com.nbcamp.gamematching.matchingservice.member.dto.BoardPageDto.BoardCont
 import com.nbcamp.gamematching.matchingservice.member.dto.BuddyRequestDto;
 import com.nbcamp.gamematching.matchingservice.member.dto.MannerPointsRequest;
 import com.nbcamp.gamematching.matchingservice.member.dto.ProfileDto;
+import com.nbcamp.gamematching.matchingservice.member.dto.RequestAdmin;
 import com.nbcamp.gamematching.matchingservice.member.dto.UpdateProfileRequest;
 import com.nbcamp.gamematching.matchingservice.member.entity.Member;
 import com.nbcamp.gamematching.matchingservice.member.service.FileUploadService;
@@ -124,6 +125,14 @@ public class MemberController {
             @AuthenticationPrincipal UserDetailsImpl userDetails) {
         Member member = userDetails.getMember();
         return memberService.deleteMyBuddy(member.getId(), buddyId);
+    }
+
+    @PatchMapping("/role")
+    public ResponseEntity<String> changeMyRole(
+            @AuthenticationPrincipal UserDetailsImpl userDetails,
+            @RequestBody RequestAdmin request) {
+        Member member = userDetails.getMember();
+        return memberService.changeRole(member.getId(), request.getAdminId());
     }
 
     public static Pageable toPageable(Integer currentPage, Integer size) {

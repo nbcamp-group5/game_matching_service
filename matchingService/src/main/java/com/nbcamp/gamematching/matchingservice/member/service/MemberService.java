@@ -36,4 +36,10 @@ public interface MemberService {
     Member responseMemberByMemberId(Long memberId); //TODO: memberEmail로 바꿀것
 
     ResponseEntity<String> deleteMyBuddy(Long memberId, Long buddyId);
+
+    List<Member> findAllByAdmin();
+
+    void deleteByAdmin(Long memberId);
+
+    ResponseEntity<String> changeRole(Long id, String adminId);
 }
