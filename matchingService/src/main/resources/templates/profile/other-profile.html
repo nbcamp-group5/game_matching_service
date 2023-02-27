@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+        <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+        <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+        
+        <link rel="stylesheet" href="profile.css" />
+        <link rel="stylesheet" href="../menu.css" />
+        <script>
+          $(document).ready(function () {
+            // $("#profile-box").empty();
+            $("#profile-content-box").empty();
+            var request = new Request();
+            let id = request.getParameter("userId");
+
+            $.ajax({
+                type:"GET",
+                url:"http://localhost:8080/api/profile/" + id,
+                headers:{
+                "Authorization":localStorage.getItem("accessToken")
+                },
+                data:{},
+                success: function (response) {
+                    let id = response['id'];
+                    let nickname = response['nickname'];
+                    let imageUrl = response['image'];
+                    let game = response['game'];
+                    let tier = response['tier'];
+                    let mannerPoints = response['mannerPoints'];
+                    let email = response['email'];
+
+                    let temp = ` <div id="profile-box" class="panel panel-info profile-box">
+                        <div class="panel-heading profile-box__title" style="width: 300px;">
+                            <h3 class="panel-title">${nickname}의 프로필</h3>
+                        </div>
+                        
+                        <div id="profile-content-box" class="panel-body">
+                            <div class="row">
+                                <div id="panel-body__img-box">
+                                    <img src="${imageUrl}"/>
+                                </div>
+                                
+                                <table class="table table-user-information profile-box__info">
+                                    <tbody>
+                                        <tr>
+                                            <td>닉네임:</td>
+                                            <td>${nickname}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>매너 점수:</td>
+                                            <td>${mannerPoints}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>티어:</td>
+                                            <td>${tier}</td>
+                                        </tr>
+                                    
+                                        <tr>
+                                            <td>관심 게임:</td>
+                                            <td>${game}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Email</td>
+                                            <td><a href="mailto:${email}"></a>${email}</td>
+                                        </tr>
+                                            
+                                        </tr>
+                                    
+                                    </tbody>
+                                </table>
+                                
+                                <a onclick="requestBuddy(${id})" class="btn btn-primary">친구 신청</a>
+                            </div>
+                        </div>
+
+                    </div>`
+                    $("#profile-content-box").append(temp);
+                }
+            })
+        })
+
+        function Request(){
+          var requestParam ="";
+          
+          //getParameter 펑션
+            this.getParameter = function(param){
+            //현재 주소를 decoding
+            var url = unescape(location.href);
+            //파라미터만 자르고, 다시 &그분자를 잘라서 배열에 넣는다.
+            var paramArr = (url.substring(url.indexOf("?")+1,url.length)).split("&");
+          
+            for(var i = 0 ; i < paramArr.length ; i++){
+              var temp = paramArr[i].split("="); //파라미터 변수명을 담음
+          
+              if(temp[0].toUpperCase() == param.toUpperCase()){
+                // 변수명과 일치할 경우 데이터 삽입
+                requestParam = paramArr[i].split("=")[1];
+                break;
+              }
+            }
+            return requestParam;
+          }
+          }
+
+        function requestBuddy(id) {
+          $.ajax({
+            type:"PATCH",
+            url:"http://localhost:8080/api/profile/notYetBuddies/" + id,
+            headers:{
+            "Authorization":localStorage.getItem("accessToken")
+            },
+            data:{},
+            success: function (response) {
+              alert("친구 신청되었습니다");
+              window.location.href='my-profile.html';
+            }
+          })
+        }
+        </script>
+    </head>
+
+    <body>
+        
+        <nav class="menu">
+            <div>
+              <h1>ㅈㄱ</h1>
+              <h1>ㅃㄱ</h1>
+            </div>
+      
+            <ul class="menu__list">
+              <li class="menu__btn">
+                <a class="menu__link" href="#">
+                  <div class="menu__link__explain">
+                    <span><i class="fa-solid fa-clipboard-user fa-lg"></i></span>
+                    <span>일반</span>
+                  </div>
+                </a>
+              </li>
+      
+              <li class="menu__btn">
+                <a class="menu__link" href="#">
+                  <div class="menu__link__explain">
+                    <span><i class="fa-solid fa-clipboard-question fa-lg"></i></span>
+                    <span>익명</span>
+                  </div>
+                </a>
+              </li>
+      
+              <li class="menu__btn">
+                <a class="menu__link" href="#">
+                  <div class="menu__link__explain">
+                    <span><i class="fa-solid fa-comment fa-lg"></i></span>
+                    <span>메시지</span>
+                  </div>
+                </a>
+              </li>
+      
+              <li class="menu__btn">
+                <a class="menu__link" href="#">
+                  <div class="menu__link__explain">
+                    <span><i class="fa-solid fa-gamepad"></i></span>
+                    <span>매칭</span>
+                  </div>
+                </a>
+              </li>
+      
+              <li class="menu__btn">
+                <a class="menu__link" href="#">
+                  <div class="menu__link__explain">
+                    <span><i class="fa-solid fa-user fa-lg"></i></span>
+                    <span>프로필</span>
+                  </div>
+                </a>
+              </li>
+            </ul>
+          </nav>
+      
+          <script
+            src="https://kit.fontawesome.com/0f7e35127c.js"
+            crossorigin="anonymous"
+          ></script>
+
+          <div class="container">
+            <div class="row">
+                <div class="col-md-5  toppad  pull-right col-md-offset-3 ">
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad" >
+            
+            
+                    <div id="profile-box" class="panel panel-info profile-box">
+                        <!-- <div class="panel-heading profile-box__title" style="width: 100px;">
+                            <h3 class="panel-title">프로필</h3>
+                        </div> -->
+                        
+                        <div id="profile-content-box" class="panel-body">
+                            <div class="row">
+                                <div id="panel-body__img-box">
+                                    <img src="https://www.freecodecamp.org/korean/news/content/images/2022/07/5f9c9a4c740569d1a4ca24c2.jpeg"/>
+                                </div>
+                                
+                                <table class="table table-user-information profile-box__info">
+                                    <tbody>
+                                        <tr>
+                                            <td>닉네임:</td>
+                                            <td>Programming</td>
+                                        </tr>
+                                        <tr>
+                                            <td>매너 점수:</td>
+                                            <td>8410</td>
+                                        </tr>
+                                        <tr>
+                                            <td>티어:</td>
+                                            <td>BRONZE</td>
+                                        </tr>
+                                    
+                                        <tr>
+                                            <td>관심 게임:</td>
+                                            <td>귀여운 Mobile Game</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Email</td>
+                                            <td><a href="mailto:info@support.com">info@support.com</a></td>
+                                        </tr>
+                                            
+                                        </tr>
+                                    
+                                    </tbody>
+                                </table>
+                                
+                                <a onclick="requestBuddy()" class="btn btn-primary">친구 신청</a>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </body>
+</html>
+
+

@@ -9,7 +9,6 @@ import com.nbcamp.gamematching.matchingservice.member.domain.FileStore;
 import com.nbcamp.gamematching.matchingservice.member.domain.GameType;
 import com.nbcamp.gamematching.matchingservice.member.domain.Tier;
 import com.nbcamp.gamematching.matchingservice.member.dto.BoardPageDto;
-import com.nbcamp.gamematching.matchingservice.member.dto.BuddyDto;
 import com.nbcamp.gamematching.matchingservice.member.dto.BuddyRequestDto;
 import com.nbcamp.gamematching.matchingservice.member.dto.ProfileDto;
 import com.nbcamp.gamematching.matchingservice.member.dto.UpdateProfileRequest;
@@ -126,10 +125,10 @@ class MemberServiceImplTest {
         }
 
         // when
-        List<BuddyDto> myBuddies = memberService.getMyBuddies(1L);
+        List<ProfileDto> myBuddies = memberService.getMyBuddies(1L);
 
         // then
-        for (BuddyDto myBuddy : myBuddies) {
+        for (ProfileDto myBuddy : myBuddies) {
             System.out.println("myBuddy = " + myBuddy.getEmail());
         }
         assertThat(myBuddies.size()).isEqualTo(3);

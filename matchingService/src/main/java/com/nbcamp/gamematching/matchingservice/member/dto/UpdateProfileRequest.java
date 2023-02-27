@@ -20,4 +20,5 @@ public class UpdateProfileRequest {
         this.tier = tier;
         this.game = game;
     }
+
 }

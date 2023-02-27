@@ -1,0 +1,43 @@
+.menu {
+    background-color: #F9F9FA;
+    padding : 15px 15px;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    position:fixed;
+    top: 0;
+    box-sizing: border-box;
+    width: 300px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.menu a {
+    text-decoration: none;
+    color: black;
+}
+
+.menu > div {
+    text-align: center;
+    font-size: 40px;
+}
+
+.menu  li {
+    list-style: none;
+}
+
+.menu > div > h1 {
+    margin: 5px 0px;
+}
+
+.menu__btn {
+    margin-top: 35px;
+}
+
+.menu__link__explain {
+    display: flex;
+    font-size: 30px;
+}
+
+.menu__link__explain span {
+    margin-left: 10px;
+}
