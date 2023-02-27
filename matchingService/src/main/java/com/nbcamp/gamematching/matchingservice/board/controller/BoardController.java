@@ -43,7 +43,7 @@ public class BoardController {
 
     //익명 게시글 작성
     @PostMapping(value = "/anonymous")
-    public ResponseEntity<String> createAnonymousBoard(@RequestPart CreateBoardRequest createBoardRequest,@AuthenticationPrincipal UserDetailsImpl userDetails,@RequestPart MultipartFile image) throws IOException {
+    public ResponseEntity<String> createAnonymousBoard(@RequestPart("requestDto") CreateBoardRequest createBoardRequest, @AuthenticationPrincipal UserDetailsImpl userDetails, @RequestPart("image") MultipartFile image) throws IOException {
         anonymousBoardService.createAnonymousBoard(createBoardRequest, userDetails.getUser(),image);
         return new ResponseEntity<>("게시글 작성 완료", HttpStatus.CREATED);
 //        return "templates/anonymous/create";
@@ -69,15 +69,15 @@ public class BoardController {
 
     //게시글 수정
     @PutMapping(value = "/normal/{boardId}") //수정할 때 이미지나 내용중 하나만 변경하고 싶을 때는?
-    public ResponseEntity<String> updateBoard(@PathVariable("boardId") Long boardId, @RequestPart UpdateBoardRequest updateBoardRequest, @AuthenticationPrincipal UserDetailsImpl userDetails,@RequestPart MultipartFile image) throws IOException {
+    public ResponseEntity<String> updateBoard(@PathVariable("boardId") Long boardId, @RequestPart("requestDto") UpdateBoardRequest updateBoardRequest, @AuthenticationPrincipal UserDetailsImpl userDetails,@RequestPart(required = false,name ="image") MultipartFile image) throws IOException {
         boardService.updateBoard(boardId,updateBoardRequest,userDetails.getMember(),image);
         return new ResponseEntity<>("게시글 수정완료",HttpStatus.OK);
         //        return "board/update";
     }
 
     //익명 게시글 수정
-    @PatchMapping(value = "/anonymous/{boardId}")
-    public ResponseEntity<String> updateAnonymousBoard(@PathVariable Long boardId, @RequestPart UpdateBoardRequest updateBoardRequest, @AuthenticationPrincipal UserDetailsImpl userDetails,@RequestPart MultipartFile image) throws IOException {
+    @PutMapping(value = "/anonymous/{boardId}")
+    public ResponseEntity<String> updateAnonymousBoard(@PathVariable("boardId") Long boardId, @RequestPart("requestDto") UpdateBoardRequest updateBoardRequest, @AuthenticationPrincipal UserDetailsImpl userDetails,@RequestPart("image") MultipartFile image) throws IOException {
         anonymousBoardService.updateAnonymousBoard(boardId,updateBoardRequest,userDetails.getMember(),image);
         return new ResponseEntity<>("게시글 수정완료",HttpStatus.OK);
 //        return "anonymous/update";
@@ -91,15 +91,31 @@ public class BoardController {
 //        return "board/delete";
     }
 
-    //게시글 삭제
+    //익명 게시글 삭제
     @DeleteMapping(value = "/anonymous/{boardId}")
-    public ResponseEntity<String> deleteAnonymousBoard(@PathVariable Long boardId,@AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public ResponseEntity<String> deleteAnonymousBoard(@PathVariable("boardId") Long boardId,@AuthenticationPrincipal UserDetailsImpl userDetails) {
         anonymousBoardService.deleteAnonymousBoard(boardId,userDetails.getMember());
         return new ResponseEntity<>("게시글 삭제완료",HttpStatus.OK);
 //        return "anonymous/delete";
     }
 
-//    //게시글 조회
+
+    //게시글 단건 조회
+    @GetMapping("/normal/{boardId}")
+    public BoardResponse getBoard(@PathVariable Long boardId) {
+        return boardService.getBoard(boardId);
+    }
+
+    //익명 게시글 단건 조회
+    @GetMapping("/anonymous/{boardId}")
+    public AnonymousBoardResponse getAnonymousBoard(@PathVariable Long boardId) {
+        return anonymousBoardService.getAnonymousBoard(boardId);
+    }
+
+
+
+
+
 //    @GetMapping(value = "/search/{searchName}")
 //    public List<BoardResponse> getBoardList1(@PathVariable String searchName) {
 //        return boardService.getBoardList1(searchName);

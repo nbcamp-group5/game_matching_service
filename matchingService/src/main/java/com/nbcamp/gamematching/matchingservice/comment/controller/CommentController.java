@@ -1,5 +1,7 @@
 package com.nbcamp.gamematching.matchingservice.comment.controller;
 
+import com.nbcamp.gamematching.matchingservice.comment.dto.AnonymousCommentResponse;
+import com.nbcamp.gamematching.matchingservice.comment.dto.CommentResponse;
 import com.nbcamp.gamematching.matchingservice.comment.dto.CreateCommentRequest;
 import com.nbcamp.gamematching.matchingservice.comment.dto.UpdateCommentRequest;
 import com.nbcamp.gamematching.matchingservice.comment.service.CommentService;
@@ -9,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -32,14 +36,14 @@ public class CommentController {
     }
 
     //댓글 수정
-    @PatchMapping("/{commentId}")
-    public ResponseEntity<String> updateComment(@PathVariable Long commentId, @RequestBody UpdateCommentRequest updateCommentRequest,@AuthenticationPrincipal UserDetailsImpl userDetails) {
+    @PutMapping("/{commentId}")
+    public ResponseEntity<String> updateComment(@PathVariable("commentId") Long commentId, @RequestBody UpdateCommentRequest updateCommentRequest,@AuthenticationPrincipal UserDetailsImpl userDetails) {
         commentService.updateComment(commentId,updateCommentRequest,userDetails.getUser());
         return new ResponseEntity<>("댓글 수정완료",HttpStatus.OK);
     }
 
     //익명 댓글 수정
-    @PatchMapping("/anonymous/{commentId}")
+    @PutMapping("/anonymous/{commentId}")
     public ResponseEntity<String> updateAnonymousComment(@PathVariable Long commentId, @RequestBody UpdateCommentRequest updateCommentRequest,@AuthenticationPrincipal UserDetailsImpl userDetails) {
         commentService.updateAnonymousComment(commentId,updateCommentRequest,userDetails.getUser());
         return new ResponseEntity<>("댓글 수정완료",HttpStatus.OK);
@@ -52,10 +56,34 @@ public class CommentController {
         return new ResponseEntity<>("댓글 삭제완료",HttpStatus.OK);
     }
 
-    //댓글 삭제
+    //익명 댓글 삭제
     @DeleteMapping("/anonymous/{commentId}")
     public ResponseEntity<String> deleteAnonymousComment(@PathVariable Long commentId,@AuthenticationPrincipal UserDetailsImpl userDetails) {
         commentService.deleteAnonymousComment(commentId,userDetails.getUser());
         return new ResponseEntity<>("댓글 삭제완료",HttpStatus.OK);
+    }
+
+    //댓글 단건 조회
+    @GetMapping("/one/{commentId}")
+    public CommentResponse getComment(@PathVariable Long commentId) {
+        return commentService.getComment(commentId);
+    }
+
+    //익명 댓글 단건 조회
+    @GetMapping("/anonymous/one/{commentId}")
+    public AnonymousCommentResponse getAnonymousComment(@PathVariable Long commentId) {
+        return commentService.getAnonymousComment(commentId);
+    }
+
+    //댓글 조회
+    @GetMapping("/{boardId}")
+    public List<CommentResponse> showComment(@PathVariable Long boardId) {
+       return commentService.showComment(boardId);
+    }
+
+    //익명 댓글 조회
+    @GetMapping("/anonymous/{boardId}")
+    public List<AnonymousCommentResponse> showAnonymousComment(@PathVariable Long boardId) {
+        return commentService.showAnonymousComment(boardId);
     }
 }

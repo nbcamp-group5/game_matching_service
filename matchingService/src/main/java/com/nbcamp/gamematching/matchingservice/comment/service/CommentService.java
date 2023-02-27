@@ -4,6 +4,8 @@ import com.nbcamp.gamematching.matchingservice.board.entity.AnonymousBoard;
 import com.nbcamp.gamematching.matchingservice.board.entity.Board;
 import com.nbcamp.gamematching.matchingservice.board.repository.AnonymousBoardRepository;
 import com.nbcamp.gamematching.matchingservice.board.repository.BoardRepository;
+import com.nbcamp.gamematching.matchingservice.comment.dto.AnonymousCommentResponse;
+import com.nbcamp.gamematching.matchingservice.comment.dto.CommentResponse;
 import com.nbcamp.gamematching.matchingservice.comment.dto.UpdateCommentRequest;
 import com.nbcamp.gamematching.matchingservice.comment.entity.AnonymousComment;
 import com.nbcamp.gamematching.matchingservice.comment.entity.Comment;
@@ -14,6 +16,9 @@ import com.nbcamp.gamematching.matchingservice.member.entity.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -62,7 +67,7 @@ public class CommentService {
     @Transactional
     public void deleteComment(Long commentId, Member member) {
         Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new NotFoundException());
-       comment.checkUser(comment,member);
+        comment.checkUser(comment,member);
         commentRepository.deleteById(commentId);
     }
 
@@ -72,5 +77,43 @@ public class CommentService {
         AnonymousComment comment = anonymousCommentRepository.findById(commentId).orElseThrow(() -> new NotFoundException());
         comment.checkUser(comment,member);
         anonymousCommentRepository.deleteById(commentId);
+    }
+
+    public List<CommentResponse> showComment(Long boardId) {
+        List<Comment> commentList = commentRepository.findAllByBoardId(boardId);
+        List<CommentResponse> commentResponseList = new ArrayList<>();
+        for(Comment comment: commentList) {
+            CommentResponse commentResponse = new CommentResponse(comment);
+            commentResponseList.add(commentResponse);
+        }
+
+
+        return commentResponseList;
+
+    }
+
+    public List<AnonymousCommentResponse> showAnonymousComment(Long boardId) {
+        List<AnonymousComment> commentList = anonymousCommentRepository.findAllByAnonymousBoardId(boardId);
+        List<AnonymousCommentResponse> commentResponseList = new ArrayList<>();
+        for(AnonymousComment comment: commentList) {
+            AnonymousCommentResponse commentResponse = new AnonymousCommentResponse(comment);
+            commentResponseList.add(commentResponse);
+        }
+
+
+        return commentResponseList;
+
+    }
+
+    public CommentResponse getComment(Long commentId) {
+        Comment comment = commentRepository.findById(commentId).orElseThrow(()-> new IllegalArgumentException(""));
+        CommentResponse commentResponse = new CommentResponse(comment);
+        return commentResponse;
+    }
+
+    public AnonymousCommentResponse getAnonymousComment(Long commentId) {
+        AnonymousComment comment = anonymousCommentRepository.findById(commentId).orElseThrow(()-> new IllegalArgumentException(""));
+        AnonymousCommentResponse commentResponse = new AnonymousCommentResponse(comment);
+        return commentResponse;
     }
 }

@@ -26,12 +26,12 @@
 
 <body>
 <nav class="navbar navbar-light bg-white">
-    <img href="#" class="" src="../../static/img/nav/logo2.png"/>
+    <img href="#" class="" src="../../static/img/nav/logo2.png" />
     <form class="form-inline">
         <div class="input-group">
-            <input type="text" class="search-box">
+            <input type="text" class="search-box" id="search">
             <div class="input-group-append">
-                <button class="search-btn" type="button">
+                <button onclick="search_comment(search)" class="search-btn" type="button">
                     <i class="fa fa-search btn-color"></i>
                 </button>
             </div>
@@ -62,7 +62,6 @@
                         </li>
                     </ul>
                 </div>
-                <!--        게시글 작성-->
                 <div class="card-body">
                     <div class="tab-content" id="myTabContent">
                         <div class="tab-pane fade show active" id="posts" role="tabpanel" aria-labelledby="posts-tab">
@@ -75,7 +74,6 @@
                         <div class="tab-pane fade" id="images" role="tabpanel" aria-labelledby="images-tab">
                             <div class="form-group">
                                 <div class="custom-file">
-                                    <!--                  게시글 이미지 업로드-->
                                     <input type="file" class="custom-file-input" id="customFile">
                                     <label class="custom-file-label" for="customFile">이미지 업로드</label>
                                 </div>
@@ -90,63 +88,11 @@
             </div>
             <!-- Post /////-->
 
-
-            <!--- \\\\\\\게시글 작성-->
+            <!--- \\\\\\\Post-->
             <div class="card gedf-card" style="margin-bottom: 25px; border-radius: 20px;" id="boardList">
-                <div class="card-header" style="border-top-left-radius: 20px; border-top-right-radius: 20px;">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="mr-2">
-                                <img class="rounded-circle" id="작성자 사진" width="45" src="https://picsum.photos/50/50"
-                                     alt="">
-                            </div>
-                            <div class="ml-2">
-                                <div class="h6 m-0" id="작성자 이름">작성자 이름</div>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="dropdown">
-                                <button class="btn btn-link dropdown-toggle" type="button" id="gedf-drop1"
-                                        data-toggle="dropdown"
-                                        aria-haspopup="true" aria-expanded="false">
-                                    <i class="fa fa-ellipsis-h" style="color: #9A86A4;"></i>
-                                </button>
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="gedf-drop1">
-                                    <div class="h6 dropdown-header">편집</div>
-                                    <a onclick="update_board(boardId)" class="dropdown-item" href="/normal">수정</a>
-                                    <a onclick="delete_board(boardId)" class="dropdown-item" href="#">삭제</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-body" style="padding: 0;">
-                    <div style="position: relative;">
-                        <img src="../../static/img/board/5.jpg" id="게시글 사진" alt=""
-                             style="width: 100%; height: 100%; object-fit: cover;">
-                        <div class="text-muted h7 mb-2" style="position: absolute; bottom: 1%; padding-left: 15px;"><i
-                                class="fa fa-clock-o"></i>게시글 작성 시간
-                        </div>
-                    </div>
-                    <div style="padding: 15px;">
-                        <p class="card-text" id="게시글 내용">
-                            여기는 글의 내용이 오는 곳입니다.
-                            여기는 글의 내용이 오는 곳입니다.
-                        </p>
-                    </div>
-                </div>
-                <div class="card-footer" style="border-radius: 20px;">
-                    <a onclick="save_like()" href="#" class="card-link" id="좋아요" style="color: #9A86A4;"><i class="fa fa-gittip"
-                                                                                      style="color: #9A86A4;"></i>
-                        좋아요</a>
-                    <a id="btn-modal" href="#" class="card-link" style="color: #9A86A4;"><i class="fa fa-comment"
-                                                                                            style="color: #9A86A4;"></i>
-                        댓글</a>
-                </div>
-
-                <!--        게시글 작성 끝-->
 
             </div>
+
             <div id="modal" class="modal-overlay">
                 <div class="modal-window">
 
@@ -157,47 +103,43 @@
                     <div class="close-area">X</div>
 
                     <div class="form-group" style="margin-top: 10px;">
-                        <label class="sr-only" for="message">post</label>
-                        <textarea class="form-control" id="cm_message" rows="2" placeholder="댓글 입력"></textarea>
+                        <label class="sr-only" for="cm-message">post</label>
+                        <input type="hidden" id="boardId" value="boardId">
+                        <textarea class="form-control" id="cm-message" rows="2" placeholder="댓글 입력"></textarea>
                         <div class="btn-toolbar" style="margin-top: 10px;">
                             <button onclick="save_comment()" type="submit" class="btn post-btn">게시</button>
                         </div>
                     </div>
 
-                    <!--          댓글-->
-                    <div class="content">
-                        <div class="comment" id="commentList">
+                    <div class="content" id="commentList">
+                        <div class="comment">
                             <div class="comment-header">
-                                <img class="rounded-circle" width="30" height="30" src="https://picsum.photos/50/50"
-                                     alt="">
-                                <p id="댓글 닉네임">닉네임</p>
-                            </div>
-                            <span id="댓글 내용">댓글 내용이 오는 곳입니다.</span>
-                        </div>
-                        <div class="dropdown">
-                            <button class="btn btn-link dropdown-toggle" type="button" id="gedf-drop1"
-                                    data-toggle="dropdown"
-                                    aria-haspopup="true" aria-expanded="false">
-                                <i class="fa fa-ellipsis-h" style="color: #9A86A4;"></i>
-                            </button>
-                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="gedf-drop1">
-                                <div class="h6 dropdown-header">편집</div>
-                                <a onclick="update_comment(boardId)" class="dropdown-item" href="/normal">수정</a>
-                                <a onclick="delete_comment(boardId)" class="dropdown-item" href="#">삭제</a>
+                                <img class="rounded-circle" width="30" height="30" src="https://picsum.photos/50/50" alt="">
+                                <p>닉네임</p>
+                                <div class="dropdown">
+                                    <button class="btn btn-link dropdown-toggle" type="button" id="gedf-drop1" data-toggle="dropdown"
+                                            aria-haspopup="true" aria-expanded="false">
+                                        <i class="fa fa-ellipsis-h" style="color: #9A86A4;"></i>
+                                    </button>
+                                    <div class="dropdown-menu dropdown-menu-left" aria-labelledby="gedf-drop1">
+                                        <div class="h6 dropdown-header">편집</div>
+                                        <a class="dropdown-item" href="#">수정</a>
+                                        <a class="dropdown-item" href="#">삭제</a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    </div>
-
-
-                    <!-- Post /////-->
-
 
                 </div>
-
             </div>
         </div>
+        <!-- Post /////-->
+
+
     </div>
+
+</div>
 </div>
 </body>
 
@@ -407,6 +349,13 @@
 
 <script>
 
+    $(document).ready(function () {
+        show_board()
+    });
+
+
+    const auth = localStorage.getItem('accessToken');
+
     const modal = document.getElementById("modal")
     const btnModal = document.getElementById("btn-modal")
     btnModal.addEventListener("click", e => {
@@ -425,14 +374,7 @@
         }
     })
 
-    const auth = localStorage.getItem('accessToken');
-
-
-    $(document).ready(function () {
-        show_board()
-    });
-
-    // 게시글 작성
+    //게시글 작성
     function save_board() {
         var data = {
             content: $('#message').val()
@@ -456,9 +398,85 @@
         $.ajax(settings).done(function (response,code) {
             console.log(response);
             console.log(code);
+            location.reload();
 
-            });
+        });
     }
+
+    //게시글 목록
+    function show_board() {
+
+        $.ajax({
+            type: "GET",
+            url: "http://localhost:8080/normal",
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("Authorization", auth);
+            },
+            data: {},
+            error: function (e) {
+                console.log(e);
+            },
+            success: function (response) {
+                console.log(response);
+                $(response).each(function () {
+                    console.log(response);
+
+                    let temp_html = ` <div class="card-header" style="border-top-left-radius: 20px; border-top-right-radius: 20px;">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="mr-2">
+                                <img class="rounded-circle" width="45" src="${this.memberImage}" alt="">
+                            </div>
+                            <div class="ml-2">
+                                <input type="hidden" id="boardId" value="boardId">
+                                <div class="h6 m-0">${this.nickname}</div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="dropdown">
+                                <button class="btn btn-link dropdown-toggle" type="button" id="gedf-drop1" data-toggle="dropdown"
+                                        aria-haspopup="true" aria-expanded="false">
+                                    <i class="fa fa-ellipsis-h" style="color: #9A86A4;"></i>
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="gedf-drop1">
+                                    <div class="h6 dropdown-header">편집</div>
+                                    <a class="dropdown-item" href="http://localhost:8080/update/+${this.id}">수정</a>
+                                    <a onclick="delete_board(${this.id})" class="dropdown-item" href="#">삭제</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body" style="padding: 0;">
+                    <div style="position: relative;">
+                        <img src="${this.boardImage}" alt="" style="width: 100%; height: 100%; object-fit: cover;">
+                        <div class="text-muted h7 mb-2" style="position: absolute; bottom: 1%; padding-left: 15px;"> <i
+                                class="fa fa-clock-o"></i>${this.modifiedAt}</div>
+                    </div>
+                    <div style="padding: 15px;">
+
+                        <p class="card-text">
+                            ${this.content}
+                        </p>
+                    </div>
+                </div>
+                <div class="card-footer" style="border-radius: 20px;">
+                    <a onclick="save_like(${this.id})" href="#" class="card-link" style="color: #9A86A4;"><i class="fa fa-gittip" style="color: #9A86A4;"></i>
+                        ${this.likeCount}</a>
+                    <a onclick="show_comment(${this.id})" id="btn-modal" href="#" class="card-link" style="color: #9A86A4;"><i class="fa fa-comment"
+                                                                                            style="color: #9A86A4;"></i> 댓글</a>
+                </div>
+
+
+`
+
+                    $(`#boardList`).append(temp_html);
+                })
+
+            }
+        });
+    }
+
 
 
     //게시글 수정
@@ -468,12 +486,12 @@
         };
         var formData = new FormData();
         formData.append('image', $('#customFile')[0].files[0]);
-        formData.append('requestDto', new Blob([JSON.stringify(data)] , {type: "application/json"}));
+        formData.append('requestDto', new Blob([JSON.stringify(data)], {type: "application/json"}));
         var settings = {
             beforeSend: function (xhr) {
                 xhr.setRequestHeader("Authorization", auth);
             },
-            "url": "http://localhost:8080/normal/"+boardId,
+            "url": "http://localhost:8080/normal/" + boardId,
             "method": "PUT",
             "timeout": 0,
             "processData": false,
@@ -493,89 +511,42 @@
             beforeSend: function (xhr) {
                 xhr.setRequestHeader("Authorization", auth);
             },
-            "url": "http://localhost:8080/normal/"+boardId,
+            "url": "http://localhost:8080/normal/" + boardId,
             "method": "DELETE",
             "timeout": 0
         };
 
         $.ajax(settings).done(function (response) {
             console.log(response);
+            location.reload();
         });
     }
 
-    //게시글 목록
-    function show_board() {
+    //좋아요
+    function save_like(boardId) {
         $.ajax({
-            type: "GET",
-            url: "http://localhost:8080/normal",
+            type: "POST",
+            url: "http://localhost:8080/api/like/" + boardId,
+            contentType: "application/json",
+            data: {},
             beforeSend: function (xhr) {
                 xhr.setRequestHeader("Authorization", auth);
             },
-            data: {},
-            success: function(response) {
-                $(response).each(function() {
+            success: function (response) {
                 console.log(response);
-
-                    let temp_html = `<div class="card gedf-card" style="margin-bottom: 25px; border-radius: 20px;">
-        <div class="card-header" style="border-top-left-radius: 20px; border-top-right-radius: 20px;">
-        <a>${this.id}</a>
-          <div class="d-flex justify-content-between align-items-center">
-            <div class="d-flex justify-content-between align-items-center">
-              <div class="mr-2">
-                <img class="rounded-circle"  width="45" src="https://picsum.photos/50/50" alt="">
-              </div>
-              <div class="ml-2">
-                <div class="h6 m-0">${this.nickname}</div>
-              </div>
-            </div>
-            <div>
-              <div class="dropdown">
-                <button class="btn btn-link dropdown-toggle" type="button" id="gedf-drop1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <i class="fa fa-ellipsis-h" style="color: #9A86A4;"></i>
-                </button>
-                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="gedf-drop1">
-                  <div class="h6 dropdown-header">편집</div>
-                  <a onclick="update_board(${this.id})" class="dropdown-item" href="#">수정</a>
-                  <a onclick="delete_board(${this.id})" class="dropdown-item" href="#">삭제</a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="card-body" style="padding: 0;">
-          <div style="position: relative;">
-            <img  src="${this.boardImage}" alt="" style="width: 100%; height: 100%; object-fit: cover;">
-            <div class="text-muted h7 mb-2" style="position: absolute; bottom: 1%; padding-left: 15px;"> <i class="fa fa-clock-o"></i>${this.modifiedAt} 작성시간</div>
-          </div>
-          <div style="padding: 15px;">
-
-            <p class="card-text">
-             ${this.content}
-            </p>
-          </div>
-        </div>
-        <div class="card-footer" style="border-radius: 20px;">
-          <a href="#" class="card-link"  style="color: #9A86A4;"><i class="fa fa-gittip" style="color: #9A86A4;"></i>
-            ${this.likeCount}</a>
-          <a onclick="show_comment(${this.id})" id="btn-modal" href="#" class="card-link" style="color: #9A86A4;"><i class="fa fa-comment" style="color: #9A86A4;" onclick="showComment(${this.Id}})"></i>댓글</a>
-        </div>
-      </div>
-                    <!-- Post /////-->
-
-
-                </div>
-
-            </div>`
-
-                    $(`#boardList`).append(temp_html)
-                })
+                location.reload();
             }
-        });
+
+        })
+
     }
 
-    //댓글 작성
-    function save_comment(boardId) {
-        let content = $(`#cm_message`).val()
+    //댓글 작성 x
+    function save_comment() {
+
+        let boardId = document.getElementById("boardId").value;
+
+        let content = $(`#cm-message`).val()
         var settings = {
             "url": "http://localhost:8080/api/comments/"+boardId,
             "method": "POST",
@@ -590,14 +561,91 @@
         };
         $.ajax(settings).done(function (response) {
             console.log(response);
+            location.reload();
         });
     }
 
-    //댓글 수정
-    function update_comment(boardId) {
+    //게시글 검색 x
+    function search_comment(searchName) {
+        let content = $(`#search`).val()
+        var settings = {
+            "url": "http://localhost:8080/search/"+searchName,
+            "method": "GET",
+            "timeout": 0,
+            "headers": {
+                "Authorization": auth,
+                "Content-Type": "application/json"
+            },
+            "data": JSON.stringify({
+                "content": content
+            }),
+        };
+        $.ajax(settings).done(function (response) {
+            console.log(response);
+        });
+    }
+
+    //댓글 조회
+    function show_comment(boardId) {
+        $(`#commentList`).empty();
+        const modal = document.getElementById("modal");
+        modal.style.display = "flex";
+
+        const closeBtn = modal.querySelector(".close-area")
+        closeBtn.addEventListener("click", e => {
+            modal.style.display = "none"
+        })
+
+        modal.addEventListener("click", e => {
+            const evTarget = e.target
+            if (evTarget.classList.contains("modal-overlay")) {
+                modal.style.display = "none"
+            }
+        })
+
+        document.getElementById("boardId").value = boardId;
+
+        $.ajax({
+            type: "GET",
+            url: "http://localhost:8080/api/comments/"+boardId,
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("Authorization", auth);
+            },
+            data: {},
+            success: function (response) {
+                $(response).each(function () {
+                    //     console.log(response);
+
+
+                    let temp_html = `<div class="comment">
+                            <div class="comment-header">
+                                <img class="rounded-circle" width="30" height="30" src="${this.memberImage}" alt="">
+                                <p>${this.nickname}</p>
+                                <div class="dropdown">
+                                    <button id="boardId" value="" class="btn btn-link dropdown-toggle" type="button" id="gedf-drop1" data-toggle="dropdown"
+                                            aria-haspopup="true" aria-expanded="false">
+                                        <i class="fa fa-ellipsis-h" style="color: #9A86A4;"></i>
+                                    </button>
+                                    <div class="dropdown-menu dropdown-menu-left" aria-labelledby="gedf-drop1">
+                                        <div class="h6 dropdown-header">편집</div>
+                                        <a class="dropdown-item" href="http://localhost:8080/comment/update/+${this.id}">수정</a>
+                                        <a onclick="delete_comment(${this.id})" class="dropdown-item" href="#">삭제</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <span>${this.content}</span>
+                        </div>`
+                    $(`#commentList`).append(temp_html)
+                })
+            }
+        });
+    }
+
+    //댓글 수정 x
+    function update_comment(commentId) {
         let content = $(`#cm_message`).val()
         var settings = {
-            "url": "http://localhost:8080/api/comments/"+boardId,
+            "url": "http://localhost:8080/api/comments/"+commentId,
             "method": "PATCH",
             "timeout": 0,
             "headers": {
@@ -615,9 +663,9 @@
     }
 
     //댓글 삭제
-    function delete_comment(boardId) {
+    function delete_comment(commentId) {
         var settings = {
-            "url": "http://localhost:8080/api/comments/"+boardId,
+            "url": "http://localhost:8080/api/comments/"+commentId,
             "method": "DELETE",
             "timeout": 0,
             "headers": {
@@ -627,109 +675,11 @@
 
         $.ajax(settings).done(function (response) {
             console.log(response);
+            location.reload();
+
         });
     }
 
 
 
-    btnModal.addEventListener("click", e => {
-        modal.style.display = "flex"
-    })
-
-    const closeBtn = modal.querySelector(".close-area")
-    closeBtn.addEventListener("click", e => {
-        modal.style.display = "none"
-    })
-
-    modal.addEventListener("click", e => {
-        const evTarget = e.target
-        if (evTarget.classList.contains("modal-overlay")) {
-            modal.style.display = "none"
-
-        }
-    })
-
-    //댓글 목록
-    function show_comment(boardId) {
-
-        $.ajax({
-            type: "GET",
-            url: "http://localhost:8080/normals"+boardId,
-            beforeSend: function (xhr) {
-                xhr.setRequestHeader("Authorization", auth);
-            },
-            data: {},
-            success: function(response) {
-                $(response).each(function() {
-                    console.log(response);
-
-
-                    let temp_html = `<div class="content">
-                        <div class="comment" >
-                            <div class="comment-header">
-                                <img class="rounded-circle" width="30" height="30" src="https://picsum.photos/50/50"
-                                     alt="">
-                                <p>${this.comments[0].nickname}</p>
-                            </div>
-                            <span id="댓글 내용">${this.comments[0].content}</span>
-                        </div>
-                    </div>`
-                    $(`#commentList`).append(temp_html)
-                })
-            }
-        });
-    }
-
-    //좋아요 등록
-    // function save_like(boardId) {
-    //     var settings = {
-    //         "url": "http://localhost:8080/api/like/"+boardId,
-    //         "method": "POST",
-    //         "timeout": 0,
-    //         "headers": {
-    //             "Authorization": auth
-    //         },
-    //     };
-    //
-    //     $.ajax(settings).done(function (response) {
-    //         console.log(response);
-    //     });
-    // }
-
-    //좋아요 등록 다른방법
-    function save_like(boardId) {
-    $.ajax({
-        type: "POST",
-        url: "http://localhost:8080/api/like/" + boardId,
-        contentType: "application/json",
-        data: {},
-        beforeSend: function (xhr) {
-            xhr.setRequestHeader("Authorization", auth);
-        },
-        error: function (e) {
-            console.log(e);
-        },
-        success: function (response) {
-            console.log(response);
-
-        }
-    })
-
-    }
-
-    //좋아요 취소
-    function delete_like() {
-        var settings = {
-            "url": "http://localhost:8080/api/like/cancel/"+boardId,
-            "method": "POST",
-            "timeout": 0,
-            "headers": {
-                "Authorization": auth
-            },
-        };
-
-        $.ajax(settings).done(function (response) {
-            console.log(response);
-        });
-    }
 </script>
