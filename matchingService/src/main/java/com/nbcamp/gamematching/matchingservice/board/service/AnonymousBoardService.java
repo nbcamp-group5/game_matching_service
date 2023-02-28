@@ -9,6 +9,7 @@ import com.nbcamp.gamematching.matchingservice.board.repository.AnonymousBoardRe
 import com.nbcamp.gamematching.matchingservice.comment.dto.AnonymousCommentResponse;
 import com.nbcamp.gamematching.matchingservice.comment.entity.AnonymousComment;
 import com.nbcamp.gamematching.matchingservice.comment.repository.AnonymousCommentRepository;
+import com.nbcamp.gamematching.matchingservice.common.domain.CreatePageable;
 import com.nbcamp.gamematching.matchingservice.like.repository.AnonymousLikeRepository;
 import com.nbcamp.gamematching.matchingservice.member.domain.FileStore;
 import com.nbcamp.gamematching.matchingservice.member.entity.Member;
@@ -98,7 +99,8 @@ public class AnonymousBoardService {
     }
 
     public List<AnonymousBoardAdminDto> getAnonymousBoardsByAdmin(Integer page) {
-        Page<AnonymousBoard> boardPage = anonymousBoardRepository.findAll(pageableSetting(page));
+        Page<AnonymousBoard> boardPage = anonymousBoardRepository.findAll(
+                CreatePageable.createPageable(page));
         return AnonymousBoardAdminDto.of(boardPage.getContent());
     }
 

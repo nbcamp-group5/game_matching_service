@@ -9,6 +9,7 @@ import com.nbcamp.gamematching.matchingservice.board.repository.BoardRepository;
 import com.nbcamp.gamematching.matchingservice.comment.dto.CommentResponse;
 import com.nbcamp.gamematching.matchingservice.comment.entity.Comment;
 import com.nbcamp.gamematching.matchingservice.comment.repository.CommentRepository;
+import com.nbcamp.gamematching.matchingservice.common.domain.CreatePageable;
 import com.nbcamp.gamematching.matchingservice.exception.NotFoundException;
 import com.nbcamp.gamematching.matchingservice.like.repository.LikeRepository;
 import com.nbcamp.gamematching.matchingservice.member.domain.FileStore;
@@ -116,7 +117,7 @@ public class BoardService {
     }
 
     public List<BoardAdminDto> getBoardsByAdmin(Integer page) {
-        Page<Board> boardPage = boardRepository.findAll(pageableSetting(page));
+        Page<Board> boardPage = boardRepository.findAll(CreatePageable.createPageable(page));
         return BoardAdminDto.of(boardPage.getContent());
     }
 
