@@ -1,5 +1,6 @@
 package com.nbcamp.gamematching.matchingservice.board.service;
 
+import com.nbcamp.gamematching.matchingservice.board.dto.BoardAdminDto;
 import com.nbcamp.gamematching.matchingservice.board.dto.BoardResponse;
 import com.nbcamp.gamematching.matchingservice.board.dto.CreateBoardRequest;
 import com.nbcamp.gamematching.matchingservice.board.dto.UpdateBoardRequest;
@@ -83,7 +84,7 @@ public class BoardService {
     public static Pageable pageableSetting(int page) {
         Sort.Direction direction = Sort.Direction.DESC;
         Sort sort = Sort.by(direction, "modifiedAt");
-        Pageable pageable = PageRequest.of(page - 1, 10, sort);
+        Pageable pageable = PageRequest.of(page - 1, 5, sort);
         return pageable;
     }
 
@@ -112,6 +113,11 @@ public class BoardService {
                 .orElseThrow(() -> new IllegalArgumentException(""));
         BoardResponse boardResponse = new BoardResponse(board);
         return boardResponse;
+    }
+
+    public List<BoardAdminDto> getBoardsByAdmin(Integer page) {
+        Page<Board> boardPage = boardRepository.findAll(pageableSetting(page));
+        return BoardAdminDto.of(boardPage.getContent());
     }
 
     public void deleteBoardByAdmin(Long boardId) {

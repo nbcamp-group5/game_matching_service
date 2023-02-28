@@ -3,6 +3,7 @@ package com.nbcamp.gamematching.matchingservice.member.service;
 import com.nbcamp.gamematching.matchingservice.member.dto.BoardPageDto;
 import com.nbcamp.gamematching.matchingservice.member.dto.BuddyRequestDto;
 import com.nbcamp.gamematching.matchingservice.member.dto.MannerPointsRequest;
+import com.nbcamp.gamematching.matchingservice.member.dto.MemberAdminDto;
 import com.nbcamp.gamematching.matchingservice.member.dto.ProfileDto;
 import com.nbcamp.gamematching.matchingservice.member.dto.UpdateProfileRequest;
 import com.nbcamp.gamematching.matchingservice.member.entity.Member;
@@ -37,7 +38,7 @@ public interface MemberService {
 
     ResponseEntity<String> deleteMyBuddy(Long memberId, Long buddyId);
 
-    List<Member> findAllByAdmin();
+    List<MemberAdminDto> findAllByAdmin(Integer page);
 
     void deleteByAdmin(Long memberId);
 

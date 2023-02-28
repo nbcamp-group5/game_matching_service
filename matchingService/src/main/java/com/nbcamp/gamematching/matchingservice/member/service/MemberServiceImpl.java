@@ -2,6 +2,7 @@ package com.nbcamp.gamematching.matchingservice.member.service;
 
 import com.nbcamp.gamematching.matchingservice.board.entity.Board;
 import com.nbcamp.gamematching.matchingservice.board.repository.BoardRepository;
+import com.nbcamp.gamematching.matchingservice.common.domain.CreatePageable;
 import com.nbcamp.gamematching.matchingservice.exception.NotFoundException.NotFoundMemberException;
 import com.nbcamp.gamematching.matchingservice.member.domain.FileDetail;
 import com.nbcamp.gamematching.matchingservice.member.domain.MemberRoleEnum;
@@ -9,6 +10,7 @@ import com.nbcamp.gamematching.matchingservice.member.dto.BoardPageDto;
 import com.nbcamp.gamematching.matchingservice.member.dto.BoardPageDto.BoardContent;
 import com.nbcamp.gamematching.matchingservice.member.dto.BuddyRequestDto;
 import com.nbcamp.gamematching.matchingservice.member.dto.MannerPointsRequest;
+import com.nbcamp.gamematching.matchingservice.member.dto.MemberAdminDto;
 import com.nbcamp.gamematching.matchingservice.member.dto.ProfileDto;
 import com.nbcamp.gamematching.matchingservice.member.dto.UpdateProfileRequest;
 import com.nbcamp.gamematching.matchingservice.member.entity.Member;
@@ -146,8 +148,9 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public List<Member> findAllByAdmin() {
-        return memberRepository.findAll();
+    public List<MemberAdminDto> findAllByAdmin(Integer page) {
+        Page<Member> memberPage = memberRepository.findAll(CreatePageable.createPageable(page));
+        return MemberAdminDto.of(memberPage.getContent());
     }
 
     @Override
@@ -166,6 +169,6 @@ public class MemberServiceImpl implements MemberService {
             findMember.changeRole(MemberRoleEnum.USER);
             return new ResponseEntity<>("유저로 변경되었습니다.", HttpStatus.OK);
         }
-        
+
     }
 }
