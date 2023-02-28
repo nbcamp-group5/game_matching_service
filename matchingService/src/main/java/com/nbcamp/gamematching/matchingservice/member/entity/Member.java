@@ -1,25 +1,18 @@
 package com.nbcamp.gamematching.matchingservice.member.entity;
 
-import static java.util.regex.Pattern.matches;
-
 import com.nbcamp.gamematching.matchingservice.chat.entity.ChatRoom;
 import com.nbcamp.gamematching.matchingservice.exception.SignException;
 import com.nbcamp.gamematching.matchingservice.member.domain.MemberRoleEnum;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Embedded;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import java.util.ArrayList;
-import java.util.List;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static java.util.regex.Pattern.matches;
 
 @Entity
 @Getter
@@ -48,11 +41,15 @@ public class Member {
     @Enumerated(EnumType.STRING)
     private MemberRoleEnum role;
 
+    private String provider;
+
+    private String providerId;
+
     /**
      * 생성자 - 약속된 형태로만 생성가능하도록 합니다.
      */
     @Builder
-    public Member(String email, String password, Profile profile, MemberRoleEnum role) {
+    public Member(String email, String password, Profile profile, MemberRoleEnum role, String provider, String providerId) {
         if (matches("\\w+@\\w+\\.\\w+(\\.\\w+)?", email)) {
             this.email = email;
         } else {
@@ -63,6 +60,8 @@ public class Member {
         if (MemberRoleEnum.isContains(role)) {
             this.role = role;
         }
+        this.provider = provider;
+        this.providerId = providerId;
     }
 
     /**
