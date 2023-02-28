@@ -11,5 +11,4 @@ public interface MatchingService {
     ResponseUrlInfo joinMatchingRoom(RequestMatching requestMatching, HttpServletRequest servletRequest) throws JsonProcessingException;
 
 
-
 }

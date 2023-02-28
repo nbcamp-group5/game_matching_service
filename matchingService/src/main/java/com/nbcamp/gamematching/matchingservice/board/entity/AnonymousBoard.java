@@ -39,7 +39,7 @@ public class AnonymousBoard extends BaseEntity {
     @OneToMany(mappedBy = "anonymousBoard", cascade = CascadeType.REMOVE)
     private List<AnonymousComment> comments = new ArrayList<>();
 
-    public AnonymousBoard(String nickname, String boardImage, String content, Member member) throws IOException {
+    public AnonymousBoard(String boardImage, String content, Member member) {
         this.nickname = nNick();
         this.boardImage = boardImage;
         this.content = content;
@@ -47,7 +47,7 @@ public class AnonymousBoard extends BaseEntity {
     }
 
 
-    public void updateAnonymousBoard(UpdateBoardRequest boardRequestDto,String boardImage, Member member) throws IOException {
+    public void updateAnonymousBoard(UpdateBoardRequest boardRequestDto,String boardImage, Member member) {
         this.boardImage = boardImage;
         this.content = boardRequestDto.getContent();
         this.nickname = member.getProfile().getNickname();

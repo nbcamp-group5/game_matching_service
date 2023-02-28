@@ -1,7 +1,6 @@
 package com.nbcamp.gamematching.matchingservice.chat.controller;
 
 
-import com.nbcamp.gamematching.matchingservice.chat.dto.ChatMessageDto;
 import com.nbcamp.gamematching.matchingservice.chat.entity.ChatMessage;
 import com.nbcamp.gamematching.matchingservice.chat.repository.ChatMessageRepository;
 import lombok.RequiredArgsConstructor;
