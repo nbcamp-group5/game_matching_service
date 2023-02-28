@@ -72,10 +72,3 @@ dependencies {
 tasks.named('test') {
     useJUnitPlatform()
 }
-
-jar {
-    enabled=true
-    manifest {
-        attributes 'Main-Class' : 'kafka.publisher.KafkaPublisherSpringBootApplication'
-    }
-}
