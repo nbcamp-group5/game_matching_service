@@ -1,7 +1,7 @@
 package com.nbcamp.gamematching.matchingservice.matching.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.nbcamp.gamematching.matchingservice.chat.dto.ResponseMatch;
+import com.nbcamp.gamematching.matchingservice.matching.dto.ResponseUrlInfo;
 import com.nbcamp.gamematching.matchingservice.matching.Service.MatchingService;
 import com.nbcamp.gamematching.matchingservice.matching.dto.RequestMatching;
 import com.nbcamp.gamematching.matchingservice.redis.RedisService;
@@ -25,9 +25,9 @@ public class MatchingController {
 
     @PostMapping("/join")
     @ResponseBody
-    public ResponseMatch joinRequest(@RequestBody RequestMatching requestMatching,
-                                     @AuthenticationPrincipal UserDetailsImpl userDetails,
-                                     HttpServletRequest servletRequest) throws JsonProcessingException {
+    public ResponseUrlInfo joinRequest(@RequestBody RequestMatching requestMatching,
+                                       @AuthenticationPrincipal UserDetailsImpl userDetails,
+                                       HttpServletRequest servletRequest) throws JsonProcessingException {
         var member = userDetails.getMember();
         var matchingMember = new RequestMatching(requestMatching,member.getEmail());
         log.info("Join Matching Useremail{} UserDiscordId{}",member.getEmail(),requestMatching.getDiscordId());
@@ -36,8 +36,8 @@ public class MatchingController {
 
 
     @MessageMapping(value = "/url")
-    public void message(ResponseMatch responseMatch){
-        template.convertAndSend("/matchingsub/" + responseMatch.getTopicName(),responseMatch.getUrl());
+    public void message(ResponseUrlInfo responseUrlInfo){
+        template.convertAndSend("/matchingsub/" + responseUrlInfo.getTopicName(), responseUrlInfo.getUrl());
     }
 
 }

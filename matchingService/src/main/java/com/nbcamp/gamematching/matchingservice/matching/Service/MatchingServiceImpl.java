@@ -2,11 +2,10 @@ package com.nbcamp.gamematching.matchingservice.matching.Service;
 
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.nbcamp.gamematching.matchingservice.chat.dto.ResponseMatch;
+import com.nbcamp.gamematching.matchingservice.matching.dto.ResponseUrlInfo;
 import com.nbcamp.gamematching.matchingservice.discord.service.DiscordService;
 import com.nbcamp.gamematching.matchingservice.matching.dto.RequestMatching;
 import com.nbcamp.gamematching.matchingservice.matching.entity.MatchingLog;
-import com.nbcamp.gamematching.matchingservice.matching.entity.ResponseMatching;
 import com.nbcamp.gamematching.matchingservice.matching.repository.MatchingLogRepository;
 import com.nbcamp.gamematching.matchingservice.matching.repository.ResponseMatchingRepository;
 import com.nbcamp.gamematching.matchingservice.member.entity.Member;
@@ -32,7 +31,7 @@ public class MatchingServiceImpl implements MatchingService {
     private final RedisService redisService;
 
 
-    public ResponseMatch joinMatchingRoom(RequestMatching request, HttpServletRequest servletRequest) throws JsonProcessingException {
+    public ResponseUrlInfo joinMatchingRoom(RequestMatching request, HttpServletRequest servletRequest) throws JsonProcessingException {
         Long matchingQuota = Long.valueOf(request.getMemberNumbers());
         if (redisService.waitingUserCountByRedis(request.getKey()) < matchingQuota - 1) {
             redisService.machedEnterByRedis(request.getKey(), request);
@@ -40,7 +39,7 @@ public class MatchingServiceImpl implements MatchingService {
             var topicNameSelector
                     = redisService.findByFirstJoinUserByRedis(request.getKey(), RequestMatching.class);
             topicName = topicNameSelector.getMemberEmail();
-            return new ResponseMatch(topicName);
+            return new ResponseUrlInfo(topicName);
         }
         //매칭 정원이 찻을 경우
         redisService.machedEnterByRedis(request.getKey(), request);
@@ -59,7 +58,7 @@ public class MatchingServiceImpl implements MatchingService {
             throw new IllegalArgumentException("url을 찾을 수 없습니다.");
         }
         var topicName = resultMemberList.get(0).getMemberEmail();
-        var responseMatching = ResponseMatching.builder()
+        var responseMatching = com.nbcamp.gamematching.matchingservice.matching.entity.ResponseMatching.builder()
                 .gameName(resultMemberList.get(0).getGameName())
                 .playMode(resultMemberList.get(0).getGameMode())
                 .discordUrl(url)
@@ -70,7 +69,7 @@ public class MatchingServiceImpl implements MatchingService {
             matchingLogRepository.save(new MatchingLog(responseMatching, member));
         }
 
-        return new ResponseMatch(topicName, url);
+        return new ResponseUrlInfo(topicName, url);
     }
 }
 
