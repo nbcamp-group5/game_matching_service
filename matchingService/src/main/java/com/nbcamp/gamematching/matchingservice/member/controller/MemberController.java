@@ -1,6 +1,5 @@
 package com.nbcamp.gamematching.matchingservice.member.controller;
 
-import com.nbcamp.gamematching.matchingservice.member.domain.FileStore;
 import com.nbcamp.gamematching.matchingservice.member.dto.AnswerBuddyRequestDto;
 import com.nbcamp.gamematching.matchingservice.member.dto.BoardPageDto.BoardContent;
 import com.nbcamp.gamematching.matchingservice.member.dto.BuddyRequestDto;
@@ -8,6 +7,7 @@ import com.nbcamp.gamematching.matchingservice.member.dto.MannerPointsRequest;
 import com.nbcamp.gamematching.matchingservice.member.dto.ProfileDto;
 import com.nbcamp.gamematching.matchingservice.member.dto.UpdateProfileRequest;
 import com.nbcamp.gamematching.matchingservice.member.entity.Member;
+import com.nbcamp.gamematching.matchingservice.member.service.FileUploadService;
 import com.nbcamp.gamematching.matchingservice.member.service.MemberService;
 import com.nbcamp.gamematching.matchingservice.security.UserDetailsImpl;
 import java.io.IOException;
@@ -43,7 +43,7 @@ public class MemberController {
     @Value("${file.dir}")
     private String fileDir;
 
-    private final FileStore fileStore;
+    private final FileUploadService fileUploadService;
 
     @GetMapping("/id")
     public Long getMyId(@AuthenticationPrincipal UserDetailsImpl userDetails) {
@@ -105,6 +105,7 @@ public class MemberController {
         log.info("multipartFile={}", image);
         return memberService.changeMyProfile(member, request, image);
     }
+
 
     @GetMapping("/{memberId}")
     @ResponseBody
