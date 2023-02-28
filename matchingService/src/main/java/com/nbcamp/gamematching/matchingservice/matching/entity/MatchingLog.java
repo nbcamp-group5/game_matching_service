@@ -2,38 +2,30 @@ package com.nbcamp.gamematching.matchingservice.matching.entity;
 
 import com.nbcamp.gamematching.matchingservice.member.entity.Member;
 import jakarta.persistence.*;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Getter
 @Entity
 @NoArgsConstructor
 public class MatchingLog {
 
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "response_matching_id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(nullable = false)
-    private String playMode;
-    @Column(nullable = false)
-    private String gameName;
-    @Column(nullable = false)
-    private String discordUrl;
-    @OneToMany
-    private List<Member> matchingMemberList = new ArrayList<>();
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private Member member;
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name = "responsematching_id")
+    private ResponseMatching responseMatching;
 
-    @Builder
-    public MatchingLog(String playMode,
-                       String gameName, String discordUrl, List<Member> matchingMemberList) {
-        this.playMode = playMode;
-        this.gameName = gameName;
-        this.discordUrl = discordUrl;
-        this.matchingMemberList = matchingMemberList;
+
+    public MatchingLog(ResponseMatching responseMatching, Member member) {
+        this.responseMatching = responseMatching;
+        this.member = member;
     }
+
 }

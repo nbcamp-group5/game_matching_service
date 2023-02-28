@@ -19,11 +19,11 @@ public class DiscordServiceImpl implements DiscordService {
     private final DiscordJdaConfig jdaConfig;
 
     @Transactional
-    public Optional<String> createChannel(String category, List<String> discordIdList, int matchingQuota) {
+    public Optional<String> createChannel(String category, int matchingQuota) {
         Optional<String> url = Optional.ofNullable(null);
 
         try {
-            url = Optional.ofNullable(jdaConfig.createVoiceChannel(category, discordIdList, matchingQuota));
+            url = Optional.ofNullable(jdaConfig.createVoiceChannel(category, matchingQuota));
         } catch (ExecutionException | InterruptedException | NullPointerException e) {
             e.printStackTrace();
         }
@@ -32,7 +32,7 @@ public class DiscordServiceImpl implements DiscordService {
 
     // 매일 자정 12시마다 비어있는 방을 지운다.
     @Transactional
-//    @Scheduled(cron = "0 0 0 * * *")
+    @Scheduled(cron = "0 0 0 * * *")
     public void deleteChannel() {
         jdaConfig.deleteVoiceChannel();
     }

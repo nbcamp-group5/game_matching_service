@@ -1,7 +1,5 @@
 package com.nbcamp.gamematching.matchingservice.jwt;
 
-import com.nbcamp.gamematching.matchingservice.exception.NotFoundException;
-import com.nbcamp.gamematching.matchingservice.member.entity.Member;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -16,7 +14,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.io.NotActiveException;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -31,7 +28,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         if (token != null) {
             if (!jwtUtil.validateToken(token)) {
                 Cookie[] rc = request.getCookies();
-                String refreshtoken = "";
+                String refreshtoken;
                 for (Cookie cookie : rc) {
                         if (cookie.getName().equals("refreshtoken")) {
                             refreshtoken = cookie.getValue();

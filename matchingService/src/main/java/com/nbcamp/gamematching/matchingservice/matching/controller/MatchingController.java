@@ -2,7 +2,6 @@ package com.nbcamp.gamematching.matchingservice.matching.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nbcamp.gamematching.matchingservice.chat.dto.ResponseMatch;
-import com.nbcamp.gamematching.matchingservice.exception.NotFoundException;
 import com.nbcamp.gamematching.matchingservice.matching.Service.MatchingService;
 import com.nbcamp.gamematching.matchingservice.matching.dto.RequestMatching;
 import com.nbcamp.gamematching.matchingservice.redis.RedisService;
@@ -29,34 +28,16 @@ public class MatchingController {
     public ResponseMatch joinRequest(@RequestBody RequestMatching requestMatching,
                                      @AuthenticationPrincipal UserDetailsImpl userDetails,
                                      HttpServletRequest servletRequest) throws JsonProcessingException {
-
         var member = userDetails.getMember();
         var matchingMember = new RequestMatching(requestMatching,member.getEmail());
         log.info("Join Matching Useremail{} UserDiscordId{}",member.getEmail(),requestMatching.getDiscordId());
         return matchingService.joinMatchingRoom(matchingMember,servletRequest);
     }
 
-    @GetMapping("/cancel")
-    @ResponseBody
-    public String matchingCancel(HttpServletRequest servletRequest) {
-        //받아오는 값에 RequestMatching 없으면 예외처리 발생
-        var session = servletRequest.getSession();
-        var sessionInfo = (RequestMatching) session.getAttribute("UserSession");
-        if (sessionInfo == null){
-            log.info(" = session is null = ");
-            throw new NotFoundException.NotFoundMemberException();
-        }
-        redisService.matchingCancelByRedis(sessionInfo);
-        log.info(" = Matching Cancel Success= ");
-        return "success";
-    }
+
     @MessageMapping(value = "/url")
     public void message(ResponseMatch responseMatch){
         template.convertAndSend("/matchingsub/" + responseMatch.getTopicName(),responseMatch.getUrl());
     }
-
-
-
-
 
 }

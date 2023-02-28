@@ -1,19 +1,43 @@
 <!DOCTYPE html>
 
-  <link
-    href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
-    rel="stylesheet"
-    id="bootstrap-css"
-  />
-  <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
-  <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
-  <script src="js/jquery.magnific-popup.min.js"></script>
-  <script src="js/jquery-3.3.1.min.js"></script>
-  <script src="js/jquery-ui.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" type="text/css"
+      rel="stylesheet">
   <script>
+
+window.onload = function () {
+          popup_content("hide");
+}
+  
+  function popup_content(hideOrshow) {
+      if (hideOrshow == "hide"){
+          document.getElementById("popup_content_wrap").style.display = "none";
+          var settings = {
+            "url": "http://localhost:8080//api/matching/cancel",
+            "method": "GET",
+            "timeout": 0,
+            "headers": {
+        "Content-Type": "application/json",
+      }
+    };
+    $.ajax(settings).done(function (xhr) {
+      localStorage.setItem('Authorization', xhr.getResponseHeader('Authorization'))
+      window.location = ("/matching/matching-request.html")
+    });
+  }
+    else{
+      document
+        .getElementById("popup_content_wrap")
+        .removeAttribute("style");
+      }
+  }
+
+
       function matching() {
-          console.log(localStorage.getItem("Authorization"));
       var settings = {
         "url": "http://localhost:8080/api/matching/join",
         "method": "POST",
@@ -27,63 +51,35 @@
           "discordNum": $('#discordNum').val(),
           "gameName": $('#gameSelect').val(),
           "memberNumbers": $('#capacity').val(),
-          "gameMode": $('#gameMode').val()        
+          "gameMode": $('#gameMode').val()
         }),
       };
+      
       $.ajax(settings).done(function (response) {
+        popup_content("show");
+        console.log(response);
         alert("디스코드 연결 성공.")
-        // window.location = ("/matchingService/src/main/resources/templates/auth/matching-acceptinggg.html")
-        var sockJs = new SockJS("http://localhost:8080/GGMatching");
+        var sockJs = new SockJS("http://localhost:8080/GGTalk");
         var stomp = Stomp.over(sockJs);
-
-        stomp.connect({}, function () {
-
-            console.log("stomp 연결");
-            console.log(response);
-
-            
-            stomp.subscribe("/matchingsub/" + response.getroomName, function (response) {
+        stomp.connect({},function () {
+          console.log("stomp 연결");
+          stomp.subscribe("/matchingsub/" + response.topicName, function (response){
                 console.log("stomp 구독");
-                console.log(response);
-
-                var content = JSON.parse(response.body);
-                var url = content.url;
-                console.log(url);
-            });
-        } )
-        
-
-
-
-
-
-    })
-      .fail(function (response) {
-        alert("디스코드 연결 실패.")
+                //리턴이 url d이면 바로 밑에서 컨버트앤 샌드를해준다
+                var content = response.body;
+                var url = content.url;})
+              if(response.url!=""){
+                  stomp.send('/matchingpub/url', {}, JSON.stringify({topicName: response.topicName,url:response.url}))
+                }
       });
+          })
+        .fail(function (response) {
+        alert("디스코드 연결 실패.")
+      })
+      ;
 
     }
 
-  function validDiscordId() {
-    var settings = {
-      "url": "http://localhost:8080/api/discord/check",
-      "method": "POST",
-      "timeout": 0,
-      "headers": {
-        "Content-Type": "application/json",
-      },
-      "data": JSON.stringify({
-        "discordId": $('#discordId').val(),
-        "discordNum": $('#discordNum').val()
-      }),
-    };
-
-    $.ajax(settings).done(function () {
-      alert("디스코드 연결 성공.")})
-    .fail(function (response) {
-            alert("연결 실패.")
-    });
-}
 
   </script>
 <html lang="en">
@@ -106,8 +102,8 @@ footer{
     box-shadow: 2px 2px 3px rgba(0,0,0,0.1);
     margin-left: 400px;
   }
-p{width: 120px;
-  inline-size:20px;
+p{
+  inline-size:120px;
 }
 
 </style>
@@ -171,7 +167,6 @@ p{width: 120px;
         <input type="text" id="discordId" style=" width:130px;" >
         <p class="txt" style=" margin-right: 200px; margin-top: 10px;"> 디스코드 숫자</p>
         <input type="text" id="discordNum" style=" width:130px;" >
-        <button onclick="validDiscordId()">중복 확인</button>
       </div>
       <label>
         <p class="label-txt">게임 선택</p>
@@ -209,8 +204,25 @@ p{width: 120px;
           <option>빡겜</option>
         </select>
       </div>
-
       <button onclick="matching()">매칭하기</button>
+
+      <div id="popup_content_wrap">
+        <div id="popup_content">
+          <center>
+            <h1>매칭 중
+              <div class="square"style="z-index: 99;">
+                <div class="spin" style="z-index: 99;">
+                </div>
+            </div>              
+            </h1>
+            <input
+              type="submit" name="cancel" value="취소하기" class="btn btn-primary"
+              onClick="popup_content('hide')">
+          </center>
+        </div>
+      </div>
+
+      
 </footer>
 </body>
 <script

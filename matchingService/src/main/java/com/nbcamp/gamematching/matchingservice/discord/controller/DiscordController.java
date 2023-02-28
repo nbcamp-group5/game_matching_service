@@ -27,13 +27,14 @@ public class DiscordController {
 //        }
         list.add(discordname);
         int limitPlayer = 5;
-        discordService.createChannel("ㅈㄱㅃㄱ", list,limitPlayer);
+        discordService.createChannel("ㅈㄱㅃㄱ", limitPlayer);
     }
 
     @PostMapping("/check") //        /api/discord/check
     public boolean vaildDiscordId(@RequestBody DiscordRequest discordRequest) {
         return discordService.userCheck(discordRequest);
     }
+
     @DeleteMapping("/test")
     public void delete() {
         discordService.deleteChannel();

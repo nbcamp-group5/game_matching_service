@@ -29,32 +29,27 @@ public class RedisService {
     private final RedisTemplate<String, Object> redisTemplate;
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-
-
-
     public void machedEnterByRedis(String key, RequestMatching member) throws JsonProcessingException {
         var mappperv = objectMapper.writeValueAsString(member);
         redisTemplate.opsForList().leftPush(key, mappperv);
     }
 
     public Long waitingUserCountByRedis(String key) {
-        var list = redisTemplate.opsForList();
-        return list.size(key);
+        return redisTemplate.opsForList().size(key);
     }
 
     public RequestMatching findByFirstJoinUserByRedis(String key, Class<RequestMatching> count) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
-        var json =(String) redisTemplate.opsForList().index(key,0);
-        return mapper.readValue(json, count);
-
-
+        //리스트의 첫번째 멤버를 가져온다.
+        var json = redisTemplate.opsForList().range(key,0,0);
+        return mapper.readValue((String) json.get(0), count);
     }
 
     public List<RequestMatching> getMatchingMemberByRedis(String key, Long matchingQuota, Class<RequestMatching> count) {
         ObjectMapper mapper = new ObjectMapper();
         List<RequestMatching> resualtlist = new ArrayList<>();
         try {
-            List<Object> jsonList = redisTemplate.opsForList().leftPop(key, matchingQuota);
+            List<Object> jsonList = redisTemplate.opsForList().rightPop(key, matchingQuota);
             for (int i = 0; i < jsonList.size(); i++) {
                 resualtlist.add(mapper.readValue((String) jsonList.get(i), count));
             }

@@ -19,7 +19,7 @@ import java.util.List;
 public class AnonymousBoard extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "anonymousBoard_id")
     private Long id;
 

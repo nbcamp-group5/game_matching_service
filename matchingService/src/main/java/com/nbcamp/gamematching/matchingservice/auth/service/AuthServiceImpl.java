@@ -57,7 +57,6 @@ public class AuthServiceImpl implements AuthService {
                 .build();
         log.info("가입된 멤버 : " + email);
         memberRepository.save(member);
-
     }
 
     @Override

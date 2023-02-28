@@ -24,7 +24,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     //클라이언트에서 websocket에 접속할 수 있는 endpoint 지정
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/GGTalk")
+        registry.addEndpoint("/GGTalk","/GGMatching")
                 .setAllowedOriginPatterns("*") // 이후 수정
                 .withSockJS();
     }

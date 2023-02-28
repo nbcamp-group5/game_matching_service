@@ -11,7 +11,7 @@ public class RequestMatching {
 
     private String discordId;
     private String discordNum;
-    private String dicordName;
+    private String discordName;
     private String memberNumbers;
     private String gameMode;
     private String gameName;
@@ -26,14 +26,14 @@ public class RequestMatching {
         this.discordId = requestMatching.getDiscordId();
         this.discordNum = requestMatching.getDiscordNum();
         this.memberEmail = memberEmail;
-        this.dicordName = this.discordId+"#"+this.discordNum;
+        this.discordName = this.discordId+"#"+this.discordNum;
         this.key = this.gameName + this.memberNumbers;
     }
 
-    public RequestMatching(String discordId, String discordNum, String dicordName, String memberNumbers, String gameMode, String gameName,String key) {
+    public RequestMatching(String discordId, String discordNum, String discordName, String memberNumbers, String gameMode, String gameName,String key) {
         this.discordId = discordId;
         this.discordNum = discordNum;
-        this.dicordName = dicordName;
+        this.discordName = discordName;
         this.memberNumbers = memberNumbers;
         this.gameMode = gameMode;
         this.gameName = gameName;
