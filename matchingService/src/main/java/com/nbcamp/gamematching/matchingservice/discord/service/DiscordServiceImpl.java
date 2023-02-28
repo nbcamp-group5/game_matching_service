@@ -19,11 +19,11 @@ public class DiscordServiceImpl implements DiscordService {
     private final DiscordJdaConfig jdaConfig;
 
     @Transactional
-    public Optional<String> createChannel(String category, List<String> discordIdList, int matchingQuota) {
+    public Optional<String> createChannel(String category, int matchingQuota) {
         Optional<String> url = Optional.ofNullable(null);
 
         try {
-            url = Optional.ofNullable(jdaConfig.createVoiceChannel(category, discordIdList, matchingQuota));
+            url = Optional.ofNullable(jdaConfig.createVoiceChannel(category, matchingQuota));
         } catch (ExecutionException | InterruptedException | NullPointerException e) {
             e.printStackTrace();
         }

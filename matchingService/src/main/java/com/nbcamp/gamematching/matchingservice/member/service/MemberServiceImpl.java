@@ -122,6 +122,11 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    public Member responseMemberByMemberEmail(String memberEmail) {
+        return memberRepository.findByEmail(memberEmail).orElseThrow(NotFoundMemberException::new);
+    }
+
+    @Override
     public ResponseEntity<String> changeMannerPoints(MannerPointsRequest request) {
         Member targetMember = memberRepository.findById(request.getTargetId())
                 .orElseThrow(NotFoundMemberException::new);

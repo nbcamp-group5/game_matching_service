@@ -1,8 +1,10 @@
 package com.nbcamp.gamematching.matchingservice.discord.controller;
 
+import com.nbcamp.gamematching.matchingservice.chat.entity.ChatMessage;
 import com.nbcamp.gamematching.matchingservice.discord.dto.DiscordRequest;
 import com.nbcamp.gamematching.matchingservice.discord.service.DiscordService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -25,7 +27,7 @@ public class DiscordController {
 //        }
         list.add(discordname);
         int limitPlayer = 5;
-        discordService.createChannel("ㅈㄱㅃㄱ", list,limitPlayer);
+        discordService.createChannel("ㅈㄱㅃㄱ", limitPlayer);
     }
 
     @PostMapping("/check") //        /api/discord/check
@@ -37,4 +39,6 @@ public class DiscordController {
     public void delete() {
         discordService.deleteChannel();
     }
+
+
 }

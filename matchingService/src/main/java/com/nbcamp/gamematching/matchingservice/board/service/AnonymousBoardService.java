@@ -39,7 +39,7 @@ public class AnonymousBoardService {
     //익명 게시글 작성
     public void createAnonymousBoard(CreateBoardRequest createBoardRequest, Member member, MultipartFile image) throws IOException {
         String imageFile = fileStore.storeFile(image);
-        AnonymousBoard board = new AnonymousBoard(AnonymousBoard.nNick(), imageFile, createBoardRequest.getContent(),member);
+        AnonymousBoard board = new AnonymousBoard(imageFile, createBoardRequest.getContent(),member);
         anonymousBoardRepository.save(board);
     }
 
