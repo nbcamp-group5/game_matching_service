@@ -60,14 +60,13 @@ dependencies {
     implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
     implementation group: 'javax.servlet', name: 'jstl', version: '1.2'
 
-    //Discord JDA
-    implementation "net.dv8tion:JDA:4.3.0_277"
-    implementation 'org.javacord:javacord:3.7.0'
 
     //Mysql
     runtimeOnly 'mysql:mysql-connector-java'
 
 
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+    implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
 }
 
 tasks.named('test') {

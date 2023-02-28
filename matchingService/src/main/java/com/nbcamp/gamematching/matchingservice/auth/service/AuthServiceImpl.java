@@ -15,26 +15,27 @@ import io.jsonwebtoken.Claims;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.io.UnsupportedEncodingException;
+import java.time.Duration;
+import java.util.concurrent.TimeUnit;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.UnsupportedEncodingException;
-import java.time.Duration;
-import java.util.concurrent.TimeUnit;
-
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class AuthServiceImpl implements AuthService {
+
     private final JwtUtil jwtUtil;
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
     private static final long REFRESH_TOKEN_TIME = 24 * 60 * 60 * 1000L;
 
     private final RedisService redisService;
+
     @Override
     @Transactional
     public void signUp(SignupRequest signupRequest) {
@@ -61,11 +62,12 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     @Transactional(readOnly = true)
-    public void signIn(SigninRequest signinRequest, HttpServletResponse response) throws UnsupportedEncodingException {
+    public void signIn(SigninRequest signinRequest, HttpServletResponse response)
+            throws UnsupportedEncodingException {
         String email = signinRequest.getEmail();
         String password = signinRequest.getPassword();
         Member member = memberRepository.findByEmail(email).orElseThrow(SignException::new);
-        if(!passwordEncoder.matches(password, member.getPassword())) {
+        if (!passwordEncoder.matches(password, member.getPassword())) {
             throw new SignException();
         }
         Cookie cookie = jwtUtil.createCookie(email);
@@ -73,8 +75,9 @@ public class AuthServiceImpl implements AuthService {
         String accessToken = jwtUtil.createAccessToken(member.getEmail(), member.getRole());
         response.addCookie(cookie);
         response.addHeader(JwtUtil.AUTHORIZATION_HEADER, accessToken);
-        redisService.addRefreshTokenByRedis(email,refreshToken, Duration.ofMillis(REFRESH_TOKEN_TIME));
-        log.info("로그인 멤버 : "+email);
+        redisService.addRefreshTokenByRedis(email, refreshToken,
+                Duration.ofMillis(REFRESH_TOKEN_TIME));
+        log.info("로그인 멤버 : " + email);
     }
 
     @Override
@@ -87,7 +90,8 @@ public class AuthServiceImpl implements AuthService {
             if (cookie.getName().equals("refreshtoken")) {
                 redisService.deleteRefreshTokenByRedis(atclaims.getSubject());
                 Long exp = atclaims.getExpiration().getTime();
-                redisService.logoutAccessTokenByRedis(accessToken, "logout", exp - System.currentTimeMillis(), TimeUnit.MILLISECONDS);
+                redisService.logoutAccessTokenByRedis(accessToken, "logout",
+                        exp - System.currentTimeMillis(), TimeUnit.MILLISECONDS);
                 log.info("로그아웃 멤버 : " + atclaims.getSubject());
             } else {
                 return;

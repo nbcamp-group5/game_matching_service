@@ -3,6 +3,7 @@ package com.nbcamp.gamematching.matchingservice.member.service;
 import com.nbcamp.gamematching.matchingservice.member.dto.BoardPageDto;
 import com.nbcamp.gamematching.matchingservice.member.dto.BuddyDto;
 import com.nbcamp.gamematching.matchingservice.member.dto.BuddyRequestDto;
+import com.nbcamp.gamematching.matchingservice.member.dto.MannerPointsRequest;
 import com.nbcamp.gamematching.matchingservice.member.dto.ProfileDto;
 import com.nbcamp.gamematching.matchingservice.member.dto.UpdateProfileRequest;
 import com.nbcamp.gamematching.matchingservice.member.entity.Member;
@@ -18,7 +19,7 @@ public interface MemberService {
 
     BoardPageDto getMyBoards(Long memberId, Pageable pageable);
 
-    List<BuddyDto> getMyBuddies(Long memberId);
+    List<ProfileDto> getMyBuddies(Long memberId);
 
     List<BuddyRequestDto> getBuddyRequests(Long memberId);
 
@@ -32,4 +33,9 @@ public interface MemberService {
     ResponseEntity<String> answerBuddyRequest(Long memberId, Long requestUserId, Boolean answer);
 
     Member responseMemberByMemberEmail(String memberEmail);
+    ResponseEntity<String> changeMannerPoints(MannerPointsRequest request);
+
+    Member responseMemberByMemberId(Long memberId); //TODO: memberEmail로 바꿀것
+
+    ResponseEntity<String> deleteMyBuddy(Long memberId, Long buddyId);
 }

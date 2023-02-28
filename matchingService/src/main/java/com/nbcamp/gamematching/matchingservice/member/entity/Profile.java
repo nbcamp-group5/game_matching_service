@@ -65,4 +65,13 @@ public class Profile {
             this.tier = profileRequest.getTier();
         }
     }
+
+    public void changeMannerPoints(String UpDown) {
+        if (UpDown.equals("UP")) {
+            this.mannerPoints += 10;
+        } else if (UpDown.equals("DOWN")) {
+            this.mannerPoints -= 10;
+        }
+
+    }
 }

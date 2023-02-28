@@ -27,5 +27,4 @@ public class MatchingLog {
         this.responseMatching = responseMatching;
         this.member = member;
     }
-
 }

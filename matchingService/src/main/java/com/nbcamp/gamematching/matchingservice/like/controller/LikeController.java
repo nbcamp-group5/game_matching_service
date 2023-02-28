@@ -19,32 +19,36 @@ public class LikeController {
 
     private final LikeService likeService;
 
+//    //게시글 좋아요
+//    @PostMapping("/{boardId}")
+//    public ResponseEntity<String> likeBoard(@PathVariable Long boardId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+//        likeService.likeBoard(boardId,userDetails.getUser());
+//        return new ResponseEntity<>("좋아요", HttpStatus.OK);
+//    }
     //게시글 좋아요
     @PostMapping("/{boardId}")
     public ResponseEntity<String> likeBoard(@PathVariable Long boardId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        likeService.likeBoard(boardId,userDetails.getUser());
-        return new ResponseEntity<>("좋아요 완료", HttpStatus.OK);
+        return likeService.likeBoard(boardId,userDetails.getUser());
     }
 
     //익명 게시글 좋아요
     @PostMapping("/anonymous/{boardId}")
     public ResponseEntity<String> likeAnonymousBoard(@PathVariable Long boardId,@AuthenticationPrincipal UserDetailsImpl userDetails) {
-        likeService.likeAnonymousBoard(boardId,userDetails.getUser());
-        return new ResponseEntity<>("좋아요 완료", HttpStatus.OK);
+       return likeService.likeAnonymousBoard(boardId,userDetails.getUser());
     }
 
-
-    //게시글 좋아요 취소
-    @PostMapping("/cancel/{boardId}")
-    public ResponseEntity<String> hateBoard(@PathVariable Long boardId,@AuthenticationPrincipal UserDetailsImpl userDetails) {
-        likeService.hateBoard(boardId,userDetails.getUser());
-        return new ResponseEntity<>("좋아요 취소완료", HttpStatus.OK);
-    }
-
-    //익명 게시글 좋아요 취소
-    @PostMapping("/anonymous/cancel/{boardId}") //게시글 좋아요 취소
-    public ResponseEntity<String> hateAnonymousBoard(@PathVariable Long boardId,@AuthenticationPrincipal UserDetailsImpl userDetails) {
-        likeService.hateAnonymousBoard(boardId,userDetails.getUser());
-        return new ResponseEntity<>("좋아요 취소완료", HttpStatus.OK);
-    }
+//
+//    //게시글 좋아요 취소
+//    @PostMapping("/cancel/{boardId}")
+//    public ResponseEntity<String> hateBoard(@PathVariable Long boardId,@AuthenticationPrincipal UserDetailsImpl userDetails) {
+//        likeService.hateBoard(boardId,userDetails.getUser());
+//        return new ResponseEntity<>("좋아요 취소완료", HttpStatus.OK);
+//    }
+//
+//    //익명 게시글 좋아요 취소
+//    @PostMapping("/anonymous/cancel/{boardId}") //게시글 좋아요 취소
+//    public ResponseEntity<String> hateAnonymousBoard(@PathVariable Long boardId,@AuthenticationPrincipal UserDetailsImpl userDetails) {
+//        likeService.hateAnonymousBoard(boardId,userDetails.getUser());
+//        return new ResponseEntity<>("좋아요 취소완료", HttpStatus.OK);
+//    }
 }

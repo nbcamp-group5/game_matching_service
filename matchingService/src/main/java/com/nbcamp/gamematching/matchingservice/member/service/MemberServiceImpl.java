@@ -3,11 +3,11 @@ package com.nbcamp.gamematching.matchingservice.member.service;
 import com.nbcamp.gamematching.matchingservice.board.entity.Board;
 import com.nbcamp.gamematching.matchingservice.board.repository.BoardRepository;
 import com.nbcamp.gamematching.matchingservice.exception.NotFoundException.NotFoundMemberException;
-import com.nbcamp.gamematching.matchingservice.member.domain.FileStore;
+import com.nbcamp.gamematching.matchingservice.member.domain.FileDetail;
 import com.nbcamp.gamematching.matchingservice.member.dto.BoardPageDto;
 import com.nbcamp.gamematching.matchingservice.member.dto.BoardPageDto.BoardContent;
-import com.nbcamp.gamematching.matchingservice.member.dto.BuddyDto;
 import com.nbcamp.gamematching.matchingservice.member.dto.BuddyRequestDto;
+import com.nbcamp.gamematching.matchingservice.member.dto.MannerPointsRequest;
 import com.nbcamp.gamematching.matchingservice.member.dto.ProfileDto;
 import com.nbcamp.gamematching.matchingservice.member.dto.UpdateProfileRequest;
 import com.nbcamp.gamematching.matchingservice.member.entity.Member;
@@ -32,12 +32,15 @@ public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository;
     private final BoardRepository boardRepository;
-    private final FileStore fileStore;
+    private final FileUploadService fileUploadService;
 
     @Override
     public ProfileDto getMyProfile(Member member) {
-        Profile myProfile = member.getProfile();
-        return new ProfileDto(myProfile);
+        // 혹시 요청한 멤버가 삭제된 멤버일 수 있으니 Repository 에 찾아서 DTO 를 만든다
+        Member findMember = memberRepository.findById(member.getId())
+                .orElseThrow(NotFoundMemberException::new);
+
+        return new ProfileDto(findMember);
     }
 
     @Override
@@ -56,15 +59,15 @@ public class MemberServiceImpl implements MemberService {
                 .currentPage(pageable.getPageNumber())
                 .build();
     }
-    
+
 
     @Override
-    public List<BuddyDto> getMyBuddies(Long memberId) {
+    public List<ProfileDto> getMyBuddies(Long memberId) {
         Member findMember = memberRepository.findById(memberId)
                 .orElseThrow(NotFoundMemberException::new);
 
         List<Member> buddies = findMember.getMyBuddies();
-        return BuddyDto.of(buddies);
+        return ProfileDto.of(buddies);
     }
 
     @Override
@@ -83,9 +86,9 @@ public class MemberServiceImpl implements MemberService {
                 .orElseThrow(NotFoundMemberException::new);
         Profile findMemberProfile = findMember.getProfile();
 
-        String attachFile = fileStore.storeFile(image);
+        FileDetail fileDetail = fileUploadService.save(image);
 
-        findMemberProfile.changeProfile(request, attachFile);
+        findMemberProfile.changeProfile(request, fileDetail.getPath());
         return new ResponseEntity<>("프로필이 변경되었습니다.", HttpStatus.OK);
     }
 
@@ -93,8 +96,8 @@ public class MemberServiceImpl implements MemberService {
     public ProfileDto getOtherProfile(Long userId) {
         Member findMember = memberRepository.findById(userId)
                 .orElseThrow(NotFoundMemberException::new);
-        Profile findMemberProfile = findMember.getProfile();
-        return new ProfileDto(findMemberProfile);
+
+        return new ProfileDto(findMember);
     }
 
     @Override
@@ -119,6 +122,24 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public Member responseMemberByMemberEmail(String memberEmail) {
-        return memberRepository.findByEmail(memberEmail).orElseThrow(NotFoundMemberException::new); }
+    public ResponseEntity<String> changeMannerPoints(MannerPointsRequest request) {
+        Member targetMember = memberRepository.findById(request.getTargetId())
+                .orElseThrow(NotFoundMemberException::new);
+
+        targetMember.changeMannerPoints(request.getUpDown());
+        return new ResponseEntity<>("평가가 완료되었습니다.", HttpStatus.OK);
+    }
+
+    public Member responseMemberByMemberId(Long memberId) {
+        return memberRepository.findById(memberId).orElseThrow(NotFoundMemberException::new);
+    }
+
+    @Override
+    public ResponseEntity<String> deleteMyBuddy(Long memberId, Long buddyId) {
+        Member findMember = memberRepository.findById(memberId)
+                .orElseThrow(NotFoundMemberException::new);
+
+        findMember.deleteBuddy(buddyId);
+        return new ResponseEntity<>("친구가 삭제되었습니다.", HttpStatus.OK);
+    }
 }

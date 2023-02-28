@@ -9,7 +9,8 @@ import lombok.NoArgsConstructor;
 @Getter
 @Entity
 @NoArgsConstructor
-public class AnonymousLikes {
+@Table(name = "AnonoymousLikes")
+public class AnonymousLike {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -21,15 +22,15 @@ public class AnonymousLikes {
     private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "anonymousBoard_id")
+    @JoinColumn(name = "anonymous_board_id")
     private AnonymousBoard anonymousBoard;
 
-    public AnonymousLikes(AnonymousBoard board, Member member) {
+    public AnonymousLike(AnonymousBoard board, Member member) {
         this.member = member;
         this.anonymousBoard = board;
     }
 
-    public void checkUser(AnonymousLikes likes, Member member) {
-        if (!likes.getMember().getEmail().equals(member.getEmail())) throw new IllegalArgumentException("유저 불일치");
+    public void checkUser(AnonymousLike like, Member member) {
+        if (!like.getMember().getEmail().equals(member.getEmail())) throw new IllegalArgumentException("유저 불일치");
     }
 }

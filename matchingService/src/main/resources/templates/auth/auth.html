@@ -1,15 +1,15 @@
 <header>
   <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
-  <script src="js/jquery.magnific-popup.min.js"></script>
-  <script src="js/jquery-3.3.1.min.js"></script>
-  <script src="js/jquery-ui.js"></script>
+<!--  <script src="js/jquery.magnific-popup.min.js"></script>-->
+<!--  <script src="js/jquery-3.3.1.min.js"></script>-->
+<!--  <script src="js/jquery-ui.js"></script>-->
 </header>
 <div class="container" id="container">
   <div class="form-container sign-up-container">
     <form action="#">
       <h1 class="korean">회원가입</h1>
       <div class="social-container">
-        <a href="#" class="social"><img src="../../static/img/kakao.png"></a>
+        <a href="#" class="social"><img src="images/login/kakao.png"></a>
       </div>
       <div class="input-box">
         <input type="text" id="signup-email" placeholder="이메일" />
@@ -23,7 +23,7 @@
     <form action="#">
       <h1 class="korean">로그인</h1>
       <div class="social-container">
-        <a href="#" class="social"><img src="../../static/img/login/kakao.png"></a>
+        <a href="#" class="social"><img src="images/login/kakao.png"></a>
       </div>
       <div class="input-box">
         <input type="text" id="login-email" placeholder="이메일" />
@@ -336,23 +336,27 @@
 
   function signUpRequest() {
     var settings = {
-      "url": "http://localhost:8080/api/user/signup",
+      "url": "http://localhost:8080/api/auth/signup",
       "method": "POST",
       "timeout": 0,
       "headers": {
         "Content-Type": "application/json"
       },
       "data": JSON.stringify({
-        "email": $('#signUpId').val(),
-        "password": $('#signUpPassword').val()
+        "email": $('#signup-email').val(),
+        "nickname": $('#signup-nickname').val(),
+        "password": $('#signup-password').val()
       })
     };
 
     $.ajax(settings).done(function (response) {
       console.log(response);
+      alert("회원가입이 완료되었습니다.");
       signUpButton.addEventListener('click', () => {
         container.classList.add("right-panel-active");
       });
+    }).fail(function (response){
+      alert(response.responseJSON.errorMessage);
     });
   }
 
@@ -374,10 +378,11 @@
 
     $.ajax(settings).done(function (response, status, xhr) {
       localStorage.setItem('Authorization', xhr.getResponseHeader('Authorization'))
-      window.location = ("/matching-request.html")
+      window.location = ("/matching/matching-request.html")
     })
       .fail(function (response) {
-        alert("아이디와 비밀번호를 확인해해주세요")
+        console.log(response);
+        alert("아이디와 비밀번호를 확인해주세요.");
       });
   }
 </script>

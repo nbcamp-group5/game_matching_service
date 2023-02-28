@@ -8,8 +8,10 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
 
 
 @Getter
@@ -23,8 +25,7 @@ public class Board extends BaseEntity {
     private Long id;
     private String nickname;
 
-    private String boardImageUrl;
-    //이미지url?
+    private String boardImage;
 
     @Column(nullable = false)
     private String content;
@@ -37,21 +38,20 @@ public class Board extends BaseEntity {
     @OneToMany(mappedBy = "board",cascade = CascadeType.REMOVE)
     private List<Comment> comments = new ArrayList<>();
 
-    public Board(String nickname,String boardImageUrl, String content,Member member) {
+    public Board(String nickname,String boardImage, String content, Member member) {
         this.nickname = member.getProfile().getNickname();
-        this.boardImageUrl = boardImageUrl;
+        this.boardImage = boardImage;
         this.content = content;
         this.member = member;
     }
 
-    public void updateBoard(UpdateBoardRequest boardRequestDto,Member member) {
-        this.boardImageUrl = boardRequestDto.getBoardImageUrl();
+    public void updateBoard(UpdateBoardRequest boardRequestDto,String boardImageUrl,Member member) throws IOException {
+        this.boardImage = boardImageUrl;
         this.content = boardRequestDto.getContent();
         this.member = member;
     }
 
     public void checkUser(Board board, Member member) {
-        if (!board.getMember().getEmail().equals(member.getEmail())) throw new IllegalArgumentException("유저 불일치");
+        if (!board.getMember().getEmail().equals(member.getEmail())) throw new IllegalArgumentException("유저가 일치하지 않습니다.");
     }
-
 }

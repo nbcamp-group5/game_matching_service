@@ -95,4 +95,12 @@ public class Member {
         }
         this.getNotYetBuddies().removeIf(notYetBuddy -> (notYetBuddy.getId() == requestMemberId));
     }
+
+    public void changeMannerPoints(String upDown) {
+        this.getProfile().changeMannerPoints(upDown);
+    }
+
+    public void deleteBuddy(Long memberId) {
+        this.getMyBuddies().removeIf(member -> (member.getId() == memberId));
+    }
 }
