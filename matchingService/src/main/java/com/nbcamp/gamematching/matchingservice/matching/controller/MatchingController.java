@@ -1,6 +1,7 @@
 package com.nbcamp.gamematching.matchingservice.matching.controller;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.nbcamp.gamematching.matchingservice.exception.NotFoundException;
+import com.nbcamp.gamematching.matchingservice.matching.dto.ResponseUrlInfo;
 import com.nbcamp.gamematching.matchingservice.matching.Service.MatchingService;
 import com.nbcamp.gamematching.matchingservice.matching.dto.RequestMatching;
 import com.nbcamp.gamematching.matchingservice.redis.RedisService;
@@ -8,6 +9,8 @@ import com.nbcamp.gamematching.matchingservice.security.UserDetailsImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,34 +21,23 @@ import org.springframework.web.bind.annotation.*;
 public class MatchingController {
     private final MatchingService matchingService;
     private final RedisService redisService;
+    private final SimpMessagingTemplate template;
 
     @PostMapping("/join")
     @ResponseBody
-    public String joinRequest(@RequestBody RequestMatching requestMatching,
-                              @AuthenticationPrincipal UserDetailsImpl userDetails,
-                              HttpServletRequest servletRequest) throws JsonProcessingException {
+    public ResponseUrlInfo joinRequest(@RequestBody RequestMatching requestMatching,
+                                       @AuthenticationPrincipal UserDetailsImpl userDetails,
+                                       HttpServletRequest servletRequest) throws JsonProcessingException {
         var member = userDetails.getMember();
-        var requestmember = new RequestMatching(requestMatching,member.getId());
-        matchingService.joinMatchingRoom(requestmember,servletRequest);
+        var matchingMember = new RequestMatching(requestMatching,member.getEmail());
         log.info("Join Matching Useremail{} UserDiscordId{}",member.getEmail(),requestMatching.getDiscordId());
-        return "redirect:/";
-    }
-
-    @GetMapping("/cancel")
-    @ResponseBody
-    public String matchingCancel(HttpServletRequest servletRequest) {
-        //받아오는 값에 RequestMatching 없으면 예외처리 발생
-        var session = servletRequest.getSession();
-        var sessionInfo = (RequestMatching) session.getAttribute("UserSession");
-        if (sessionInfo == null){
-            log.info(" = session is null = ");
-            throw new NotFoundException.NotFoundMemberException();
-        }
-        redisService.matchingCancelByRedis(sessionInfo);
-        log.info(" = Matching Cancel Success= ");
-        return "redirect:/";
+        return matchingService.joinMatchingRoom(matchingMember,servletRequest);
     }
 
 
+    @MessageMapping(value = "/url")
+    public void message(ResponseUrlInfo responseUrlInfo){
+        template.convertAndSend("/matchingsub/" + responseUrlInfo.getTopicName(), responseUrlInfo.getUrl());
+    }
 
 }

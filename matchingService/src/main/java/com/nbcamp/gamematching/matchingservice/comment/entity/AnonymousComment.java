@@ -18,7 +18,7 @@ import java.util.List;
 public class AnonymousComment extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "comment_id")
     private Long id;
 

@@ -50,18 +50,18 @@ public class DiscordJdaConfig {
         return false;
     }
 
-    public String createVoiceChannel(String category, List<String> discordIdList,int matchingQuota)
+    public String createVoiceChannel(String category,int matchingQuota)
             throws ExecutionException, InterruptedException {
         String channelUrl = "";
         Guild guild = jda.getGuildById(guildId);
 
         try {
             switch (category) {
-                case ("ㅈㄱ"):
-                    return getUrl("ㅈㄱ", discordIdList, channelUrl, guild, EgcategoryId,matchingQuota);
+                case ("즐겜"):
+                    return getUrl("즐겜", channelUrl, guild, EgcategoryId,matchingQuota);
 
-                case ("ㅃㄱ"):
-                    return getUrl("ㅃㄱ", discordIdList, channelUrl, guild, HgcategoryId,matchingQuota);
+                case ("빡겜"):
+                    return getUrl("빡겜", channelUrl, guild, HgcategoryId ,matchingQuota);
             }
         } catch (RuntimeException e) {
             e.printStackTrace();
@@ -70,8 +70,8 @@ public class DiscordJdaConfig {
         return channelUrl;
     }
 
-    private String getUrl (String channelName, List <String> discordIdList, String channelUrl,
-                           Guild guild, String categoryId,int matchingQuota){
+    private String getUrl (String channelName,  String channelUrl,
+                           Guild guild, String categoryId, int matchingQuota){
         Category category = guild.getCategoryById(categoryId);
         try {
             VoiceChannel voiceChannel = category.createVoiceChannel(channelName)
@@ -79,11 +79,11 @@ public class DiscordJdaConfig {
                             EnumSet.of(Permission.VOICE_CONNECT),
                             EnumSet.of(Permission.VIEW_CHANNEL))
                     .reason("매칭 완료 방 생성").submit().get();
-            for (String userTag : discordIdList) {
-                Member member = guild.getMemberByTag(userTag);
-                //각 멤버 채널 초대
-                voiceChannel.createPermissionOverride(member).setAllow(Permission.VIEW_CHANNEL).queue();
-            }
+//            for (String userTag : discordIdList) {
+//                Member member = guild.getMemberByTag(userTag);
+//                //각 멤버 채널 초대
+//                voiceChannel.createPermissionOverride(member).setAllow(Permission.VIEW_CHANNEL).queue();
+//            }
             voiceChannel.getManager().setUserLimit(matchingQuota).queue();
             channelUrl = voiceChannel.createInvite().setMaxAge(300).submit().get().getUrl();
         } catch (ExecutionException | InterruptedException e) {
@@ -95,21 +95,15 @@ public class DiscordJdaConfig {
 
     public void deleteVoiceChannel() {
         Guild guild = jda.getGuildById(guildId);
-        System.out.println("현재 길드(서버) : " + guild.toString());
-
         List<VoiceChannel> channelList = guild.getVoiceChannels();
 
-        System.out.println("채널 목록   ------> ");
         for (VoiceChannel guildChannel : channelList) {
             System.out.print(guildChannel);
-
             List<Member> memberList = guildChannel.getMembers();
-            if (memberList.size() == 0 || memberList.isEmpty()) {
+            if (memberList.isEmpty()) {
                 System.out.print(" ---> 삭제완료");
                 guildChannel.delete().reason("사용자가 없으므로 제거").queue();
             }
-            System.out.println();
         }
-        System.out.println("채널 목록 끝 ------ ");
     }
 }

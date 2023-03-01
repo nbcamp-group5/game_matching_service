@@ -377,8 +377,8 @@
     };
 
     $.ajax(settings).done(function (response, status, xhr) {
-      localStorage.setItem('Authorization', xhr.getResponseHeader('Authorization'));
-      window.location = "../board/board.html";
+      localStorage.setItem('Authorization', xhr.getResponseHeader('Authorization'))
+      window.location = ("/matching/matching-request.html")
     })
       .fail(function (response) {
         console.log(response);

@@ -27,10 +27,9 @@ import lombok.NoArgsConstructor;
 public class Board extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "board_id")
     private Long id;
-
     private String nickname;
 
     @Column(name = "board_image")

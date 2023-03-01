@@ -32,9 +32,9 @@ public interface MemberService {
 
     ResponseEntity<String> answerBuddyRequest(Long memberId, Long requestUserId, Boolean answer);
 
-    ResponseEntity<String> changeMannerPoints(MannerPointsRequest request);
+    Member responseMemberByMemberEmail(String memberEmail);
 
-    Member responseMemberByMemberId(Long memberId); //TODO: memberEmail로 바꿀것
+    ResponseEntity<String> changeMannerPoints(MannerPointsRequest request);
 
     ResponseEntity<String> deleteMyBuddy(Long memberId, Long buddyId);
 
