@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class RequestMatching {
-
     private String discordId;
     private String discordNum;
     private String discordName;
@@ -19,7 +18,7 @@ public class RequestMatching {
     private String key;
 
     @Builder
-    public RequestMatching(RequestMatching requestMatching,String memberEmail) {
+    public RequestMatching(RequestMatching requestMatching, String memberEmail) {
         this.gameMode = requestMatching.getGameMode();
         this.gameName = requestMatching.getGameName();
         this.memberNumbers = requestMatching.getMemberNumbers();
@@ -30,13 +29,4 @@ public class RequestMatching {
         this.key = this.gameName + this.memberNumbers;
     }
 
-    public RequestMatching(String discordId, String discordNum, String discordName, String memberNumbers, String gameMode, String gameName,String key) {
-        this.discordId = discordId;
-        this.discordNum = discordNum;
-        this.discordName = discordName;
-        this.memberNumbers = memberNumbers;
-        this.gameMode = gameMode;
-        this.gameName = gameName;
-        this.key = key;
-    }
 }

@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nbcamp.gamematching.matchingservice.matching.dto.ResponseUrlInfo;
 import com.nbcamp.gamematching.matchingservice.matching.Service.MatchingService;
 import com.nbcamp.gamematching.matchingservice.matching.dto.RequestMatching;
-import com.nbcamp.gamematching.matchingservice.redis.RedisService;
 import com.nbcamp.gamematching.matchingservice.security.UserDetailsImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class MatchingController {
     private final MatchingService matchingService;
-    private final RedisService redisService;
     private final SimpMessagingTemplate template;
 
     @PostMapping("/join")
@@ -31,13 +29,13 @@ public class MatchingController {
         var member = userDetails.getMember();
         var matchingMember = new RequestMatching(requestMatching,member.getEmail());
         log.info("Join Matching Useremail{} UserDiscordId{}",member.getEmail(),requestMatching.getDiscordId());
-        return matchingService.joinMatchingRoom(matchingMember,servletRequest);
+        return matchingService.matchingJoin(matchingMember,servletRequest);
     }
-
 
     @MessageMapping(value = "/url")
     public void message(ResponseUrlInfo responseUrlInfo){
         template.convertAndSend("/matchingsub/" + responseUrlInfo.getTopicName(), responseUrlInfo.getUrl());
     }
+
 
 }

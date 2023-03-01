@@ -21,7 +21,6 @@ public class DiscordServiceImpl implements DiscordService {
     @Transactional
     public Optional<String> createChannel(String category, int matchingQuota) {
         Optional<String> url = Optional.ofNullable(null);
-
         try {
             url = Optional.ofNullable(jdaConfig.createVoiceChannel(category, matchingQuota));
         } catch (ExecutionException | InterruptedException | NullPointerException e) {

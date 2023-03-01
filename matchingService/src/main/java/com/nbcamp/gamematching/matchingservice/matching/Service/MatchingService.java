@@ -8,7 +8,7 @@ import jakarta.servlet.http.HttpServletRequest;
 
 public interface MatchingService {
 
-    ResponseUrlInfo joinMatchingRoom(RequestMatching requestMatching, HttpServletRequest servletRequest) throws JsonProcessingException;
+    ResponseUrlInfo matchingJoin(RequestMatching requestMatching, HttpServletRequest servletRequest) throws JsonProcessingException;
 
 
 }

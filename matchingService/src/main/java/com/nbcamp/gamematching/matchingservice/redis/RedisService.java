@@ -2,18 +2,13 @@ package com.nbcamp.gamematching.matchingservice.redis;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nbcamp.gamematching.matchingservice.chat.entity.ChatMessage;
 import com.nbcamp.gamematching.matchingservice.exception.NotFoundException;
 import com.nbcamp.gamematching.matchingservice.matching.dto.RequestMatching;
-import com.nbcamp.gamematching.matchingservice.matching.entity.MatchingLog;
-import com.nbcamp.gamematching.matchingservice.matching.entity.MatchingMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
-import org.springframework.data.redis.listener.ChannelTopic;
-import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
@@ -27,7 +22,7 @@ public class RedisService {
 
     private final StringRedisTemplate stringRedisTemplate;
     private final RedisTemplate<String, Object> redisTemplate;
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    public static ObjectMapper objectMapper = new ObjectMapper();
 
     public void machedEnterByRedis(String key, RequestMatching member) throws JsonProcessingException {
         var mappperv = objectMapper.writeValueAsString(member);
@@ -40,7 +35,6 @@ public class RedisService {
 
     public RequestMatching findByFirstJoinUserByRedis(String key, Class<RequestMatching> count) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
-        //리스트의 첫번째 멤버를 가져온다.
         var json = redisTemplate.opsForList().range(key,0,0);
         return mapper.readValue((String) json.get(0), count);
     }
@@ -67,24 +61,21 @@ public class RedisService {
             log.info(" = error Massege {} = ", e.getMessage());
         }
     }
-
-
     public void addRefreshTokenByRedis(String email, String refreshToken, Duration duration) {
         ValueOperations<String, String> stringValueOperations = stringRedisTemplate.opsForValue();
         stringValueOperations.set(email, refreshToken, duration);
         log.info("Redis email : " + email);
         log.info("Redis refreshToken : " + stringValueOperations.get(refreshToken));
     }
-
     public void logoutAccessTokenByRedis(String accessToken, String logout, Long expiretime, TimeUnit milliseconds) {
         ValueOperations<String, String> stringValueOperations = stringRedisTemplate.opsForValue();
         stringValueOperations.set(accessToken, logout, expiretime, milliseconds);
         log.info("Redis logout : " + accessToken);
     }
-
     public void deleteRefreshTokenByRedis(String email) {
         stringRedisTemplate.delete(email);
     }
+
 
 
 }

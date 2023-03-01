@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @Entity
 @NoArgsConstructor
-public class ResponseMatching {
+public class ResultMatching {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -17,16 +17,16 @@ public class ResponseMatching {
     @Column(nullable = false)
     private String playMode;
     @Column(nullable = false)
-    private String gameName;
+    private String gameInfo;
     @Column(nullable = false)
     private String discordUrl;
 
 
     @Builder
-    public ResponseMatching(String playMode,
-                       String gameName, String discordUrl) {
+    public ResultMatching(String playMode,
+                          String gameInfo, String discordUrl) {
         this.playMode = playMode;
-        this.gameName = gameName;
+        this.gameInfo = gameInfo;
         this.discordUrl = discordUrl;
     }
 
