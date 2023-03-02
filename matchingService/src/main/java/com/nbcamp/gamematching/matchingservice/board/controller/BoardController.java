@@ -4,12 +4,16 @@ import com.nbcamp.gamematching.matchingservice.board.dto.AnonymousBoardResponse;
 import com.nbcamp.gamematching.matchingservice.board.dto.BoardResponse;
 import com.nbcamp.gamematching.matchingservice.board.dto.CreateBoardRequest;
 import com.nbcamp.gamematching.matchingservice.board.dto.UpdateBoardRequest;
+import com.nbcamp.gamematching.matchingservice.board.entity.Board;
+import com.nbcamp.gamematching.matchingservice.board.repository.BoardRepository;
 import com.nbcamp.gamematching.matchingservice.board.service.AnonymousBoardService;
 import com.nbcamp.gamematching.matchingservice.board.service.BoardService;
 import com.nbcamp.gamematching.matchingservice.member.domain.FileStore;
 import com.nbcamp.gamematching.matchingservice.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -30,7 +34,7 @@ public class BoardController {
     private String fileDir;
 
     private final FileStore fileStore;
-
+    private final BoardRepository boardRepository;
 
 
     //게시글 작성
@@ -52,7 +56,7 @@ public class BoardController {
     //게시글 조회
     @GetMapping("/normal")
     public List<BoardResponse> getBoardList() {
-       return boardService.getBoardList();
+        return boardService.getBoardList();
 //        model.addAttribute("boardResponseList",boardResponseList);
 //        model.addAttribute("board",board);
 //        return "board/main";
