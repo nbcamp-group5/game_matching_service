@@ -4,12 +4,16 @@ import com.nbcamp.gamematching.matchingservice.board.dto.AnonymousBoardResponse;
 import com.nbcamp.gamematching.matchingservice.board.dto.BoardResponse;
 import com.nbcamp.gamematching.matchingservice.board.dto.CreateBoardRequest;
 import com.nbcamp.gamematching.matchingservice.board.dto.UpdateBoardRequest;
+import com.nbcamp.gamematching.matchingservice.board.entity.Board;
+import com.nbcamp.gamematching.matchingservice.board.repository.BoardRepository;
 import com.nbcamp.gamematching.matchingservice.board.service.AnonymousBoardService;
 import com.nbcamp.gamematching.matchingservice.board.service.BoardService;
-import com.nbcamp.gamematching.matchingservice.member.service.FileUploadService;
+import com.nbcamp.gamematching.matchingservice.member.domain.FileStore;
 import com.nbcamp.gamematching.matchingservice.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -29,13 +33,13 @@ public class BoardController {
     @Value("${file.dir}")
     private String fileDir;
 
-    private final FileUploadService fileUploadService;
-
+    private final FileStore fileStore;
+    private final BoardRepository boardRepository;
 
 
     //게시글 작성
     @PostMapping(value = "/normal")
-        public ResponseEntity<String> createBoard(@RequestPart("requestDto") CreateBoardRequest createBoardRequest, @AuthenticationPrincipal UserDetailsImpl userDetails, @RequestPart(value ="image", required = false) MultipartFile image) throws IOException {
+        public ResponseEntity<String> createBoard(@RequestPart("requestDto") CreateBoardRequest createBoardRequest, @AuthenticationPrincipal UserDetailsImpl userDetails, @RequestPart("image") MultipartFile image) throws IOException {
         boardService.createBoard(createBoardRequest, userDetails.getUser(),image);
         return new ResponseEntity<>("게시글 작성 완료", HttpStatus.CREATED);
 //        return "board/create";
@@ -52,7 +56,7 @@ public class BoardController {
     //게시글 조회
     @GetMapping("/normal")
     public List<BoardResponse> getBoardList() {
-       return boardService.getBoardList();
+        return boardService.getBoardList();
 //        model.addAttribute("boardResponseList",boardResponseList);
 //        model.addAttribute("board",board);
 //        return "board/main";

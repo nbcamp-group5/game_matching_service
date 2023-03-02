@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface DiscordService {
-    Optional<String> createChannel (String category, List<String> userTagList,int limitPlayer);
+    Optional<String> createChannel (String category,int limitPlayer);
     void deleteChannel();
-    boolean userCheck(DiscordRequest discordRequest);
 }

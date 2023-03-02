@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 public class AnonymousLike {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "anonymousLike_id")
     private Long id;
 

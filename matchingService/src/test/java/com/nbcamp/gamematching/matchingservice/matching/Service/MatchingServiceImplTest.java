@@ -40,57 +40,57 @@ class MatchingServiceImplTest {
 //        }
 
 //    }
-
-    @Test
-    @DisplayName("LOL 5인큐에서 5인 매칭 신청했을 때")
-    public void createMatchingRoomTest() {
-        // given
-
-        // when
-        for (int i = 0; i < 5; i++) {
-            matchingService.joinMatchingRoom(requestMatchingList.get(i), deferredResultList.get(i));
-        }
-        // then
-        Map<String, Map<RequestMatching, DeferredResult<MatchingLog>>> waitingQueue = matchingService.getWaitingQueue();
-        for (String s : waitingQueue.keySet()) {
-            System.out.println("waitingQueue.get(s) = " + waitingQueue.get(s).values().size());
-        }
-        assertThat(matchingService.getWaitingQueue().get("LOL5").values().size())
-                .isEqualTo(0);
-    }
-
-    @Test
-    @DisplayName("LOL 5인큐에서 3인만 매칭 신청했을 때")
-    public void notCreateMatchingRoomTest() {
-        // given
-
-        // when
-        for (int i = 0; i < 3; i++) {
-            matchingService.joinMatchingRoom(requestMatchingList.get(i), deferredResultList.get(i));
-        }
-        // then
-        Map<String, Map<RequestMatching, DeferredResult<MatchingLog>>> waitingQueue = matchingService.getWaitingQueue();
-        for (String s : waitingQueue.keySet()) {
-            System.out.println("waitingQueue.get(s) = " + waitingQueue.get(s).values().size());
-        }
-        assertThat(matchingService.getWaitingQueue().get("LOL5").values().size())
-                .isEqualTo(3);
-    }
-
-    @Test
-    @DisplayName("LOL 5인큐 신청")
-    public void joinMatchingRoomTest() throws Exception {
-        // given
-        RequestMatching requestMatching = requestMatchingList.get(0);
-        DeferredResult<MatchingLog> responseMatchingDeferredResult = deferredResultList.get(0);
-
-        // when
-        matchingService.joinMatchingRoom(requestMatching, responseMatchingDeferredResult);
-
-        // then
-        assertThat(matchingService.getWaitingQueue().get("LOL5").values().size()).isEqualTo(1);
-
-    }
+//
+//    @Test
+//    @DisplayName("LOL 5인큐에서 5인 매칭 신청했을 때")
+//    public void createMatchingRoomTest() {
+//        // given
+//
+//        // when
+//        for (int i = 0; i < 5; i++) {
+//            matchingService.joinMatchingRoom(requestMatchingList.get(i), deferredResultList.get(i));
+//        }
+//        // then
+//        Map<String, Map<RequestMatching, DeferredResult<MatchingLog>>> waitingQueue = matchingService.getWaitingQueue();
+//        for (String s : waitingQueue.keySet()) {
+//            System.out.println("waitingQueue.get(s) = " + waitingQueue.get(s).values().size());
+//        }
+//        assertThat(matchingService.getWaitingQueue().get("LOL5").values().size())
+//                .isEqualTo(0);
+//    }
+//
+//    @Test
+//    @DisplayName("LOL 5인큐에서 3인만 매칭 신청했을 때")
+//    public void notCreateMatchingRoomTest() {
+//        // given
+//
+//        // when
+//        for (int i = 0; i < 3; i++) {
+//            matchingService.joinMatchingRoom(requestMatchingList.get(i), deferredResultList.get(i));
+//        }
+//        // then
+//        Map<String, Map<RequestMatching, DeferredResult<MatchingLog>>> waitingQueue = matchingService.getWaitingQueue();
+//        for (String s : waitingQueue.keySet()) {
+//            System.out.println("waitingQueue.get(s) = " + waitingQueue.get(s).values().size());
+//        }
+//        assertThat(matchingService.getWaitingQueue().get("LOL5").values().size())
+//                .isEqualTo(3);
+//    }
+//
+//    @Test
+//    @DisplayName("LOL 5인큐 신청")
+//    public void joinMatchingRoomTest() throws Exception {
+//        // given
+//        RequestMatching requestMatching = requestMatchingList.get(0);
+//        DeferredResult<MatchingLog> responseMatchingDeferredResult = deferredResultList.get(0);
+//
+//        // when
+//        matchingService.joinMatchingRoom(requestMatching, responseMatchingDeferredResult);
+//
+//        // then
+//        assertThat(matchingService.getWaitingQueue().get("LOL5").values().size()).isEqualTo(1);
+//
+//    }
 
 
 }

@@ -19,11 +19,10 @@ public class DiscordServiceImpl implements DiscordService {
     private final DiscordJdaConfig jdaConfig;
 
     @Transactional
-    public Optional<String> createChannel(String category, List<String> discordIdList, int matchingQuota) {
+    public Optional<String> createChannel(String category, int matchingQuota) {
         Optional<String> url = Optional.ofNullable(null);
-
         try {
-            url = Optional.ofNullable(jdaConfig.createVoiceChannel(category, discordIdList, matchingQuota));
+            url = Optional.ofNullable(jdaConfig.createVoiceChannel(category, matchingQuota));
         } catch (ExecutionException | InterruptedException | NullPointerException e) {
             e.printStackTrace();
         }
@@ -37,10 +36,5 @@ public class DiscordServiceImpl implements DiscordService {
         jdaConfig.deleteVoiceChannel();
     }
 
-    @Transactional
-    public boolean userCheck(DiscordRequest discordRequest) {
-        if (jdaConfig.checkMember(discordRequest)) {
-            return true;
-        }else throw new IllegalArgumentException("아이디없음");
-    }
+
 }

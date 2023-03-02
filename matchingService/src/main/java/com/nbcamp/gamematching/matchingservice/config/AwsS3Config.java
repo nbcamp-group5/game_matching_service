@@ -1,4 +1,4 @@
-package com.nbcamp.gamematching.matchingservice.member.config;
+package com.nbcamp.gamematching.matchingservice.config;
 
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;

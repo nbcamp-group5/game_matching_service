@@ -1,11 +1,12 @@
 package com.nbcamp.gamematching.matchingservice.board.repository;
 
 import com.nbcamp.gamematching.matchingservice.board.entity.Board;
+import com.nbcamp.gamematching.matchingservice.board.repository.query.BoardQueryRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface BoardRepository extends JpaRepository<Board, Long> {
+public interface BoardRepository extends JpaRepository<Board, Long>, BoardQueryRepository {
 
     Page<Board> findAllByMemberId(Long memberId, Pageable pageable);
     

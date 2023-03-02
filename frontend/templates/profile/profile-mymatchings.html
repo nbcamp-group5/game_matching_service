@@ -5,44 +5,218 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Document</title>
+        <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
         <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
         <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
-        <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+        <script src="https://kit.fontawesome.com/0f7e35127c.js" crossorigin="anonymous"></script>
+
         <script>
             $(document).ready(function() {
-                var panels = $('.user-infos');
-                var panelsButton = $('.dropdown-user');
-                panels.hide();
+              let num = 0;
+              $("#profile-content-box").empty();
+              $("#matching-list").empty();
+              $("#matching-list-head").empty();
 
-                //Click dropdown
-                panelsButton.click(function() {
-                    //get data-for attribute
-                    var dataFor = $(this).attr('data-for');
-                    var idFor = $(dataFor);
+              $.ajax({
+               type:"GET",
+               url:"http://localhost:8080/api/profile/",
+               headers:{
+                "Content-Type": "application/json",
+                "Authorization":localStorage.getItem("accessToken")
+               },
+               data:{},
+               success: function (response) {
+                   let nickname = response['nickname'];
+                   let imageUrl = response['image'];
+                   let game = response['game'];
+                   let tier = response['tier'];
+                   let mannerPoints = response['mannerPoints'];
+                   let email = response['email'];
 
-                    //current button
-                    var currentButton = $(this);
-                    idFor.slideToggle(400, function() {
-                        //Completed slidetoggle
-                        if(idFor.is(':visible'))
-                        {
-                            currentButton.html('<i class="glyphicon glyphicon-chevron-up text-muted"></i>');
-                        }
-                        else
-                        {
-                            currentButton.html('<i class="glyphicon glyphicon-chevron-down text-muted"></i>');
-                        }
-                    })
-                });
+                    let temp = ` <div class="panel panel-info profile-box">
+                        
+                        <div id="profile-content-box" class="panel-body">
+                            <div class="row">
+                                <div id="panel-body__img-box">
+                                    <img src="https://game-matching.s3.ap-northeast-2.amazonaws.com/${imageUrl}"/>
+                                </div>
+                                
+                                <table class="table table-user-information profile-box__info">
+                                    <tbody>
+                                        <tr>
+                                            <td>닉네임:</td>
+                                            <td>${nickname}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>매너 점수:</td>
+                                            <td>${mannerPoints}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>티어:</td>
+                                            <td>${tier}</td>
+                                        </tr>
+                                    
+                                        <tr>
+                                            <td>관심 게임:</td>
+                                            <td>${game}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Email</td>
+                                            <td><a href="mailto:${email}"></a>${email}</td>
+                                        </tr>
+                                            
+                                        </tr>
+                                    
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
 
+                    </div>`
+                    $("#profile-content-box").append(temp);
+               }
+           })
 
-                $('[data-toggle="tooltip"]').tooltip();
+              $.ajax({
+                type:"GET",
+                url:"http://localhost:8080/api/profile/matching2",
+                headers:{
+                  "Authorization":localStorage.getItem("accessToken")
+                },
+                data:{},
+                success: function (response) {
+                  num = 0;
+                  $("#matching-name").text("매칭 목록(2인)")
+                  let temp_head = `<tr>
+                                    <th>#</th>
+                                    <th class="more-suggestions__list__user-table">User</th>
+                                    <th class="more-suggestions__list__user-table"></th>
+                                    <th class="more-suggestions__list__user-table"></th>
+                                    <th class="more-suggestions__list__user-table"></th>
+                                    <th class="more-suggestions__list__user-table"></th>
+                                    <th></th>
+                                  </tr>`;
+                  $("#matching-list-head").append(temp_head);
+                  $(response).each(function() {
+                    num += 1;
+                    let temp = `<tr>
+                                  <td>${num}</td>
+                                  <td>${this.nickname}</td>
+                                  <td></td>
+                                  <td></td>
+                                  <td></td>
+                                  <td></td>
+                                </tr>`;
+                    
+                    $("#matching-list").append(temp);
 
-                $('button').click(function(e) {
-                    e.preventDefault();
-                    alert("This is a demo.\n :-)");
-                });
+                  });
+                }
+              });
+
             });
+
+            function getMatching2() {
+              $("#matching-list").empty();
+              $("#matching-list-head").empty();
+              $.ajax({
+                type:"GET",
+                url:"http://localhost:8080/api/profile/matching2",
+                headers:{
+                  "Authorization":localStorage.getItem("accessToken")
+                },
+                data:{},
+                success: function (response) {
+                  num = 0;
+                  $("#matching-name").text("매칭 목록(2인)")
+                  let temp_head = `<tr>
+                                    <th>#</th>
+                                    <th class="more-suggestions__list__user-table">User</th>
+                                    <th class="more-suggestions__list__user-table"></th>
+                                    <th class="more-suggestions__list__user-table"></th>
+                                    <th class="more-suggestions__list__user-table"></th>
+                                    <th class="more-suggestions__list__user-table"></th>
+                                    <th></th>
+                                  </tr>`;
+                  $("#matching-list-head").append(temp_head);
+                  $(response).each(function() {
+                    num += 1;
+                    let temp = `<tr>
+                                  <td>${num}</td>
+                                  <td>${this.nickname}</td>
+                                  <td></td>
+                                  <td></td>
+                                  <td></td>
+                                  <td></td>
+                                </tr>`;
+                    
+                    $("#matching-list").append(temp);
+
+                  });
+                }
+              });
+            }
+
+            function getMatching5() {
+              $("#matching-list").empty();
+              $("#matching-list-head").empty();
+              $.ajax({
+                type:"GET",
+                url:"http://localhost:8080/api/profile/matching5",
+                headers:{
+                  "Authorization":localStorage.getItem("accessToken")
+                },
+                data:{},
+                success: function (response) {
+                  num = 0;
+                  $("#matching-name").text("매칭 목록(5인)")
+                  let temp_head = `<tr>
+                                    <th>#</th>
+                                    <th class="more-suggestions__list__user-table">User1</th>
+                                    <th class="more-suggestions__list__user-table">User2</th>
+                                    <th class="more-suggestions__list__user-table">User3</th>
+                                    <th class="more-suggestions__list__user-table">User4</th>
+                                    <th></th>
+                                    <th></th>
+                                  </tr>`;
+                  $("#matching-list-head").append(temp_head);
+                  $(response).each(function() {
+                    num += 1;
+                    let temp = `<tr>
+                                  <td>${num}</td>
+                                  <td>${this.nickname1}</td>
+                                  <td>${this.nickname2}</td>
+                                  <td>${this.nickname3}</td>
+                                  <td>${this.nickname4}</td>
+                                  <td></td>
+                                </tr>`;
+                    
+                    $("#matching-list").append(temp);
+
+                  });
+                }
+              });
+            }
+
+
+            function evaluateUp(targetId, matchingId) {
+              $.ajax({
+                type:"POST",
+                url:"http://localhost:8080/api/profile/mannerPoints/evaluation",
+                headers:{
+                  "Authorization":localStorage.getItem("accessToken")
+                },
+                data:{
+                  "matchingId": matchingId,
+                  "targetId": targetId,
+                  "upDown": "UP"
+                },
+                success: function (response) {
+                  alert("평가하셨습니다.");
+                }
+              });
+            }
+
         </script>
         <link rel="stylesheet" href="profile.css" />
         <link rel="stylesheet" href="../menu.css" />
@@ -110,63 +284,62 @@
           ></script>
 
           <div class="container">
-            <div class="row">
-                <div class="col-md-5  toppad  pull-right col-md-offset-3 ">
-                    <A href="edit.html" style="margin-left: 7px;" >Edit Profile</A>
+            <div class="row" id="profile-outer-box">
+              <div class="col-md-5  toppad  pull-right col-md-offset-3 ">
+                  <A href="edit-profile.html" style="margin-left: 7px;" >Edit Profile</A>
 
-                    <A href="edit.html" style="margin-left: 10px;" >Logout</A>
+                  <A href="edit.html" style="margin-left: 10px;" >Logout</A>
 
-                </div>
-                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad" >
-            
-            
-                    <div class="panel panel-info profile-box">
-                        <div class="panel-heading profile-box__title" style="width: 100px;">
-                            <h3 class="panel-title">프로필</h3>
-                        </div>
-                        
-                        <div class="panel-body">
-                            <div class="row">
-                                <div id="panel-body__img-box">
-                                    <img src="https://www.freecodecamp.org/korean/news/content/images/2022/07/5f9c9a4c740569d1a4ca24c2.jpeg"/>
-                                </div>
-                                
-                                <table class="table table-user-information profile-box__info">
-                                    <tbody>
-                                        <tr>
-                                            <td>닉네임:</td>
-                                            <td>Programming</td>
-                                        </tr>
-                                        <tr>
-                                            <td>매너 점수:</td>
-                                            <td>8410</td>
-                                        </tr>
-                                        <tr>
-                                            <td>티어:</td>
-                                            <td>BRONZE</td>
-                                        </tr>
-                                    
-                                        <tr>
-                                            <td>관심 게임:</td>
-                                            <td>귀여운 Mobile Game</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Email</td>
-                                            <td><a href="mailto:info@support.com">info@support.com</a></td>
-                                        </tr>
-                                            
-                                        </tr>
-                                    
-                                    </tbody>
-                                </table>
-                                
-                                <a href="#" class="btn btn-primary">친구 신청</a>
-                            </div>
-                        </div>
+              </div>
+              <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad" >
+          
+          
+                  <div class="panel panel-info profile-box">
+                      <div class="panel-heading profile-box__title" style="width: 100px;">
+                          <h3 class="panel-title">프로필</h3>
+                      </div>
+                      
+                      <div id="profile-content-box" class="panel-body">
+                          <div class="row">
+                              <div id="panel-body__img-box">
+                                  <img src="https://www.freecodecamp.org/korean/news/content/images/2022/07/5f9c9a4c740569d1a4ca24c2.jpeg"/>
+                              </div>
+                              
+                              <table class="table table-user-information profile-box__info">
+                                  <tbody>
+                                      <tr>
+                                          <td>닉네임:</td>
+                                          <td>Programming</td>
+                                      </tr>
+                                      <tr>
+                                          <td>매너 점수:</td>
+                                          <td>8410</td>
+                                      </tr>
+                                      <tr>
+                                          <td>티어:</td>
+                                          <td>BRONZE</td>
+                                      </tr>
+                                  
+                                      <tr>
+                                          <td>관심 게임:</td>
+                                          <td>귀여운 Mobile Game</td>
+                                      </tr>
+                                      <tr>
+                                          <td>Email</td>
+                                          <td><a href="mailto:info@support.com">info@support.com</a></td>
+                                      </tr>
+                                          
+                                      </tr>
+                                  
+                                  </tbody>
+                              </table>
+                              
+                          </div>
+                      </div>
 
-                    </div>
-                </div>
-            </div>
+                  </div>
+              </div>
+          </div>
         </div>
 
 
@@ -188,11 +361,13 @@
         
 
         <div class="btn-toolbar more-suggestions__list">
-            <h4>매칭 목록</h4>
+          <button onclick="getMatching2()">2인</button>
+          <button onclick="getMatching5()">5인</button>
+            <h4 id="matching-name">매칭 목록</h4>
         </div>
         <div class="well table-box">
             <table class="table user-table">
-              <thead>
+              <thead id="matching-list-head">
                 <tr>
                   <th>#</th>
                   <th class="more-suggestions__list__user-table">User1</th>
@@ -203,7 +378,7 @@
                   <th></th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody id="matching-list">
                 <tr>
                   <td>1</td>
                   <td>나</td>

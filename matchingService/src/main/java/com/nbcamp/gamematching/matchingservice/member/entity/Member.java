@@ -1,18 +1,27 @@
 package com.nbcamp.gamematching.matchingservice.member.entity;
 
+import static java.util.regex.Pattern.matches;
+
 import com.nbcamp.gamematching.matchingservice.chat.entity.ChatRoom;
 import com.nbcamp.gamematching.matchingservice.exception.SignException;
+import com.nbcamp.gamematching.matchingservice.matching.entity.MatchingLog;
 import com.nbcamp.gamematching.matchingservice.member.domain.MemberRoleEnum;
-import jakarta.persistence.*;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static java.util.regex.Pattern.matches;
 
 @Entity
 @Getter
@@ -23,33 +32,24 @@ public class Member {
      * 컬럼 - 연관관계 컬럼을 제외한 컬럼을 정의합니다.
      */
     @Id
-    @GeneratedValue
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long Id;
+
     @Column(nullable = false)
     public String password;
-
     @Embedded
     private Profile profile;
-
     @Column
     private String email;
 
-    @Column
-    @OneToMany(cascade = CascadeType.REMOVE)
-    private List<ChatRoom> chatRooms = new ArrayList<>();
-
     @Enumerated(EnumType.STRING)
     private MemberRoleEnum role;
-
-    private String provider;
-
-    private String providerId;
 
     /**
      * 생성자 - 약속된 형태로만 생성가능하도록 합니다.
      */
     @Builder
-    public Member(String email, String password, Profile profile, MemberRoleEnum role, String provider, String providerId) {
+    public Member(String email, String password, Profile profile, MemberRoleEnum role) {
         if (matches("\\w+@\\w+\\.\\w+(\\.\\w+)?", email)) {
             this.email = email;
         } else {
@@ -60,8 +60,6 @@ public class Member {
         if (MemberRoleEnum.isContains(role)) {
             this.role = role;
         }
-        this.provider = provider;
-        this.providerId = providerId;
     }
 
     /**
@@ -69,20 +67,18 @@ public class Member {
      */
     @OneToMany
     private List<Member> myBuddies = new ArrayList<>();
-
     @OneToMany
     private List<Member> notYetBuddies = new ArrayList<>();
 
-//    @OneToMany
-//    private List<Board> boards = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.REMOVE)
+    private List<ChatRoom> chatRooms = new ArrayList<>();
 
+    @OneToMany(mappedBy = "member")
+    private List<MatchingLog> matchingLogs = new ArrayList<>();
 
     /**
      * 연관관계 편의 메소드 - 반대쪽에는 연관관계 편의 메소드가 없도록 주의합니다.
      */
-//    public void addBoards(Board board) {
-//        this.getBoards().add(board);
-//    }
     public void addBuddies(Member member) {
         this.getMyBuddies().add(member);
     }
@@ -109,6 +105,10 @@ public class Member {
 
     public void changeMannerPoints(String upDown) {
         this.getProfile().changeMannerPoints(upDown);
+    }
+
+    public void changeRole(MemberRoleEnum role) {
+        this.role = role;
     }
 
     public void deleteBuddy(Long memberId) {
