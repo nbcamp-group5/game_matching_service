@@ -10,8 +10,9 @@ import com.nbcamp.gamematching.matchingservice.comment.entity.Comment;
 import com.nbcamp.gamematching.matchingservice.comment.repository.CommentRepository;
 import com.nbcamp.gamematching.matchingservice.exception.NotFoundException;
 import com.nbcamp.gamematching.matchingservice.like.repository.LikeRepository;
-import com.nbcamp.gamematching.matchingservice.member.domain.FileStore;
+import com.nbcamp.gamematching.matchingservice.member.domain.FileDetail;
 import com.nbcamp.gamematching.matchingservice.member.entity.Member;
+import com.nbcamp.gamematching.matchingservice.member.service.FileUploadService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -34,12 +35,12 @@ public class BoardService {
     private final CommentRepository commentRepository;
     private final LikeRepository likeRepository;
 
-    private final FileStore fileStore;
+    private final FileUploadService fileUploadService;
 
     //게시글 작성
     public void createBoard(CreateBoardRequest createBoardRequest, Member member, MultipartFile image) throws IOException {
-        String imageFile = fileStore.storeFile(image);
-        Board board = new Board(member.getProfile().getNickname(), imageFile, createBoardRequest.getContent(), member);
+        FileDetail fileDetail = fileUploadService.save(image);
+        Board board = new Board(fileDetail.getPath(), createBoardRequest.getContent(), member);
         boardRepository.save(board);
     }
 
@@ -63,8 +64,8 @@ public class BoardService {
     public void updateBoard(Long boardId, UpdateBoardRequest boardRequest, Member member, MultipartFile image) throws IOException {
         Board board = boardRepository.findById(boardId).orElseThrow(() -> new NotFoundException());
         board.checkUser(board, member);
-        String imageFile = fileStore.storeFile(image);
-        board.updateBoard(boardRequest, imageFile, member);
+        FileDetail fileDetail = fileUploadService.save(image);
+        board.updateBoard(boardRequest, fileDetail.getPath(), member);
         boardRepository.save(board);
     }
 

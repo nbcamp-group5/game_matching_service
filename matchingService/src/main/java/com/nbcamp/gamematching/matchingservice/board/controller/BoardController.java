@@ -6,7 +6,7 @@ import com.nbcamp.gamematching.matchingservice.board.dto.CreateBoardRequest;
 import com.nbcamp.gamematching.matchingservice.board.dto.UpdateBoardRequest;
 import com.nbcamp.gamematching.matchingservice.board.service.AnonymousBoardService;
 import com.nbcamp.gamematching.matchingservice.board.service.BoardService;
-import com.nbcamp.gamematching.matchingservice.member.domain.FileStore;
+import com.nbcamp.gamematching.matchingservice.member.service.FileUploadService;
 import com.nbcamp.gamematching.matchingservice.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -29,13 +29,13 @@ public class BoardController {
     @Value("${file.dir}")
     private String fileDir;
 
-    private final FileStore fileStore;
+    private final FileUploadService fileUploadService;
 
 
 
     //게시글 작성
     @PostMapping(value = "/normal")
-        public ResponseEntity<String> createBoard(@RequestPart("requestDto") CreateBoardRequest createBoardRequest, @AuthenticationPrincipal UserDetailsImpl userDetails, @RequestPart("image") MultipartFile image) throws IOException {
+        public ResponseEntity<String> createBoard(@RequestPart("requestDto") CreateBoardRequest createBoardRequest, @AuthenticationPrincipal UserDetailsImpl userDetails, @RequestPart(value ="image", required = false) MultipartFile image) throws IOException {
         boardService.createBoard(createBoardRequest, userDetails.getUser(),image);
         return new ResponseEntity<>("게시글 작성 완료", HttpStatus.CREATED);
 //        return "board/create";

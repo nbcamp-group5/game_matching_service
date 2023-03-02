@@ -39,7 +39,7 @@ public class Board extends BaseEntity {
     @OneToMany(mappedBy = "board",cascade = CascadeType.REMOVE)
     private List<Comment> comments = new ArrayList<>();
 
-    public Board(String nickname,String boardImage, String content, Member member) {
+    public Board(String boardImage, String content, Member member) {
         this.nickname = member.getProfile().getNickname();
         this.boardImage = boardImage;
         this.content = content;
