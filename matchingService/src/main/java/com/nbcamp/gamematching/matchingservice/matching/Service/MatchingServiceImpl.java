@@ -2,9 +2,9 @@ package com.nbcamp.gamematching.matchingservice.matching.Service;
 
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.nbcamp.gamematching.matchingservice.matching.dto.ResponseUrlInfo;
 import com.nbcamp.gamematching.matchingservice.discord.service.DiscordService;
 import com.nbcamp.gamematching.matchingservice.matching.dto.RequestMatching;
+import com.nbcamp.gamematching.matchingservice.matching.dto.ResponseUrlInfo;
 import com.nbcamp.gamematching.matchingservice.matching.entity.MatchingLog;
 import com.nbcamp.gamematching.matchingservice.matching.repository.MatchingLogRepository;
 import com.nbcamp.gamematching.matchingservice.matching.repository.ResponseMatchingRepository;
@@ -12,12 +12,11 @@ import com.nbcamp.gamematching.matchingservice.member.entity.Member;
 import com.nbcamp.gamematching.matchingservice.member.service.MemberService;
 import com.nbcamp.gamematching.matchingservice.redis.RedisService;
 import jakarta.servlet.http.HttpServletRequest;
+import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Optional;
 
 @Service
 @Slf4j
@@ -31,25 +30,29 @@ public class MatchingServiceImpl implements MatchingService {
     private final RedisService redisService;
 
 
-    public ResponseUrlInfo joinMatchingRoom(RequestMatching request, HttpServletRequest servletRequest) throws JsonProcessingException {
+    public ResponseUrlInfo joinMatchingRoom(RequestMatching request,
+            HttpServletRequest servletRequest) throws JsonProcessingException {
         Long matchingQuota = Long.valueOf(request.getMemberNumbers());
         if (redisService.waitingUserCountByRedis(request.getKey()) < matchingQuota - 1) {
             redisService.machedEnterByRedis(request.getKey(), request);
             var topicName = "";
             var topicNameSelector
-                    = redisService.findByFirstJoinUserByRedis(request.getKey(), RequestMatching.class);
+                    = redisService.findByFirstJoinUserByRedis(request.getKey(),
+                    RequestMatching.class);
             topicName = topicNameSelector.getMemberEmail();
             return new ResponseUrlInfo(topicName);
         }
         //매칭 정원이 찻을 경우
         redisService.machedEnterByRedis(request.getKey(), request);
         var resultMemberList =
-                redisService.getMatchingMemberByRedis(request.getKey(), matchingQuota, RequestMatching.class);
+                redisService.getMatchingMemberByRedis(request.getKey(), matchingQuota,
+                        RequestMatching.class);
 
         List<Member> members = resultMemberList.stream()
                 .map(o -> memberService.responseMemberByMemberEmail(o.getMemberEmail())).toList();
 
-        Optional<String> resultUrl = discordService.createChannel(resultMemberList.get(0).getGameMode(),
+        Optional<String> resultUrl = discordService.createChannel(
+                resultMemberList.get(0).getGameMode(),
                 Integer.parseInt(resultMemberList.get(0).getMemberNumbers()));
         String url = "";
         if (resultUrl.isPresent()) {
@@ -65,14 +68,15 @@ public class MatchingServiceImpl implements MatchingService {
                 .build();
         responseMatchingRepository.save(responseMatching);
 
-        for (Member member : members) {
-            matchingLogRepository.save(new MatchingLog(responseMatching, member));
+        for (Member member : members) { //TODO: 바꿔달라고 요청해보기
+            MatchingLog matchingLog = new MatchingLog(responseMatching, member);
+            matchingLogRepository.save(matchingLog);
+            matchingLog.setMember(member);
         }
 
         return new ResponseUrlInfo(topicName, url);
     }
 }
-
 
 //매칭 버튼 누르면     //매칭중엔 소켓연결 시작해서 세션관리 시작
 //메세지 핸들러  구독은 프론트에서 유저가 직접 들어오게 유저를 유도
