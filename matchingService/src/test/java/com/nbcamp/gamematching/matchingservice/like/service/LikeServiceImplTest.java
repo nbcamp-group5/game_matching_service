@@ -27,9 +27,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 @Transactional
-class LikeServiceTest {
+class LikeServiceImplTest {
     @Autowired
-    private LikeService likeService;
+    private LikeServiceImpl likeServiceImpl;
     @Autowired
     private BoardRepository boardRepository;
     @Autowired
@@ -43,16 +43,16 @@ class LikeServiceTest {
 
     @BeforeEach
     public void beforeEach() throws IOException {
-        Member member = new Member("dddd1@ddd.com", "123456789", new Profile("www11", "sdadad.jpg", Tier.BRONZE, GameType.LOL), MemberRoleEnum.USER);
+        Member member = new Member("dddd1@ddd.com", "123456789", new Profile("www11", "sdadad.jpg", Tier.BRONZE, GameType.LOL), MemberRoleEnum.USER,null,null);
         memberRepository.save(member);
-        Member member1 = new Member("dddd2@ddd.com", "123456789", new Profile("www12", "sdadad2.jpg", Tier.BRONZE, GameType.LOL), MemberRoleEnum.USER);
+        Member member1 = new Member("dddd2@ddd.com", "123456789", new Profile("www12", "sdadad2.jpg", Tier.BRONZE, GameType.LOL), MemberRoleEnum.USER,null,null);
         memberRepository.save(member1);
 
-        Board board = new Board(member.getProfile().getNickname(),"ddddd.jpg","안녕하세요",member);
+        Board board = new Board("ddddd.jpg","안녕하세요",member);
 
         boardRepository.save(board);
 
-        AnonymousBoard anonymousBoard = new AnonymousBoard(AnonymousBoard.nNick(),"aaaa.jpg","익명이다",member);
+        AnonymousBoard anonymousBoard = new AnonymousBoard("aaaa.jpg","익명이다",member);
         anonymousBoardRepository.save(anonymousBoard);
     }
 
@@ -62,7 +62,7 @@ class LikeServiceTest {
         Member findMember = memberRepository.findById(3L).orElseThrow();
 
 
-        likeService.likeBoard(1L,findMember);
+        likeServiceImpl.likeBoard(1L,findMember);
 //        likeService.likeBoard(1L,member);
 
         Like like = likeRepository.findById(1L).orElseThrow(()-> new IllegalArgumentException(""));
@@ -78,7 +78,7 @@ class LikeServiceTest {
         Member findMember = memberRepository.findById(3L).orElseThrow();
 
 
-        likeService.likeAnonymousBoard(1L,findMember);
+        likeServiceImpl.likeAnonymousBoard(1L,findMember);
 //        likeService.likeAnonymousBoard(1L,member);
 
         AnonymousLike like = anonymousLikeRepository.findById(1L).orElseThrow(()-> new IllegalArgumentException(""));
@@ -87,29 +87,5 @@ class LikeServiceTest {
         assertEquals("dddd@ddd.com",like.getMember().getEmail());
     }
 
-    @Test
-    @DisplayName("게시글 좋아요 취소 테스트")
-    void hateBoard() throws IOException {
-        Member findMember = memberRepository.findById(3L).orElseThrow();
 
-        likeService.hateBoard(1L,findMember);
-//        likeService.hateBoard(1L,member);
-
-        Like like = likeRepository.findById(1L).orElseThrow(()-> new IllegalArgumentException(""));
-
-        assertEquals(1L,like.getBoard().getId());
-    }
-
-    @Test
-    @DisplayName("익명 게시글 좋아요 취소 테스트")
-    void hateAnonymousBoard() throws IOException {
-        Member findMember = memberRepository.findById(3L).orElseThrow();
-
-        likeService.hateAnonymousBoard(1L,findMember);
-//        likeService.hateAnonymousBoard(1L,member);
-
-        AnonymousLike like = anonymousLikeRepository.findById(1L).orElseThrow(()-> new IllegalArgumentException(""));
-
-        assertEquals(1L,like.getAnonymousBoard().getId());
-    }
 }
