@@ -1,5 +1,6 @@
 package com.nbcamp.gamematching.matchingservice.board.service;
 
+import com.nbcamp.gamematching.matchingservice.board.dto.AnonymousBoardAdminDto;
 import com.nbcamp.gamematching.matchingservice.board.dto.AnonymousBoardResponse;
 import com.nbcamp.gamematching.matchingservice.board.dto.CreateBoardRequest;
 import com.nbcamp.gamematching.matchingservice.board.dto.UpdateBoardRequest;
@@ -8,9 +9,13 @@ import com.nbcamp.gamematching.matchingservice.board.repository.AnonymousBoardRe
 import com.nbcamp.gamematching.matchingservice.comment.dto.AnonymousCommentResponse;
 import com.nbcamp.gamematching.matchingservice.comment.entity.AnonymousComment;
 import com.nbcamp.gamematching.matchingservice.comment.repository.AnonymousCommentRepository;
+import com.nbcamp.gamematching.matchingservice.common.domain.CreatePageable;
 import com.nbcamp.gamematching.matchingservice.like.repository.AnonymousLikeRepository;
 import com.nbcamp.gamematching.matchingservice.member.domain.FileStore;
 import com.nbcamp.gamematching.matchingservice.member.entity.Member;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -19,10 +24,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 @Transactional
@@ -37,9 +38,11 @@ public class AnonymousBoardService {
 
 
     //익명 게시글 작성
-    public void createAnonymousBoard(CreateBoardRequest createBoardRequest, Member member, MultipartFile image) throws IOException {
+    public void createAnonymousBoard(CreateBoardRequest createBoardRequest, Member member,
+            MultipartFile image) throws IOException {
         String imageFile = fileStore.storeFile(image);
-        AnonymousBoard board = new AnonymousBoard(imageFile, createBoardRequest.getContent(),member);
+        AnonymousBoard board = new AnonymousBoard(imageFile, createBoardRequest.getContent(),
+                member);
         anonymousBoardRepository.save(board);
     }
 
@@ -48,7 +51,8 @@ public class AnonymousBoardService {
         Page<AnonymousBoard> boardPage = anonymousBoardRepository.findAll(pageableSetting(1));
         List<AnonymousBoardResponse> boardResponseList = new ArrayList<>();
         for (AnonymousBoard board : boardPage) {
-            Page<AnonymousComment> commentPage = anonymousCommentRepository.findAllByAnonymousBoardId(board.getId(), pageableSetting(1));
+            Page<AnonymousComment> commentPage = anonymousCommentRepository.findAllByAnonymousBoardId(
+                    board.getId(), pageableSetting(1));
             List<AnonymousCommentResponse> commentList = new ArrayList<>();
             for (AnonymousComment comment : commentPage) {
                 commentList.add(new AnonymousCommentResponse(comment));
@@ -60,18 +64,21 @@ public class AnonymousBoardService {
     }
 
     //익명 게시글 수정
-    public void updateAnonymousBoard(Long boardId, UpdateBoardRequest boardRequest, Member member, MultipartFile image) throws IOException {
-        AnonymousBoard board = anonymousBoardRepository.findById(boardId).orElseThrow(() -> new IllegalArgumentException());
-        board.checkUser(board,member);
+    public void updateAnonymousBoard(Long boardId, UpdateBoardRequest boardRequest, Member member,
+            MultipartFile image) throws IOException {
+        AnonymousBoard board = anonymousBoardRepository.findById(boardId)
+                .orElseThrow(() -> new IllegalArgumentException());
+        board.checkUser(board, member);
         String imageFile = fileStore.storeFile(image);
-        board.updateAnonymousBoard(boardRequest,imageFile,member);
+        board.updateAnonymousBoard(boardRequest, imageFile, member);
         anonymousBoardRepository.save(board);
     }
 
     //익명 게시글 삭제
-    public void deleteAnonymousBoard(Long boardId,Member member) {
-        AnonymousBoard board = anonymousBoardRepository.findById(boardId).orElseThrow(() -> new IllegalArgumentException(""));
-        board.checkUser(board,member);
+    public void deleteAnonymousBoard(Long boardId, Member member) {
+        AnonymousBoard board = anonymousBoardRepository.findById(boardId)
+                .orElseThrow(() -> new IllegalArgumentException(""));
+        board.checkUser(board, member);
         anonymousLikeRepository.deleteAllByAnonymousBoardId(boardId);
         anonymousBoardRepository.deleteById(boardId);
     }
@@ -85,8 +92,19 @@ public class AnonymousBoardService {
     }
 
     public AnonymousBoardResponse getAnonymousBoard(Long boardId) {
-        AnonymousBoard board = anonymousBoardRepository.findById(boardId).orElseThrow(()-> new IllegalArgumentException(""));
+        AnonymousBoard board = anonymousBoardRepository.findById(boardId)
+                .orElseThrow(() -> new IllegalArgumentException(""));
         AnonymousBoardResponse anonymousBoardResponse = new AnonymousBoardResponse(board);
         return anonymousBoardResponse;
+    }
+
+    public List<AnonymousBoardAdminDto> getAnonymousBoardsByAdmin(Integer page) {
+        Page<AnonymousBoard> boardPage = anonymousBoardRepository.findAll(
+                CreatePageable.createPageable(page));
+        return AnonymousBoardAdminDto.of(boardPage.getContent());
+    }
+
+    public void deleteAnonymousBoardByAdmin(Long boardId) {
+        anonymousBoardRepository.deleteById(boardId);
     }
 }
