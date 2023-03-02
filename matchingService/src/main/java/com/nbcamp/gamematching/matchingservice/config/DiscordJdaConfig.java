@@ -41,15 +41,6 @@ public class DiscordJdaConfig {
         }
     }
 
-    //디스코드 아이디 체크 : ex) 리릭#1633
-    public boolean checkMember(DiscordRequest discordRequest) {
-        Optional<User> getMember = Optional.ofNullable(jda.getUserByTag(discordRequest.getDiscordId(),discordRequest.getDiscordNum()));
-        if (getMember.isPresent()) {
-            return true;
-        }
-        return false;
-    }
-
     public String createVoiceChannel(String category,int matchingQuota)
             throws ExecutionException, InterruptedException {
         String channelUrl = "";
@@ -91,7 +82,6 @@ public class DiscordJdaConfig {
         }
         return channelUrl;
     }
-
 
     public void deleteVoiceChannel() {
         Guild guild = jda.getGuildById(guildId);

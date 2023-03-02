@@ -27,13 +27,13 @@ public class MatchingLog {
     private Member member;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "responsematching_id")
-    private ResponseMatching responseMatching;
+    private ResultMatching resultMatching;
 
     private Boolean evaluation = false;
 
 
-    public MatchingLog(ResponseMatching responseMatching, Member member) {
-        this.responseMatching = responseMatching;
+    public MatchingLog(ResultMatching resultMatching, Member member) {
+        this.resultMatching = resultMatching;
         this.member = member;
     }
 
