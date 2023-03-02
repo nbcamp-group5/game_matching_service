@@ -1,5 +1,6 @@
 package com.nbcamp.gamematching.matchingservice.member.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nbcamp.gamematching.matchingservice.member.dto.AnswerBuddyRequestDto;
 import com.nbcamp.gamematching.matchingservice.member.dto.BoardPageDto.BoardContent;
 import com.nbcamp.gamematching.matchingservice.member.dto.BuddyRequestDto;
@@ -131,7 +132,7 @@ public class MemberController {
 
     @PostMapping("/mannerPoints/evaluation")
     public ResponseEntity<String> changeMannerPoints(@RequestBody EvaluationRequest request,
-            @AuthenticationPrincipal UserDetailsImpl userDetails) {
+            @AuthenticationPrincipal UserDetailsImpl userDetails) throws JsonProcessingException {
         Member member = userDetails.getMember();
         return memberService.changeMannerPoints(request, member.getId());
     }

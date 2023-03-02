@@ -1,10 +1,14 @@
 package com.nbcamp.gamematching.matchingservice.member.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nbcamp.gamematching.matchingservice.board.entity.Board;
 import com.nbcamp.gamematching.matchingservice.board.service.BoardService;
 import com.nbcamp.gamematching.matchingservice.common.domain.CreatePageable;
 import com.nbcamp.gamematching.matchingservice.exception.NotFoundException.NotFoundMemberException;
 import com.nbcamp.gamematching.matchingservice.matching.domain.MemberLog;
+import com.nbcamp.gamematching.matchingservice.matching.dto.NicknameDto;
 import com.nbcamp.gamematching.matchingservice.matching.entity.MatchingLog;
 import com.nbcamp.gamematching.matchingservice.matching.entity.ResultMatching;
 import com.nbcamp.gamematching.matchingservice.matching.repository.MatchingLogRepository;
@@ -190,7 +194,12 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public ResponseEntity<String> changeMannerPoints(EvaluationRequest request, Long memberId) {
+    public ResponseEntity<String> changeMannerPoints(EvaluationRequest request, Long memberId)
+            throws JsonProcessingException {
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        List<MannerPointsRequest> mannerPointsRequests = objectMapper.readValue(
+                request.getRequests(), new TypeReference<List<MannerPointsRequest>>() {});
 
         ResultMatching resultMatching = resultMatchingRepository.findById(request.getMatchingId())
                 .orElseThrow(IllegalArgumentException::new);
@@ -203,12 +212,13 @@ public class MemberServiceImpl implements MemberService {
 
         if (!matchingLog.getEvaluation()) {
 
-            for (MannerPointsRequest mannerPointsRequest : request.getRequests()) {
+            for (MannerPointsRequest mannerPointsRequest : mannerPointsRequests) {
 
                 Member targetMember = memberRepository.findById(mannerPointsRequest.getTargetId())
                         .orElseThrow(NotFoundMemberException::new);
 
                 targetMember.changeMannerPoints(mannerPointsRequest.getUpDown());
+                matchingLog.changeEvaluation();
             }
 
             return new ResponseEntity<>("평가가 완료되었습니다.", HttpStatus.OK);
@@ -248,6 +258,14 @@ public class MemberServiceImpl implements MemberService {
             findMember.changeRole(MemberRoleEnum.USER);
             return new ResponseEntity<>("유저로 변경되었습니다.", HttpStatus.OK);
         }
+
+    }
+
+    @Override
+    public List<NicknameDto> findNicknamesInMatching(List<MatchingLog> matchingLogs, Long memberId) {
+        List<Member> members = matchingLogs.stream().map(MatchingLog::getMember).filter(member -> (member.getId() != memberId))
+                .collect(Collectors.toList());
+        return NicknameDto.of(members);
 
     }
 }

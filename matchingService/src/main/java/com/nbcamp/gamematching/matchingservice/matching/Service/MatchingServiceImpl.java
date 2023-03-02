@@ -3,6 +3,8 @@ package com.nbcamp.gamematching.matchingservice.matching.Service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nbcamp.gamematching.matchingservice.discord.service.DiscordService;
+import com.nbcamp.gamematching.matchingservice.exception.NotFoundException.NotFoundMatchingException;
+import com.nbcamp.gamematching.matchingservice.matching.dto.NicknameDto;
 import com.nbcamp.gamematching.matchingservice.matching.dto.RequestMatching;
 import com.nbcamp.gamematching.matchingservice.matching.dto.ResponseUrlInfo;
 import com.nbcamp.gamematching.matchingservice.matching.entity.MatchingLog;
@@ -81,6 +83,15 @@ public class MatchingServiceImpl implements MatchingService {
                 .member(request)
                 .topicName(topicName)
                 .url(url).build();
+    }
+
+    @Override
+    public List<NicknameDto> findMatchingMembers(Long matchingId, Long memberId) {
+        ResultMatching resultMatching = resultMatchingRepository.findById(matchingId)
+                .orElseThrow(NotFoundMatchingException::new);
+        List<MatchingLog> matchingLogs = matchingLogRepository.findAllByResultMatching(
+                resultMatching);
+        return memberService.findNicknamesInMatching(matchingLogs, memberId);
     }
 
 

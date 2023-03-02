@@ -1,11 +1,14 @@
 package com.nbcamp.gamematching.matchingservice.matching.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.nbcamp.gamematching.matchingservice.matching.dto.NicknameDto;
 import com.nbcamp.gamematching.matchingservice.matching.dto.ResponseUrlInfo;
 import com.nbcamp.gamematching.matchingservice.matching.Service.MatchingService;
 import com.nbcamp.gamematching.matchingservice.matching.dto.RequestMatching;
+import com.nbcamp.gamematching.matchingservice.member.entity.Member;
 import com.nbcamp.gamematching.matchingservice.security.UserDetailsImpl;
 import jakarta.servlet.http.HttpServletRequest;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -37,5 +40,9 @@ public class MatchingController {
         template.convertAndSend("/matchingsub/" + responseUrlInfo.getTopicName(), responseUrlInfo.getUrl());
     }
 
-
+    @GetMapping("/{matchingId}/members")
+    public List<NicknameDto> getMatchingMembers(@PathVariable Long matchingId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        Member member = userDetails.getMember();
+        return matchingService.findMatchingMembers(matchingId, member.getId());
+    }
 }
