@@ -6,28 +6,16 @@ import com.nbcamp.gamematching.matchingservice.common.domain.CreatePageable;
 import com.nbcamp.gamematching.matchingservice.exception.NotFoundException.NotFoundMemberException;
 import com.nbcamp.gamematching.matchingservice.matching.domain.MemberLog;
 import com.nbcamp.gamematching.matchingservice.matching.entity.MatchingLog;
-import com.nbcamp.gamematching.matchingservice.matching.entity.ResponseMatching;
+import com.nbcamp.gamematching.matchingservice.matching.entity.ResultMatching;
 import com.nbcamp.gamematching.matchingservice.matching.repository.MatchingLogRepository;
-import com.nbcamp.gamematching.matchingservice.matching.repository.ResponseMatchingRepository;
+import com.nbcamp.gamematching.matchingservice.matching.repository.ResultMatchingRepository;
 import com.nbcamp.gamematching.matchingservice.member.domain.FileDetail;
 import com.nbcamp.gamematching.matchingservice.member.domain.MemberRoleEnum;
-import com.nbcamp.gamematching.matchingservice.member.dto.BoardPageDto;
+import com.nbcamp.gamematching.matchingservice.member.dto.*;
 import com.nbcamp.gamematching.matchingservice.member.dto.BoardPageDto.BoardContent;
-import com.nbcamp.gamematching.matchingservice.member.dto.BuddyRequestDto;
-import com.nbcamp.gamematching.matchingservice.member.dto.EvaluationRequest;
-import com.nbcamp.gamematching.matchingservice.member.dto.MannerPointsRequest;
-import com.nbcamp.gamematching.matchingservice.member.dto.MatchingLog2Dto;
-import com.nbcamp.gamematching.matchingservice.member.dto.MatchingLog5Dto;
-import com.nbcamp.gamematching.matchingservice.member.dto.MemberAdminDto;
-import com.nbcamp.gamematching.matchingservice.member.dto.ProfileDto;
-import com.nbcamp.gamematching.matchingservice.member.dto.UpdateProfileRequest;
 import com.nbcamp.gamematching.matchingservice.member.entity.Member;
 import com.nbcamp.gamematching.matchingservice.member.entity.Profile;
 import com.nbcamp.gamematching.matchingservice.member.repository.MemberRepository;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -36,6 +24,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -46,7 +39,7 @@ public class MemberServiceImpl implements MemberService {
     private final MatchingLogRepository matchingLogRepository;
     private final BoardService boardService;
     private final FileUploadService fileUploadService;
-    private final ResponseMatchingRepository responseMatchingRepository;
+    private final ResultMatchingRepository resultMatchingRepository;
     private final String admin = "SIsImF1dGgiOiJVU0VSIiwiZXhwIjoxNjc3NDgzNzgwLCJpY";
 
     @Override
@@ -98,11 +91,11 @@ public class MemberServiceImpl implements MemberService {
     public List<MatchingLog2Dto> getMyMatching2List(Long memberId) {
         List<MatchingLog2Dto> matchingLog2DtoList = new ArrayList<>();
 
-        List<ResponseMatching> responseMatchingList = getResponseMatchingList(
+        List<ResultMatching> responseMatchingList = getResponseMatchingList(
                 memberId);
-        for (ResponseMatching responseMatching : responseMatchingList) {
+        for (ResultMatching responseMatching : responseMatchingList) {
             if (responseMatching.getPlayMode().contains("2")) {
-                List<MatchingLog> matching = matchingLogRepository.findAllByResponseMatching(
+                List<MatchingLog> matching = matchingLogRepository.findAllByResultMatching(
                         responseMatching);
                 List<Member> members = matching.stream().map(MatchingLog::getMember)
                         .filter(member -> (member.getId() != memberId))
@@ -120,33 +113,33 @@ public class MemberServiceImpl implements MemberService {
     public List<MatchingLog5Dto> getMyMatching5List(Long memberId) {
         List<MatchingLog5Dto> matchingLog5DtoList = new ArrayList<>();
 
-        List<ResponseMatching> responseMatchingList = getResponseMatchingList(
+        List<ResultMatching> resultMatchingList = getResponseMatchingList(
                 memberId);
 
-        for (ResponseMatching responseMatching : responseMatchingList) {
-            if (responseMatching.getPlayMode().contains("5")) {
-                List<MatchingLog> matching = matchingLogRepository.findAllByResponseMatching(
-                        responseMatching);
+        for (ResultMatching resultMatching : resultMatchingList) {
+            if (resultMatching.getPlayMode().contains("5")) {
+                List<MatchingLog> matching = matchingLogRepository.findAllByResultMatching(
+                        resultMatching);
                 List<MemberLog> memberAndLogs = matching.stream()
                         .map(MatchingLog::getMemberAndLog)
                         .filter(memberAndLog -> (memberAndLog.getMemberId() != memberId))
                         .collect(Collectors.toList());
 
                 MatchingLog5Dto matchingLog5Dto = new MatchingLog5Dto(memberAndLogs,
-                        responseMatching.getId());
+                        resultMatching.getId());
                 matchingLog5DtoList.add(matchingLog5Dto);
             }
         }
         return matchingLog5DtoList;
     }
 
-    private List<ResponseMatching> getResponseMatchingList(Long memberId) {
+    private List<ResultMatching> getResponseMatchingList(Long memberId) {
         Member findMember = memberRepository.findById(memberId)
                 .orElseThrow(NotFoundMemberException::new);
         List<MatchingLog> matchingLogList = matchingLogRepository.findAllByMember(findMember);
 
         return matchingLogList.stream()
-                .map(MatchingLog::getResponseMatching).collect(Collectors.toList());
+                .map(MatchingLog::getResultMatching).collect(Collectors.toList());
     }
 
     @Override
@@ -198,15 +191,15 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public ResponseEntity<String> changeMannerPoints(EvaluationRequest request, Long memberId) {
-        ResponseMatching responseMatching = responseMatchingRepository.findById(
+        ResultMatching resultMatching = resultMatchingRepository.findById(
                         request.getMatchingId())
                 .orElseThrow(IllegalArgumentException::new);
 
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(NotFoundMemberException::new);
 
-        MatchingLog matchingLog = matchingLogRepository.findByResponseMatchingAndMember(
-                responseMatching, member);
+        MatchingLog matchingLog = matchingLogRepository.findByResultMatchingAndMember(
+                resultMatching, member);
 
         if (!matchingLog.getEvaluation()) {
 

@@ -17,9 +17,9 @@ public class DiscordController {
 
     private final DiscordService discordService;
 
-    @PostMapping("/check")
-    public boolean vaildDiscordId(@RequestBody DiscordRequest discordRequest) {
-        return discordService.userCheck(discordRequest);
+    @PostMapping("/del")
+    public void chanelDelete() {
+        discordService.deleteChannel();
     }
 
 }
