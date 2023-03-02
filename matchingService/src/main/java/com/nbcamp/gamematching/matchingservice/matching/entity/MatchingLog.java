@@ -1,5 +1,6 @@
 package com.nbcamp.gamematching.matchingservice.matching.entity;
 
+import com.nbcamp.gamematching.matchingservice.matching.domain.MemberLog;
 import com.nbcamp.gamematching.matchingservice.member.entity.Member;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -28,9 +29,24 @@ public class MatchingLog {
     @JoinColumn(name = "responsematching_id")
     private ResponseMatching responseMatching;
 
+    private Boolean evaluation = false;
+
 
     public MatchingLog(ResponseMatching responseMatching, Member member) {
         this.responseMatching = responseMatching;
         this.member = member;
+    }
+
+    public void changeEvaluation() {
+        this.evaluation = true;
+    }
+
+    public MemberLog getMemberAndLog() {
+        return new MemberLog(this.getMember().getId(),
+                this.getMember().getProfile().getNickname());
+    }
+
+    public void setMember(Member member) {
+        member.getMatchingLogs().add(this);
     }
 }

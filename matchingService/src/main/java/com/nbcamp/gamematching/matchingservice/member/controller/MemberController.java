@@ -3,7 +3,9 @@ package com.nbcamp.gamematching.matchingservice.member.controller;
 import com.nbcamp.gamematching.matchingservice.member.dto.AnswerBuddyRequestDto;
 import com.nbcamp.gamematching.matchingservice.member.dto.BoardPageDto.BoardContent;
 import com.nbcamp.gamematching.matchingservice.member.dto.BuddyRequestDto;
-import com.nbcamp.gamematching.matchingservice.member.dto.MannerPointsRequest;
+import com.nbcamp.gamematching.matchingservice.member.dto.EvaluationRequest;
+import com.nbcamp.gamematching.matchingservice.member.dto.MatchingLog2Dto;
+import com.nbcamp.gamematching.matchingservice.member.dto.MatchingLog5Dto;
 import com.nbcamp.gamematching.matchingservice.member.dto.ProfileDto;
 import com.nbcamp.gamematching.matchingservice.member.dto.RequestAdmin;
 import com.nbcamp.gamematching.matchingservice.member.dto.UpdateProfileRequest;
@@ -16,7 +18,6 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
@@ -68,16 +69,30 @@ public class MemberController {
     @GetMapping("/buddies")
     public List<ProfileDto> getMyBuddyList(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         Member member = userDetails.getMember();
-        List<ProfileDto> myBuddies = memberService.getMyBuddies(member.getId());
-        return myBuddies;
+        return memberService.getMyBuddies(member.getId());
     }
 
     @GetMapping("/notYetBuddies")
     public List<BuddyRequestDto> getBuddyRequest(
             @AuthenticationPrincipal UserDetailsImpl userDetails) {
         Member member = userDetails.getMember();
-        List<BuddyRequestDto> myBuddies = memberService.getBuddyRequests(member.getId());
-        return myBuddies;
+        return memberService.getBuddyRequests(member.getId());
+    }
+
+    // 2인 매칭 조회
+    @GetMapping("/matching2")
+    public List<MatchingLog2Dto> getMyMatching2List(
+            @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        Member member = userDetails.getMember();
+        return memberService.getMyMatching2List(member.getId());
+    }
+
+    // 5인 매칭 조회
+    @GetMapping("/matching5")
+    public List<MatchingLog5Dto> getMyMatching5List(
+            @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        Member member = userDetails.getMember();
+        return memberService.getMyMatching5List(member.getId());
     }
 
     // 친구 신청
@@ -114,9 +129,11 @@ public class MemberController {
         return memberService.getOtherProfile(memberId);
     }
 
-    @PostMapping("/mannerPoints")
-    public ResponseEntity<String> changeMannerPoints(@RequestBody MannerPointsRequest request) {
-        return memberService.changeMannerPoints(request);
+    @PostMapping("/mannerPoints/evaluation")
+    public ResponseEntity<String> changeMannerPoints(@RequestBody EvaluationRequest request,
+            @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        Member member = userDetails.getMember();
+        return memberService.changeMannerPoints(request, member.getId());
     }
 
     // 친구 삭제
@@ -128,14 +145,11 @@ public class MemberController {
     }
 
     @PatchMapping("/role")
-    public ResponseEntity<String> changeMyRole(
+    public ResponseEntity<String> changeMyRole( //TODO: 프론트 만들기
             @AuthenticationPrincipal UserDetailsImpl userDetails,
             @RequestBody RequestAdmin request) {
         Member member = userDetails.getMember();
         return memberService.changeRole(member.getId(), request.getAdminId());
     }
 
-    public static Pageable toPageable(Integer currentPage, Integer size) {
-        return PageRequest.of((currentPage - 1), size);
-    }
 }

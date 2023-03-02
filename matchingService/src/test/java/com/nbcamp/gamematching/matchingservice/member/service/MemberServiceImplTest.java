@@ -3,7 +3,7 @@ package com.nbcamp.gamematching.matchingservice.member.service;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.nbcamp.gamematching.matchingservice.board.service.BoardService;
-import com.nbcamp.gamematching.matchingservice.member.controller.MemberController;
+import com.nbcamp.gamematching.matchingservice.common.domain.CreatePageable;
 import com.nbcamp.gamematching.matchingservice.member.domain.FileStore;
 import com.nbcamp.gamematching.matchingservice.member.domain.GameType;
 import com.nbcamp.gamematching.matchingservice.member.domain.Tier;
@@ -106,7 +106,7 @@ class MemberServiceImplTest {
         }
 
         // when
-        BoardPageDto myBoards = memberService.getMyBoards(1L, MemberController.toPageable(1, 2));
+        BoardPageDto myBoards = memberService.getMyBoards(1L, CreatePageable.createPageable(1));
 
         // then
         assertThat(myBoards.getContents().size()).isEqualTo(2);

@@ -2,7 +2,9 @@ package com.nbcamp.gamematching.matchingservice.member.service;
 
 import com.nbcamp.gamematching.matchingservice.member.dto.BoardPageDto;
 import com.nbcamp.gamematching.matchingservice.member.dto.BuddyRequestDto;
-import com.nbcamp.gamematching.matchingservice.member.dto.MannerPointsRequest;
+import com.nbcamp.gamematching.matchingservice.member.dto.EvaluationRequest;
+import com.nbcamp.gamematching.matchingservice.member.dto.MatchingLog2Dto;
+import com.nbcamp.gamematching.matchingservice.member.dto.MatchingLog5Dto;
 import com.nbcamp.gamematching.matchingservice.member.dto.MemberAdminDto;
 import com.nbcamp.gamematching.matchingservice.member.dto.ProfileDto;
 import com.nbcamp.gamematching.matchingservice.member.dto.UpdateProfileRequest;
@@ -23,6 +25,10 @@ public interface MemberService {
 
     List<BuddyRequestDto> getBuddyRequests(Long memberId);
 
+    List<MatchingLog2Dto> getMyMatching2List(Long memberId);
+
+    List<MatchingLog5Dto> getMyMatching5List(Long memberId);
+
     ResponseEntity<String> changeMyProfile(Member member, UpdateProfileRequest request,
             MultipartFile image) throws IOException;
 
@@ -34,7 +40,7 @@ public interface MemberService {
 
     Member responseMemberByMemberEmail(String memberEmail);
 
-    ResponseEntity<String> changeMannerPoints(MannerPointsRequest request);
+    ResponseEntity<String> changeMannerPoints(EvaluationRequest request, Long memberId);
 
     ResponseEntity<String> deleteMyBuddy(Long memberId, Long buddyId);
 

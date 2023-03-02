@@ -124,4 +124,8 @@ public class BoardService {
     public void deleteBoardByAdmin(Long boardId) {
         boardRepository.deleteById(boardId);
     }
+
+    public Page<Board> findAllByMemberId(Long memberId, Pageable pageable) {
+        return boardRepository.findAllByMemberId(memberId, pageable);
+    }
 }
