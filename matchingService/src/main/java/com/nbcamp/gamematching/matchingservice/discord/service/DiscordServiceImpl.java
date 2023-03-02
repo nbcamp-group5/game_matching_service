@@ -36,10 +36,5 @@ public class DiscordServiceImpl implements DiscordService {
         jdaConfig.deleteVoiceChannel();
     }
 
-    @Transactional
-    public boolean userCheck(DiscordRequest discordRequest) {
-        if (jdaConfig.checkMember(discordRequest)) {
-            return true;
-        }else throw new IllegalArgumentException("아이디없음");
-    }
+
 }

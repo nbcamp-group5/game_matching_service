@@ -3,8 +3,9 @@ package com.nbcamp.gamematching.matchingservice.matching.repository;
 import com.nbcamp.gamematching.matchingservice.matching.entity.MatchingLog;
 import com.nbcamp.gamematching.matchingservice.matching.entity.ResultMatching;
 import com.nbcamp.gamematching.matchingservice.member.entity.Member;
-import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.List;
 
 public interface MatchingLogRepository extends JpaRepository<MatchingLog, Long> {
 

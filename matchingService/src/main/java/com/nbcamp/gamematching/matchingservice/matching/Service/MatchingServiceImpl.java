@@ -8,7 +8,7 @@ import com.nbcamp.gamematching.matchingservice.matching.dto.ResponseUrlInfo;
 import com.nbcamp.gamematching.matchingservice.matching.entity.MatchingLog;
 import com.nbcamp.gamematching.matchingservice.matching.entity.ResultMatching;
 import com.nbcamp.gamematching.matchingservice.matching.repository.MatchingLogRepository;
-import com.nbcamp.gamematching.matchingservice.matching.repository.ResponseMatchingRepository;
+import com.nbcamp.gamematching.matchingservice.matching.repository.ResultMatchingRepository;
 import com.nbcamp.gamematching.matchingservice.member.entity.Member;
 import com.nbcamp.gamematching.matchingservice.member.service.MemberService;
 import com.nbcamp.gamematching.matchingservice.redis.RedisService;
@@ -26,7 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class MatchingServiceImpl implements MatchingService {
 
     private final DiscordService discordService;
-    private final ResponseMatchingRepository responseMatchingRepository;
+    private final ResultMatchingRepository resultMatchingRepository;
     private final MatchingLogRepository matchingLogRepository;
     private final MemberService memberService;
     private final RedisService redisService;
@@ -74,7 +74,7 @@ public class MatchingServiceImpl implements MatchingService {
                     .playMode(resultMemberList.get(i).getGameMode())
                     .discordUrl(url)
                     .build();
-            responseMatchingRepository.save(resultMatching);
+            resultMatchingRepository.save(resultMatching);
             matchingLogRepository.save(new MatchingLog(resultMatching,resultMember));
         }
         return ResponseUrlInfo.builder()
