@@ -90,6 +90,13 @@
                               </div>`
 
             $("#profile-edit-form-box").append(temp);
+            if(tier != null) {
+              $("#tier").val(tier).prop("selected",true);
+            }
+            if(game != null) {
+              $("#game").val(game).prop("selected",true);
+            }
+            
           },
         });
       });
