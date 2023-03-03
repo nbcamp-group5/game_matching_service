@@ -201,40 +201,6 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public ResponseEntity<String> changeMannerPoints(EvaluationRequest request, Long memberId)
-            throws JsonProcessingException {
-
-        ObjectMapper objectMapper = new ObjectMapper();
-        List<MannerPointsRequest> mannerPointsRequests = objectMapper.readValue(
-                request.getRequests(), new TypeReference<List<MannerPointsRequest>>() {});
-
-        ResultMatching resultMatching = resultMatchingRepository.findById(request.getMatchingId())
-                .orElseThrow(IllegalArgumentException::new);
-
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(NotFoundMemberException::new);
-
-        MatchingLog matchingLog = matchingLogRepository.findByResultMatchingAndMember(
-                resultMatching, member);
-
-        if (!matchingLog.getEvaluation()) {
-
-            for (MannerPointsRequest mannerPointsRequest : mannerPointsRequests) {
-
-                Member targetMember = memberRepository.findById(mannerPointsRequest.getTargetId())
-                        .orElseThrow(NotFoundMemberException::new);
-
-                targetMember.changeMannerPoints(mannerPointsRequest.getUpDown());
-                matchingLog.changeEvaluation();
-            }
-
-            return new ResponseEntity<>("평가가 완료되었습니다.", HttpStatus.OK);
-        }
-
-        return new ResponseEntity<>("이미 평가하였습니다.", HttpStatus.OK);
-    }
-
-    @Override
     public ResponseEntity<String> deleteMyBuddy(Long memberId, Long buddyId) {
         Member findMember = memberRepository.findById(memberId)
                 .orElseThrow(NotFoundMemberException::new);
@@ -276,28 +242,4 @@ public class MemberServiceImpl implements MemberService {
 
     }
 
-    @Override
-    public ResponseEntity<String> changeMannerPointsByOne(EvaluationOneMember request, Long memberId) {
-        ResultMatching resultMatching = resultMatchingRepository.findById(request.getMatchingId())
-                .orElseThrow(NotFoundMatchingException::new);
-
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(NotFoundMemberException::new);
-
-        MatchingLog matchingLog = matchingLogRepository.findByResultMatchingAndMember(
-                resultMatching, member);
-
-        if (!matchingLog.getEvaluation()) {
-
-            Member targetMember = memberRepository.findById(request.getTargetId())
-                    .orElseThrow(NotFoundMemberException::new);
-
-            targetMember.changeMannerPoints(request.getUpDown());
-            matchingLog.changeEvaluation();
-
-            return new ResponseEntity<>("평가가 완료되었습니다.", HttpStatus.OK);
-        }
-
-        return new ResponseEntity<>("이미 평가하였습니다.", HttpStatus.OK);
-    }
 }

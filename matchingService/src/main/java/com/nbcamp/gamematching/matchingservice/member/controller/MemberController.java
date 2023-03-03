@@ -133,20 +133,6 @@ public class MemberController {
         return memberService.getOtherProfile(memberId);
     }
 
-    @PostMapping("/mannerPoints/evaluation/matching2")
-    public ResponseEntity<String> changeMannerPointsByOne(@RequestBody EvaluationOneMember request,
-            @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        Member member = userDetails.getMember();
-        return memberService.changeMannerPointsByOne(request, member.getId());
-    }
-
-    @PostMapping("/mannerPoints/evaluation/matching5")
-    public ResponseEntity<String> changeMannerPoints(@RequestBody EvaluationRequest request,
-            @AuthenticationPrincipal UserDetailsImpl userDetails) throws JsonProcessingException {
-        Member member = userDetails.getMember();
-        return memberService.changeMannerPoints(request, member.getId());
-    }
-
     // 친구 삭제
     @DeleteMapping("/buddies/{buddyId}")
     public ResponseEntity<String> deleteMyBuddy(@PathVariable Long buddyId,

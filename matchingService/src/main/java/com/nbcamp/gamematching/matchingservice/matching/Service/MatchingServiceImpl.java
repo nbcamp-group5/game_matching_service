@@ -97,6 +97,12 @@ public class MatchingServiceImpl implements MatchingService {
         return memberService.findNicknamesInMatching(matchingLogs, memberId);
     }
 
+    @Override
+    public ResultMatching findResultMatchingById(Long matchingId) {
+        return resultMatchingRepository.findById(matchingId)
+                .orElseThrow(NotFoundMatchingException::new);
+    }
+
 
 }
 

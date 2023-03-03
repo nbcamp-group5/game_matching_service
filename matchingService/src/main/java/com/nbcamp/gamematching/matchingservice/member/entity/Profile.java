@@ -35,7 +35,7 @@ public class Profile {
 
     @Builder
     public Profile(String nickname, String profileImage, Tier tier, GameType game) {
-        if (Pattern.matches("\\w{2,8}", nickname)) {
+        if (Pattern.matches("\\w{2,15}", nickname)) {
             this.nickname = nickname;
         } else {
             throw new InvalidNickname();

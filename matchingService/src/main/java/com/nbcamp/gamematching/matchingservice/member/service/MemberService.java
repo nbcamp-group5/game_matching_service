@@ -44,8 +44,7 @@ public interface MemberService {
 
     Member responseMemberByMemberEmail(String memberEmail);
 
-    ResponseEntity<String> changeMannerPoints(EvaluationRequest request, Long memberId)
-            throws JsonProcessingException;
+
 
     ResponseEntity<String> deleteMyBuddy(Long memberId, Long buddyId);
 
@@ -57,5 +56,5 @@ public interface MemberService {
 
     List<NicknameDto> findNicknamesInMatching(List<MatchingLog> matchingLogs, Long memberId);
 
-    ResponseEntity<String> changeMannerPointsByOne(EvaluationOneMember request, Long memberId);
+
 }

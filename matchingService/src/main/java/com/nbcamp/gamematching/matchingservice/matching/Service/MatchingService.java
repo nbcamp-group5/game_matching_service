@@ -5,6 +5,7 @@ import com.nbcamp.gamematching.matchingservice.matching.dto.NicknameDto;
 import com.nbcamp.gamematching.matchingservice.matching.dto.ResponseUrlInfo;
 import com.nbcamp.gamematching.matchingservice.matching.dto.RequestMatching;
 
+import com.nbcamp.gamematching.matchingservice.matching.entity.ResultMatching;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
 
@@ -15,4 +16,6 @@ public interface MatchingService {
 
 
     List<NicknameDto> findMatchingMembers(Long matchingId, Long memberId);
+
+    ResultMatching findResultMatchingById(Long matchingId);
 }
