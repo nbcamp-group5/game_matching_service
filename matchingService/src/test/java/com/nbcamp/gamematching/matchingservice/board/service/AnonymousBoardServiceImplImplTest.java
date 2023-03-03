@@ -33,7 +33,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @Transactional
 class AnonymousBoardServiceImplImplTest {
     @Autowired
-    private AnonymousBoardServiceImpl boardService;
+    private AnonymousBoardService boardService;
 
     @Autowired
     private CommentServiceImpl commentServiceImpl;
