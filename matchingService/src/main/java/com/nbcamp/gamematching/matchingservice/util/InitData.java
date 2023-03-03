@@ -1,5 +1,9 @@
 package com.nbcamp.gamematching.matchingservice.util;
 
+import com.nbcamp.gamematching.matchingservice.matching.entity.MatchingLog;
+import com.nbcamp.gamematching.matchingservice.matching.entity.ResultMatching;
+import com.nbcamp.gamematching.matchingservice.matching.repository.MatchingLogRepository;
+import com.nbcamp.gamematching.matchingservice.matching.repository.ResultMatchingRepository;
 import com.nbcamp.gamematching.matchingservice.member.domain.GameType;
 import com.nbcamp.gamematching.matchingservice.member.domain.MemberRoleEnum;
 import com.nbcamp.gamematching.matchingservice.member.domain.Tier;
@@ -19,11 +23,11 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 @RequiredArgsConstructor
 @Transactional
 public class InitData implements ApplicationRunner {
-
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
-    private ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
-
+    private final ResultMatchingRepository resultMatchingRepository;
+    private final MatchingLogRepository matchingLogRepository;
+    private final ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
     @Override
     public void run(ApplicationArguments args) throws Exception {
 
@@ -42,7 +46,7 @@ public class InitData implements ApplicationRunner {
         memberRepository.saveAndFlush(sparta);
 
 
-        Member user = Member.builder()
+        Member usera = Member.builder()
                 .email("user@aa.aa")
                 .password(passwordEncoder.encode("qwerqwer"))
                 .role(MemberRoleEnum.ADMIN)
@@ -53,7 +57,8 @@ public class InitData implements ApplicationRunner {
                         .profileImage("user")
                         .build())
                 .build();
-        memberRepository.saveAndFlush(user);
+        memberRepository.saveAndFlush(usera);
+
         Member userb = Member.builder()
                 .email("user@bb.bb")
                 .password(passwordEncoder.encode("qwerqwer"))
@@ -90,6 +95,33 @@ public class InitData implements ApplicationRunner {
                         .build())
                 .build();
         memberRepository.saveAndFlush(userd);
+
+        var rmat1 = new ResultMatching("즐겜","LOL2","https://discord.gg/4c9KVpW");
+        var rmat2 = new ResultMatching("즐겜","LOL2","https://discord.gg/4c9KVpW");
+        var rmat3 = new ResultMatching("즐겜","LOL2","https://discord.gg/4c9KVpW");
+        var rmat4 = new ResultMatching("즐겜","LOL5","https://discord.gg/4c9KVpW");
+        var rmat5 = new ResultMatching("즐겜","LOL5","https://discord.gg/4c9KVpW");
+        var rmat6 = new ResultMatching("즐겜","LOL2","https://discord.gg/4c9KVpW");
+        resultMatchingRepository.saveAndFlush(rmat1);
+        resultMatchingRepository.saveAndFlush(rmat2);
+        resultMatchingRepository.saveAndFlush(rmat3);
+        resultMatchingRepository.saveAndFlush(rmat4);
+        resultMatchingRepository.saveAndFlush(rmat5);
+
+        matchingLogRepository.saveAndFlush(new MatchingLog(rmat1,usera));
+        matchingLogRepository.saveAndFlush(new MatchingLog(rmat1,userb));
+        matchingLogRepository.saveAndFlush(new MatchingLog(rmat2,usera));
+        matchingLogRepository.saveAndFlush(new MatchingLog(rmat2,userc));
+        matchingLogRepository.saveAndFlush(new MatchingLog(rmat3,usera));
+        matchingLogRepository.saveAndFlush(new MatchingLog(rmat3,userc));
+        matchingLogRepository.saveAndFlush(new MatchingLog(rmat4,usera));
+        matchingLogRepository.saveAndFlush(new MatchingLog(rmat4,userb));
+        matchingLogRepository.saveAndFlush(new MatchingLog(rmat4,userc));
+        matchingLogRepository.saveAndFlush(new MatchingLog(rmat4,userd));
+        matchingLogRepository.saveAndFlush(new MatchingLog(rmat4,sparta));
+        lock.writeLock().unlock();
+
+
 
         //--------------------------------------
 //
