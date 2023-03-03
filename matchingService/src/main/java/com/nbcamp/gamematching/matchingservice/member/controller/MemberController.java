@@ -4,7 +4,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nbcamp.gamematching.matchingservice.member.dto.AnswerBuddyRequestDto;
 import com.nbcamp.gamematching.matchingservice.member.dto.BoardPageDto.BoardContent;
 import com.nbcamp.gamematching.matchingservice.member.dto.BuddyRequestDto;
+import com.nbcamp.gamematching.matchingservice.member.dto.EvaluationOneMember;
 import com.nbcamp.gamematching.matchingservice.member.dto.EvaluationRequest;
+import com.nbcamp.gamematching.matchingservice.member.dto.MannerPointsRequest;
 import com.nbcamp.gamematching.matchingservice.member.dto.MatchingLog2Dto;
 import com.nbcamp.gamematching.matchingservice.member.dto.MatchingLog5Dto;
 import com.nbcamp.gamematching.matchingservice.member.dto.ProfileDto;
@@ -28,6 +30,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
@@ -130,7 +133,14 @@ public class MemberController {
         return memberService.getOtherProfile(memberId);
     }
 
-    @PostMapping("/mannerPoints/evaluation")
+    @PostMapping("/mannerPoints/evaluation/matching2")
+    public ResponseEntity<String> changeMannerPointsByOne(@RequestBody EvaluationOneMember request,
+            @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        Member member = userDetails.getMember();
+        return memberService.changeMannerPointsByOne(request, member.getId());
+    }
+
+    @PostMapping("/mannerPoints/evaluation/matching5")
     public ResponseEntity<String> changeMannerPoints(@RequestBody EvaluationRequest request,
             @AuthenticationPrincipal UserDetailsImpl userDetails) throws JsonProcessingException {
         Member member = userDetails.getMember();

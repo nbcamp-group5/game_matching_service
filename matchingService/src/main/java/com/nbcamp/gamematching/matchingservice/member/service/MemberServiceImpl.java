@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nbcamp.gamematching.matchingservice.board.entity.Board;
 import com.nbcamp.gamematching.matchingservice.board.service.BoardService;
 import com.nbcamp.gamematching.matchingservice.common.domain.CreatePageable;
+import com.nbcamp.gamematching.matchingservice.exception.NotFoundException.NotFoundMatchingException;
 import com.nbcamp.gamematching.matchingservice.exception.NotFoundException.NotFoundMemberException;
 import com.nbcamp.gamematching.matchingservice.matching.domain.MemberLog;
 import com.nbcamp.gamematching.matchingservice.matching.dto.NicknameDto;
@@ -224,7 +225,7 @@ public class MemberServiceImpl implements MemberService {
             return new ResponseEntity<>("평가가 완료되었습니다.", HttpStatus.OK);
         }
 
-        return new ResponseEntity<>("이미 평가하였습니다.", HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>("이미 평가하였습니다.", HttpStatus.OK);
     }
 
     @Override
@@ -267,5 +268,30 @@ public class MemberServiceImpl implements MemberService {
                 .collect(Collectors.toList());
         return NicknameDto.of(members);
 
+    }
+
+    @Override
+    public ResponseEntity<String> changeMannerPointsByOne(EvaluationOneMember request, Long memberId) {
+        ResultMatching resultMatching = resultMatchingRepository.findById(request.getMatchingId())
+                .orElseThrow(NotFoundMatchingException::new);
+
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(NotFoundMemberException::new);
+
+        MatchingLog matchingLog = matchingLogRepository.findByResultMatchingAndMember(
+                resultMatching, member);
+
+        if (!matchingLog.getEvaluation()) {
+
+            Member targetMember = memberRepository.findById(request.getTargetId())
+                    .orElseThrow(NotFoundMemberException::new);
+
+            targetMember.changeMannerPoints(request.getUpDown());
+            matchingLog.changeEvaluation();
+
+            return new ResponseEntity<>("평가가 완료되었습니다.", HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>("이미 평가하였습니다.", HttpStatus.OK);
     }
 }

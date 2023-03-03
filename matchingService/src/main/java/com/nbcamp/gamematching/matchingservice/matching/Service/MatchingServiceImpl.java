@@ -77,7 +77,10 @@ public class MatchingServiceImpl implements MatchingService {
                     .discordUrl(url)
                     .build();
             resultMatchingRepository.save(resultMatching);
-            matchingLogRepository.save(new MatchingLog(resultMatching,resultMember));
+            MatchingLog matchingLog = new MatchingLog(resultMatching, resultMember);
+            matchingLogRepository.save(matchingLog);
+            matchingLog.setMember(resultMember); // 연관관계 편의 메소드때문에 필요해요!
+
         }
         return ResponseUrlInfo.builder()
                 .member(request)
