@@ -8,6 +8,7 @@ import com.nbcamp.gamematching.matchingservice.security.UserDetailsImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -23,13 +24,15 @@ public class MatchingController {
 
     @PostMapping("/join")
     @ResponseBody
-    public ResponseUrlInfo joinRequest(@RequestBody RequestMatching requestMatching,
-                                       @AuthenticationPrincipal UserDetailsImpl userDetails,
-                                       HttpServletRequest servletRequest) throws JsonProcessingException {
+    public ResponseEntity<ResponseUrlInfo> joinRequest(@RequestBody RequestMatching requestMatching,
+                                                      @AuthenticationPrincipal UserDetailsImpl userDetails,
+                                                      HttpServletRequest servletRequest) throws JsonProcessingException {
         var member = userDetails.getMember();
         var matchingMember = new RequestMatching(requestMatching,member.getEmail());
         log.info("Join Matching Useremail{} UserDiscordId{}",member.getEmail(),requestMatching.getDiscordId());
-        return matchingService.matchingJoin(matchingMember,servletRequest);
+        var urlInfo = matchingService.matchingJoin(matchingMember,servletRequest);
+        return ResponseEntity.ok(urlInfo);
+
     }
 
     @MessageMapping(value = "/url")
