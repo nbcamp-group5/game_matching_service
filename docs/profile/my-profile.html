@@ -1,52 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <link
+      href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css"
+      rel="stylesheet"
+      id="bootstrap-css"
+    />
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+    <link
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+      rel="stylesheet"
+      integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
+      crossorigin="anonymous"
+    />
 
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-  <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-  <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-  <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
-  <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
-    integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+      integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+      crossorigin="anonymous"
+    ></script>
+    <link
+      href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+      rel="stylesheet"
+      id="bootstrap-css"
+    />
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
-    integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
-    crossorigin="anonymous"></script>
-  <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-  <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="profile.css" />
+    <link rel="stylesheet" href="../menu.css" />
+    <script>
+      $(document).ready(function () {
+        $("#profile-content-box").empty();
+        $.ajax({
+          type: "GET",
+          url: "http://43.200.42.252:8080/api/profile/",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: localStorage.getItem("Authorization"),
+          },
+          data: {},
+          success: function (response) {
+            let nickname = response["nickname"];
+            let imageUrl = response["image"];
+            let game = response["game"];
+            if (game == null) {
+              game = "-";
+            }
+            let tier = response["tier"];
+            if (tier == null) {
+              tier = "-";
+            }
+            let mannerPoints = response["mannerPoints"];
+            let email = response["email"];
 
-  <link rel="stylesheet" href="profile.css" />
-  <link rel="stylesheet" href="../menu.css" />
-  <script>
-    $(document).ready(function () {
-      $("#profile-content-box").empty();
-      $.ajax({
-        type: "GET",
-        url: "http://localhost:8080/api/profile/",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": localStorage.getItem("Authorization")
-        },
-        data: {},
-        success: function (response) {
-          let nickname = response['nickname'];
-          let imageUrl = response['image'];
-          let game = response['game'];
-          if (game == null) {
-            game = "-"
-          }
-          let tier = response['tier'];
-          if (tier == null) {
-            tier = "-"
-          }
-          let mannerPoints = response['mannerPoints'];
-          let email = response['email'];
-
-          let temp = ` <div class="panels panel-info profile-box-1">
+            let temp = ` <div class="panels panel-info profile-box-1">
                         
                         <div id="profile-content-box" class="panel-body-1">
                             <div class="row">
@@ -85,139 +98,136 @@
                             </div>
                         </div>
 
-                    </div>`
-          $("#profile-content-box").append(temp);
-        }
-      })
-    })
-  </script>
-</head>
+                    </div>`;
+            $("#profile-content-box").append(temp);
+          },
+        });
+      });
+    </script>
+  </head>
 
-<body>
+  <body>
+    <nav
+      class="navbar navbar-light bg-white"
+      style="z-index: 1; justify-content: flex-start"
+    >
+      <img href="#" class="" src="/images/common/logo.png" />
+    </nav>
 
-  <nav class="navbar navbar-light bg-white" style="z-index: 1; justify-content: flex-start;">
-    <img href="#" class="" src="/images/common/logo.png" />
-  </nav>
+    <nav class="menu">
+      <div class="menu__list">
+        <li class="menu__btn">
+          <a class="menu__link" href="/templates/board/board.html">
+            <div class="menu__link__explain">
+              <!-- <span><i class="fa-solid fa-clipboard-user fa-lg"></i></span> -->
+              <span>📝 일반 게시판</span>
+            </div>
+          </a>
+        </li>
 
+        <li class="menu__btn">
+          <a class="menu__link" href="/templates/board/anonymous-board.html">
+            <div class="menu__link__explain">
+              <!-- <span><i class="fa-solid fa-clipboard-question fa-lg"></i></span> -->
+              <span>📝 익명 게시판</span>
+            </div>
+          </a>
+        </li>
 
-  <nav class="menu">
-    <div class="menu__list">
-      <li class="menu__btn">
-        <a class="menu__link" href="/templates/board/board.html">
-          <div class="menu__link__explain">
-            <!-- <span><i class="fa-solid fa-clipboard-user fa-lg"></i></span> -->
-            <span>📝 일반 게시판</span>
-          </div>
-        </a>
-      </li>
+        <li class="menu__btn">
+          <a class="menu__link" href="/templates/chat/chat.html">
+            <div class="menu__link__explain">
+              <!-- <span><i class="fa-solid fa-comment fa-lg"></i></span> -->
+              <span>✉️ 메시지</span>
+            </div>
+          </a>
+        </li>
 
-      <li class="menu__btn">
-        <a class="menu__link" href="/templates/board/anonymous-board.html">
-          <div class="menu__link__explain">
-            <!-- <span><i class="fa-solid fa-clipboard-question fa-lg"></i></span> -->
-            <span>📝 익명 게시판</span>
-          </div>
-        </a>
-      </li>
+        <li class="menu__btn">
+          <a class="menu__link" href="#">
+            <div class="menu__link__explain">
+              <!-- <span><i class="fa-solid fa-gamepad"></i></span> -->
+              <span>🎮 매칭</span>
+            </div>
+          </a>
+        </li>
 
-      <li class="menu__btn">
-        <a class="menu__link" href="/templates/chat/chat.html">
-          <div class="menu__link__explain">
-            <!-- <span><i class="fa-solid fa-comment fa-lg"></i></span> -->
-            <span>✉️ 메시지</span>
-          </div>
-        </a>
-      </li>
-
-      <li class="menu__btn">
-        <a class="menu__link" href="#">
-          <div class="menu__link__explain">
-            <!-- <span><i class="fa-solid fa-gamepad"></i></span> -->
-            <span>🎮 매칭</span>
-          </div>
-        </a>
-      </li>
-
-      <li class="menu__btn" style="background-color: #b1bce66c;">
-        <a class="menu__link" href="/templates/profile/my-profile.html">
-          <div class="menu__link__explain">
-            <!-- <i class="fa-solid fa-user fa-lg"></i> -->
-            <span>🙇🏻‍♀️ 프로필</span>
-          </div>
-        </a>
-      </li>
-    </div>
-  </nav>
-
-  <script src="https://kit.fontawesome.com/0f7e35127c.js" crossorigin="anonymous"></script>
-
-  <div class="container">
-    <div class="row" id="profile-outer-box">
-      <div class="col-md-5  toppad  pull-right col-md-offset-3 ">
-        <A href="edit-profile.html" style="margin-left: 7px; color: #9A86A4;">프로필 수정</A>
-
-        <A href="edit.html" style="color: #9A86A4; margin-left: 10px;">로그아웃</A>
-
+        <li class="menu__btn" style="background-color: #b1bce66c">
+          <a class="menu__link" href="/templates/profile/my-profile.html">
+            <div class="menu__link__explain">
+              <!-- <i class="fa-solid fa-user fa-lg"></i> -->
+              <span>🙇🏻‍♀️ 프로필</span>
+            </div>
+          </a>
+        </li>
       </div>
-      <div
-        class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad">
+    </nav>
 
+    <script
+      src="https://kit.fontawesome.com/0f7e35127c.js"
+      crossorigin="anonymous"
+    ></script>
 
-        <div class="panels panel-info profile-box" style="margin-bottom: 0px; border-radius: 10px;">
+    <div class="container">
+      <div class="row" id="profile-outer-box">
+        <div class="col-md-5 toppad pull-right col-md-offset-3">
+          <a href="edit-profile.html" style="margin-left: 7px; color: #9a86a4"
+            >프로필 수정</a
+          >
 
-          <div id="profile-content-box" class="panel-body">
-            <!-- 내용 들어오는 곳 -->
-          </div>
-
+          <a href="edit.html" style="color: #9a86a4; margin-left: 10px"
+            >로그아웃</a
+          >
         </div>
-        <div class="more-suggestions">
-          <div class="more-suggestions__menu">
-            <a id="friend" onclick="showBuddy()" href="#">내 친구</a>
+        <div
+          class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad"
+        >
+          <div
+            class="panels panel-info profile-box"
+            style="margin-bottom: 0px; border-radius: 10px"
+          >
+            <div id="profile-content-box" class="panel-body">
+              <!-- 내용 들어오는 곳 -->
+            </div>
           </div>
-          <div class="more-suggestions__menu">
-            <a id="board" onclick="showBoard()" href="#">내 게시글</a>
+          <div class="more-suggestions">
+            <div class="more-suggestions__menu">
+              <a id="friend" onclick="showBuddy()" href="#">내 친구</a>
+            </div>
+            <div class="more-suggestions__menu">
+              <a id="board" onclick="showBoard()" href="#">내 게시글</a>
+            </div>
+            <div class="more-suggestions__menu">
+              <a id="match" onclick="showMatch()" href="#">내 매칭</a>
+            </div>
+            <div class="more-suggestions__menu">
+              <a id="fapply" onclick="showApply()" href="#">친구 신청</a>
+            </div>
           </div>
-          <div class="more-suggestions__menu">
-            <a id="match" onclick="showMatch()" href="#">내 매칭</a>
-          </div>
-          <div class="more-suggestions__menu">
-            <a id="fapply" onclick="showApply()" href="#">친구 신청</a>
+
+          <div class="wells table-box" id="pfbox" style="display: none">
+            <table class="table user-table" id="users-box-contents"></table>
           </div>
         </div>
-
-        <div class="wells table-box" id="pfbox" style="display: none;">
-          <table class="table user-table" id="users-box-contents">
-
-          </table>
-        </div>
-
       </div>
     </div>
-  </div>
-
-
-
-</body>
-
+  </body>
 </html>
 <script>
   function showBuddy() {
-
     $(`#users-box-contents`).empty();
     const box = document.getElementById("pfbox");
     box.style.display = "flex";
 
-
     $.ajax({
       type: "GET",
-      url: "http://localhost:8080/api/profile/buddies",
+      url: "http://43.200.42.252:8080/api/profile/buddies",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": localStorage.getItem("Authorization")
+        Authorization: localStorage.getItem("Authorization"),
       },
       data: {},
       success: function (response) {
-
         let ttemp = `<thead>
                 <tr>
                   <th>-</th>
@@ -228,13 +238,11 @@
                   <th>-</th>
                   <th>-</th>
                 </tr>
-              </thead>`
+              </thead>`;
 
         $("#users-box-contents").append(ttemp);
 
-
         $(response).each(function () {
-
           let temp = `<tbody><tr>
                     <td>1</td>
                     <td>${this.nickname}</td>
@@ -247,27 +255,25 @@
                   </tr></tbody>`;
 
           $("#users-box-contents").append(temp);
-        })
-      }
-    })
+        });
+      },
+    });
   }
 
   function showBoard() {
-
     $(`#users-box-contents`).empty();
     const box = document.getElementById("pfbox");
     box.style.display = "flex";
 
     $.ajax({
       type: "GET",
-      url: "http://localhost:8080/api/profile/boards",
+      url: "http://43.200.42.252:8080/api/profile/boards",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": localStorage.getItem("Authorization")
+        Authorization: localStorage.getItem("Authorization"),
       },
       data: {},
       success: function (response) {
-
         let ttemp = `<thead>
                 <tr>
                   <th>-</th>
@@ -277,12 +283,11 @@
                   <th class="more-suggestions__list__user-table">내용</th>
                   <th></th>
                 </tr>
-              </thead>`
+              </thead>`;
 
         $("#users-box-contents").append(ttemp);
 
         $(response).each(function () {
-
           let temp = `<tr>
                       <td>1</td>
                       <td>
@@ -291,33 +296,29 @@
                       <td>${this.id}</td>
                       <td>${this.nickname}</td>
                       <td>${this.contents}</td>
-                    </tr>`
+                    </tr>`;
           $("#boards-box-contents").append(temp);
-        })
-      }
-    })
+        });
+      },
+    });
   }
 
-  function showMatch() {
-
-  }
+  function showMatch() {}
 
   function showApply() {
-
     $(`#users-box-contents`).empty();
     const box = document.getElementById("pfbox");
     box.style.display = "flex";
 
     $.ajax({
       type: "GET",
-      url: "http://localhost:8080/api/profile/notYetBuddies",
+      url: "http://43.200.42.252:8080/api/profile/notYetBuddies",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": localStorage.getItem("Authorization")
+        Authorization: localStorage.getItem("Authorization"),
       },
       data: {},
       success: function (response) {
-
         let ttemp = `<thead>
                 <tr>
                   <th>-</th>
@@ -325,7 +326,7 @@
                   <th class="more-suggestions__list__user-table">닉네임</th>
                   <th></th>
                 </tr>
-              </thead>`
+              </thead>`;
 
         $("#users-box-contents").append(ttemp);
 
@@ -343,44 +344,44 @@
                   </tr>`;
 
           $("#user-box-contents").append(temp);
-        })
-      }
-    })
+        });
+      },
+    });
   }
 
   function accept(id) {
     $.ajax({
       type: "POST",
-      url: "http://localhost:8080/api/profile/notYetBuddies",
+      url: "http://43.200.42.252:8080/api/profile/notYetBuddies",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": localStorage.getItem("Authorization")
+        Authorization: localStorage.getItem("Authorization"),
       },
       data: JSON.stringify({
         requestMemberId: id,
         answer: true,
       }),
       success: function (response) {
-        window.location.href = 'profile-mybuddies.html';
-      }
-    })
+        window.location.href = "profile-mybuddies.html";
+      },
+    });
   }
 
   function decline(id) {
     $.ajax({
       type: "POST",
-      url: "http://localhost:8080/api/profile/notYetBuddies",
+      url: "http://43.200.42.252:8080/api/profile/notYetBuddies",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": localStorage.getItem("Authorization")
+        Authorization: localStorage.getItem("Authorization"),
       },
       data: JSON.stringify({
         requestMemberId: id,
         answer: false,
       }),
       success: function (response) {
-        window.location.href = 'profile-mybuddies.html';
-      }
-    })
+        window.location.href = "profile-mybuddies.html";
+      },
+    });
   }
 </script>
