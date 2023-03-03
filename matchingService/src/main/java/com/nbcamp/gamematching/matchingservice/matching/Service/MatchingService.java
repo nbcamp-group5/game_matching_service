@@ -5,11 +5,12 @@ import com.nbcamp.gamematching.matchingservice.matching.dto.ResponseUrlInfo;
 import com.nbcamp.gamematching.matchingservice.matching.dto.RequestMatching;
 
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.http.ResponseEntity;
 
 public interface MatchingService {
 
     ResponseUrlInfo matchingJoin(RequestMatching requestMatching,
-                                 HttpServletRequest servletRequest) throws JsonProcessingException;
+                                                 HttpServletRequest servletRequest) throws JsonProcessingException;
 
 
 }
