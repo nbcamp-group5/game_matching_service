@@ -1,7 +1,7 @@
 package com.nbcamp.gamematching.matchingservice.member.service;
 
 import com.nbcamp.gamematching.matchingservice.board.entity.Board;
-import com.nbcamp.gamematching.matchingservice.board.service.BoardServiceImpl;
+import com.nbcamp.gamematching.matchingservice.board.service.BoardService;
 import com.nbcamp.gamematching.matchingservice.common.domain.CreatePageable;
 import com.nbcamp.gamematching.matchingservice.exception.NotFoundException.NotFoundMemberException;
 import com.nbcamp.gamematching.matchingservice.matching.domain.MemberLog;
@@ -37,7 +37,7 @@ public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository;
     private final MatchingLogRepository matchingLogRepository;
-    private final BoardServiceImpl boardServiceImpl;
+    private final BoardService boardService;
     private final FileUploadService fileUploadService;
     private final ResultMatchingRepository resultMatchingRepository;
     private final String admin = "SIsImF1dGgiOiJVU0VSIiwiZXhwIjoxNjc3NDgzNzgwLCJpY";
@@ -54,7 +54,7 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public BoardPageDto getMyBoards(Long memberId, Pageable pageable) {
 
-        Page<Board> boardList = boardServiceImpl.findAllByMemberId(memberId, pageable);
+        Page<Board> boardList = boardService.findAllByMemberId(memberId, pageable);
 
         List<BoardContent> boardContents = boardList.getContent().stream().map(BoardContent::new)
                 .collect(Collectors.toList());
