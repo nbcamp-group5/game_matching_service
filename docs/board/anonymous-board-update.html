@@ -8,56 +8,105 @@
   <title>AnonymousBoardList</title>
 
   <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
-        integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-          integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-          crossorigin="anonymous"></script>
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
-          integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
-          crossorigin="anonymous"></script>
+    integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+    crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
-          integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
-          crossorigin="anonymous"></script>
+    integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+    crossorigin="anonymous"></script>
   <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
   <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 </head>
 
 <body>
-<nav class="navbar navbar-light bg-white">
-  <img href="#" class="" src="../../static/img/nav/logo2.png" />
-  <form class="form-inline">
-    <div class="input-group">
-      <input type="text" class="search-box">
-      <div class="input-group-append">
-        <button class="search-btn" type="button">
-          <i class="fa fa-search btn-color"></i>
-        </button>
+  <nav class="navbar navbar-light bg-white">
+    <img href="#" class="" src="/images/common/logo.png" />
+    <form class="form-inline">
+      <div class="input-group">
+        <input type="text" class="search-box">
+        <div class="input-group-append">
+          <button class="search-btn" type="button">
+            <i class="fa fa-search btn-color"></i>
+          </button>
+        </div>
       </div>
+    </form>
+  </nav>
+
+  <nav class="menu">
+    <div class="menu__list">
+      <li class="menu__btn">
+        <a class="menu__link" href="/templates/board/board.html">
+          <div class="menu__link__explain">
+            <!-- <span><i class="fa-solid fa-clipboard-user fa-lg"></i></span> -->
+            <span>📝 일반 게시판</span>
+          </div>
+        </a>
+      </li>
+
+      <li class="menu__btn" style="background-color: #b1bce66c;">
+        <a class="menu__link" href="/templates/board/anonymous-board.html">
+          <div class="menu__link__explain">
+            <!-- <span><i class="fa-solid fa-clipboard-question fa-lg"></i></span> -->
+            <span>📝 익명 게시판</span>
+          </div>
+        </a>
+      </li>
+
+      <li class="menu__btn">
+        <a class="menu__link" href="/templates/chat/chat.html">
+          <div class="menu__link__explain">
+            <!-- <span><i class="fa-solid fa-comment fa-lg"></i></span> -->
+            <span>✉️ 메시지</span>
+          </div>
+        </a>
+      </li>
+
+      <li class="menu__btn">
+        <a class="menu__link" href="#">
+          <div class="menu__link__explain">
+            <!-- <span><i class="fa-solid fa-gamepad"></i></span> -->
+            <span>🎮 매칭</span>
+          </div>
+        </a>
+      </li>
+
+      <li class="menu__btn">
+        <a class="menu__link" href="/templates/profile/my-profile.html">
+          <div class="menu__link__explain">
+            <!-- <i class="fa-solid fa-user fa-lg"></i> -->
+            <span>🙇🏻‍♀️ 프로필</span>
+          </div>
+        </a>
+      </li>
     </div>
-  </form>
-</nav>
+  </nav>
 
 
-<div class="container-fluid gedf-wrapper">
-  <div class="row">
-    <div class="col-md-3">
-      <div>여긴 메뉴바</div>
-    </div>
+  <div class="container-fluid gedf-wrapper">
+    <div class="row">
+      <div class="col-md-3" style="z-index: -1;">
+      </div>
 
 
-    <div class="col-md-6 gedf-main">
-      <!--- \\\\\\\입력-->
-      <div class="card gedf-card" style="border-radius: 20px; margin-bottom: 25px; border: none;" id="updateBoard">
+      <div class="col-md-6 gedf-main">
+        <!--- \\\\\\\입력-->
+        <div class="card gedf-card" style="border-radius: 20px; margin-bottom: 25px; border: none;" id="updateBoard">
 
 
 
+        </div>
       </div>
     </div>
   </div>
-</div>
 </body>
+
 </html>
 
 <style>
@@ -260,13 +309,53 @@
     margin-bottom: 0;
     font-weight: bolder;
   }
+
+  /* 메뉴바 */
+
+  .menu {
+    background-color: #fff;
+    padding: 10px 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    border-radius: 10px;
+    position: fixed;
+    top: 0;
+    box-sizing: border-box;
+    width: 170px;
+    display: flex;
+    flex-direction: column;
+    margin-left: 110px;
+    margin-top: 120px;
+    text-align: center;
+    box-shadow: 3px 3px #9A86A4;
+  }
+
+  .menu a {
+    text-decoration: none;
+    color: black;
+  }
+
+  .menu li {
+    list-style: none;
+  }
+
+  .menu__btn {
+    padding: 10px 0;
+  }
+
+  .menu__link__explain {
+    display: flex;
+    font-size: 12px;
+    /* justify-content: center; */
+    padding-left: 20px;
+  }
 </style>
 
 <script>
 
-  const auth = localStorage.getItem('accessToken');
+  const auth = localStorage.getItem('Authorization');
 
-  var boardId = document.location.href.split("/");
+  var boardId = localStorage.getItem('amBoardId');
+
 
 
   $(document).ready(function () {
@@ -278,7 +367,7 @@
 
     $.ajax({
       type: "GET",
-      url: "http://localhost:8080/anonymous"+boardId[5],
+      url: "http://localhost:8080/api/boards/anonymous/" + boardId,
       beforeSend: function (xhr) {
         xhr.setRequestHeader("Authorization", auth);
       },
@@ -323,7 +412,7 @@
                         </div>
                     </div>
                     <div class="btn-toolbar">
-                        <button onclick="update_board(${this.id})" type="submit" class="btn post-btn">게시</button>
+                        <button onclick="update_board(${this.id})" type="submit" class="btn post-btn">수정</button>
                     </div>`
           $(`#updateBoard`).append(temp_html);
         })
@@ -339,14 +428,14 @@
     };
     var formData = new FormData();
     formData.append('image', $('#customFile')[0].files[0]);
-    formData.append('requestDto', new Blob([JSON.stringify(data)], {type: "application/json"}));
+    formData.append('requestDto', new Blob([JSON.stringify(data)], { type: "application/json" }));
 
 
     var settings = {
       beforeSend: function (xhr) {
         xhr.setRequestHeader("Authorization", auth);
       },
-      "url": "http://localhost:8080/anonymous/" + boardId,
+      "url": "http://localhost:8080/api/boards/anonymous/" + boardId,
       "method": "PUT",
       "timeout": 0,
       "processData": false,
@@ -357,7 +446,7 @@
 
     $.ajax(settings).done(function (response) {
       console.log(response);
-      (window.location.href = "http://localhost:8080/main/anonymous")
+      window.location.href = "anonymous-board.html";
     });
   }
 

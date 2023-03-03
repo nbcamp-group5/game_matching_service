@@ -1,14 +1,20 @@
+/* 메뉴바 */
+
 .menu {
-    background-color: #F9F9FA;
-    padding : 15px 15px;
+    background-color: #fff;
+    padding: 10px 0;
     border-top: 1px solid rgba(0, 0, 0, 0.05);
-    position:fixed;
+    border-radius: 10px;
+    position: fixed;
     top: 0;
     box-sizing: border-box;
-    width: 300px;
-    height: 100%;
+    width: 170px;
     display: flex;
     flex-direction: column;
+    margin-left: 110px;
+    margin-top: 120px;
+    text-align: center;
+    /* box-shadow: 3px 3px #9A86A4; */
 }
 
 .menu a {
@@ -16,28 +22,17 @@
     color: black;
 }
 
-.menu > div {
-    text-align: center;
-    font-size: 40px;
-}
-
-.menu  li {
+.menu li {
     list-style: none;
 }
 
-.menu > div > h1 {
-    margin: 5px 0px;
-}
-
 .menu__btn {
-    margin-top: 35px;
+    padding: 10px 0;
 }
 
 .menu__link__explain {
     display: flex;
-    font-size: 30px;
-}
-
-.menu__link__explain span {
-    margin-left: 10px;
+    font-size: 12px;
+    /* justify-content: center; */
+    padding-left: 20px;
 }

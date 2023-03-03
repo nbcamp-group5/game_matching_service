@@ -1,4 +1,10 @@
+nav img {
+    width: 50px;
+}
 
+body {
+    background-color: #b1bce62f;
+}
 
 .user-row {
     margin-bottom: 14px;
@@ -18,24 +24,24 @@
     cursor: pointer;
 }
 
-.table-user-information > tbody > tr {
+.table-user-information>tbody>tr {
     border-top: 1px solid rgb(221, 221, 221);
 }
 
-.table-user-information > tbody > tr:first-child {
+.table-user-information>tbody>tr:first-child {
     border-top: 0;
 }
 
 
-.table-user-information > tbody > tr > td {
+.table-user-information>tbody>tr>td {
     border-top: 0;
 }
 
-.toppad
-{margin-top:20px;
+.toppad {
+    margin-top: 20px;
 }
 
-#panel-body__img-box > img {
+#panel-body__img-box>img {
     border-radius: 50%;
     border: 1px solid black;
     font-size: 10px;

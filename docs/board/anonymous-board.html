@@ -8,140 +8,185 @@
   <title>AnonymousBoardList</title>
 
   <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
-        integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-          integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-          crossorigin="anonymous"></script>
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
-          integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
-          crossorigin="anonymous"></script>
+    integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+    crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
-          integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
-          crossorigin="anonymous"></script>
+    integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+    crossorigin="anonymous"></script>
   <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
   <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 </head>
 
 <body>
-<nav class="navbar navbar-light bg-white">
-  <img href="#" class="" src="../../static/img/nav/logo2.png" />
-  <form class="form-inline">
-    <div class="input-group">
-      <input type="text" class="search-box" id="search">
-      <div class="input-group-append">
-        <button onclick="search_comment(search)" class="search-btn" type="button">
-          <i class="fa fa-search btn-color"></i>
-        </button>
-      </div>
-    </div>
-  </form>
-</nav>
-
-
-<div class="container-fluid gedf-wrapper">
-  <div class="row">
-    <div class="col-md-3">
-      <div>여긴 메뉴바</div>
-    </div>
-
-
-    <div class="col-md-6 gedf-main">
-      <!--- \\\\\\\입력-->
-      <div class="card gedf-card" style="border-radius: 20px; margin-bottom: 25px; border: none;">
-        <div class="card-header" style="border-top-left-radius: 20px; border-top-right-radius: 20px;">
-          <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
-            <li class="nav-item">
-              <a class="nav-link active" id="posts-tab" data-toggle="tab" href="#posts" role="tab"
-                 aria-controls="posts" aria-selected="true">✒️</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" id="images-tab" data-toggle="tab" role="tab" aria-controls="images"
-                 aria-selected="false" href="#images">📷</a>
-            </li>
-          </ul>
+  <nav class="navbar navbar-light bg-white">
+    <img href="#" class="" src="/images/common/logo.png" />
+    <form class="form-inline">
+      <div class="input-group">
+        <input type="text" class="search-box" id="search">
+        <div class="input-group-append">
+          <button onclick="search_comment(search)" class="search-btn" type="button">
+            <i class="fa fa-search btn-color"></i>
+          </button>
         </div>
-        <div class="card-body">
-          <div class="tab-content" id="myTabContent">
-            <div class="tab-pane fade show active" id="posts" role="tabpanel" aria-labelledby="posts-tab">
-              <div class="form-group">
-                <label class="sr-only" for="message">post</label>
-                <textarea class="form-control" id="message" rows="3" placeholder="문구 입력"></textarea>
-              </div>
+      </div>
+    </form>
+  </nav>
 
-            </div>
-            <div class="tab-pane fade" id="images" role="tabpanel" aria-labelledby="images-tab">
-              <div class="form-group">
-                <div class="custom-file">
-                  <input type="file" class="custom-file-input" id="customFile">
-                  <label class="custom-file-label" for="customFile">이미지 업로드</label>
+  <nav class="menu">
+    <div class="menu__list">
+      <li class="menu__btn">
+        <a class="menu__link" href="/templates/board/board.html">
+          <div class="menu__link__explain">
+            <!-- <span><i class="fa-solid fa-clipboard-user fa-lg"></i></span> -->
+            <span>📝 일반 게시판</span>
+          </div>
+        </a>
+      </li>
+
+      <li class="menu__btn" style="background-color: #b1bce66c;">
+        <a class="menu__link" href="/templates/board/anonymous-board.html">
+          <div class="menu__link__explain">
+            <!-- <span><i class="fa-solid fa-clipboard-question fa-lg"></i></span> -->
+            <span>📝 익명 게시판</span>
+          </div>
+        </a>
+      </li>
+
+      <li class="menu__btn">
+        <a class="menu__link" href="/templates/chat/chat.html">
+          <div class="menu__link__explain">
+            <!-- <span><i class="fa-solid fa-comment fa-lg"></i></span> -->
+            <span>✉️ 메시지</span>
+          </div>
+        </a>
+      </li>
+
+      <li class="menu__btn">
+        <a class="menu__link" href="#">
+          <div class="menu__link__explain">
+            <!-- <span><i class="fa-solid fa-gamepad"></i></span> -->
+            <span>🎮 매칭</span>
+          </div>
+        </a>
+      </li>
+
+      <li class="menu__btn">
+        <a class="menu__link" href="/templates/profile/my-profile.html">
+          <div class="menu__link__explain">
+            <!-- <i class="fa-solid fa-user fa-lg"></i> -->
+            <span>🙇🏻‍♀️ 프로필</span>
+          </div>
+        </a>
+      </li>
+    </div>
+  </nav>
+
+
+
+  <div class="container-fluid gedf-wrapper">
+    <div class="row">
+      <div class="col-md-3" style="z-index: -1;">
+      </div>
+
+
+      <div class="col-md-6 gedf-main">
+        <!--- \\\\\\\입력-->
+        <div class="card gedf-card" style="border-radius: 20px; margin-top: 30px; margin-bottom: 25px; border: none;">
+          <div class="card-header" style="border-top-left-radius: 20px; border-top-right-radius: 20px;">
+            <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
+              <li class="nav-item">
+                <a class="nav-link active" id="posts-tab" data-toggle="tab" href="#posts" role="tab"
+                  aria-controls="posts" aria-selected="true">✒️</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" id="images-tab" data-toggle="tab" role="tab" aria-controls="images"
+                  aria-selected="false" href="#images">📷</a>
+              </li>
+            </ul>
+          </div>
+          <div class="card-body">
+            <div class="tab-content" id="myTabContent">
+              <div class="tab-pane fade show active" id="posts" role="tabpanel" aria-labelledby="posts-tab">
+                <div class="form-group">
+                  <label class="sr-only" for="message">post</label>
+                  <textarea class="form-control" id="message" rows="3" placeholder="문구를 입력해주세요. 사진은 필수입니다."></textarea>
                 </div>
+
               </div>
-              <div class="py-4"></div>
-            </div>
-          </div>
-          <div class="btn-toolbar">
-            <button onclick="save_board()" type="submit" class="btn post-btn">게시</button>
-          </div>
-        </div>
-      </div>
-      <!-- Post /////-->
-
-      <!--- \\\\\\\Post-->
-      <div class="card gedf-card" style="margin-bottom: 25px; border-radius: 20px;" id="boardList">
-
-      </div>
-
-      <div id="modal" class="modal-overlay">
-        <div class="modal-window">
-
-          <div class="title" style="padding-top: 10px;">
-            <h5>댓글</h5>
-          </div>
-
-          <div class="close-area">X</div>
-
-          <div class="form-group" style="margin-top: 10px;">
-            <label class="sr-only" for="cm-message">post</label>
-            <input type="hidden" id="boardId" value="boardId">
-            <textarea class="form-control" id="cm-message" rows="2" placeholder="댓글 입력"></textarea>
-            <div class="btn-toolbar" style="margin-top: 10px;">
-              <button onclick="save_comment()" type="submit" class="btn post-btn">게시</button>
-            </div>
-          </div>
-
-          <div class="content" id="commentList">
-            <div class="comment">
-              <div class="comment-header">
-                <img class="rounded-circle" width="30" height="30" src="https://picsum.photos/50/50" alt="">
-                <p>닉네임</p>
-                <div class="dropdown">
-                  <button class="btn btn-link dropdown-toggle" type="button" id="gedf-drop1" data-toggle="dropdown"
-                          aria-haspopup="true" aria-expanded="false">
-                    <i class="fa fa-ellipsis-h" style="color: #9A86A4;"></i>
-                  </button>
-                  <div class="dropdown-menu dropdown-menu-left" aria-labelledby="gedf-drop1">
-                    <div class="h6 dropdown-header">편집</div>
-                    <a class="dropdown-item" href="#">수정</a>
-                    <a class="dropdown-item" href="#">삭제</a>
+              <div class="tab-pane fade" id="images" role="tabpanel" aria-labelledby="images-tab">
+                <div class="form-group">
+                  <div class="custom-file">
+                    <input type="file" class="custom-file-input" id="customFile">
+                    <label class="custom-file-label" for="customFile">이미지 업로드</label>
                   </div>
                 </div>
+                <div class="py-4"></div>
               </div>
-              <span>${this.comment[id].content}</span>
+            </div>
+            <div class="btn-toolbar">
+              <button onclick="save_board()" type="submit" class="btn post-btn">게시</button>
             </div>
           </div>
-
         </div>
+        <!-- Post /////-->
+
+        <div class="card-box" id="boardList">
+          <!--- \\\\\\\Post-->
+        </div>
+
+      </div>
+      <!-- Post /////-->
+    </div>
+    <div id="modal" class="modal-overlay">
+      <div class="modal-window">
+
+        <div class="title" style="padding-top: 10px;">
+          <h5>댓글</h5>
+        </div>
+
+        <div class="close-area">X</div>
+
+        <div class="form-group" style="margin-top: 10px;">
+          <label class="sr-only" for="cm-message">post</label>
+          <input type="hidden" id="boardId" value="boardId">
+          <textarea class="form-control" id="cm-message" rows="2" placeholder="댓글 입력"></textarea>
+          <div class="btn-toolbar" style="margin-top: 10px;">
+            <button onclick="save_comment()" type="submit" class="btn post-btn">게시</button>
+          </div>
+        </div>
+
+        <div class="content" id="commentList">
+          <div class="comment">
+            <div class="comment-header">
+              <img class="rounded-circle" width="30" height="30" src="https://picsum.photos/50/50" alt="">
+              <p>닉네임</p>
+              <div class="dropdown">
+                <button class="btn btn-link dropdown-toggle" type="button" id="gedf-drop1" data-toggle="dropdown"
+                  aria-haspopup="true" aria-expanded="false">
+                  <i class="fa fa-ellipsis-h" style="color: #9A86A4;"></i>
+                </button>
+                <div class="dropdown-menu dropdown-menu-left" aria-labelledby="gedf-drop1">
+                  <div class="h6 dropdown-header">편집</div>
+                  <a class="dropdown-item" href="#">수정</a>
+                  <a class="dropdown-item" href="#">삭제</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
-    <!-- Post /////-->
-
 
   </div>
-
-</div>
-</div>
+  </div>
 </body>
 
 </html>
@@ -267,11 +312,33 @@
     display: none;
   }
 
+  .cards {
+    position: relative;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    /* border: 1px solid rgba(0,0,0,.125); */
+    border-radius: 0.25rem;
+
+  }
+
+  .cards-footer {
+    padding: 0.75rem 1.25rem;
+    background-color: rgba(0, 0, 0, .03);
+    /* border-top: 1px solid rgba(0,0,0,.125); */
+  }
+
   /* 모달창 */
 
   #modal.modal-overlay {
     width: 100%;
-    height: 100%;
+    height: auto;
+    min-height: 150%;
     position: absolute;
     left: 0;
     top: 0;
@@ -279,7 +346,6 @@
     /* display: flex; */
     flex-direction: column;
     align-items: center;
-    justify-content: center;
     background: rgba(255, 255, 255, 0.493);
     box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
     backdrop-filter: blur(1.5px);
@@ -294,12 +360,12 @@
     -webkit-backdrop-filter: blur(13.5px);
     border-radius: 10px;
     border: 1px solid rgba(255, 255, 255, 0.18);
-    /* width: 500px; */
+    width: 50%;
     margin: 20px;
     height: auto;
     position: relative;
-    top: -100px;
     padding: 10px;
+    margin-top: 100px;
   }
 
   #modal .title {
@@ -346,6 +412,45 @@
     margin-bottom: 0;
     font-weight: bolder;
   }
+
+  /* 메뉴바 */
+
+  .menu {
+    background-color: #fff;
+    padding: 10px 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    border-radius: 10px;
+    position: fixed;
+    top: 0;
+    box-sizing: border-box;
+    width: 170px;
+    display: flex;
+    flex-direction: column;
+    margin-left: 110px;
+    margin-top: 120px;
+    text-align: center;
+    /* box-shadow: 3px 3px #9A86A4; */
+  }
+
+  .menu a {
+    text-decoration: none;
+    color: black;
+  }
+
+  .menu li {
+    list-style: none;
+  }
+
+  .menu__btn {
+    padding: 10px 0;
+  }
+
+  .menu__link__explain {
+    display: flex;
+    font-size: 12px;
+    /* justify-content: center; */
+    padding-left: 20px;
+  }
 </style>
 
 <script>
@@ -355,23 +460,25 @@
   });
 
 
-  const auth = localStorage.getItem('accessToken');
+  const auth = localStorage.getItem('Authorization');
 
   const modal = document.getElementById("modal")
-  const btnModal = document.getElementById("btn-modal")
-  btnModal.addEventListener("click", e => {
-    modal.style.display = "flex"
-  })
 
   const closeBtn = modal.querySelector(".close-area")
   closeBtn.addEventListener("click", e => {
     modal.style.display = "none"
+    const scrollY = document.body.style.top;
+    document.body.style.cssText = "";
+    window.scrollTo(0, parseInt(scrollY || "0", 10) * -1);
   })
 
   modal.addEventListener("click", e => {
     const evTarget = e.target
     if (evTarget.classList.contains("modal-overlay")) {
       modal.style.display = "none"
+      const scrollY = document.body.style.top;
+      document.body.style.cssText = "";
+      window.scrollTo(0, parseInt(scrollY || "0", 10) * -1);
     }
   })
 
@@ -382,12 +489,12 @@
     };
     var formData = new FormData();
     formData.append('image', $('#customFile')[0].files[0]);
-    formData.append('requestDto', new Blob([JSON.stringify(data)] , {type: "application/json"}));
+    formData.append('requestDto', new Blob([JSON.stringify(data)], { type: "application/json" }));
     var settings = {
       beforeSend: function (xhr) {
         xhr.setRequestHeader("Authorization", auth);
       },
-      "url": "http://localhost:8080/anonymous",
+      "url": "http://localhost:8080/api/boards/anonymous",
       "method": "POST",
       "timeout": 0,
       "processData": false,
@@ -396,19 +503,22 @@
       "data": formData
     };
 
-    $.ajax(settings).done(function (response,code) {
+    $.ajax(settings).done(function (response, code) {
       console.log(response);
       console.log(code);
       location.reload();
 
     });
+
+    var b = document.getElementById("message");
+    b.value = '';
   }
 
   //게시글 목록
   function show_board() {
     $.ajax({
       type: "GET",
-      url: "http://localhost:8080/anonymous",
+      url: "http://localhost:8080/api/boards/anonymous",
       beforeSend: function (xhr) {
         xhr.setRequestHeader("Authorization", auth);
       },
@@ -421,7 +531,8 @@
         $(response).each(function () {
           console.log(response);
 
-          let temp_html = ` <div class="card-header" style="border-top-left-radius: 20px; border-top-right-radius: 20px;">
+          let temp_html = ` <div class="cards gedf-card" style="margin-bottom: 25px; border-radius: 20px;">
+      <div class="card-header" style="border-top-left-radius: 20px; border-top-right-radius: 20px; border: none;">
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="mr-2">
@@ -440,7 +551,7 @@
                                 </button>
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="gedf-drop1">
                                     <div class="h6 dropdown-header">편집</div>
-                                    <a class="dropdown-item" href="http://localhost:8080/anonymous/update/+${this.id}">수정</a>
+                                    <a onclick="update_board(${this.id})" class="dropdown-item" href="/templates/board/anonymous-board-update.html">수정</a>
                                     <a onclick="delete_board(${this.id})" class="dropdown-item" href="#">삭제</a>
                                 </div>
                             </div>
@@ -460,12 +571,12 @@
                         </p>
                     </div>
                 </div>
-                <div class="card-footer" style="border-radius: 20px;">
+                <div class="cards-footer" style="border-radius: 20px;">
                     <a onclick="save_like(${this.id})" href="#" class="card-link" style="color: #9A86A4;"><i class="fa fa-gittip" style="color: #9A86A4;"></i>
                         ${this.likeCount}</a>
                     <a onclick="show_comment(${this.id})" id="btn-modal" href="#" class="card-link" style="color: #9A86A4;"><i class="fa fa-comment"
                                                                                             style="color: #9A86A4;"></i> 댓글</a>
-                </div>
+                </div></div>
 
 
 `
@@ -481,28 +592,7 @@
 
   //게시글 수정
   function update_board(boardId) {
-    var data = {
-      content: $('#message').val()
-    };
-    var formData = new FormData();
-    formData.append('image', $('#customFile')[0].files[0]);
-    formData.append('requestDto', new Blob([JSON.stringify(data)], {type: "application/json"}));
-    var settings = {
-      beforeSend: function (xhr) {
-        xhr.setRequestHeader("Authorization", auth);
-      },
-      "url": "http://localhost:8080/normal/" + boardId,
-      "method": "PUT",
-      "timeout": 0,
-      "processData": false,
-      "mimeType": "multipart/form-data",
-      "contentType": false,
-      "data": formData
-    };
-
-    $.ajax(settings).done(function (response) {
-      console.log(response);
-    });
+    localStorage.setItem("amBoardId", boardId);
   }
 
   //게시글 삭제
@@ -511,7 +601,7 @@
       beforeSend: function (xhr) {
         xhr.setRequestHeader("Authorization", auth);
       },
-      "url": "http://localhost:8080/anonymous/" + boardId,
+      "url": "http://localhost:8080/api/boards/anonymous/" + boardId,
       "method": "DELETE",
       "timeout": 0
     };
@@ -548,7 +638,7 @@
 
     let content = $(`#cm-message`).val()
     var settings = {
-      "url": "http://localhost:8080/api/comments/anonymous/"+boardId,
+      "url": "http://localhost:8080/api/comments/anonymous/" + boardId,
       "method": "POST",
       "timeout": 0,
       "headers": {
@@ -561,15 +651,18 @@
     };
     $.ajax(settings).done(function (response) {
       console.log(response);
-      location.reload();
+      show_comment(boardId);
     });
+
+    var cm = document.getElementById("cm-message");
+    cm.value = '';
   }
 
   //게시글 검색 x
   function search_comment(searchName) {
     let content = $(`#search`).val()
     var settings = {
-      "url": "http://localhost:8080/search/"+searchName,
+      "url": "http://localhost:8080/search/" + searchName,
       "method": "GET",
       "timeout": 0,
       "headers": {
@@ -587,6 +680,12 @@
 
   //댓글 조회
   function show_comment(boardId) {
+
+    document.body.style.cssText = `
+      top: -${window.scrollY}px;
+      overflow-y: scroll;
+      width: 100%;`;
+
     $(`#commentList`).empty();
     const modal = document.getElementById("modal");
     modal.style.display = "flex";
@@ -607,7 +706,7 @@
 
     $.ajax({
       type: "GET",
-      url: "http://localhost:8080/api/comments/anonymous/"+boardId,
+      url: "http://localhost:8080/api/comments/anonymous/" + boardId,
       beforeSend: function (xhr) {
         xhr.setRequestHeader("Authorization", auth);
       },
@@ -628,7 +727,7 @@
                                     </button>
                                     <div class="dropdown-menu dropdown-menu-left" aria-labelledby="gedf-drop1">
                                         <div class="h6 dropdown-header">편집</div>
-                                        <a class="dropdown-item" href="http://localhost:8080/anonymous/comment/update/+${this.id}">수정</a>
+                                        <a onclick="update_comment(${this.id})"  class="dropdown-item" href="/templates/board/anonymous-comment-update">수정</a>
                                         <a onclick="delete_comment(${this.id})" class="dropdown-item" href="#">삭제</a>
                                     </div>
                                 </div>
@@ -643,29 +742,14 @@
 
   //댓글 수정 x
   function update_comment(commentId) {
-    let content = $(`#cm_message`).val()
-    var settings = {
-      "url": "http://localhost:8080/api/comments/"+commentId,
-      "method": "PATCH",
-      "timeout": 0,
-      "headers": {
-        "Authorization": auth,
-        "Content-Type": "application/json"
-      },
-      "data": JSON.stringify({
-        "content": content
-      }),
-    };
+    localStorage.setItem("amCommentId", commentId);
 
-    $.ajax(settings).done(function (response) {
-      console.log(response);
-    });
   }
 
   //댓글 삭제
   function delete_comment(commentId) {
     var settings = {
-      "url": "http://localhost:8080/api/comments/anonymous/"+commentId,
+      "url": "http://localhost:8080/api/comments/anonymous/" + commentId,
       "method": "DELETE",
       "timeout": 0,
       "headers": {

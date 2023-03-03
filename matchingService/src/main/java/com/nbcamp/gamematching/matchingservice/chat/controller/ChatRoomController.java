@@ -21,33 +21,17 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Controller
-@RequestMapping("/chat")
+@RequestMapping("/api/chat")
 public class ChatRoomController {
     private final ChatRoomService chatRoomService;
     private final MemberRepository memberRepository;
-
-
-    //채팅 페이지 들어가기 => 수정 필요!
-    @GetMapping("/room")
-    public String rooms(Model model) {
-        List<Member> members = memberRepository.findAll();
-        model.addAttribute("members", members);
-        return "/chat/chat";
-    }
-
-    //테스트용
-    @GetMapping("/member")
-    @ResponseBody
-    public List<Member> members() {
-        return memberRepository.findAll();
-    }
 
 
     //친구 목록 불러오기
     @GetMapping("/friends")
     @ResponseBody
     public ResponseEntity<List<BuddyDto>> getFriends(@AuthenticationPrincipal UserDetailsImpl userDetails) {
-        return chatRoomService.getFriends(userDetails.getMember());
+        return chatRoomService.getFriends(userDetails.getMember().getId());
     }
 
 

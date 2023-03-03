@@ -1,33 +1,30 @@
 <header>
   <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
-  <script src="js/jquery.magnific-popup.min.js"></script>
-  <script src="js/jquery-3.3.1.min.js"></script>
-  <script src="js/jquery-ui.js"></script>
 </header>
 <div class="container" id="container">
   <div class="form-container sign-up-container">
-    <form action="#">
+    <form>
       <h1 class="korean">회원가입</h1>
       <div class="social-container">
-        <a href="#" class="social"><img src="../images/login/kakao.png"></a>
+        <a href="#" class="social"><img src="/images/auth/kakao.png"></a>
       </div>
       <div class="input-box">
         <input type="text" id="signup-email" placeholder="이메일" />
         <input type="text" id="signup-nickname" placeholder="닉네임" />
-        <input type="password" id="signup-password" placeholder="비밀번호" />
+        <input type="password" id="signup-password" autoComplete="off" placeholder="비밀번호" />
       </div>
       <button onclick="signUpRequest()">확인</button>
     </form>
   </div>
   <div class="form-container sign-in-container">
-    <form action="#">
+    <form>
       <h1 class="korean">로그인</h1>
       <div class="social-container">
-        <a href="#" class="social"><img src="../images/login/kakao.png"></a>
+        <a href="#" class="social"><img src="/images/auth/kakao.png"></a>
       </div>
       <div class="input-box">
         <input type="text" id="login-email" placeholder="이메일" />
-        <input type="password" id="login-password" placeholder="비밀번호" />
+        <input type="password" id="login-password" autoComplete="off" placeholder="비밀번호" />
       </div>
       <button onclick="signInRequest()">확인</button>
     </form>
@@ -325,6 +322,8 @@
   const signInButton = document.getElementById('signIn');
   const container = document.getElementById('container');
 
+  const auth = localStorage.getItem('Authorization');
+
   signUpButton.addEventListener('click', () => {
     container.classList.add("right-panel-active");
   });
@@ -349,14 +348,11 @@
     };
 
     $.ajax(settings).done(function (response) {
-      console.log(response);
       alert("회원가입이 완료되었습니다.");
-      signUpButton.addEventListener('click', () => {
-        container.classList.add("right-panel-active");
-      });
     }).fail(function (response) {
       alert(response.responseJSON.errorMessage);
     });
+
   }
 
 
@@ -377,7 +373,8 @@
 
     $.ajax(settings).done(function (response, status, xhr) {
       localStorage.setItem('Authorization', xhr.getResponseHeader('Authorization'));
-      window.location = "../board/board.html";
+      location.href = "board/board.html";
+      alert("dddd");
     })
       .fail(function (response) {
         console.log(response);

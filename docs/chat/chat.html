@@ -8,127 +8,101 @@
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
     <script src="https://kit.fontawesome.com/0f7e35127c.js" crossorigin="anonymous"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" type="text/css"
-          rel="stylesheet">
+        rel="stylesheet">
 
 </head>
 
 <body>
-<nav class="menu">
-    <div>
-        <h1>ㅈㄱ</h1>
-        <h1>ㅃㄱ</h1>
-    </div>
+    <nav class="navbar navbar-light bg-white">
+        <img href="#" class="" src="/images/common/logo.png" />
+    </nav>
 
-    <ul class="menu__list">
-        <li class="menu__btn">
-            <a class="menu__link" href="#">
-                <div class="menu__link__explain">
-                    <span><i class="fa-solid fa-clipboard-user fa-lg"></i></span>
-                    <span>일반</span>
-                </div>
-            </a>
-        </li>
-
-        <li class="menu__btn">
-            <a class="menu__link" href="#">
-                <div class="menu__link__explain">
-                    <span><i class="fa-solid fa-clipboard-question fa-lg"></i></span>
-                    <span>익명</span>
-                </div>
-            </a>
-        </li>
-
-        <li class="menu__btn">
-            <a class="menu__link" href="#">
-                <div class="menu__link__explain">
-                    <span><i class="fa-solid fa-comment fa-lg"></i></span>
-                    <span>메시지</span>
-                </div>
-            </a>
-        </li>
-
-        <li class="menu__btn">
-            <a class="menu__link" href="#">
-                <div class="menu__link__explain">
-                    <span><i class="fa-solid fa-gamepad"></i></span>
-                    <span>매칭</span>
-                </div>
-            </a>
-        </li>
-
-        <li class="menu__btn">
-            <a class="menu__link" href="#">
-                <div class="menu__link__explain">
-                    <span><i class="fa-solid fa-user fa-lg"></i></span>
-                    <span>프로필</span>
-                </div>
-            </a>
-        </li>
-    </ul>
-</nav>
-<div class="container">
-    <div class="messaging">
-        <div class="inbox_msg">
-            <div class="inbox_people">
-                <div class="headind_srch">
-                    <h4 class="budae-font">즐빡 친구</h4>
-                </div>
-                <div class="inbox_chat" id="friend-list">
-                    <div class="chat_list active_chat">
-                        <div class="chat_people">
-                            <div class="chat_img"><img src="https://ptetutorials.com/images/user-profile.png"
-                                                       alt="sunil"></div>
-                            <div class="chat_ib">
-                                <h5>Sunil Rajput</h5>
-                            </div>
-                        </div>
+    <nav class="menu">
+        <div class="menu__list">
+            <li class="menu__btn">
+                <a class="menu__link" href="/templates/board/board.html">
+                    <div class="menu__link__explain">
+                        <!-- <span><i class="fa-solid fa-clipboard-user fa-lg"></i></span> -->
+                        <span>📝 일반 게시판</span>
                     </div>
-                </div>
-            </div>
-            <div class="mesgs">
-                <div class="msg_history" id="msg-history">
-                    <div class="incoming_msg">
-                        <div class="incoming_msg_img"><img src="https://ptetutorials.com/images/user-profile.png"
-                                                           alt="sunil">
-                        </div>
-                        <div class="received_msg">
-                            <div class="received_withd_msg">
-                                <p>Test which is a new approach to have all
-                                    solutions</p>
-                            </div>
-                        </div>
+                </a>
+            </li>
+
+            <li class="menu__btn">
+                <a class="menu__link" href="/templates/board/anonymous-board.html">
+                    <div class="menu__link__explain">
+                        <!-- <span><i class="fa-solid fa-clipboard-question fa-lg"></i></span> -->
+                        <span>📝 익명 게시판</span>
                     </div>
-                    <div class="outgoing_msg">
-                        <div class="sent_msg">
-                            <p>Test which is a new approach to have all
-                                solutions</p>
-                        </div>
+                </a>
+            </li>
+
+            <li class="menu__btn" style="background-color: #b1bce66c;">
+                <a class="menu__link" href="/templates/chat/chat.html">
+                    <div class="menu__link__explain">
+                        <!-- <span><i class="fa-solid fa-comment fa-lg"></i></span> -->
+                        <span>✉️ 메시지</span>
                     </div>
-                </div>
-                <div class="type_msg">
-                    <div class="input_msg_write">
-                        <input id="msg" type="text" class="write_msg" placeholder="메세지를 입력하세요."/>
-                        <button class="msg_send_btn" type="button" style="outline: none;" id="send-btn">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="33" height="33" fill="currentColor"
-                                 class="bi bi-arrow-up-short"
-                                 viewBox="0 0 16 16" aria-hidden="true">
-                                <path fill-rule="evenodd"
-                                      d="M8 12a.5.5 0 0 0 .5-.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 .5.5z"/>
-                            </svg>
-                        </button>
+                </a>
+            </li>
+
+            <li class="menu__btn">
+                <a class="menu__link" href="#">
+                    <div class="menu__link__explain">
+                        <!-- <span><i class="fa-solid fa-gamepad"></i></span> -->
+                        <span>🎮 매칭</span>
                     </div>
-                </div>
-            </div>
+                </a>
+            </li>
+
+            <li class="menu__btn">
+                <a class="menu__link" href="/templates/profile/my-profile.html">
+                    <div class="menu__link__explain">
+                        <!-- <i class="fa-solid fa-user fa-lg"></i> -->
+                        <span>🙇🏻‍♀️ 프로필</span>
+                    </div>
+                </a>
+            </li>
         </div>
+    </nav>
 
+    <div class="container">
+        <div class="messaging">
+            <div class="inbox_msg">
+                <div class="inbox_people">
+                    <div class="headind_srch">
+                        <h4 class="budae-font">즐빡 친구</h4>
+                    </div>
+                    <div class="inbox_chat" id="friend-list">
+                        <!-- 친구 목록 오는 부분 -->
+                    </div>
+                </div>
+                <div class="mesgs">
+                    <div class="msg_history" id="msg-history">
+                        <!-- 메세지 오는 부분 -->
+                    </div>
+                    <div class="type_msg">
+                        <div class="input_msg_write">
+                            <input id="msg" type="text" class="write_msg" placeholder="메세지를 입력하세요." />
+                            <button class="msg_send_btn" type="button" style="outline: none;" id="send-btn">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="33" height="33" fill="currentColor"
+                                    class="bi bi-arrow-up-short" viewBox="0 0 16 16" aria-hidden="true">
+                                    <path fill-rule="evenodd"
+                                        d="M8 12a.5.5 0 0 0 .5-.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 .5.5z" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
     </div>
-</div>
 </body>
 
 </html>
 
 <style>
-
     @font-face {
         font-family: 'TTTtangsbudaejjigaeB';
         src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2212@1.0/TTTtangsbudaejjigaeB.woff2') format('woff2');
@@ -140,30 +114,42 @@
         font-family: 'TTTtangsbudaejjigaeB';
     }
 
+    body {
+        background-color: #b1bce62f;
+    }
+
+    nav img {
+        width: 50px;
+    }
+
     .container {
-        max-width: 1170px;
+        max-width: 60%;
         width: auto;
         margin: auto;
-        margin-top: 100px;
-        margin-left: 200px;
+        margin-top: 55px;
+        margin-left: 400px;
     }
 
     img {
         max-width: 100%;
     }
 
+
     .inbox_people {
-        background: #f8f8f8 none repeat scroll 0 0;
+        background: #fff;
         float: left;
         overflow: hidden;
         width: 40%;
-        border-right: 1px solid #c4c4c4;
+        border-right: 1px solid #d6d6d6;
+        height: 530px;
     }
 
     .inbox_msg {
-        border: 1px solid #c4c4c4;
+        /* border: 1px solid #c4c4c4; */
+        border-radius: 10px;
         clear: both;
         overflow: hidden;
+        background-color: #fff;
     }
 
     .top_spac {
@@ -236,7 +222,7 @@
     }
 
     .active_chat {
-        background: #ebebeb;
+        background: #b1bce66c;
     }
 
     .incoming_msg_img {
@@ -328,28 +314,28 @@
         display: flex;
     }
 
-    .messaging {
-        padding: 0 0 50px 0;
-    }
-
     .msg_history {
-        height: 516px;
+        height: 440px;
         overflow-y: auto;
     }
 
     /* 메뉴바 */
 
     .menu {
-        background-color: #F9F9FA;
-        padding: 15px 15px;
+        background-color: #fff;
+        padding: 10px 0;
         border-top: 1px solid rgba(0, 0, 0, 0.05);
+        border-radius: 10px;
         position: fixed;
         top: 0;
         box-sizing: border-box;
-        width: 200px;
-        height: 100%;
+        width: 170px;
         display: flex;
         flex-direction: column;
+        margin-left: 110px;
+        margin-top: 120px;
+        text-align: center;
+        /* box-shadow: 3px 3px #9A86A4; */
     }
 
     .menu a {
@@ -357,35 +343,24 @@
         color: black;
     }
 
-    .menu > div {
-        text-align: center;
-        font-size: 20px;
-    }
-
     .menu li {
         list-style: none;
     }
 
-    .menu > div > h1 {
-        margin: 5px 0px;
-    }
-
     .menu__btn {
-        margin-top: 35px;
+        padding: 10px 0;
     }
 
     .menu__link__explain {
         display: flex;
-        font-size: 20px;
-    }
-
-    .menu__link__explain span {
-        margin-left: 10px;
+        font-size: 12px;
+        /* justify-content: center; */
+        padding-left: 20px;
     }
 </style>
 
 <script>
-    const auth = sessionStorage.getItem('accessToken');
+    const auth = localStorage.getItem('Authorization');
 
     // 친구리스트 불러오기
 
@@ -396,7 +371,7 @@
     function showFriend() {
         $.ajax({
             type: "GET",
-            url: "http://localhost:8080/chat/member",
+            url: "http://localhost:8080/api/chat/friends",
             beforeSend: function (xhr) {
                 xhr.setRequestHeader("Authorization", auth);
             },
@@ -408,15 +383,17 @@
             success: function (response) {
                 for (let i = 0; i < response.length; i++) {
                     let nickname = response[i].profile.nickname;
-                    let profile_img = response[i].profile.profileImage;
+                    let profile_img;
 
                     if (profile_img == null) {
-                        profile_img = "https://ptetutorials.com/images/user-profile.png"
+                        profile_img = "/images/common/logo.png"
+                    } else {
+                        profile_img = response[i].profile.profileImage;
                     }
 
                     let temp_html = `<div class="chat_list" onclick="showChat('${nickname}')">
               <div class="chat_people">
-                <div class="chat_img"> <img src="${profile_img}" alt="sunil"> </div>
+                <div class="chat_img"> <img src="${profile_img}"> </div>
                 <div class="chat_ib">
                   <h5>${nickname}</h5>
                 </div>
@@ -434,7 +411,7 @@
 
         $.ajax({
             type: "GET",
-            url: "http://localhost:8080/chat/room/enter/" + fnickname,
+            url: "http://localhost:8080/api/chat/room/enter/" + fnickname,
             contentType: "application/json",
             data: {},
             beforeSend: function (xhr) {
@@ -502,7 +479,7 @@
         $("#send-btn").on("click", function (e) {
             var msg = document.getElementById("msg");
 
-            stomp.send('/pub/chat/message', {}, JSON.stringify({roomId: roomId, message: msg.value, receiver: fnick}));
+            stomp.send('/pub/chat/message', {}, JSON.stringify({ roomId: roomId, message: msg.value, receiver: fnick }));
             msg.value = '';
         });
 
@@ -514,7 +491,7 @@
 
         $.ajax({
             type: "GET",
-            url: "http://localhost:8080/chat/room/" + roomId + "/message",
+            url: "http://localhost:8080/api/chat/room/" + roomId + "/message",
             data: {},
             beforeSend: function (xhr) {
                 xhr.setRequestHeader("Authorization", auth);
