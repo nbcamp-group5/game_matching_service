@@ -11,7 +11,7 @@ import java.util.List;
 public interface ChatRoomService {
 
 
-    ResponseEntity<List<BuddyDto>> getFriends(Member member);
+    ResponseEntity<List<BuddyDto>> getFriends(Long memberId);
 
     ResponseEntity<ChatRoomDto> getChatRoom(String friendNick, Member member);
 

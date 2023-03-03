@@ -2,6 +2,51 @@ body {
     min-width: 1000px;
 }
 
+nav img {
+    width: 50px;
+}
+
+body {
+    background-color: #b1bce62f;
+}
+
+.profile-box-1 {
+    border: none;
+    padding: 10px 30px 0px 30px;
+}
+
+.panel-body-1 {
+    padding: 15px 15px 0px 15px;
+}
+
+.panels {
+    background-color: #fff;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    padding-bottom: 0px;
+}
+
+
+.panel-heading-1 {
+    padding: 5px 5px;
+    border-bottom: 1px solid transparent;
+    border-top-right-radius: 3px;
+    border-top-left-radius: 3px;
+}
+
+.panel-info>.panel-heading-1 {
+    color: #4c4c4c;
+    background-color: #b1bce66c;
+    border-color: #b1bce66c;
+}
+
+.panel-title-1 {
+    margin-top: 0;
+    margin-bottom: 0;
+    font-size: 14px;
+    color: black;
+}
+
 .user-row {
     margin-bottom: 14px;
 }
@@ -20,24 +65,24 @@ body {
     cursor: pointer;
 }
 
-.table-user-information > tbody > tr {
+.table-user-information>tbody>tr {
     border-top: 1px solid rgb(221, 221, 221);
 }
 
-.table-user-information > tbody > tr:first-child {
+.table-user-information>tbody>tr:first-child {
     border-top: 0;
 }
 
 
-.table-user-information > tbody > tr > td {
+.table-user-information>tbody>tr>td {
     border-top: 0;
 }
 
-.toppad
-{margin-top:20px;
+.toppad {
+    margin-top: 20px;
 }
 
-#panel-body__img-box > img {
+#panel-body__img-box>img {
     border-radius: 50%;
     border: 1px solid black;
     font-size: 10px;
@@ -45,6 +90,7 @@ body {
     height: 100px;
     text-align: center;
     margin-left: 10px;
+    margin-bottom: 10px;
 
 }
 
@@ -73,38 +119,32 @@ body {
     display: flex;
     justify-content: space-around;
     margin-top: 20px;
-    margin-bottom: 70px;
-    margin-left: 12vw;
-    width: 70vw;
+    margin-bottom: 10px;
+    width: 100%;
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 10px 0px;
 }
 
 .more-suggestions__menu {
-    margin-top: 20px;
-    margin-left: 150px;
     text-align: center;
 }
 
-.more-suggestions__list,
-.table-box {
-    margin-left: 25vw;
-}
-
-.more-suggestions__list__btn {
-    margin-left: 40px;
+.more-suggestions__menu>a {
+    color: #9A86A4;
 }
 
 .more-suggestions__list__user-table {
-    width: 170px;
-    margin-right: 100px;
+
+    font-weight: normal;
 }
 
 .table-box {
-    width: 850px;
+    width: 100%;
 }
 
 .more-suggestions__list__page-list {
-    width: 30vw;
-    margin-left: 40vw;
+    width: 100%;
 }
 
 .more-suggestions__list__page {
@@ -114,4 +154,12 @@ body {
 
 .list-picture {
     width: 50px;
+}
+
+.wells {
+    min-height: 20px;
+    padding: 19px;
+    margin-bottom: 20px;
+    background-color: #fff;
+    border-radius: 10px;
 }
