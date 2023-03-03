@@ -114,16 +114,9 @@
       <img href="#" class="" src="/images/common/logo.png" />
     </nav>
 
-    <nav class="menu">
-      <div class="menu__list">
-        <li class="menu__btn">
-          <a class="menu__link" href="/templates/board/board.html">
-            <div class="menu__link__explain">
-              <!-- <span><i class="fa-solid fa-clipboard-user fa-lg"></i></span> -->
-              <span>📝 일반 게시판</span>
-            </div>
-          </a>
-        </li>
+  <nav class="navbar navbar-light bg-white" style="z-index: 1; justify-content: flex-start;">
+    <img href="#" class="" src="../images/nav/logo.png" />
+  </nav>
 
         <li class="menu__btn">
           <a class="menu__link" href="/templates/board/anonymous-board.html">
@@ -134,23 +127,63 @@
           </a>
         </li>
 
-        <li class="menu__btn">
-          <a class="menu__link" href="/templates/chat/chat.html">
-            <div class="menu__link__explain">
-              <!-- <span><i class="fa-solid fa-comment fa-lg"></i></span> -->
-              <span>✉️ 메시지</span>
-            </div>
-          </a>
-        </li>
+  <nav class="menu">
+    <div class="menu__list">
+      <li class="menu__btn">
+        <a class="menu__link" href="/board/board.html">
+          <div class="menu__link__explain">
+            <!-- <span><i class="fa-solid fa-clipboard-user fa-lg"></i></span> -->
+            <span>📝 일반 게시판</span>
+          </div>
+        </a>
+      </li>
 
-        <li class="menu__btn">
-          <a class="menu__link" href="#">
-            <div class="menu__link__explain">
-              <!-- <span><i class="fa-solid fa-gamepad"></i></span> -->
-              <span>🎮 매칭</span>
-            </div>
-          </a>
-        </li>
+      <li class="menu__btn">
+        <a class="menu__link" href="/board/anonymous-board.html">
+          <div class="menu__link__explain">
+            <!-- <span><i class="fa-solid fa-clipboard-question fa-lg"></i></span> -->
+            <span>📝 익명 게시판</span>
+          </div>
+        </a>
+      </li>
+
+      <li class="menu__btn">
+        <a class="menu__link" href="/chat/chat.html">
+          <div class="menu__link__explain">
+            <!-- <span><i class="fa-solid fa-comment fa-lg"></i></span> -->
+            <span>✉️ 메시지</span>
+          </div>
+        </a>
+      </li>
+
+      <li class="menu__btn">
+        <a class="menu__link" href="/matching/matching-request.html">
+          <div class="menu__link__explain">
+            <!-- <span><i class="fa-solid fa-gamepad"></i></span> -->
+            <span>🎮 매칭</span>
+          </div>
+        </a>
+      </li>
+
+      <li class="menu__btn" style="background-color: #b1bce66c;">
+        <a class="menu__link" href="/profile/my-profile.html">
+          <div class="menu__link__explain">
+            <!-- <i class="fa-solid fa-user fa-lg"></i> -->
+            <span>🙇🏻‍♀️ 프로필</span>
+          </div>
+        </a>
+      </li>
+    </div>
+  </nav>
+
+  <script src="https://kit.fontawesome.com/0f7e35127c.js" crossorigin="anonymous"></script>
+
+  <div class="container">
+    <div class="row" id="profile-outer-box">
+      <div class="col-md-5  toppad  pull-right col-md-offset-3 ">
+        <A href="edit-profile.html" style="margin-left: 7px; color: #9A86A4;">프로필 수정</A>
+
+        <A href="edit.html" style="color: #9A86A4; margin-left: 10px;">로그아웃</A>
 
         <li class="menu__btn" style="background-color: #b1bce66c">
           <a class="menu__link" href="/templates/profile/my-profile.html">
@@ -296,14 +329,22 @@
                       <td>${this.id}</td>
                       <td>${this.nickname}</td>
                       <td>${this.contents}</td>
-                    </tr>`;
-          $("#boards-box-contents").append(temp);
-        });
-      },
-    });
+                    </tr>`
+          $("#users-box-contents").append(temp);
+        })
+      }
+    })
   }
 
-  function showMatch() {}
+  function showMatch() {
+
+    $(`#users-box-contents`).empty();
+    const box = document.getElementById("pfbox");
+    box.style.display = "flex";
+
+    
+
+  }
 
   function showApply() {
     $(`#users-box-contents`).empty();

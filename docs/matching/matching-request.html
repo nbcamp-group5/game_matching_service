@@ -100,122 +100,113 @@ window.onload = function () {
     <title>매칭 신청</title>
     <link rel="stylesheet" href="../menu.css" />
     <link rel="stylesheet" href="matching-request.css" />
-  
-  <style>
-  
-footer{
-    width: 700px;
-    margin-top: 100px;
-    background: #B7E5DD;
-    padding: 60px 120px 80px 120px;
-    box-shadow: 2px 2px 3px rgba(0,0,0,0.1);
-    margin-left: 400px;
-  }
-a{
-color: white;
-text-decoration-line: none;
-}
-
-
-</style>
 
 </head>
   <body>
-    <nav class="menu">
-      <div>
-        <h1>ㅈㄱ</h1>
-        <h1>ㅃㄱ</h1>
-      </div>
-      <ul class="menu__list">
-        <li class="menu__btn">
-          <a class="menu__link" href="#">
-            <div class="menu__link__explain">
-              <span><i class="fa-solid fa-clipboard-user fa-lg"></i></span>
-              <span>일반</span>
-            </div>
-          </a>
-        </li>
-
-        <li class="menu__btn">
-          <a class="menu__link" href="#">
-            <div class="menu__link__explain">
-              <span><i class="fa-solid fa-clipboard-question fa-lg"></i></span>
-              <span>익명</span>
-            </div>
-          </a>
-        </li>
-
-        <li class="menu__btn">
-          <a class="menu__link" href="#">
-            <div class="menu__link__explain">
-              <span><i class="fa-solid fa-comment fa-lg"></i></span>
-              <span>메시지</span>
-            </div>
-          </a>
-        </li>
-
-        <li class="menu__btn">
-          <a class="menu__link" href="#">
-            <div class="menu__link__explain">
-              <span><i class="fa-solid fa-gamepad"></i></span>
-              <span>매칭</span>
-            </div>
-          </a>
-        </li>
-
-        <li class="menu__btn">
-          <a class="menu__link" href="#">
-            <div class="menu__link__explain">
-              <span><i class="fa-solid fa-user fa-lg"></i></span>
-              <span>프로필</span>
-            </div>
-          </a>
-        </li>
-      </ul>
+    <nav class="navbar navbar-light bg-white" style="z-index: 1; justify-content: flex-start;">
+      <img href="#" class="" src="../images/nav/logo.png" />
     </nav>
-<footer name = "box">
-        <p class="txt" name ="name" style="margin-top:180px"> 디스코드 아이디</p>
-        <input type="text" id="discordId" style=" width:130px;" >
-        <p class="txt" style=" margin-right: 200px; margin-top: 10px;"> 디스코드 숫자</p>
-        <input type="text" id="discordNum" style=" width:130px;" >
+    
+    
+    <nav class="menu">
+      <div class="menu__list">
+        <li class="menu__btn">
+          <a class="menu__link" href="/board/board.html">
+            <div class="menu__link__explain">
+              <!-- <span><i class="fa-solid fa-clipboard-user fa-lg"></i></span> -->
+              <span>📝 일반 게시판</span>
+            </div>
+          </a>
+        </li>
+    
+        <li class="menu__btn">
+          <a class="menu__link" href="/board/anonymous-board.html">
+            <div class="menu__link__explain">
+              <!-- <span><i class="fa-solid fa-clipboard-question fa-lg"></i></span> -->
+              <span>📝 익명 게시판</span>
+            </div>
+          </a>
+        </li>
+    
+        <li class="menu__btn">
+          <a class="menu__link" href="/chat/chat.html">
+            <div class="menu__link__explain">
+              <!-- <span><i class="fa-solid fa-comment fa-lg"></i></span> -->
+              <span>✉️ 메시지</span>
+            </div>
+          </a>
+        </li>
+    
+        <li class="menu__btn" style="background-color: #b1bce66c;">
+          <a class="menu__link" href="/matching/matching-request.html">
+            <div class="menu__link__explain">
+              <!-- <span><i class="fa-solid fa-gamepad"></i></span> -->
+              <span>🎮 매칭</span>
+            </div>
+          </a>
+        </li>
+    
+        <li class="menu__btn">
+          <a class="menu__link" href="/profile/my-profile.html">
+            <div class="menu__link__explain">
+              <!-- <i class="fa-solid fa-user fa-lg"></i> -->
+              <span>🙇🏻‍♀️ 프로필</span>
+            </div>
+          </a>
+        </li>
       </div>
-      <label>
-        <p class="label-txt">게임 선택</p>
-      </label>
-      <div class="form-group select-box">
-        <select
-          class="form-control select-box__select"
-          id="gameSelect"
-        >
-          <option>LOL</option>
-          <option>STAR</option>
-        </select>
-      </div>
+    </nav>
 
-      <label>
-        <p class="label-txt">인원 선택</p>
-      </label>
-      <div class="form-group select-box">
-        <select
-          class="form-control select-box__select"
-          id="memberNumbers">
-          <option>2</option>
-          <option>5</option>
-        </select>
-      </div>
+    <div class="container-fluid gedf-wrapper" id="container" style="margin-top: 20px;">
+      <div class="row">
+        <div class="col-md-3" style="z-index: -1"></div>
+    
+        <div class="col-md-6 gedf-main">
+          <!--- \\\\\\\입력-->
+          <div class="card gedf-card" style="
+                      border-radius: 20px;
+                      margin-top: 30px;
+                      margin-bottom: 25px;
+                      border: none;
+                      display: flex;
+                      align-items: center;
+                    ">
+            <div class="discord-box">
+                <span class="txt" name="name"> 디스코드 아이디 </span>
+                <input type="text" id="discordId">
 
-      <label>
-        <p class="label-txt">게임 모드</p>
-      </label>
-      <div class="form-group select-box">
-        <select
-          class="form-control select-box__select"
-          id="gameMode">
-          <option>즐겜</option>
-          <option>빡겜</option>
-        </select>
+                <span class="txt"> 디스코드 숫자 </span>
+                  <input type="text" id="discordNum">
+
+                <span class="txt">게임 선택</span>
+                <div class="form-group select-box sbox">
+                  <select class="form-control select-box__select" id="gameSelect">
+                    <option>LOL</option>
+                    <option>STAR</option>
+                  </select>
+                </div>
+                <span class="txt">인원 선택</span>
+                <div class="form-group select-box sbox">
+                  <select class="form-control select-box__select" id="memberNumbers">
+                    <option>2</option>
+                    <option>5</option>
+                  </select>
+                </div>
+                <span class="txt">게임 모드</span>
+                <div class="form-group select-box sbox">
+                  <select class="form-control select-box__select" id="gameMode">
+                    <option>즐겜</option>
+                    <option>빡겜</option>
+                  </select>
+                </div>
+                <button class="mbtn" onclick="matching()">매칭하기</button>
+                </div>
+            </div>
+          </div>   
+        </div>
       </div>
-      <button onclick="matching()">매칭하기</button>
+    </div>
+
 
       <div id="popup_content_wrap">
         <div id="popup_content">
@@ -227,7 +218,7 @@ text-decoration-line: none;
             </h1>
             <input
             id="matchingcancel"
-              type="submit" name="cancel" value="취소하기" class="btn btn-primary"
+              type="submit" name="cancel" value="취소하기" class="cancelbtn btn btn-primary"
               onClick="popup_content('hide')">
           </center>
         </div>

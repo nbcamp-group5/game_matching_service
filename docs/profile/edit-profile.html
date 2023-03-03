@@ -8,6 +8,12 @@
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+      integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     
     
     <script>
@@ -154,58 +160,58 @@
   </head>
 
   <body>
+
+    <nav class="navbar navbar-light bg-white" style="z-index: 1; justify-content: flex-start;">
+      <img href="#" class="" src="../images/nav/logo.png" />
+    </nav>
+
     <nav class="menu">
-      <div>
-        <h1>ㅈㄱ</h1>
-        <h1>ㅃㄱ</h1>
+      <div class="menu__list">
+        <li class="menu__btn">
+          <a class="menu__link" href="/board/board.html">
+            <div class="menu__link__explain">
+              <!-- <span><i class="fa-solid fa-clipboard-user fa-lg"></i></span> -->
+              <span>📝 일반 게시판</span>
+            </div>
+          </a>
+        </li>
+    
+        <li class="menu__btn">
+          <a class="menu__link" href="/board/anonymous-board.html">
+            <div class="menu__link__explain">
+              <!-- <span><i class="fa-solid fa-clipboard-question fa-lg"></i></span> -->
+              <span>📝 익명 게시판</span>
+            </div>
+          </a>
+        </li>
+    
+        <li class="menu__btn">
+          <a class="menu__link" href="/chat/chat.html">
+            <div class="menu__link__explain">
+              <!-- <span><i class="fa-solid fa-comment fa-lg"></i></span> -->
+              <span>✉️ 메시지</span>
+            </div>
+          </a>
+        </li>
+    
+        <li class="menu__btn">
+          <a class="menu__link" href="#">
+            <div class="menu__link__explain">
+              <!-- <span><i class="fa-solid fa-gamepad"></i></span> -->
+              <span>🎮 매칭</span>
+            </div>
+          </a>
+        </li>
+    
+        <li class="menu__btn" style="background-color: #b1bce66c;">
+          <a class="menu__link" href="/profile/my-profile.html">
+            <div class="menu__link__explain">
+              <!-- <i class="fa-solid fa-user fa-lg"></i> -->
+              <span>🙇🏻‍♀️ 프로필</span>
+            </div>
+          </a>
+        </li>
       </div>
-
-      <ul class="menu__list">
-        <li class="menu__btn">
-          <a class="menu__link" href="#">
-            <div class="menu__link__explain">
-              <span><i class="fa-solid fa-clipboard-user fa-lg"></i></span>
-              <span>일반</span>
-            </div>
-          </a>
-        </li>
-
-        <li class="menu__btn">
-          <a class="menu__link" href="#">
-            <div class="menu__link__explain">
-              <span><i class="fa-solid fa-clipboard-question fa-lg"></i></span>
-              <span>익명</span>
-            </div>
-          </a>
-        </li>
-
-        <li class="menu__btn">
-          <a class="menu__link" href="#">
-            <div class="menu__link__explain">
-              <span><i class="fa-solid fa-comment fa-lg"></i></span>
-              <span>메시지</span>
-            </div>
-          </a>
-        </li>
-
-        <li class="menu__btn">
-          <a class="menu__link" href="#">
-            <div class="menu__link__explain">
-              <span><i class="fa-solid fa-gamepad"></i></span>
-              <span>매칭</span>
-            </div>
-          </a>
-        </li>
-
-        <li class="menu__btn">
-          <a class="menu__link" href="#">
-            <div class="menu__link__explain">
-              <span><i class="fa-solid fa-user fa-lg"></i></span>
-              <span>프로필</span>
-            </div>
-          </a>
-        </li>
-      </ul>
     </nav>
 
     <script
