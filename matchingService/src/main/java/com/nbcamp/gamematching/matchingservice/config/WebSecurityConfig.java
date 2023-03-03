@@ -4,7 +4,10 @@ package com.nbcamp.gamematching.matchingservice.config;
 import com.nbcamp.gamematching.matchingservice.jwt.JwtAuthFilter;
 import com.nbcamp.gamematching.matchingservice.jwt.JwtUtil;
 import lombok.RequiredArgsConstructor;
+import org.apache.catalina.Context;
+import org.apache.tomcat.util.scan.StandardJarScanner;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
+import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -71,4 +74,5 @@ public class WebSecurityConfig implements WebMvcConfigurer {
                 .exposedHeaders("*")
                 .allowCredentials(false);
     }
+
 }

@@ -64,9 +64,7 @@ dependencies {
     implementation "net.dv8tion:JDA:4.3.0_277"
     implementation 'org.javacord:javacord:3.7.0'
 
-    implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
     implementation group: 'javax.servlet', name: 'jstl', version: '1.2'
-
 
     //postgre
     runtimeOnly 'org.postgresql:postgresql'
@@ -109,4 +107,14 @@ sourceSets {
 // gradle clean 시에 QClass 디렉토리 삭제
 clean {
     delete file(generated)
+}
+
+bootJar {
+    jar.enabled = true
+}
+
+jar {
+    manifest { // 빌드시 Main-Class 설정
+        attributes 'Main-Class': 'com.nbcamp.gamematching.matchingservice.MatchingServiceApplication'
+    }
 }
