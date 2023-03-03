@@ -38,7 +38,7 @@ jobs:
       working-directory: ${{ env.working-directory }}
       
     - name: clean
-      run : ./clean
+      run : ./gradle clean build
       working-directory: ${{ env.working-directory }}
       
     - name: Build with Gradle
