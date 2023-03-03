@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -46,7 +47,7 @@ public class MatchingServiceImpl implements MatchingService {
             var topicNameSelector
                     = redisService.findByFirstJoinUserByRedis(request.getKey(), RequestMatching.class);
             topicName = topicNameSelector.getMemberEmail();
-            return new ResponseUrlInfo(request,topicName);
+            return  new ResponseUrlInfo(request,topicName);
         }
 
         //매칭 정원이 찻을 경우
@@ -79,7 +80,7 @@ public class MatchingServiceImpl implements MatchingService {
             resultMatchingRepository.save(resultMatching);
             MatchingLog matchingLog = new MatchingLog(resultMatching, resultMember);
             matchingLogRepository.save(matchingLog);
-            matchingLog.setMember(resultMember); // 연관관계 편의 메소드때문에 필요해요!
+            matchingLog.setMember(resultMember); // 연관관계 편의 메소드때문에 필요해요! 기존 로직을 건드리진 않습니다!
 
         }
         return ResponseUrlInfo.builder()
@@ -102,7 +103,6 @@ public class MatchingServiceImpl implements MatchingService {
         return resultMatchingRepository.findById(matchingId)
                 .orElseThrow(NotFoundMatchingException::new);
     }
-
 
 }
 

@@ -149,7 +149,7 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public ResponseEntity<String> changeMyProfile(Member member, UpdateProfileRequest request,
-            MultipartFile image) throws IOException {
+            MultipartFile image) {
         Member findMember = memberRepository.findById(member.getId())
                 .orElseThrow(NotFoundMemberException::new);
         Profile findMemberProfile = findMember.getProfile();

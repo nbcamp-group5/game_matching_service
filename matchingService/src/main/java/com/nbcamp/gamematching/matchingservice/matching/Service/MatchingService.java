@@ -9,10 +9,11 @@ import com.nbcamp.gamematching.matchingservice.matching.entity.ResultMatching;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
 
+
 public interface MatchingService {
 
     ResponseUrlInfo matchingJoin(RequestMatching requestMatching,
-                                 HttpServletRequest servletRequest) throws JsonProcessingException;
+                                                 HttpServletRequest servletRequest) throws JsonProcessingException;
 
 
     List<NicknameDto> findMatchingMembers(Long matchingId, Long memberId);
