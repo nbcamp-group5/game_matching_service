@@ -38,12 +38,12 @@ jobs:
     - name: make application.yml
       run:
           pwd
-          mkdir ././src/main/resources 
-          touch ././src/main/resources/application.yml
+          mkdir ./matchingService/src/main/resources 
+          touch ./matchingService/src/main/resources/application.yml
       shell: bash
         
     - name: deliver application.yml
-      run: echo "${{ secrets.SECRETS_PROPERTIES }}" > ././src/main/resources/application.yml
+      run: echo "${{ secrets.SECRETS_PROPERTIES }}" > ./matchingService/src/main/resources/application.yml
       shell: bash
         
     - name: Grant execute permission for gradlew
