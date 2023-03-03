@@ -374,7 +374,6 @@
     $.ajax(settings).done(function (response, status, xhr) {
       localStorage.setItem('Authorization', xhr.getResponseHeader('Authorization'));
       location.href = "board/board.html";
-      alert("dddd");
     })
       .fail(function (response) {
         console.log(response);
