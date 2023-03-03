@@ -52,7 +52,7 @@ public class Profile {
     }
 
     public void changeProfile(UpdateProfileRequest profileRequest, String imageDir) {
-        if (!imageDir.isEmpty()) {
+        if (!imageDir.equals("")) {
             this.profileImage = imageDir;
         }
         if (!profileRequest.getNickname().isEmpty()) {

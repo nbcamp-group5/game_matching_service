@@ -35,7 +35,7 @@
                                   <div class="row">
                                     <div id="panel-body__img-box">
                                       <label class=newbtn>
-                                        <img id="blah" src="http://placehold.it/120x120" >
+                                        <img id="blah" src="https://game-matching.s3.ap-northeast-2.amazonaws.com/${imageUrl}" >
                                         <input id="image" class='pis' onchange="readURL(this);" type="file" name="file" >
                                     </label>
                                     </div>
@@ -52,12 +52,27 @@
                                             </tr>
                                             <tr>
                                                 <td>티어:</td>
-                                                <td><input id="tier" class="form-control" type="text" name="tier" value="${tier}"/></td>
+                                                <td>
+                                                  <select class="form-control" id="tier">
+                                                      <option value="BRONZE" selected>BRONZE</option>
+                                                      <option value="SILVER">SILVER</option>
+                                                      <option value="GOLD">GOLD</option>
+                                                      <option value="PLATINUM">PLATINUM</option>
+                                                      <option value="DIAMOND">DIAMOND</option>
+                                                      <option value="MASTER">MASTER</option>
+                                                      <option value="CHALLENGE">CHALLENGE</option>
+                                                    </select>
+                                                </td>
                                             </tr>
                                         
                                             <tr>
                                                 <td>관심 게임:</td>
-                                                <td><input id="game" class="form-control" type="text" name="game" value="${game}"/></td>
+                                                <td>
+                                                  <select class="form-control" id="game">
+                                                      <option value="LOL" selected>LOL</option>
+                                                      <option value="STAR">STAR</option>
+                                                    </select>
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Email:</td>

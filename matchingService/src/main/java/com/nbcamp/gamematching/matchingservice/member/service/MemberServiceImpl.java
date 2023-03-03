@@ -154,9 +154,15 @@ public class MemberServiceImpl implements MemberService {
                 .orElseThrow(NotFoundMemberException::new);
         Profile findMemberProfile = findMember.getProfile();
 
-        FileDetail fileDetail = fileUploadService.save(image);
+        if (image != null) {
+            FileDetail fileDetail = fileUploadService.save(image);
+            findMemberProfile.changeProfile(request, fileDetail.getPath());
+        } else {
+            findMemberProfile.changeProfile(request, "");
+        }
 
-        findMemberProfile.changeProfile(request, fileDetail.getPath());
+
+
         return new ResponseEntity<>("프로필이 변경되었습니다.", HttpStatus.OK);
     }
 
