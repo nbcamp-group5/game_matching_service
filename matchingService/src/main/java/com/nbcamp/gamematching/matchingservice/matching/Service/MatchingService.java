@@ -1,11 +1,14 @@
 package com.nbcamp.gamematching.matchingservice.matching.Service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.nbcamp.gamematching.matchingservice.matching.dto.NicknameDto;
 import com.nbcamp.gamematching.matchingservice.matching.dto.ResponseUrlInfo;
 import com.nbcamp.gamematching.matchingservice.matching.dto.RequestMatching;
 
+import com.nbcamp.gamematching.matchingservice.matching.entity.ResultMatching;
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.http.ResponseEntity;
+import java.util.List;
+
 
 public interface MatchingService {
 
@@ -13,4 +16,7 @@ public interface MatchingService {
                                                  HttpServletRequest servletRequest) throws JsonProcessingException;
 
 
+    List<NicknameDto> findMatchingMembers(Long matchingId, Long memberId);
+
+    ResultMatching findResultMatchingById(Long matchingId);
 }

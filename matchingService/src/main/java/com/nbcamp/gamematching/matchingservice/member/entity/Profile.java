@@ -35,7 +35,7 @@ public class Profile {
 
     @Builder
     public Profile(String nickname, String profileImage, Tier tier, GameType game) {
-        if (Pattern.matches("\\w{2,8}", nickname)) {
+        if (Pattern.matches(".*[ㄱ-ㅎㅏ-ㅣ가-힣|a-z|A-Z|]{3,20}.*", nickname)) {
             this.nickname = nickname;
         } else {
             throw new InvalidNickname();
@@ -52,7 +52,7 @@ public class Profile {
     }
 
     public void changeProfile(UpdateProfileRequest profileRequest, String imageDir) {
-        if (!imageDir.isEmpty()) {
+        if (!imageDir.equals("")) {
             this.profileImage = imageDir;
         }
         if (!profileRequest.getNickname().isEmpty()) {

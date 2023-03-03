@@ -1,7 +1,11 @@
 package com.nbcamp.gamematching.matchingservice.member.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.nbcamp.gamematching.matchingservice.matching.dto.NicknameDto;
+import com.nbcamp.gamematching.matchingservice.matching.entity.MatchingLog;
 import com.nbcamp.gamematching.matchingservice.member.dto.BoardPageDto;
 import com.nbcamp.gamematching.matchingservice.member.dto.BuddyRequestDto;
+import com.nbcamp.gamematching.matchingservice.member.dto.EvaluationOneMember;
 import com.nbcamp.gamematching.matchingservice.member.dto.EvaluationRequest;
 import com.nbcamp.gamematching.matchingservice.member.dto.MatchingLog2Dto;
 import com.nbcamp.gamematching.matchingservice.member.dto.MatchingLog5Dto;
@@ -40,7 +44,7 @@ public interface MemberService {
 
     Member responseMemberByMemberEmail(String memberEmail);
 
-    ResponseEntity<String> changeMannerPoints(EvaluationRequest request, Long memberId);
+
 
     ResponseEntity<String> deleteMyBuddy(Long memberId, Long buddyId);
 
@@ -49,4 +53,8 @@ public interface MemberService {
     void deleteByAdmin(Long memberId);
 
     ResponseEntity<String> changeRole(Long id, String adminId);
+
+    List<NicknameDto> findNicknamesInMatching(List<MatchingLog> matchingLogs, Long memberId);
+
+
 }

@@ -53,6 +53,7 @@ dependencies {
 
     //Json <-> 객체
     implementation 'com.google.code.gson:gson:2.8.0'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.3'
 
     //Redis
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
