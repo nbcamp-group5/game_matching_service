@@ -3,6 +3,7 @@ package com.nbcamp.gamematching.matchingservice.comment.entity;
 import com.nbcamp.gamematching.matchingservice.board.entity.AnonymousBoard;
 import com.nbcamp.gamematching.matchingservice.comment.dto.UpdateCommentRequest;
 import com.nbcamp.gamematching.matchingservice.common.entity.BaseEntity;
+import com.nbcamp.gamematching.matchingservice.exception.NotFoundException;
 import com.nbcamp.gamematching.matchingservice.member.entity.Member;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -22,6 +23,7 @@ public class AnonymousComment extends BaseEntity {
     @Column(name = "comment_id")
     private Long id;
 
+    @Column(name = "anonymous_nickname")
     private String nickname;
 
     @Column(nullable = false)
@@ -48,7 +50,7 @@ public class AnonymousComment extends BaseEntity {
     }
 
     public void checkUser(AnonymousComment comment, Member member) {
-        if (!comment.getMember().getEmail().equals(member.getEmail())) throw new IllegalArgumentException("유저 불일치");
+        if (!comment.getMember().getEmail().equals(member.getEmail())) throw new NotFoundException.NotFoundMemberException();
     }
     public static String nNick() {
         List<String> nick = Arrays.asList("기분나쁜", "기분좋은", "신바람나는", "상쾌한", "짜릿한", "그리운", "자유로운", "서운한", "울적한", "비참한", "위축되는", "긴장되는", "두려운", "당당한", "배부른", "수줍은", "창피한", "멋있는",

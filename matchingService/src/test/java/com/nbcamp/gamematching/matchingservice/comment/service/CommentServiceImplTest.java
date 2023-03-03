@@ -4,7 +4,6 @@ import com.nbcamp.gamematching.matchingservice.board.entity.AnonymousBoard;
 import com.nbcamp.gamematching.matchingservice.board.entity.Board;
 import com.nbcamp.gamematching.matchingservice.board.repository.AnonymousBoardRepository;
 import com.nbcamp.gamematching.matchingservice.board.repository.BoardRepository;
-import com.nbcamp.gamematching.matchingservice.board.service.BoardService;
 import com.nbcamp.gamematching.matchingservice.comment.dto.CreateCommentRequest;
 import com.nbcamp.gamematching.matchingservice.comment.dto.UpdateCommentRequest;
 import com.nbcamp.gamematching.matchingservice.comment.entity.AnonymousComment;
@@ -30,12 +29,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 @Transactional
-class CommentServiceTest {
+class CommentServiceImplTest {
+
 
     @Autowired
-    private BoardService boardService;
-    @Autowired
-    private CommentService commentService;
+    private CommentServiceImpl commentServiceImpl;
     @Autowired
     private BoardRepository boardRepository;
     @Autowired
@@ -49,16 +47,16 @@ class CommentServiceTest {
 
     @BeforeEach
     public void beforeEach() throws IOException {
-        Member member = new Member("dddd1@ddd.com", "123456789", new Profile("www11", "sdadad.jpg", Tier.BRONZE, GameType.LOL), MemberRoleEnum.USER);
+        Member member = new Member("dddd1@ddd.com", "123456789", new Profile("www11", "sdadad.jpg", Tier.BRONZE, GameType.LOL), MemberRoleEnum.USER,null,null);
         memberRepository.save(member);
-        Member member1 = new Member("dddd2@ddd.com", "123456789", new Profile("www12", "sdadad2.jpg", Tier.BRONZE, GameType.LOL), MemberRoleEnum.USER);
+        Member member1 = new Member("dddd2@ddd.com", "123456789", new Profile("www12", "sdadad2.jpg", Tier.BRONZE, GameType.LOL), MemberRoleEnum.USER,null,null);
         memberRepository.save(member1);
 
-        Board board = new Board(member.getProfile().getNickname(),"ddddd.jpg","안녕하세요",member);
+        Board board = new Board("ddddd.jpg","안녕하세요",member);
 
         boardRepository.save(board);
 
-        AnonymousBoard anonymousBoard = new AnonymousBoard(AnonymousBoard.nNick(),"aaaa.jpg","익명이다",member);
+        AnonymousBoard anonymousBoard = new AnonymousBoard("aaaa.jpg","익명이다",member);
         anonymousBoardRepository.save(anonymousBoard);
     }
 
@@ -69,7 +67,7 @@ class CommentServiceTest {
 
         CreateCommentRequest createCommentRequest = new CreateCommentRequest("안녕");
 
-        commentService.createComment(1L,createCommentRequest.getContent(),findMember);
+        commentServiceImpl.createComment(1L,createCommentRequest.getContent(),findMember);
 
         Comment comment = commentRepository.findById(1L).orElseThrow(()-> new IllegalArgumentException(""));
 
@@ -87,7 +85,7 @@ class CommentServiceTest {
 
         CreateCommentRequest createCommentRequest = new CreateCommentRequest("익명 안녕");
 
-        commentService.createAnonymousComment(1L,createCommentRequest.getContent(),findMember);
+        commentServiceImpl.createAnonymousComment(1L,createCommentRequest.getContent(),findMember);
 
         AnonymousComment comment = anonymousCommentRepository.findById(1L).orElseThrow(()-> new IllegalArgumentException(""));
 
@@ -109,11 +107,11 @@ class CommentServiceTest {
 
         CreateCommentRequest createCommentRequest = new CreateCommentRequest("안녕");
 
-        commentService.createComment(1L,createCommentRequest.getContent(),findMember);
+        commentServiceImpl.createComment(1L,createCommentRequest.getContent(),findMember);
 
         UpdateCommentRequest updateCommentRequest = new UpdateCommentRequest("잘가");
 
-        commentService.updateComment(1L,updateCommentRequest,findMember);
+        commentServiceImpl.updateComment(1L,updateCommentRequest,findMember);
 
         Comment comment = commentRepository.findById(1L).orElseThrow(()-> new IllegalArgumentException(""));
 
@@ -129,11 +127,11 @@ class CommentServiceTest {
 
         CreateCommentRequest createCommentRequest = new CreateCommentRequest("안녕");
 
-        commentService.createAnonymousComment(1L,createCommentRequest.getContent(),findMember);
+        commentServiceImpl.createAnonymousComment(1L,createCommentRequest.getContent(),findMember);
 
         UpdateCommentRequest updateCommentRequest = new UpdateCommentRequest("익명 잘가");
 
-        commentService.updateAnonymousComment(1L,updateCommentRequest,findMember);
+        commentServiceImpl.updateAnonymousComment(1L,updateCommentRequest,findMember);
 
         AnonymousComment comment = anonymousCommentRepository.findById(1L).orElseThrow(()-> new IllegalArgumentException(""));
 
@@ -149,9 +147,9 @@ class CommentServiceTest {
 
         CreateCommentRequest createCommentRequest = new CreateCommentRequest("안녕");
 
-        commentService.createComment(1L,createCommentRequest.getContent(),findMember);
+        commentServiceImpl.createComment(1L,createCommentRequest.getContent(),findMember);
 
-        commentService.deleteComment(1L,findMember);
+        commentServiceImpl.deleteComment(1L,findMember);
 
         Comment comment = commentRepository.findById(1L).orElseThrow(()-> new IllegalArgumentException("게시글을 찾을 수 없습니다."));
 
@@ -165,9 +163,9 @@ class CommentServiceTest {
 
         CreateCommentRequest createCommentRequest = new CreateCommentRequest("익명 안녕");
 
-        commentService.createAnonymousComment(1L,createCommentRequest.getContent(),findMember);
+        commentServiceImpl.createAnonymousComment(1L,createCommentRequest.getContent(),findMember);
 
-        commentService.deleteAnonymousComment(1L,findMember);
+        commentServiceImpl.deleteAnonymousComment(1L,findMember);
 
         AnonymousComment comment = anonymousCommentRepository.findById(1L).orElseThrow(()-> new IllegalArgumentException("게시글을 찾을 수 없습니다."));
 

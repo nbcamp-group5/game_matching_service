@@ -1,11 +1,9 @@
 package com.nbcamp.gamematching.matchingservice.board.dto;
 
 import com.nbcamp.gamematching.matchingservice.board.entity.Board;
-import com.nbcamp.gamematching.matchingservice.comment.dto.CommentResponse;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Getter
 public class BoardResponse {
@@ -15,19 +13,17 @@ public class BoardResponse {
     private final String memberImage;
     private final String boardImage;
     private final String content;
-    private List<CommentResponse> comments;
     private Long likeCount;
     private final LocalDateTime createAt;
     private final LocalDateTime modifiedAt;
 
 
-    public BoardResponse(Board board, List<CommentResponse> comments, Long likeCount) {
+    public BoardResponse(Board board,Long likeCount) {
         this.id = board.getId();
         this.nickname = board.getMember().getProfile().getNickname();
         this.memberImage = board.getMember().getProfile().getProfileImage();
         this.boardImage = board.getBoardImage();
         this.content = board.getContent();
-        this.comments = comments;
         this.likeCount = likeCount;
         this.createAt = board.getCreatedAt();
         this.modifiedAt = board.getModifiedAt();

@@ -6,9 +6,7 @@ import com.nbcamp.gamematching.matchingservice.board.dto.UpdateBoardRequest;
 import com.nbcamp.gamematching.matchingservice.board.entity.Board;
 import com.nbcamp.gamematching.matchingservice.board.repository.BoardRepository;
 import com.nbcamp.gamematching.matchingservice.comment.dto.CreateCommentRequest;
-import com.nbcamp.gamematching.matchingservice.comment.repository.CommentRepository;
-import com.nbcamp.gamematching.matchingservice.comment.service.CommentService;
-import com.nbcamp.gamematching.matchingservice.like.repository.LikeRepository;
+import com.nbcamp.gamematching.matchingservice.comment.service.CommentServiceImpl;
 import com.nbcamp.gamematching.matchingservice.member.domain.GameType;
 import com.nbcamp.gamematching.matchingservice.member.domain.MemberRoleEnum;
 import com.nbcamp.gamematching.matchingservice.member.domain.Tier;
@@ -30,34 +28,29 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 @Transactional
-class BoardServiceTest {
+class BoardServiceImplTest {
 
     @Autowired
-    private BoardService boardService;
+    private BoardServiceImpl boardServiceImpl;
 
     @Autowired
-    private CommentService commentService;
+    private CommentServiceImpl commentServiceImpl;
 
     @Autowired
     private BoardRepository boardRepository;
 
 
     @Autowired
-    private CommentRepository commentRepository;
-
-    @Autowired
     private MemberRepository memberRepository;
 
-    @Autowired
-   private LikeRepository likeRepository;
 
     public static MockMultipartFile multipartFile = new MockMultipartFile("file", "test.txt", "text/plain", "Spring Framework".getBytes());
 
     @BeforeEach
     public void beforeEach() throws IOException {
-        Member member = new Member("dddd1@ddd.com", "123456789", new Profile("www11", "sdadad.jpg", Tier.BRONZE, GameType.LOL), MemberRoleEnum.USER);
+        Member member = new Member("dddd1@ddd.com", "123456789", new Profile("www11", "sdadad.jpg", Tier.BRONZE, GameType.LOL), MemberRoleEnum.USER,null,null);
         memberRepository.save(member);
-        Member member1 = new Member("dddd2@ddd.com", "123456789", new Profile("www12", "sdadad2.jpg", Tier.BRONZE, GameType.LOL), MemberRoleEnum.USER);
+        Member member1 = new Member("dddd2@ddd.com", "123456789", new Profile("www12", "sdadad2.jpg", Tier.BRONZE, GameType.LOL), MemberRoleEnum.USER,null,null);
         memberRepository.save(member1);
 
     }
@@ -71,8 +64,8 @@ class BoardServiceTest {
 
         CreateBoardRequest createBoardRequest = new CreateBoardRequest("안녕");
 
-        boardService.createBoard(createBoardRequest,findMember,multipartFile);
-        boardService.createBoard(createBoardRequest,findMember1,multipartFile);
+        boardServiceImpl.createBoard(createBoardRequest,findMember,multipartFile);
+        boardServiceImpl.createBoard(createBoardRequest,findMember1,multipartFile);
 
         Board board = boardRepository.findById(1L).orElseThrow(()-> new IllegalArgumentException(""));
         Board board1 = boardRepository.findById(2L).orElseThrow(()-> new IllegalArgumentException(""));
@@ -89,15 +82,15 @@ class BoardServiceTest {
         Member findMember = memberRepository.findById(3L).orElseThrow();
 
 
-        Board boards = new Board(findMember.getProfile().getNickname(),"ddddd.jpg","안녕하세요",findMember);
+        Board boards = new Board("ddddd.jpg","안녕하세요",findMember);
 
         boardRepository.save(boards);
 
         CreateCommentRequest createCommentRequest = new CreateCommentRequest("안녕");
 
-        commentService.createComment(1L,createCommentRequest.getContent(),findMember);
+        commentServiceImpl.createComment(1L,createCommentRequest.getContent(),findMember);
 
-        List<BoardResponse> boardList = boardService.getBoardList();
+        List<BoardResponse> boardList = boardServiceImpl.getBoardList();
 
         assertEquals(0,boardList.get(0).getLikeCount());
         assertEquals("안녕하세요",boardList.get(0).getContent());
@@ -111,7 +104,7 @@ class BoardServiceTest {
 
         UpdateBoardRequest updateBoardRequest = new UpdateBoardRequest("잘가");
 
-        boardService.updateBoard(1L,updateBoardRequest,findMember, multipartFile);
+        boardServiceImpl.updateBoard(1L,updateBoardRequest,findMember, multipartFile);
 
         Board board = boardRepository.findById(1L).orElseThrow();
 
@@ -128,9 +121,9 @@ class BoardServiceTest {
 
         MockMultipartFile multipartFile = new MockMultipartFile("file", "test.txt", "text/plain", "Spring Framework".getBytes());
 
-        boardService.createBoard(createBoardRequest,findMember,multipartFile);
+        boardServiceImpl.createBoard(createBoardRequest,findMember,multipartFile);
 
-        boardService.deleteBoard(1L,findMember);
+        boardServiceImpl.deleteBoard(1L,findMember);
 
         Board board = boardRepository.findById(1L).orElseThrow(()-> new IllegalArgumentException("게시글을 찾을 수 없습니다."));
 

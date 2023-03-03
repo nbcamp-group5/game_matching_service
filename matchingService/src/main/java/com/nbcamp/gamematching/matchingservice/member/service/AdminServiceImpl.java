@@ -2,25 +2,26 @@ package com.nbcamp.gamematching.matchingservice.member.service;
 
 import com.nbcamp.gamematching.matchingservice.board.dto.AnonymousBoardAdminDto;
 import com.nbcamp.gamematching.matchingservice.board.dto.BoardAdminDto;
-import com.nbcamp.gamematching.matchingservice.board.service.AnonymousBoardService;
-import com.nbcamp.gamematching.matchingservice.board.service.BoardService;
+import com.nbcamp.gamematching.matchingservice.board.service.AnonymousBoardServiceImpl;
+import com.nbcamp.gamematching.matchingservice.board.service.BoardServiceImpl;
 import com.nbcamp.gamematching.matchingservice.comment.dto.CommentResponse;
-import com.nbcamp.gamematching.matchingservice.comment.service.CommentService;
+import com.nbcamp.gamematching.matchingservice.comment.service.CommentServiceImpl;
 import com.nbcamp.gamematching.matchingservice.member.dto.MemberAdminDto;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class AdminServiceImpl implements AdminService {
 
     private final MemberService memberService;
-    private final BoardService boardService;
-    private final AnonymousBoardService anonymousBoardService;
-    private final CommentService commentService;
+    private final BoardServiceImpl boardService;
+    private final AnonymousBoardServiceImpl anonymousBoardService;
+    private final CommentServiceImpl commentService;
 
     @Override
     public List<MemberAdminDto> getAllMembers(Integer page) {

@@ -1,8 +1,6 @@
 package com.nbcamp.gamematching.matchingservice.member.service;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import com.nbcamp.gamematching.matchingservice.board.service.BoardService;
+import com.nbcamp.gamematching.matchingservice.board.service.BoardServiceImpl;
 import com.nbcamp.gamematching.matchingservice.common.domain.CreatePageable;
 import com.nbcamp.gamematching.matchingservice.member.domain.FileStore;
 import com.nbcamp.gamematching.matchingservice.member.domain.GameType;
@@ -14,7 +12,6 @@ import com.nbcamp.gamematching.matchingservice.member.dto.UpdateProfileRequest;
 import com.nbcamp.gamematching.matchingservice.member.entity.Member;
 import com.nbcamp.gamematching.matchingservice.member.entity.Profile;
 import com.nbcamp.gamematching.matchingservice.member.repository.MemberRepository;
-import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -25,6 +22,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
 @SpringBootTest
 class MemberServiceImplTest {
 
@@ -32,7 +33,7 @@ class MemberServiceImplTest {
     private MemberService memberService;
 
     @Autowired
-    private BoardService boardService;
+    private BoardServiceImpl boardService;
 
     @Autowired
     private MemberRepository memberRepository;

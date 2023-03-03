@@ -22,23 +22,16 @@ public class AnonymousBoard extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "anonymousBoard_id")
     private Long id;
-
     @Column(name = "anonymous_nickname")
     private String nickname;
-    //랜덤닉네임(익명)
-
     private String boardImage;
-
     @Column(nullable = false)
     private String content;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
-
     @OneToMany(mappedBy = "anonymousBoard", cascade = CascadeType.REMOVE)
     private List<AnonymousComment> comments = new ArrayList<>();
-
     public AnonymousBoard(String boardImage, String content, Member member) {
         this.nickname = nNick();
         this.boardImage = boardImage;

@@ -29,8 +29,4 @@ public class AnonymousLike {
         this.member = member;
         this.anonymousBoard = board;
     }
-
-    public void checkUser(AnonymousLike like, Member member) {
-        if (!like.getMember().getEmail().equals(member.getEmail())) throw new IllegalArgumentException("유저 불일치");
-    }
 }

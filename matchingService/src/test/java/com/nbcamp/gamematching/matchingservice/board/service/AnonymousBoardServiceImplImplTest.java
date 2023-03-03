@@ -7,7 +7,7 @@ import com.nbcamp.gamematching.matchingservice.board.entity.AnonymousBoard;
 import com.nbcamp.gamematching.matchingservice.board.repository.AnonymousBoardRepository;
 import com.nbcamp.gamematching.matchingservice.comment.dto.CreateCommentRequest;
 import com.nbcamp.gamematching.matchingservice.comment.repository.AnonymousCommentRepository;
-import com.nbcamp.gamematching.matchingservice.comment.service.CommentService;
+import com.nbcamp.gamematching.matchingservice.comment.service.CommentServiceImpl;
 import com.nbcamp.gamematching.matchingservice.like.repository.AnonymousLikeRepository;
 import com.nbcamp.gamematching.matchingservice.member.domain.GameType;
 import com.nbcamp.gamematching.matchingservice.member.domain.MemberRoleEnum;
@@ -25,18 +25,18 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.IOException;
 import java.util.List;
 
-import static com.nbcamp.gamematching.matchingservice.board.service.BoardServiceTest.multipartFile;
+import static com.nbcamp.gamematching.matchingservice.board.service.BoardServiceImplTest.multipartFile;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 @SpringBootTest
 @Transactional
-class AnonymousBoardServiceTest {
+class AnonymousBoardServiceImplImplTest {
     @Autowired
-    private AnonymousBoardService boardService;
+    private AnonymousBoardServiceImpl boardService;
 
     @Autowired
-    private CommentService commentService;
+    private CommentServiceImpl commentServiceImpl;
 
     @Autowired
     private AnonymousBoardRepository boardRepository;
@@ -52,10 +52,10 @@ class AnonymousBoardServiceTest {
     private AnonymousLikeRepository likeRepository;
 
     @BeforeEach
-    public void beforeEach() throws IOException {
-        Member member = new Member("dddd1@ddd.com", "123456789", new Profile("www11", "sdadad.jpg", Tier.BRONZE, GameType.LOL), MemberRoleEnum.USER);
+    public void beforeEach() {
+        Member member = new Member("dddd1@ddd.com", "123456789", new Profile("www11", "sdadad.jpg", Tier.BRONZE, GameType.LOL), MemberRoleEnum.USER,null,null);
         memberRepository.save(member);
-        Member member1 = new Member("dddd2@ddd.com", "123456789", new Profile("www12", "sdadad2.jpg", Tier.BRONZE, GameType.LOL), MemberRoleEnum.USER);
+        Member member1 = new Member("dddd2@ddd.com", "123456789", new Profile("www12", "sdadad2.jpg", Tier.BRONZE, GameType.LOL), MemberRoleEnum.USER,null,null);
         memberRepository.save(member1);
 
     }
@@ -76,16 +76,16 @@ class AnonymousBoardServiceTest {
 
     @Test
     @DisplayName("익명 게시글 조회 테스트")
-    void getAnonymousBoardList() throws IOException {
+    void getAnonymousBoardList() {
         Member findMember = memberRepository.findById(3L).orElseThrow();
 
-        AnonymousBoard boards = new AnonymousBoard(AnonymousBoard.nNick(),"ddddd.jpg","안녕하세요",findMember);
+        AnonymousBoard boards = new AnonymousBoard("ddddd.jpg","안녕하세요",findMember);
 
         boardRepository.save(boards);
 
         CreateCommentRequest createCommentRequest = new CreateCommentRequest("안녕");
 
-        commentService.createAnonymousComment(1L,createCommentRequest.getContent(),findMember);
+        commentServiceImpl.createAnonymousComment(1L,createCommentRequest.getContent(),findMember);
 
         List<AnonymousBoardResponse> anonymousBoardList = boardService.getAnonymousBoardList();
 
@@ -115,7 +115,7 @@ class AnonymousBoardServiceTest {
 
     @Test
     @DisplayName("익명 게시글 삭제 테스트")
-    void deleteAnonymousBoard() throws IOException {
+    void deleteAnonymousBoard() {
         Member findMember = memberRepository.findById(3L).orElseThrow();
 
         CreateBoardRequest createBoardRequest = new CreateBoardRequest("안녕");
