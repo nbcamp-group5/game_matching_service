@@ -1,3 +1,10 @@
+nav img {
+    width: 50px;
+}
+
+body {
+    background-color: #b1bce62f;
+}
 
 .team-icon {
     border-radius:100%;

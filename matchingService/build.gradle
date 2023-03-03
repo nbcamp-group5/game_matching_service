@@ -64,7 +64,7 @@ dependencies {
     implementation "net.dv8tion:JDA:4.3.0_277"
     implementation 'org.javacord:javacord:3.7.0'
 
-    implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
+    //implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
     implementation group: 'javax.servlet', name: 'jstl', version: '1.2'
 
 
@@ -110,3 +110,12 @@ sourceSets {
 clean {
     delete file(generated)
 }
+
+//tasks.named("jar") {
+//    enabled = false
+//}
+//
+//tasks.named("bootJar") {
+//    enabled = true
+//    mainClass = "com.nbcamp.gamematching.matchingservice.MatchingServiceApplication"
+//}
