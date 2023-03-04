@@ -263,7 +263,7 @@
   function show_comment() {
     $.ajax({
       type: "GET",
-      url: "http://localhost:8080/api/comments/one/" + commentId,
+      url: "http://43.200.42.252:8080/api/comments/one/" + commentId,
       beforeSend: function (xhr) {
         xhr.setRequestHeader("Authorization", auth);
       },
@@ -294,7 +294,7 @@
   function update_comment(commentId) {
     let content = $(`#message`).val()
     var settings = {
-      "url": "http://localhost:8080/api/comments/" + commentId,
+      "url": "http://43.200.42.252:8080/api/comments/" + commentId,
       "method": "PUT",
       "timeout": 0,
       "headers": {

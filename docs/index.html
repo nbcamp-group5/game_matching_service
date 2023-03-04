@@ -343,10 +343,42 @@
 
   function signUpRequest() {
     var settings = {
+<<<<<<< HEAD
       url: "http://43.200.42.252:8080/api/auth/signup",
       method: "POST",
       timeout: 0,
       headers: {
+=======
+      "url": "http://43.200.42.252:8080/api/auth/signup",
+      "method": "POST",
+      "timeout": 0,
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "data": JSON.stringify({
+        "email": $('#signup-email').val(),
+        "nickname": $('#signup-nickname').val(),
+        "password": $('#signup-password').val()
+      })
+    };
+
+    $.ajax(settings).done(function (response) {
+      alert("회원가입이 완료되었습니다.");
+    }).fail(function (response) {
+      alert(response.responseJSON.errorMessage);
+    });
+
+  }
+
+
+  function signInRequest() {
+
+    var settings = {
+      "url": "http://43.200.42.252:8080/api/auth/signin",
+      "method": "POST",
+      "timeout": 0,
+      "headers": {
+>>>>>>> 08816ab519ada2e95018a5a14a4d3ecd36fe9b84
         "Content-Type": "application/json",
       },
       data: JSON.stringify({
@@ -356,6 +388,7 @@
       }),
     };
 
+<<<<<<< HEAD
     $.ajax(settings)
       .done(function (response, status, xhr) {
         localStorage.setItem(
@@ -364,6 +397,12 @@
         );
         location.href = "board/board.html";
       })
+=======
+    $.ajax(settings).done(function (response, status, xhr) {
+      localStorage.setItem('Authorization', xhr.getResponseHeader('Authorization'));
+      location.href = "./board/board.html";
+    })
+>>>>>>> 08816ab519ada2e95018a5a14a4d3ecd36fe9b84
       .fail(function (response) {
         console.log(response);
         alert("아이디와 비밀번호를 확인해주세요.");
