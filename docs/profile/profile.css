@@ -17,6 +17,7 @@ body {
 
 .panel-body-1 {
     padding: 15px 15px 0px 15px;
+    margin-top: 10px;
 }
 
 .panels {
@@ -29,7 +30,7 @@ body {
 
 
 .panel-heading-1 {
-    padding: 5px 5px;
+    padding: 7px 5px;
     border-bottom: 1px solid transparent;
     border-top-right-radius: 3px;
     border-top-left-radius: 3px;
@@ -37,7 +38,7 @@ body {
 
 .panel-info>.panel-heading-1 {
     color: #4c4c4c;
-    background-color: #b1bce66c;
+    background-color: #B7E5DD;
     border-color: #b1bce66c;
 }
 
@@ -163,4 +164,9 @@ body {
     margin-bottom: 20px;
     background-color: #fff;
     border-radius: 10px;
+}
+
+.abtn {
+    background-color: #B7E5DD;
+    border: none;
 }

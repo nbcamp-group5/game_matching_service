@@ -334,7 +334,7 @@
 
   function signUpRequest() {
     var settings = {
-      "url": "http://localhost:8080/api/auth/signup",
+      "url": "http://43.200.42.252:8080/api/auth/signup",
       "method": "POST",
       "timeout": 0,
       "headers": {
@@ -359,7 +359,7 @@
   function signInRequest() {
 
     var settings = {
-      "url": "http://localhost:8080/api/auth/signin",
+      "url": "http://43.200.42.252:8080/api/auth/signin",
       "method": "POST",
       "timeout": 0,
       "headers": {
@@ -373,7 +373,7 @@
 
     $.ajax(settings).done(function (response, status, xhr) {
       localStorage.setItem('Authorization', xhr.getResponseHeader('Authorization'));
-      location.href = "board/board.html";
+      location.href = "./board/board.html";
     })
       .fail(function (response) {
         console.log(response);

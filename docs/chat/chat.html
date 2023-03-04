@@ -371,7 +371,7 @@
     function showFriend() {
         $.ajax({
             type: "GET",
-            url: "http://localhost:8080/api/chat/friends",
+            url: "http://43.200.42.252:8080/api/chat/friends",
             beforeSend: function (xhr) {
                 xhr.setRequestHeader("Authorization", auth);
             },
@@ -411,7 +411,7 @@
 
         $.ajax({
             type: "GET",
-            url: "http://localhost:8080/api/chat/room/enter/" + fnickname,
+            url: "http://43.200.42.252:8080/api/chat/room/enter/" + fnickname,
             contentType: "application/json",
             data: {},
             beforeSend: function (xhr) {
@@ -435,7 +435,7 @@
 
         getMessage(roomId, fnick);
 
-        var sockJs = new SockJS("http://localhost:8080/GGTalk");
+        var sockJs = new SockJS("http://43.200.42.252:8080/GGTalk");
         var stomp = Stomp.over(sockJs);
 
         stomp.connect({}, function () {
@@ -491,7 +491,7 @@
 
         $.ajax({
             type: "GET",
-            url: "http://localhost:8080/api/chat/room/" + roomId + "/message",
+            url: "http://43.200.42.252:8080/api/chat/room/" + roomId + "/message",
             data: {},
             beforeSend: function (xhr) {
                 xhr.setRequestHeader("Authorization", auth);
