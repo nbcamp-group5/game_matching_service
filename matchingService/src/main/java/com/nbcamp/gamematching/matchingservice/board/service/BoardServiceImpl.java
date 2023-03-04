@@ -31,21 +31,30 @@ import java.util.List;
 public class BoardServiceImpl implements BoardService{
 
     private final BoardRepository boardRepository;
-    private final CommentRepository commentRepository;
     private final LikeRepository likeRepository;
-
     private final FileUploadService fileUploadService;
 
     //게시글 작성
     public void createBoard(CreateBoardRequest createBoardRequest, Member member,
             MultipartFile image) {
-        FileDetail fileDetail = fileUploadService.save(image);
-        Board board = new Board(fileDetail.getPath(),
-                createBoardRequest.getContent(), member);
-        boardRepository.save(board);
+
+        //이미지파일이 없을 때 기본이미지 넣기
+        if(image == null) {
+            String boardImage = "images/5a169b5b-09ba-4e42-8ee0-9850f3a0c483.jpeg";
+            Board board = new Board(boardImage,
+                    createBoardRequest.getContent(), member);
+            boardRepository.save(board);
+
+        } else {
+            FileDetail fileDetail = fileUploadService.save(image);
+            Board board = new Board(fileDetail.getPath(),
+                    createBoardRequest.getContent(), member);
+            boardRepository.save(board);
+            System.out.println(fileDetail.getPath());
+        }
     }
 
-    //게시글 조회 -  페이지값을 입력할 때 게시글과 댓글페이지가 1 2 3 같이 이동?...
+    //게시글 조회
     public List<BoardResponse> getBoardList() {
         Page<Board> boardPage = boardRepository.findAll(pageableSetting(1));
         List<BoardResponse> boardResponseList = new ArrayList<>();
@@ -61,9 +70,15 @@ public class BoardServiceImpl implements BoardService{
             MultipartFile image) {
         Board board = boardRepository.findById(boardId).orElseThrow(NotFoundException::new);
         board.checkUser(board, member);
-        FileDetail fileDetail = fileUploadService.save(image);
-        board.updateBoard(boardRequest, fileDetail.getPath(), member);
-        boardRepository.save(board);
+        if(image == null) {
+            String boardImage = "images/5a169b5b-09ba-4e42-8ee0-9850f3a0c483.jpeg";
+            board.updateBoard(boardRequest, boardImage, member);
+            boardRepository.save(board);
+        } else {
+            FileDetail fileDetail = fileUploadService.save(image);
+            board.updateBoard(boardRequest, fileDetail.getPath(), member);
+            boardRepository.save(board);
+        }
     }
 
     //게시글 삭제

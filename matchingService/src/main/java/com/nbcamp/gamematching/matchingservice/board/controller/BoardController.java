@@ -27,22 +27,19 @@ public class BoardController {
     private final BoardServiceImpl boardService;
     private final AnonymousBoardServiceImpl anonymousBoardService;
 
-    @Value("${file.dir}")
-    private String fileDir;
-
     private final FileUploadService fileUploadService;
 
 
     //게시글 작성
     @PostMapping(value = "/normal")
-        public ResponseEntity<String> createBoard(@RequestPart("requestDto") CreateBoardRequest createBoardRequest, @AuthenticationPrincipal UserDetailsImpl userDetails, @RequestPart("image") MultipartFile image) throws IOException {
+        public ResponseEntity<String> createBoard(@RequestPart("requestDto") CreateBoardRequest createBoardRequest, @AuthenticationPrincipal UserDetailsImpl userDetails, @RequestPart(value = "image", required = false) MultipartFile image) {
         boardService.createBoard(createBoardRequest, userDetails.getUser(),image);
         return new ResponseEntity<>("게시글 작성 완료", HttpStatus.CREATED);
     }
 
     //익명 게시글 작성
     @PostMapping(value = "/anonymous")
-    public ResponseEntity<String> createAnonymousBoard(@RequestPart("requestDto") CreateBoardRequest createBoardRequest, @AuthenticationPrincipal UserDetailsImpl userDetails, @RequestPart("image") MultipartFile image) throws IOException {
+    public ResponseEntity<String> createAnonymousBoard(@RequestPart("requestDto") CreateBoardRequest createBoardRequest, @AuthenticationPrincipal UserDetailsImpl userDetails, @RequestPart(value = "image",required = false) MultipartFile image) {
         anonymousBoardService.createAnonymousBoard(createBoardRequest, userDetails.getUser(),image);
         return new ResponseEntity<>("게시글 작성 완료", HttpStatus.CREATED);
     }
@@ -61,14 +58,14 @@ public class BoardController {
 
     //게시글 수정
     @PutMapping(value = "/normal/{boardId}") //수정할 때 이미지나 내용중 하나만 변경하고 싶을 때는?
-    public ResponseEntity<String> updateBoard(@PathVariable("boardId") Long boardId, @RequestPart("requestDto") UpdateBoardRequest updateBoardRequest, @AuthenticationPrincipal UserDetailsImpl userDetails,@RequestPart(required = false,name ="image") MultipartFile image) throws IOException {
+    public ResponseEntity<String> updateBoard(@PathVariable("boardId") Long boardId, @RequestPart("requestDto") UpdateBoardRequest updateBoardRequest, @AuthenticationPrincipal UserDetailsImpl userDetails,@RequestPart(value = "image", required = false) MultipartFile image) throws IOException {
         boardService.updateBoard(boardId,updateBoardRequest,userDetails.getMember(),image);
         return new ResponseEntity<>("게시글 수정완료",HttpStatus.OK);
     }
 
     //익명 게시글 수정
     @PutMapping(value = "/anonymous/{boardId}")
-    public ResponseEntity<String> updateAnonymousBoard(@PathVariable("boardId") Long boardId, @RequestPart("requestDto") UpdateBoardRequest updateBoardRequest, @AuthenticationPrincipal UserDetailsImpl userDetails,@RequestPart("image") MultipartFile image) throws IOException {
+    public ResponseEntity<String> updateAnonymousBoard(@PathVariable("boardId") Long boardId, @RequestPart("requestDto") UpdateBoardRequest updateBoardRequest, @AuthenticationPrincipal UserDetailsImpl userDetails,@RequestPart(value = "image", required = false) MultipartFile image) throws IOException {
         anonymousBoardService.updateAnonymousBoard(boardId,updateBoardRequest,userDetails.getMember(),image);
         return new ResponseEntity<>("게시글 수정완료",HttpStatus.OK);
     }

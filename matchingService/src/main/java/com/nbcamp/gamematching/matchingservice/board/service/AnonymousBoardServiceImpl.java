@@ -5,6 +5,7 @@ import com.nbcamp.gamematching.matchingservice.board.dto.AnonymousBoardResponse;
 import com.nbcamp.gamematching.matchingservice.board.dto.CreateBoardRequest;
 import com.nbcamp.gamematching.matchingservice.board.dto.UpdateBoardRequest;
 import com.nbcamp.gamematching.matchingservice.board.entity.AnonymousBoard;
+import com.nbcamp.gamematching.matchingservice.board.entity.Board;
 import com.nbcamp.gamematching.matchingservice.board.repository.AnonymousBoardRepository;
 import com.nbcamp.gamematching.matchingservice.comment.repository.AnonymousCommentRepository;
 import com.nbcamp.gamematching.matchingservice.common.domain.CreatePageable;
@@ -31,19 +32,26 @@ import java.util.List;
 public class AnonymousBoardServiceImpl implements AnonymousBoardService{
 
     private final AnonymousBoardRepository anonymousBoardRepository;
-    private final AnonymousCommentRepository anonymousCommentRepository;
     private final AnonymousLikeRepository anonymousLikeRepository;
-
     private final FileUploadService fileUploadService;
 
 
     //익명 게시글 작성
     public void createAnonymousBoard(CreateBoardRequest createBoardRequest, Member member,
             MultipartFile image) {
-        FileDetail fileDetail = fileUploadService.save(image);
-        AnonymousBoard board = new AnonymousBoard(fileDetail.getPath(), createBoardRequest.getContent(),
-                member);
-        anonymousBoardRepository.save(board);
+        if(image == null) {
+            String boardImage = "images/5a169b5b-09ba-4e42-8ee0-9850f3a0c483.jpeg";
+            AnonymousBoard board = new AnonymousBoard(boardImage,
+                    createBoardRequest.getContent(), member);
+            anonymousBoardRepository.save(board);
+
+        } else {
+            FileDetail fileDetail = fileUploadService.save(image);
+            AnonymousBoard board = new AnonymousBoard(fileDetail.getPath(),
+                    createBoardRequest.getContent(), member);
+            anonymousBoardRepository.save(board);
+            System.out.println(fileDetail.getPath());
+        }
     }
 
     //익명 게시글 조회
@@ -63,9 +71,15 @@ public class AnonymousBoardServiceImpl implements AnonymousBoardService{
         AnonymousBoard board = anonymousBoardRepository.findById(boardId)
                 .orElseThrow(NotFoundException::new);
         board.checkUser(board, member);
-        FileDetail fileDetail = fileUploadService.save(image);
-        board.updateAnonymousBoard(boardRequest, fileDetail.getPath(), member);
-        anonymousBoardRepository.save(board);
+        if(image == null) {
+            String boardImage = "images/5a169b5b-09ba-4e42-8ee0-9850f3a0c483.jpeg";
+            board.updateAnonymousBoard(boardRequest, boardImage, member);
+            anonymousBoardRepository.save(board);
+        } else {
+            FileDetail fileDetail = fileUploadService.save(image);
+            board.updateAnonymousBoard(boardRequest, fileDetail.getPath(), member);
+            anonymousBoardRepository.save(board);
+        }
     }
 
     //익명 게시글 삭제
