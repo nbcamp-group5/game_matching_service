@@ -22,6 +22,7 @@ import com.nbcamp.gamematching.matchingservice.member.entity.Member;
 import com.nbcamp.gamematching.matchingservice.member.entity.Profile;
 import com.nbcamp.gamematching.matchingservice.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -45,7 +46,9 @@ public class MemberServiceImpl implements MemberService {
     private final BoardService boardService;
     private final FileUploadService fileUploadService;
     private final ResultMatchingRepository resultMatchingRepository;
-    private final String admin = "SIsImF1dGgiOiJVU0VSIiwiZXhwIjoxNjc3NDgzNzgwLCJpY";
+
+    @Value("${admin.password}")
+    private String admin;
 
     @Override
     public ProfileDto getMyProfile(Member member) {

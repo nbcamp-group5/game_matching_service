@@ -33,5 +33,4 @@ public class AuthController {
         authService.signOut(request);
     }
 
-
 }
