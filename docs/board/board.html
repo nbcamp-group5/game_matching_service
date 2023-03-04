@@ -503,7 +503,7 @@
                 beforeSend: function (xhr) {
                     xhr.setRequestHeader("Authorization", auth);
                 },
-                url: "http://localhost:8080/api/boards/normal",
+                url: "http://43.200.42.252:8080/api/boards/normal",
                 method: "POST",
                 timeout: 0,
                 processData: false,
@@ -526,7 +526,7 @@
         function show_board() {
             $.ajax({
                 type: "GET",
-                url: "http://localhost:8080/api/boards/normal",
+                url: "http://43.200.42.252:8080/api/boards/normal",
                 beforeSend: function (xhr) {
                     xhr.setRequestHeader("accessToken", auth);
                 },
@@ -558,7 +558,7 @@
                                     </button>
                                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="gedf-drop1">
                                         <div class="h6 dropdown-header">편집</div>
-                                        <a onclick="update_board(${this.id})" class="dropdown-item" href="/templates/board/board-update.html">수정</a>
+                                        <a onclick="update_board(${this.id})" class="dropdown-item" href="board-update.html">수정</a>
                                         <a onclick="delete_board(${this.id})" class="dropdown-item" href="#">삭제</a>
                                     </div>
                                 </div>
@@ -605,7 +605,7 @@
                 beforeSend: function (xhr) {
                     xhr.setRequestHeader("Authorization", auth);
                 },
-                url: "http://localhost:8080/api/boards/normal/" + boardId,
+                url: "http://43.200.42.252:8080/api/boards/normal/" + boardId,
                 method: "DELETE",
                 timeout: 0,
             };
@@ -620,7 +620,7 @@
         function save_like(boardId) {
             $.ajax({
                 type: "POST",
-                url: "http://localhost:8080/api/like/" + boardId,
+                url: "http://43.200.42.252:8080/api/like/" + boardId,
                 contentType: "application/json",
                 data: {},
                 beforeSend: function (xhr) {
@@ -639,7 +639,7 @@
 
             let content = $(`#cm-message`).val();
             var settings = {
-                url: "http://localhost:8080/api/comments/" + boardId,
+                url: "http://43.200.42.252:8080/api/comments/" + boardId,
                 method: "POST",
                 timeout: 0,
                 headers: {
@@ -663,7 +663,7 @@
         function search_comment(searchName) {
             let content = $(`#search`).val();
             var settings = {
-                url: "http://localhost:8080/search/" + searchName,
+                url: "http://43.200.42.252:8080/search/" + searchName,
                 method: "GET",
                 timeout: 0,
                 headers: {
@@ -694,7 +694,7 @@
 
             $.ajax({
                 type: "GET",
-                url: "http://localhost:8080/api/comments/" + boardId,
+                url: "http://43.200.42.252:8080/api/comments/" + boardId,
                 beforeSend: function (xhr) {
                     xhr.setRequestHeader("Authorization", auth);
                 },
@@ -714,7 +714,7 @@
                                         </button>
                                         <div class="dropdown-menu dropdown-menu-left" aria-labelledby="gedf-drop1">
                                             <div class="h6 dropdown-header">편집</div>
-                                            <a onclick="update_comment(${this.id})" class="dropdown-item" href="/templates/board/comment-update">수정</a>
+                                            <a onclick="update_comment(${this.id})" class="dropdown-item" href="comment-update.html">수정</a>
                                             <a onclick="delete_comment(${this.id})" class="dropdown-item" href="#">삭제</a>
                                         </div>
                                     </div>
@@ -735,7 +735,7 @@
         //댓글 삭제
         function delete_comment(commentId) {
             var settings = {
-                url: "http://localhost:8080/api/comments/" + commentId,
+                url: "http://43.200.42.252:8080/api/comments/" + commentId,
                 method: "DELETE",
                 timeout: 0,
                 headers: {

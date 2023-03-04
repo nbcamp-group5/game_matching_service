@@ -370,7 +370,7 @@
 
     $.ajax({
       type: "GET",
-      url: "http://localhost:8080/api/boards/normal/" + boardId,
+      url: "http://43.200.42.252:8080/api/boards/normal/" + boardId,
       beforeSend: function (xhr) {
         xhr.setRequestHeader("Authorization", auth);
       },
@@ -438,7 +438,7 @@
       beforeSend: function (xhr) {
         xhr.setRequestHeader("Authorization", auth);
       },
-      "url": "http://localhost:8080/api/boards/normal/" + boardId,
+      "url": "http://43.200.42.252:8080/api/boards/normal/" + boardId,
       "method": "PUT",
       "timeout": 0,
       "processData": false,
