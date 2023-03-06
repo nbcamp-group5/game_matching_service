@@ -1,11 +1,13 @@
 package com.nbcamp.gamematching.matchingservice.config;
 
-import com.nbcamp.gamematching.matchingservice.discord.dto.DiscordRequest;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.entities.Category;
+import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.ChunkingFilter;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
@@ -14,7 +16,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.EnumSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 
 @Component
@@ -45,7 +46,6 @@ public class DiscordJdaConfig {
             throws ExecutionException, InterruptedException {
         String channelUrl = "";
         Guild guild = jda.getGuildById(guildId);
-
         try {
             switch (category) {
                 case ("즐겜"):
@@ -57,7 +57,6 @@ public class DiscordJdaConfig {
         } catch (RuntimeException e) {
             e.printStackTrace();
         }
-
         return channelUrl;
     }
 
@@ -70,11 +69,6 @@ public class DiscordJdaConfig {
                             EnumSet.of(Permission.VOICE_CONNECT),
                             EnumSet.of(Permission.VIEW_CHANNEL))
                     .reason("매칭 완료 방 생성").submit().get();
-//            for (String userTag : discordIdList) {
-//                Member member = guild.getMemberByTag(userTag);
-//                //각 멤버 채널 초대
-//                voiceChannel.createPermissionOverride(member).setAllow(Permission.VIEW_CHANNEL).queue();
-//            }
             voiceChannel.getManager().setUserLimit(matchingQuota).queue();
             channelUrl = voiceChannel.createInvite().setMaxAge(300).submit().get().getUrl();
         } catch (ExecutionException | InterruptedException e) {
@@ -86,12 +80,10 @@ public class DiscordJdaConfig {
     public void deleteVoiceChannel() {
         Guild guild = jda.getGuildById(guildId);
         List<VoiceChannel> channelList = guild.getVoiceChannels();
-
         for (VoiceChannel guildChannel : channelList) {
             System.out.print(guildChannel);
             List<Member> memberList = guildChannel.getMembers();
             if (memberList.isEmpty()) {
-                System.out.print(" ---> 삭제완료");
                 guildChannel.delete().reason("사용자가 없으므로 제거").queue();
             }
         }

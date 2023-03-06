@@ -20,7 +20,7 @@ public class DiscordServiceImpl implements DiscordService {
 
     @Transactional
     public Optional<String> createChannel(String category, int matchingQuota) {
-        Optional<String> url = Optional.ofNullable(null);
+        Optional<String> url = Optional.empty();
         try {
             url = Optional.ofNullable(jdaConfig.createVoiceChannel(category, matchingQuota));
         } catch (ExecutionException | InterruptedException | NullPointerException e) {
@@ -35,6 +35,5 @@ public class DiscordServiceImpl implements DiscordService {
     public void deleteChannel() {
         jdaConfig.deleteVoiceChannel();
     }
-
 
 }

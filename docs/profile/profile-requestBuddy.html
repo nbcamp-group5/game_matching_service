@@ -1,88 +1,117 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Document</title>
-        <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-        <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
-        <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-        <script>
-          $(document).ready(function () {
-           $("#profile-content-box").empty();
-           $("#request-box-contents").empty();
-           $.ajax({
-               type:"GET",
-               url:"http://localhost:8080/api/profile/",
-               headers:{
-                "Content-Type": "application/json",
-                "Authorization":localStorage.getItem("accessToken")
-               },
-               data:{},
-               success: function (response) {
-                   let nickname = response['nickname'];
-                   let imageUrl = response['image'];
-                   let game = response['game'];
-                   let tier = response['tier'];
-                   let mannerPoints = response['mannerPoints'];
-                   let email = response['email'];
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <link
+      href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css"
+      rel="stylesheet"
+      id="bootstrap-css"
+    />
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+    <link
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+      rel="stylesheet"
+      integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
+      crossorigin="anonymous"
+    />
 
-                    let temp = ` <div class="panel panel-info profile-box">
-                        
-                        <div id="profile-content-box" class="panel-body">
-                            <div class="row">
-                                <div id="panel-body__img-box">
-                                    <img src="https://www.freecodecamp.org/korean/news/content/images/2022/07/5f9c9a4c740569d1a4ca24c2.jpeg"/>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+      integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+      crossorigin="anonymous"
+    ></script>
+    <link
+      href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+      rel="stylesheet"
+      id="bootstrap-css"
+    />
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        $("#profile-content-box").empty();
+        $("#request-box-contents").empty();
+        $.ajax({
+          type: "GET",
+          url: "http://43.200.42.252:8080/api/profile/",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: localStorage.getItem("Authorization"),
+          },
+          data: {},
+          success: function (response) {
+            let nickname = response["nickname"];
+            let imageUrl = response["image"];
+            let game = response["game"];
+            if (game == null) {
+              game = "-";
+            }
+            let tier = response["tier"];
+            if (tier == null) {
+              tier = "-";
+            }
+            let mannerPoints = response["mannerPoints"];
+            let email = response["email"];
+
+            let temp = ` <div class="panels panel-info profile-box-1">
+                            
+                            <div id="profile-content-box" class="panel-body-1">
+                                <div class="row">
+                                    <div id="panel-body__img-box">
+                                        <img src="https://game-matching.s3.ap-northeast-2.amazonaws.com/${imageUrl}"/>
+                                    </div>
+                                    
+                                    <table class="table table-user-information profile-box__info">
+                                        <tbody>
+                                            <tr>
+                                                <td>닉네임</td>
+                                                <td>${nickname}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>매너 점수</td>
+                                                <td>${mannerPoints}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>티어</td>
+                                                <td>${tier}</td>
+                                            </tr>
+                                        
+                                            <tr>
+                                                <td>관심 게임</td>
+                                                <td>${game}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Email</td>
+                                                <td><a href="mailto:${email}"></a>${email}</td>
+                                            </tr>
+                                                
+                                            </tr>
+                                        
+                                        </tbody>
+                                    </table>
                                 </div>
-                                
-                                <table class="table table-user-information profile-box__info">
-                                    <tbody>
-                                        <tr>
-                                            <td>닉네임:</td>
-                                            <td>${nickname}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>매너 점수:</td>
-                                            <td>${mannerPoints}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>티어:</td>
-                                            <td>${tier}</td>
-                                        </tr>
-                                    
-                                        <tr>
-                                            <td>관심 게임:</td>
-                                            <td>${game}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Email</td>
-                                            <td><a href="mailto:${email}"></a>${email}</td>
-                                        </tr>
-                                            
-                                        </tr>
-                                    
-                                    </tbody>
-                                </table>
                             </div>
-                        </div>
+    
+                        </div>`;
+            $("#profile-content-box").append(temp);
+          },
+        });
 
-                    </div>`
-                    $("#profile-content-box").append(temp);
-               }
-           })
-
-           $.ajax({
-            type:"GET",
-              url:"http://localhost:8080/api/profile/notYetBuddies",
-              headers:{
-              "Content-Type": "application/json",
-              "Authorization":localStorage.getItem("accessToken")
-              },
-              data:{},
-              success: function (response) {
-                $(response).each(function() {
-                  let temp = `<tr>
+        $.ajax({
+          type: "GET",
+          url: "http://43.200.42.252:8080/api/profile/notYetBuddies",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: localStorage.getItem("Authorization"),
+          },
+          data: {},
+          success: function (response) {
+            $(response).each(function () {
+              let temp = `<tr>
                     <td>1</td>
                     <td>
                       <img class="list-picture" src="https://www.urbanbrush.net/en/wp-content/uploads/edd/2022/11/urbanbrush-20221112181833147836.jpg"> 
@@ -90,238 +119,163 @@
                     <td>${this.nickname}</td>
                     <td>
                       <a type='button' onclick="accept(${this.id});" class="more-suggestions__list__btn">수락하기</a>
-                      <a type='button' href="#" onclick="decline(${this.id});" class="more-suggestions__list__btn">거절하기</a>
+                      <a type='button' onclick="decline(${this.id});" class="more-suggestions__list__btn">거절하기</a>
                     </td>
                   </tr>`;
 
-                  $("#request-box-contents").append(temp);
-                })
-              }
-           })
-        })
+              $("#request-box-contents").append(temp);
+            });
+          },
+        });
+      });
+    </script>
+    <link rel="stylesheet" href="profile.css" />
+    <link rel="stylesheet" href="../menu.css" />
+  </head>
 
-          function accept(id) {
-            $.ajax({
-              type:"POST",
-                url: "http://localhost:8080/api/profile/notYetBuddies",
-                headers:{
-                  "Content-Type": "application/json",
-                  "Authorization":localStorage.getItem("accessToken")
-                },
-                data: JSON.stringify({
-                    requestMemberId: id,
-                    answer:true,
-                  }),
-                success : function (response) {
-                  window.location.href='profile-mybuddies.html';
-                }
-            })
-          }
-
-          function decline(id) {
-            $.ajax({
-              type:"POST",
-                url: "http://localhost:8080/api/profile/notYetBuddies",
-                headers:{
-                  "Content-Type": "application/json",
-                  "Authorization":localStorage.getItem("accessToken")
-                },
-                data: JSON.stringify({
-                    requestMemberId: id,
-                    answer:false,
-                  }),
-                success : function (response) {
-                  window.location.href='profile-mybuddies.html';
-                }
-            })
-          }
-        </script>
-        <link rel="stylesheet" href="profile.css" />
-        <link rel="stylesheet" href="../menu.css" />
-        
-    </head>
-
-    <body>
-        
-        <nav class="menu">
-            <div>
-              <h1>ㅈㄱ</h1>
-              <h1>ㅃㄱ</h1>
+  <body>
+    <nav class="menu">
+      <div class="menu__list">
+        <li class="menu__btn">
+          <a class="menu__link" href="/board/board.html">
+            <div class="menu__link__explain">
+              <!-- <span><i class="fa-solid fa-clipboard-user fa-lg"></i></span> -->
+              <span>📝 일반 게시판</span>
             </div>
-      
-            <ul class="menu__list">
-              <li class="menu__btn">
-                <a class="menu__link" href="#">
-                  <div class="menu__link__explain">
-                    <span><i class="fa-solid fa-clipboard-user fa-lg"></i></span>
-                    <span>일반</span>
-                  </div>
-                </a>
-              </li>
-      
-              <li class="menu__btn">
-                <a class="menu__link" href="#">
-                  <div class="menu__link__explain">
-                    <span><i class="fa-solid fa-clipboard-question fa-lg"></i></span>
-                    <span>익명</span>
-                  </div>
-                </a>
-              </li>
-      
-              <li class="menu__btn">
-                <a class="menu__link" href="#">
-                  <div class="menu__link__explain">
-                    <span><i class="fa-solid fa-comment fa-lg"></i></span>
-                    <span>메시지</span>
-                  </div>
-                </a>
-              </li>
-      
-              <li class="menu__btn">
-                <a class="menu__link" href="#">
-                  <div class="menu__link__explain">
-                    <span><i class="fa-solid fa-gamepad"></i></span>
-                    <span>매칭</span>
-                  </div>
-                </a>
-              </li>
-      
-              <li class="menu__btn">
-                <a class="menu__link" href="#">
-                  <div class="menu__link__explain">
-                    <span><i class="fa-solid fa-user fa-lg"></i></span>
-                    <span>프로필</span>
-                  </div>
-                </a>
-              </li>
-            </ul>
-          </nav>
-      
-          <script
-            src="https://kit.fontawesome.com/0f7e35127c.js"
-            crossorigin="anonymous"
-          ></script>
+          </a>
+        </li>
 
-          <div class="container">
-              <div class="row" id="profile-outer-box">
-                  <div class="col-md-5  toppad  pull-right col-md-offset-3 ">
-                      <A href="edit-profile.html" style="margin-left: 7px;" >Edit Profile</A>
+        <li class="menu__btn">
+          <a class="menu__link" href="/board/anonymous-board.html">
+            <div class="menu__link__explain">
+              <!-- <span><i class="fa-solid fa-clipboard-question fa-lg"></i></span> -->
+              <span>📝 익명 게시판</span>
+            </div>
+          </a>
+        </li>
 
-                      <A href="edit.html" style="margin-left: 10px;" >Logout</A>
+        <li class="menu__btn">
+          <a class="menu__link" href="/chat/chat.html">
+            <div class="menu__link__explain">
+              <!-- <span><i class="fa-solid fa-comment fa-lg"></i></span> -->
+              <span>✉️ 메시지</span>
+            </div>
+          </a>
+        </li>
 
-                  </div>
-                  <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad" >
-              
-              
-                      <div class="panel panel-info profile-box">
-                          <div class="panel-heading profile-box__title" style="width: 100px;">
-                              <h3 class="panel-title">프로필</h3>
-                          </div>
-                          
-                          <div id="profile-content-box" class="panel-body">
-                              <div class="row">
-                                  <div id="panel-body__img-box">
-                                      <img src="https://www.freecodecamp.org/korean/news/content/images/2022/07/5f9c9a4c740569d1a4ca24c2.jpeg"/>
-                                  </div>
-                                  
-                                  <table class="table table-user-information profile-box__info">
-                                      <tbody>
-                                          <tr>
-                                              <td>닉네임:</td>
-                                              <td>Programming</td>
-                                          </tr>
-                                          <tr>
-                                              <td>매너 점수:</td>
-                                              <td>8410</td>
-                                          </tr>
-                                          <tr>
-                                              <td>티어:</td>
-                                              <td>BRONZE</td>
-                                          </tr>
-                                      
-                                          <tr>
-                                              <td>관심 게임:</td>
-                                              <td>귀여운 Mobile Game</td>
-                                          </tr>
-                                          <tr>
-                                              <td>Email</td>
-                                              <td><a href="mailto:info@support.com">info@support.com</a></td>
-                                          </tr>
-                                              
-                                          </tr>
-                                      
-                                      </tbody>
-                                  </table>
-                                  
-                              </div>
-                          </div>
+        <li class="menu__btn">
+          <a class="menu__link" href="/matching/matching-request.html">
+            <div class="menu__link__explain">
+              <!-- <span><i class="fa-solid fa-gamepad"></i></span> -->
+              <span>🎮 매칭</span>
+            </div>
+          </a>
+        </li>
 
-                      </div>
-                  </div>
-              </div>
+        <li class="menu__btn" style="background-color: #b1bce66c">
+          <a class="menu__link" href="/profile/my-profile.html">
+            <div class="menu__link__explain">
+              <!-- <i class="fa-solid fa-user fa-lg"></i> -->
+              <span>🙇🏻‍♀️ 프로필</span>
+            </div>
+          </a>
+        </li>
+      </div>
+    </nav>
+
+    <script
+      src="https://kit.fontawesome.com/0f7e35127c.js"
+      crossorigin="anonymous"
+    ></script>
+
+    <div class="container">
+      <div class="row" id="profile-outer-box">
+        <div class="col-md-5 toppad pull-right col-md-offset-3">
+          <a href="edit-profile.html" style="margin-left: 7px; color: #9a86a4"
+            >프로필 수정</a
+          >
+
+          <a href="edit.html" style="color: #9a86a4; margin-left: 10px"
+            >로그아웃</a
+          >
+        </div>
+        <div
+          class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad"
+        >
+          <div
+            class="panels panel-info profile-box"
+            style="margin-bottom: 0px; border-radius: 10px"
+          >
+            <div id="profile-content-box" class="panel-body">
+              <!-- 내용 들어오는 곳 -->
+            </div>
           </div>
-
-
           <div class="more-suggestions">
-              <div class="more-suggestions__menu">
-                  <a href="profile-mybuddies.html" type="button">내 친구</a>
-              </div>
-              <div class="more-suggestions__menu">
-                  <a href="profile-myboards.html">내 게시글</a>
-              </div>
-              <div class="more-suggestions__menu">
-                  <a href="profile-mymatchings.html">내 매칭</a>
-              </div>
-              <div class="more-suggestions__menu">
-                  <a href="profile-requestbuddy.html" style="font-weight: bold;">친구 신청</a>
-              </div>
+            <div class="more-suggestions__menu">
+              <a id="friend" onclick="showBuddy()" href="#">내 친구</a>
+            </div>
+            <div class="more-suggestions__menu">
+              <a id="board" onclick="showBoard()" href="#">내 게시글</a>
+            </div>
+            <div class="more-suggestions__menu">
+              <a id="match" onclick="showMatch()" href="#">내 매칭</a>
+            </div>
+            <div class="more-suggestions__menu">
+              <a id="fapply" onclick="showApply()" href="#">친구 신청</a>
+            </div>
           </div>
 
-        
-
-        <div class="btn-toolbar more-suggestions__list">
-            <h4>친구요청 목록</h4>
+          <div class="wells table-box" id="pfbox" style="display: none">
+            <table class="table user-table" id="users-box-contents"></table>
+          </div>
         </div>
-        <div class="well table-box">
-            <table class="table user-table">
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th class="more-suggestions__list__user-table">Profile Image</th>
-                  <th class="more-suggestions__list__user-table">Nickname</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody id="request-box-contents">
-                <tr>
-                  <td>1</td>
-                  <td>
-                    <img class="list-picture" src="https://imagescdn.gettyimagesbank.com/_500/202302/jv12679468.jpg"> 
-                  </td>
-                  <td>5조</td>
-                  <td>
-                    <a href="#" class="more-suggestions__list__btn">수락하기</a>
-                    <a href="#" class="more-suggestions__list__btn">거절하기</a>
-                  </td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>
-                      <img class="list-picture" src="https://imagescdn.gettyimagesbank.com/_500/202302/jv12679468.jpg"> 
-                    </td>
-                    <td>4조</td>
-                    <td>
-                      <a href="#" class="more-suggestions__list__btn">수락하기</a>
-                      <a href="#" class="more-suggestions__list__btn">거절하기</a>
-                    </td>
-                  </tr>
-              </tbody>
-            </table>
-        </div>
+      </div>
+    </div>
 
-
-
-    </body>
+    <div class="btn-toolbar more-suggestions__list">
+      <h4>친구요청 목록</h4>
+    </div>
+    <div class="wells table-box">
+      <table class="table user-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th class="more-suggestions__list__user-table">Profile Image</th>
+            <th class="more-suggestions__list__user-table">Nickname</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="request-box-contents">
+          <tr>
+            <td>1</td>
+            <td>
+              <img
+                class="list-picture"
+                src="https://imagescdn.gettyimagesbank.com/_500/202302/jv12679468.jpg"
+              />
+            </td>
+            <td>5조</td>
+            <td>
+              <a href="#" class="more-suggestions__list__btn">수락하기</a>
+              <a href="#" class="more-suggestions__list__btn">거절하기</a>
+            </td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>
+              <img
+                class="list-picture"
+                src="https://imagescdn.gettyimagesbank.com/_500/202302/jv12679468.jpg"
+              />
+            </td>
+            <td>4조</td>
+            <td>
+              <a href="#" class="more-suggestions__list__btn">수락하기</a>
+              <a href="#" class="more-suggestions__list__btn">거절하기</a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </body>
 </html>
-
-

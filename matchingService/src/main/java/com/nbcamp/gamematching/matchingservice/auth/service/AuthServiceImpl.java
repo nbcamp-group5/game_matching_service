@@ -28,12 +28,9 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 @Slf4j
 public class AuthServiceImpl implements AuthService {
-
     private final JwtUtil jwtUtil;
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
-    private static final long REFRESH_TOKEN_TIME = 24 * 60 * 60 * 1000L;
-
     private final RedisService redisService;
 
     @Override
@@ -62,8 +59,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     @Transactional(readOnly = true)
-    public void signIn(SigninRequest signinRequest, HttpServletResponse response)
-            throws UnsupportedEncodingException {
+    public void signIn(SigninRequest signinRequest, HttpServletResponse response) {
         String email = signinRequest.getEmail();
         String password = signinRequest.getPassword();
         Member member = memberRepository.findByEmail(email).orElseThrow(SignException::new);
@@ -76,10 +72,14 @@ public class AuthServiceImpl implements AuthService {
         response.addCookie(cookie);
         response.addHeader(JwtUtil.AUTHORIZATION_HEADER, accessToken);
         redisService.addRefreshTokenByRedis(email, refreshToken,
-                Duration.ofMillis(REFRESH_TOKEN_TIME));
+                Duration.ofMillis( 24 * 60 * 60 * 1000L));
         log.info("로그인 멤버 : " + email);
     }
 
+    /** 로그아웃
+     *  토큰의 남은시간을 체크하여 로그아웃 해줍니다.
+     *
+     * */
     @Override
     @Transactional(readOnly = true)
     public void signOut(HttpServletRequest request) {
@@ -98,5 +98,6 @@ public class AuthServiceImpl implements AuthService {
             }
         }
     }
+
 
 }
