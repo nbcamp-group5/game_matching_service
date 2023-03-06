@@ -1,6 +1,5 @@
 <header>
   <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
-  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"> 
 </header>
 <div class="container" id="container">
   <div class="form-container sign-up-container">
@@ -344,7 +343,7 @@
 
   function signUpRequest() {
     var settings = {
-      url: "http://43.200.42.252:8080/api/auth/signup",
+      url: "http://localhost:8080/api/auth/signup",
       method: "POST",
       timeout: 0,
       headers: {
@@ -354,6 +353,29 @@
         email: $("#signup-email").val(),
         nickname: $("#signup-nickname").val(),
         password: $("#signup-password").val(),
+      }),
+    };
+
+    $.ajax(settings)
+      .done(function (response) {
+        alert("회원가입이 완료되었습니다.");
+      })
+      .fail(function (response) {
+        alert(response.responseJSON.errorMessage);
+      });
+  }
+
+  function signInRequest() {
+    var settings = {
+      url: "http://localhost:8080/api/auth/signin",
+      method: "POST",
+      timeout: 0,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: JSON.stringify({
+        email: $("#login-email").val(),
+        password: $("#login-password").val(),
       }),
     };
 
