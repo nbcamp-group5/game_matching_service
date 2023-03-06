@@ -86,10 +86,10 @@ tasks.named('test') {
 // querydsl QEntity build 위치 설정
 def querydslDir = "$buildDir/generated/querydsl"
 
-querydsl {
-    jpa = true
-    querydslSourcesDir = querydslDir
-}
+//querydsl {
+//    jpa = true
+//    querydslSourcesDir = querydslDir
+//}
 
 sourceSets {
     main.java.srcDir querydslDir

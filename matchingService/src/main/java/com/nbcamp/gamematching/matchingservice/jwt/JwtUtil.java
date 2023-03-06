@@ -2,7 +2,7 @@ package com.nbcamp.gamematching.matchingservice.jwt;
 
 import com.nbcamp.gamematching.matchingservice.member.domain.MemberRoleEnum;
 import com.nbcamp.gamematching.matchingservice.member.entity.Member;
-import com.nbcamp.gamematching.matchingservice.security.UserDetailsImpl;
+import com.nbcamp.gamematching.matchingservice.redis.RedisService;
 import com.nbcamp.gamematching.matchingservice.security.UserDetailsServiceImpl;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
@@ -12,37 +12,33 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.security.Key;
 import java.util.Base64;
 import java.util.Date;
+
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 @Slf4j
 @Component
 @RequiredArgsConstructor
 public class JwtUtil {
 
-    private final UserDetailsServiceImpl userDetailsService;
-    private final StringRedisTemplate stringRedisTemplate;
     public static final String AUTHORIZATION_HEADER = "Authorization";
-    public static final String AUTHORIZATION_KEY = "auth";
-    private static final String BEARER_PREFIX = "Bearer ";
+    private final UserDetailsServiceImpl userDetailsService;
+    private final RedisService redisService;
+    private final SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
+    public final String AUTHORIZATION_KEY = "auth";
+    private final String BEARER_PREFIX = "Bearer ";
     @Value("${jwt.secret.key}")
     private String secretKey;
     private Key key;
-    private final SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
-    private static final long ACCESS_TOKEN_TIME = 60 * 60 * 1000L;
-    private static final long REFRESH_TOKEN_TIME = 24 * 60 * 60 * 1000L;
-    private static final int COOKIE_TIME = 24 * 60 * 60;
 
     @PostConstruct
     public void init() {
@@ -57,14 +53,13 @@ public class JwtUtil {
         }
         return null;
     }
-
     public String createAccessToken(String email, MemberRoleEnum role) {
         Date date = new Date();
         return BEARER_PREFIX +
                 Jwts.builder()
                         .setSubject(email)
                         .claim(AUTHORIZATION_KEY, role)
-                        .setExpiration(new Date(date.getTime() + ACCESS_TOKEN_TIME))
+                        .setExpiration(new Date(date.getTime() + 60 * 60 * 1000L))
                         .setIssuedAt(date)
                         .signWith(key, signatureAlgorithm)
                         .compact();
@@ -74,20 +69,20 @@ public class JwtUtil {
         return BEARER_PREFIX +
                 Jwts.builder()
                         .setSubject(email)
-                        .setExpiration(new Date(date.getTime() + REFRESH_TOKEN_TIME))
+                        .setExpiration(new Date(date.getTime() + 24 * 60 * 60 * 1000L))
                         .setIssuedAt(date)
                         .signWith(key, signatureAlgorithm)
                         .compact();
     }
 
-    public Cookie createCookie(String email) throws UnsupportedEncodingException {
+    public Cookie createCookie(String email) {
         String cookieName = "refreshtoken";
         String cookieValue = createdRefreshToken(email);
-        var RTcookie = URLEncoder.encode(cookieValue, "utf-8");
+        var RTcookie = URLEncoder.encode(cookieValue, UTF_8);
         Cookie cookie = new Cookie(cookieName, RTcookie);
         cookie.setHttpOnly(true);
         cookie.setPath("/");
-        cookie.setMaxAge(COOKIE_TIME);
+        cookie.setMaxAge(24 * 60 * 60);
         return cookie;
     }
 
@@ -119,12 +114,7 @@ public class JwtUtil {
     }
 
     public boolean getRefreshTokenIsTrue(String email,String refreshToken) {
-        return getRefreshTokenByRedis(email).equals(refreshToken);
+        return redisService.getRefreshTokenByRedis(email).equals(refreshToken);
     }
-    public String getRefreshTokenByRedis(String email) {
-        ValueOperations<String, String> stringStringValueOperations = stringRedisTemplate.opsForValue();
-        System.out.println("Redis key : " + email);
-        System.out.println("Redis value : " + stringStringValueOperations.get(email));
-        return stringStringValueOperations.get(email);
-    }
+
 }

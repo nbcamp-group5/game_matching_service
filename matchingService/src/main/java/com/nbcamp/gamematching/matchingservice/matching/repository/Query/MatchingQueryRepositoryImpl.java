@@ -1,49 +1,52 @@
-//package com.nbcamp.gamematching.matchingservice.matching.repository.Query;
-//
-//import com.nbcamp.gamematching.matchingservice.matching.dto.QueryDto.MatchingResultQueryDto;
-//import com.nbcamp.gamematching.matchingservice.matching.dto.QueryDto.QMatchingResultQueryDto;
-//import com.nbcamp.gamematching.matchingservice.matching.entity.MatchingLog;
-//import com.nbcamp.gamematching.matchingservice.matching.entity.QMatchingLog;
-//import com.nbcamp.gamematching.matchingservice.matching.entity.QResultMatching;
-//import com.nbcamp.gamematching.matchingservice.matching.entity.ResultMatching;
-//import com.nbcamp.gamematching.matchingservice.member.entity.Member;
-//import com.nbcamp.gamematching.matchingservice.member.entity.QMember;
-//import com.querydsl.core.Tuple;
-//import com.querydsl.core.types.Projections;
-//import com.querydsl.jpa.impl.JPAQueryFactory;
-//import lombok.RequiredArgsConstructor;
-//
-//import java.util.List;
-//
-//import static com.nbcamp.gamematching.matchingservice.matching.entity.QMatchingLog.matchingLog;
-//import static com.nbcamp.gamematching.matchingservice.matching.entity.QResultMatching.*;
-//import static com.nbcamp.gamematching.matchingservice.member.entity.QMember.member;
-//
-//@RequiredArgsConstructor
-//public class MatchingQueryRepositoryImpl implements MatchingQueryRepository {
-//
-//    private final JPAQueryFactory queryFactory;
-//
-//
-//    @Override
-//    public MatchingLog findByResultMatchingAndMember() {
-//        List<Tuple> matchingLogs = queryFactory
-//                .select(member.Id,
-//                        resultMatching.gameInfo,
-//                        resultMatching.playMode)
-//                .from(matchingLog)
-//                .join(matchingLog.member,member)
-//                .join(matchingLog.resultMatching,resultMatching)
-//                .groupBy(matchingLog.id)
-//                .fetch();
-//
-//                /**
-//                 * 매칭완료된 것을 가져오고
-//                 * 그 매칭완료된것에 들어있는 멤버들을 가져온다
-//                 * 멤버들의 id값과 , 게임정보 , 게임모드
-//                 */
-//
-//
-//        return null;
-//    }
-//}
+package com.nbcamp.gamematching.matchingservice.matching.repository.Query;
+
+import com.nbcamp.gamematching.matchingservice.matching.dto.QueryDto.MatchingResultQueryDto;
+import com.querydsl.core.types.Projections;
+import com.querydsl.jpa.impl.JPAQueryFactory;
+import lombok.RequiredArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+import static com.nbcamp.gamematching.matchingservice.matching.entity.QMatchingLog.matchingLog;
+import static com.nbcamp.gamematching.matchingservice.matching.entity.QResultMatching.resultMatching;
+import static com.nbcamp.gamematching.matchingservice.member.entity.QMember.member;
+
+@RequiredArgsConstructor
+public class MatchingQueryRepositoryImpl implements MatchingQueryRepository {
+    private final JPAQueryFactory queryFactory;
+    @Override
+    @Transactional
+    public Optional<List<MatchingResultQueryDto>> findByMatchingResultMemberNicknameByMemberId(Long memberId) {
+            var matching =
+                    Optional.ofNullable(queryFactory.select(Projections.constructor(
+                                    MatchingResultQueryDto.class,
+                                    matchingLog.resultMatching.id,
+                                    matchingLog.resultMatching.playMode,
+                                    matchingLog.resultMatching.gameInfo,
+                                    matchingLog.resultMatching.discordUrl
+                            ))
+                            .from(matchingLog)
+                            .where(matchingLog.member.Id.eq(memberId))
+                            .fetch());
+
+            if (matching.isPresent()){
+                List<MatchingResultQueryDto> matchingResultList = new ArrayList<>();
+                for (MatchingResultQueryDto currentM : matching.get()) {
+                    Long matchingId = currentM.getResultId();
+                    List<String> membersNickname = queryFactory.select(member.profile.nickname).from(member)
+                            .join(matchingLog).on(member.Id.eq(matchingLog.member.Id))
+                            .join(matchingLog.resultMatching,resultMatching)
+                            .where(resultMatching.id.eq(matchingId))
+                            .fetch();
+                    currentM.addMember(membersNickname);
+                    matchingResultList.add(currentM);
+                }
+                return Optional.of(matchingResultList);
+            } else return Optional.empty();
+        }
+    }
