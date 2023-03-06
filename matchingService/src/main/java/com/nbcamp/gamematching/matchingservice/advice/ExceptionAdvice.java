@@ -1,14 +1,7 @@
 package com.nbcamp.gamematching.matchingservice.advice;
 
 
-import com.nbcamp.gamematching.matchingservice.exception.CommonException;
-import com.nbcamp.gamematching.matchingservice.exception.ExistsException;
-import com.nbcamp.gamematching.matchingservice.exception.NotFoundException;
-import com.nbcamp.gamematching.matchingservice.exception.SignException;
-import com.nbcamp.gamematching.matchingservice.exception.SignException.InvalidEmail;
-import com.nbcamp.gamematching.matchingservice.exception.SignException.InvalidNickname;
-import com.nbcamp.gamematching.matchingservice.exception.SignException.InvalidPassword;
-import com.nbcamp.gamematching.matchingservice.exception.TokenException;
+import com.nbcamp.gamematching.matchingservice.exception.*;
 import com.nbcamp.gamematching.matchingservice.exception.api.RestApiException;
 import com.nbcamp.gamematching.matchingservice.exception.api.Status;
 import lombok.extern.log4j.Log4j2;
@@ -28,7 +21,6 @@ public class ExceptionAdvice {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public RestApiException NotFoundException(NotFoundException e) {
         log.info("Erorr Message = {}", e.getMessage());
-
         if (e instanceof NotFoundException.APPLYNOTAPPLIED){
             return new RestApiException(Status.APPLY_NOT_APPLIED);}
         else if (e instanceof NotFoundException.NotFoundMemberException){
@@ -49,7 +41,6 @@ public class ExceptionAdvice {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public RestApiException CommonException(CommonException e) {
         log.info("Erorr Message = {}", e.getMessage());
-
         if (e instanceof CommonException.MemberAuthorityException) {
             return new RestApiException(Status.MEMBER_AUTHORITY);
         } else if (e instanceof CommonException.RefreshTokenNotFoundException) {
@@ -59,13 +50,10 @@ public class ExceptionAdvice {
         return new RestApiException(Status.AUTHORITY);
     }
 
-
-
     @ExceptionHandler(ExistsException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public RestApiException ExistsException(ExistsException e) {
         log.info("Erorr Message = {}", e.getMessage());
-
         if (e instanceof ExistsException.DuplicatedEmail) {
             return new RestApiException(Status.DUPLICATED_EMAIL);
         } else if (e instanceof ExistsException.AlreadyFriendException) {
@@ -75,18 +63,13 @@ public class ExceptionAdvice {
         } else if (e instanceof ExistsException.AlreadyApplyFriendException) {
             return new RestApiException(Status.ALREADY_APPLIED_FRIEND);
         }
-
         return new RestApiException(Status.DUPLICATED);
     }
 
-
-
-    // 커스텀 외 익셉션
     @ExceptionHandler(IllegalArgumentException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public RestApiException illegalArgumentException(IllegalArgumentException e) {
+    public RestApiException IllegalArgumentException(IllegalArgumentException e) {
         log.info("Erorr Message = {}", e.getMessage());
-
         return new RestApiException(Status.ILLEGAL_ARGUMENT);
     }
 
@@ -94,7 +77,6 @@ public class ExceptionAdvice {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public RestApiException RefreshTokenException(TokenException e) {
         log.info("Erorr Message = {}", e.getMessage());
-
         return new RestApiException(Status.REFRESHTOKEN_NOT_FOUND);
     }
 
@@ -102,7 +84,6 @@ public class ExceptionAdvice {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public RestApiException AccessDeniedException(AccessDeniedException e) {
         log.info("Erorr Message = {}", e.getMessage());
-
         return new RestApiException(Status.MEMBER_AUTHORITY);
     }
 
@@ -110,7 +91,6 @@ public class ExceptionAdvice {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public RestApiException SignException(SignException e) {
         log.info("Erorr Message = {}", e.getMessage());
-
         if (e instanceof SignException.InvalidPassword) {
             return new RestApiException(Status.INVALID_PASSWORD);
         } else if (e instanceof SignException.InvalidNickname) {
@@ -120,5 +100,4 @@ public class ExceptionAdvice {
         }
         return new RestApiException(Status.NOT_FOUND_MEMBER_NOT_MATCHES);
     }
-
 }

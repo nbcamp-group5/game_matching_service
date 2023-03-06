@@ -3,6 +3,7 @@ package com.nbcamp.gamematching.matchingservice.matching.Service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nbcamp.gamematching.matchingservice.discord.service.DiscordService;
+import com.nbcamp.gamematching.matchingservice.matching.dto.QueryDto.MatchingResultQueryDto;
 import com.nbcamp.gamematching.matchingservice.exception.NotFoundException.NotFoundMatchingException;
 import com.nbcamp.gamematching.matchingservice.matching.dto.NicknameDto;
 import com.nbcamp.gamematching.matchingservice.matching.dto.RequestMatching;
@@ -19,7 +20,6 @@ import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -88,6 +88,11 @@ public class MatchingServiceImpl implements MatchingService {
                 .topicName(topicName)
                 .url(url).build();
     }
+    public Optional<List<MatchingResultQueryDto>> findByMatchingResultMemberNicknameByMemberId(Long id) {
+        return matchingLogRepository.findByMatchingResultMemberNicknameByMemberId(id);
+    }
+
+
 
     @Override
     public List<NicknameDto> findMatchingMembers(Long matchingId, Long memberId) {
