@@ -44,7 +44,7 @@ public class AuthController {
 
         response.setHeader("Authorization", token);
 
-        return "redirect:http://localhost:5555/kakao.html?token="+ token;
+        return "redirect:http://game-matching.s3-website.ap-northeast-2.amazonaws.com/kakao.html?token="+ token;
     }
 
 
