@@ -1,9 +1,12 @@
 package com.nbcamp.gamematching.matchingservice.member.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nbcamp.gamematching.matchingservice.member.dto.AnswerBuddyRequestDto;
 import com.nbcamp.gamematching.matchingservice.member.dto.BoardPageDto.BoardContent;
 import com.nbcamp.gamematching.matchingservice.member.dto.BuddyRequestDto;
+import com.nbcamp.gamematching.matchingservice.member.dto.EvaluationOneMember;
 import com.nbcamp.gamematching.matchingservice.member.dto.EvaluationRequest;
+import com.nbcamp.gamematching.matchingservice.member.dto.MannerPointsRequest;
 import com.nbcamp.gamematching.matchingservice.member.dto.MatchingLog2Dto;
 import com.nbcamp.gamematching.matchingservice.member.dto.MatchingLog5Dto;
 import com.nbcamp.gamematching.matchingservice.member.dto.ProfileDto;
@@ -27,6 +30,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
@@ -127,13 +131,6 @@ public class MemberController {
     @ResponseBody
     public ProfileDto getOtherProfile(@PathVariable Long memberId) {
         return memberService.getOtherProfile(memberId);
-    }
-
-    @PostMapping("/mannerPoints/evaluation")
-    public ResponseEntity<String> changeMannerPoints(@RequestBody EvaluationRequest request,
-            @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        Member member = userDetails.getMember();
-        return memberService.changeMannerPoints(request, member.getId());
     }
 
     // 친구 삭제

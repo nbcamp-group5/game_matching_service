@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AnonymousBoardList</title>
+
+  <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+    integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+    integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+    integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+    crossorigin="anonymous"></script>
+  <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+  <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+
+<body>
+  <nav class="navbar navbar-light bg-white">
+    <img href="#" class="" src="../images/nav/logo.png" />
+    <form class="form-inline">
+      <div class="input-group">
+        <input type="text" class="search-box">
+        <div class="input-group-append">
+          <button class="search-btn" type="button">
+            <i class="fa fa-search btn-color"></i>
+          </button>
+        </div>
+      </div>
+    </form>
+  </nav>
+
+  <nav class="menu">
+    <div class="menu__list">
+      <li class="menu__btn">
+        <a class="menu__link" href="board.html">
+          <div class="menu__link__explain">
+            <!-- <span><i class="fa-solid fa-clipboard-user fa-lg"></i></span> -->
+            <span>📝 일반 게시판</span>
+          </div>
+        </a>
+      </li>
+  
+      <li class="menu__btn" style="background-color: #b1bce66c;">
+        <a class="menu__link" href="anonymous-board.html">
+          <div class="menu__link__explain">
+            <!-- <span><i class="fa-solid fa-clipboard-question fa-lg"></i></span> -->
+            <span>📝 익명 게시판</span>
+          </div>
+        </a>
+      </li>
+  
+      <li class="menu__btn">
+        <a class="menu__link" href="../chat/chat.html">
+          <div class="menu__link__explain">
+            <!-- <span><i class="fa-solid fa-comment fa-lg"></i></span> -->
+            <span>✉️ 메시지</span>
+          </div>
+        </a>
+      </li>
+  
+      <li class="menu__btn">
+        <a class="menu__link" href="../matching/matching-request.html">
+          <div class="menu__link__explain">
+            <!-- <span><i class="fa-solid fa-gamepad"></i></span> -->
+            <span>🎮 매칭</span>
+          </div>
+        </a>
+      </li>
+  
+      <li class="menu__btn">
+        <a class="menu__link" href="../profile/my-profile.html">
+          <div class="menu__link__explain">
+            <!-- <i class="fa-solid fa-user fa-lg"></i> -->
+            <span>🙇🏻‍♀️ 프로필</span>
+          </div>
+        </a>
+      </li>
+    </div>
+  </nav>
+
+
+  <div class="container-fluid gedf-wrapper">
+    <div class="row">
+      <div class="col-md-3" style="z-index: -1;">
+      </div>
+
+
+      <div class="col-md-6 gedf-main">
+        <!--- \\\\\\\입력-->
+        <div class="card gedf-card" style="border-radius: 20px; margin-bottom: 25px; border: none;" id="updateBoard">
+
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
+
+<style>
+  @font-face {
+    font-family: 'MICEGothic Bold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2206-01@1.0/MICEGothic Bold.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: 'TTTtangsbudaejjigaeB';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2212@1.0/TTTtangsbudaejjigaeB.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: 'SEBANG_Gothic_Bold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2104@1.0/SEBANG_Gothic_Bold.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+  }
+
+  .title-font {
+    font-family: 'TTTtangsbudaejjigaeB';
+  }
+
+  .text-font {
+    font-family: 'SEBANG_Gothic_Bold';
+  }
+
+  nav img {
+    width: 50px;
+  }
+
+  .search-box {
+    outline: none;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #9A86A4;
+    border-top-left-radius: 0.25rem;
+    border-bottom-left-radius: 0.25rem;
+    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+  }
+
+  .search-btn {
+    outline: none !important;
+    display: inline-block;
+    font-weight: 400;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    border: 1px solid transparent;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    border-top-right-radius: 0.25rem;
+    border-bottom-right-radius: 0.25rem;
+    border: 1px solid #9A86A4;
+    background-color: #9A86A4;
+  }
+
+  .btn-color {
+    color: white;
+  }
+
+  .cnt-title {
+    margin-bottom: 10px;
+  }
+
+  .cnt-box {
+    display: flex;
+    justify-content: space-between;
+    margin: 0 15px;
+  }
+
+  .post-btn {
+    margin-left: auto;
+    background-color: #9A86A4;
+    border-radius: 10px;
+    color: #fff;
+    font-family: 'MICEGothic Bold';
+    font-size: smaller;
+  }
+
+  body {
+    background-color: #b1bce62f;
+  }
+
+  .h7 {
+    font-size: 0.8rem;
+  }
+
+  .gedf-wrapper {
+    margin-top: 0.97rem;
+  }
+
+  @media (min-width: 992px) {
+    .gedf-main {
+      padding-left: 4rem;
+      padding-right: 4rem;
+    }
+
+    .gedf-card {
+      margin-bottom: 2.77rem;
+    }
+  }
+
+  /**Reset Bootstrap*/
+  .dropdown-toggle::after {
+    content: none;
+    display: none;
+  }
+
+  /* 모달창 */
+
+  #modal.modal-overlay {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    display: flex;
+    /* display: flex; */
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.493);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    backdrop-filter: blur(1.5px);
+    -webkit-backdrop-filter: blur(1.5px);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+  }
+
+  #modal .modal-window {
+    background: #b1bce62f;
+    backdrop-filter: blur(13.5px);
+    -webkit-backdrop-filter: blur(13.5px);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    /* width: 500px; */
+    margin: 20px;
+    height: auto;
+    position: relative;
+    top: -100px;
+    padding: 10px;
+  }
+
+  #modal .title {
+    padding-left: 10px;
+    display: inline;
+    color: #9A86A4;
+  }
+
+  #modal .title h5 {
+    display: inline;
+    font-weight: bolder;
+  }
+
+  #modal .close-area {
+    display: inline;
+    float: right;
+    padding-right: 10px;
+    cursor: pointer;
+    text-shadow: 1px 1px 2px gray;
+    color: white;
+  }
+
+  #modal .content {
+    margin-top: 20px;
+    padding: 0px 10px;
+  }
+
+  .comment {
+    margin-bottom: 10px;
+    word-break: break-all;
+  }
+
+  .comment-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+  }
+
+  .comment img {
+    margin-right: 10px;
+  }
+
+  .comment p {
+    margin-bottom: 0;
+    font-weight: bolder;
+  }
+
+  /* 메뉴바 */
+
+  .menu {
+    background-color: #fff;
+    padding: 10px 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    border-radius: 10px;
+    position: fixed;
+    top: 0;
+    box-sizing: border-box;
+    width: 170px;
+    display: flex;
+    flex-direction: column;
+    margin-left: 110px;
+    margin-top: 120px;
+    text-align: center;
+    box-shadow: 3px 3px #9A86A4;
+  }
+
+  .menu a {
+    text-decoration: none;
+    color: black;
+  }
+
+  .menu li {
+    list-style: none;
+  }
+
+  .menu__btn {
+    padding: 10px 0;
+  }
+
+  .menu__link__explain {
+    display: flex;
+    font-size: 12px;
+    /* justify-content: center; */
+    padding-left: 20px;
+  }
+</style>
+
+<script>
+
+  const auth = localStorage.getItem('Authorization');
+
+  var boardId = localStorage.getItem('amBoardId');
+
+
+
+  $(document).ready(function () {
+    show_board();
+  });
+
+  function show_board() {
+
+
+    $.ajax({
+      type: "GET",
+      url: "http://43.200.42.252:8080/api/boards/anonymous/" + boardId,
+      beforeSend: function (xhr) {
+        xhr.setRequestHeader("Authorization", auth);
+      },
+      data: {},
+      error: function (e) {
+        console.log(e);
+      },
+      success: function (response) {
+        console.log(response);
+        $(response).each(function () {
+          console.log(response);
+
+          let temp_html = ` <div class="card-header" style="border-top-left-radius: 20px; border-top-right-radius: 20px;">
+                    <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="posts-tab" data-toggle="tab" href="#posts" role="tab"
+                               aria-controls="posts" aria-selected="true">✒️</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="images-tab" data-toggle="tab" role="tab" aria-controls="images"
+                               aria-selected="false" href="#images">📷</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="card-body">
+                    <div class="tab-content" id="myTabContent">
+                        <div class="tab-pane fade show active" id="posts" role="tabpanel" aria-labelledby="posts-tab">
+                            <div class="form-group">
+                                <label class="sr-only" for="message">post</label>
+                                <textarea class="form-control" id="message" rows="3" placeholder="문구 입력">${this.content}</textarea>
+                            </div>
+
+                        </div>
+                        <div class="tab-pane fade" id="images" role="tabpanel" aria-labelledby="images-tab">
+                            <div class="form-group">
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" id="customFile">
+                                    <label class="custom-file-label" for="customFile">${this.boardImage}</label>
+                                </div>
+                            </div>
+                            <div class="py-4"></div>
+                        </div>
+                    </div>
+                    <div class="btn-toolbar">
+                        <button onclick="update_board(${this.id})" type="submit" class="btn post-btn">수정</button>
+                    </div>`
+          $(`#updateBoard`).append(temp_html);
+        })
+
+      }
+    });
+  }
+
+
+  function update_board(boardId) {
+    var data = {
+      content: $('#message').val()
+    };
+    var formData = new FormData();
+    formData.append('image', $('#customFile')[0].files[0]);
+    formData.append('requestDto', new Blob([JSON.stringify(data)], { type: "application/json" }));
+
+
+    var settings = {
+      beforeSend: function (xhr) {
+        xhr.setRequestHeader("Authorization", auth);
+      },
+      "url": "http://43.200.42.252:8080/api/boards/anonymous/" + boardId,
+      "method": "PUT",
+      "timeout": 0,
+      "processData": false,
+      "mimeType": "multipart/form-data",
+      "contentType": false,
+      "data": formData
+    };
+
+    $.ajax(settings).done(function (response) {
+      console.log(response);
+      window.location.href = "anonymous-board.html";
+    });
+  }
+
+</script>

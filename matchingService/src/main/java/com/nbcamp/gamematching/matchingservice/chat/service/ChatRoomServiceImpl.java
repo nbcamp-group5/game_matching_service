@@ -29,7 +29,9 @@ public class ChatRoomServiceImpl implements ChatRoomService{
 
     //내 친구 리스트 가져오기
     @Override
-    public ResponseEntity<List<BuddyDto>> getFriends(Member member) {
+    @Transactional(readOnly = true)
+    public ResponseEntity<List<BuddyDto>> getFriends(Long memberId) {
+        Member member = memberRepository.findById(memberId).orElseThrow(NotFoundException.NotFoundMemberException::new);
         List<Member> friends = member.getMyBuddies();
         return ResponseEntity.ok().body(BuddyDto.of(friends));
     }
@@ -70,3 +72,4 @@ public class ChatRoomServiceImpl implements ChatRoomService{
 
 
 }
+

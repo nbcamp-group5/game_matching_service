@@ -29,10 +29,4 @@ public class Like {
         this.member = member;
         this.board = board;
     }
-
-    public void checkUser(Like like, Member member) {
-        if (!like.getMember().getEmail().equals(member.getEmail())) throw new IllegalArgumentException("유저 불일치");
-    }
-
-    
 }

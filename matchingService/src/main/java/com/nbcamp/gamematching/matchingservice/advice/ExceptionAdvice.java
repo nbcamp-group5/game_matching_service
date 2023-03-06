@@ -31,6 +31,8 @@ public class ExceptionAdvice {
             return new RestApiException(Status.NOT_FOUND_DISCORDNAME);
         }else if (e instanceof  NotFoundException.NotFoundRefreshTokenException) {
             return new RestApiException(Status.NOT_FOUND_REFRESHTOKEN);
+        } else if (e instanceof NotFoundException.NotFoundMatchingException) {
+            return new RestApiException(Status.NOT_FOUND_MATCHING);
         }
         return new RestApiException(Status.NOT_FOUND);
     }

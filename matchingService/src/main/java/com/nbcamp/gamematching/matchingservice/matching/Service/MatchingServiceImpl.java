@@ -4,6 +4,8 @@ package com.nbcamp.gamematching.matchingservice.matching.Service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nbcamp.gamematching.matchingservice.discord.service.DiscordService;
 import com.nbcamp.gamematching.matchingservice.matching.dto.QueryDto.MatchingResultQueryDto;
+import com.nbcamp.gamematching.matchingservice.exception.NotFoundException.NotFoundMatchingException;
+import com.nbcamp.gamematching.matchingservice.matching.dto.NicknameDto;
 import com.nbcamp.gamematching.matchingservice.matching.dto.RequestMatching;
 import com.nbcamp.gamematching.matchingservice.matching.dto.ResponseUrlInfo;
 import com.nbcamp.gamematching.matchingservice.matching.entity.MatchingLog;
@@ -76,7 +78,10 @@ public class MatchingServiceImpl implements MatchingService {
                     .discordUrl(url)
                     .build();
             resultMatchingRepository.save(resultMatching);
-            matchingLogRepository.save(new MatchingLog(resultMatching,resultMember));
+            MatchingLog matchingLog = new MatchingLog(resultMatching, resultMember);
+            matchingLogRepository.save(matchingLog);
+            matchingLog.setMember(resultMember); // 연관관계 편의 메소드때문에 필요해요! 기존 로직을 건드리진 않습니다!
+
         }
         return ResponseUrlInfo.builder()
                 .member(request)
@@ -87,6 +92,22 @@ public class MatchingServiceImpl implements MatchingService {
         return matchingLogRepository.findByMatchingResultMemberNicknameByMemberId(id);
     }
 
+
+
+    @Override
+    public List<NicknameDto> findMatchingMembers(Long matchingId, Long memberId) {
+        ResultMatching resultMatching = resultMatchingRepository.findById(matchingId)
+                .orElseThrow(NotFoundMatchingException::new);
+        List<MatchingLog> matchingLogs = matchingLogRepository.findAllByResultMatching(
+                resultMatching);
+        return memberService.findNicknamesInMatching(matchingLogs, memberId);
+    }
+
+    @Override
+    public ResultMatching findResultMatchingById(Long matchingId) {
+        return resultMatchingRepository.findById(matchingId)
+                .orElseThrow(NotFoundMatchingException::new);
+    }
 
 }
 

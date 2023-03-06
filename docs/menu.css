@@ -1,0 +1,42 @@
+/* 메뉴바 */
+
+.menu {
+    background-color: #fff;
+    padding: 10px 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    border-radius: 10px;
+    position: fixed;
+    top: 0;
+    box-sizing: border-box;
+    width: 170px;
+    display: flex;
+    flex-direction: column;
+    margin-left: 110px;
+    margin-top: 120px;
+    text-align: center;
+    /* box-shadow: 3px 3px #9A86A4; */
+}
+
+.menu a {
+    text-decoration: none;
+    color: black;
+}
+
+.menu li {
+    list-style: none;
+}
+
+.menu__btn {
+    padding: 10px 0;
+}
+
+.menu__link__explain {
+    display: flex;
+    font-size: 12px;
+    /* justify-content: center; */
+    padding-left: 20px;
+}
+
+nav img {
+    width: 50px;
+}

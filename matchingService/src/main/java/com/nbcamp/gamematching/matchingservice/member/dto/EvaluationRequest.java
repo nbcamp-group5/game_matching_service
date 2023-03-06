@@ -1,5 +1,6 @@
 package com.nbcamp.gamematching.matchingservice.member.dto;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.util.List;
 import lombok.Getter;
 
@@ -7,5 +8,5 @@ import lombok.Getter;
 public class EvaluationRequest {
 
     private Long matchingId; // responseMatching ID
-    private List<MannerPointsRequest> requests;
+    private String requests;
 }

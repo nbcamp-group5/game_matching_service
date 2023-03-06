@@ -10,6 +10,10 @@ import org.springframework.web.multipart.MultipartFile;
 @Component
 public class FileStore {
 
+    /*
+    서버에 직접 저장할 때 사용하는 빈
+     */
+
     @Value("${file.dir}")
     private String fileDir;
 

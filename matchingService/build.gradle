@@ -60,7 +60,6 @@ dependencies {
     implementation "net.dv8tion:JDA:4.3.0_277"
     implementation 'org.javacord:javacord:3.7.0'
 
-    implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
     implementation group: 'javax.servlet', name: 'jstl', version: '1.2'
 
 
@@ -73,32 +72,43 @@ dependencies {
     implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
 
     //querydsl
-    implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
+    implementation "com.querydsl:querydsl-jpa:${queryDslVersion}:jakarta"
+    implementation "com.querydsl:querydsl-core"
+    implementation "com.querydsl:querydsl-collections"
+
     annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jakarta"
-    annotationProcessor "jakarta.annotation:jakarta.annotation-api"
-    annotationProcessor "jakarta.persistence:jakarta.persistence-api"
+
+    annotationProcessor "jakarta.persistence:jakarta.persistence-api" // java.lang.NoClassDefFoundError (javax.annotation.Entity) 대응 코드
+    annotationProcessor "jakarta.annotation:jakarta.annotation-api" // java.lang.NoClassDefFoundError (javax.annotation.Generated) 대응 코드
+
 }
 
 tasks.named('test') {
     useJUnitPlatform()
 }
 
-// querydsl QEntity build 위치 설정
-def querydslDir = "$buildDir/generated/querydsl"
+def generated = 'src/main/generated'
 
-//querydsl {
-//    jpa = true
-//    querydslSourcesDir = querydslDir
-//}
+tasks.withType(JavaCompile) {
+    options.getGeneratedSourceOutputDirectory().set(file(generated))
+}
 
+// java source set 에 QueryDSL Q class 위치 추가
 sourceSets {
-    main.java.srcDir querydslDir
+    main.java.srcDirs += [ generated ]
 }
 
-configurations {
-    querydsl.extendsFrom compileClasspath
+
+// gradle clean 시에 QClass 디렉토리 삭제
+clean {
+    delete file(generated)
 }
 
-compileQuerydsl {
-    options.annotationProcessorPath = configurations.querydsl
-}
+//tasks.named("jar") {
+//    enabled = false
+//}
+//
+//tasks.named("bootJar") {
+//    enabled = true
+//    mainClass = "com.nbcamp.gamematching.matchingservice.MatchingServiceApplication"
+//}
