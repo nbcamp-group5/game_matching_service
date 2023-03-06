@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 public class BoardResponse {
 
     private final Long id;
+    private final Long memberId;
     private final String nickname;
     private final String memberImage;
     private final String boardImage;
@@ -20,6 +21,7 @@ public class BoardResponse {
 
     public BoardResponse(Board board,Long likeCount) {
         this.id = board.getId();
+        this.memberId = board.getMember().getId();
         this.nickname = board.getMember().getProfile().getNickname();
         this.memberImage = board.getMember().getProfile().getProfileImage();
         this.boardImage = board.getBoardImage();
@@ -31,6 +33,7 @@ public class BoardResponse {
 
     public BoardResponse(Board board) {
         this.id = board.getId();
+        this.memberId = board.getMember().getId();
         this.nickname = board.getMember().getProfile().getNickname();
         this.memberImage = board.getMember().getProfile().getProfileImage();
         this.boardImage = board.getBoardImage();
