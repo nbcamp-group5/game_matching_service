@@ -76,6 +76,11 @@ public class RedisService {
         stringRedisTemplate.delete(email);
     }
 
-
+    public String getRefreshTokenByRedis(String email) {
+        ValueOperations<String, String> stringStringValueOperations = stringRedisTemplate.opsForValue();
+        System.out.println("Redis key : " + email);
+        System.out.println("Redis value : " + stringStringValueOperations.get(email));
+        return stringStringValueOperations.get(email);
+    }
 
 }

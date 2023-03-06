@@ -18,6 +18,10 @@ import lombok.NoArgsConstructor;
 public class MatchingLog {
 
 
+    //1번 매칭로그를 들고있는게
+    //멤버 1 번 2번
+    //
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -26,7 +30,7 @@ public class MatchingLog {
     @JoinColumn(name = "member_id")
     private Member member;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "responsematching_id")
+    @JoinColumn(name = "resultMatching_id")
     private ResultMatching resultMatching;
 
     private Boolean evaluation = false;
