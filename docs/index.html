@@ -310,6 +310,7 @@
         password: $("#signup-password").val(),
       }),
     };
+
     $.ajax(settings)
       .done(function (response) {
         alert("회원가입이 완료되었습니다.");
@@ -318,6 +319,7 @@
         alert(response.responseJSON.errorMessage);
       });
   }
+
   function signInRequest() {
     var settings = {
       url: "http://43.200.42.252:8080/api/auth/signin",
@@ -327,10 +329,12 @@
         "Content-Type": "application/json",
       },
       data: JSON.stringify({
-        email: $("#login-email").val(),
-        password: $("#login-password").val(),
+        email: $("#signup-email").val(),
+        nickname: $("#signup-nickname").val(),
+        password: $("#signup-password").val(),
       }),
     };
+
     $.ajax(settings)
       .done(function (response, status, xhr) {
         localStorage.setItem(
