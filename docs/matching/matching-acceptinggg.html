@@ -16,51 +16,49 @@
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
     <script>
+      function connect(roomName, fnick) {
+        getMessage(roomName, fnick);
+        var sockJs = new SockJS("http://43.200.42.252:8080/GGMatching");
+        var stomp = Stomp.over(sockJs);
 
-    function connect(roomName, fnick) {
-    getMessage(roomName, fnick);
-    var sockJs = new SockJS("http://localhost:8080/GGMatching");
-    var stomp = Stomp.over(sockJs);
+        stomp.connect({}, function () {
+          console.log("stomp 연결");
 
-    stomp.connect({}, function () {
-
-        console.log("stomp 연결");
-
-        stomp.subscribe("/matchingsub/" + roomName, function (response) {
+          stomp.subscribe("/matchingsub/" + roomName, function (response) {
             console.log("stomp 구독");
             console.log(response);
 
             var content = JSON.parse(response.body);
             var url = content.url;
             console.log(url);
+          });
         });
-    });
+      }
 
-    }
-      
-    function popup_content(hideOrshow) {
-      if (hideOrshow == "hide"){
+      function popup_content(hideOrshow) {
+        if (hideOrshow == "hide") {
           document.getElementById("popup_content_wrap").style.display = "none";
           var settings = {
-      "url": "http://localhost:8080/api/matching/cancel",
-      "method": "GET",
-      "timeout": 0,
-      "headers": {
-        "Content-Type": "application/json",
+            url: "http://43.200.42.252:8080/api/matching/cancel",
+            method: "GET",
+            timeout: 0,
+            headers: {
+              "Content-Type": "application/json",
+            },
+          };
+          $.ajax(settings).done(function (response, status, xhr) {
+            localStorage.setItem(
+              "Authorization",
+              xhr.getResponseHeader("Authorization")
+            );
+            window.location = "/matching/matching-request.html";
+          });
+        } else {
+          document
+            .getElementById("popup_content_wrap")
+            .removeAttribute("style");
+        }
       }
-    };
-    $.ajax(settings).done(function (response, status, xhr) {
-      localStorage.setItem('Authorization', xhr.getResponseHeader('Authorization'))
-      window.location = ("/matching/matching-request.html")
-    });
-    }
-    else{
-      document
-        .getElementById("popup_content_wrap")
-        .removeAttribute("style");
-      }
-    }
-
 
       window.onload = function () {
         setTimeout(function () {
@@ -68,12 +66,10 @@
         }, 100);
 
         webSocket.onopen = () => {
-        webSocket.send("${loginUser.memId}");
-        wsSend();
-	}
+          webSocket.send("${loginUser.memId}");
+          wsSend();
+        };
       };
-
-      
     </script>
   </head>
 
@@ -145,7 +141,7 @@
           <li class="list-group-item text-center">LOL-5인</li>
           <li class="list-group-item text-center">
             <h4>디스코드 URL</h4>
-<!-- 
+            <!-- 
           <div class="messages">
               <div id="messages"></div>
           </div>
@@ -233,73 +229,78 @@
       </div>
     </div>
 
-    <div id="popup_content_wrap" >
+    <div id="popup_content_wrap">
       <div id="popup_content">
-
         <center>
-          <h1>매칭 중
-            <div class="square"style="z-index: 99;">
-              <div class="spin" style="z-index: 99;"></div>
-          </div>              
+          <h1>
+            매칭 중
+            <div class="square" style="z-index: 99">
+              <div class="spin" style="z-index: 99"></div>
+            </div>
           </h1>
           <input
-            type="submit" name="cancel" value="취소하기" class="btn btn-primary"
-            onClick="popup_content('hide')">
-
+            type="submit"
+            name="cancel"
+            value="취소하기"
+            class="btn btn-primary"
+            onClick="popup_content('hide')"
+          />
         </center>
       </div>
     </div>
   </body>
 </html>
 
-
-
 <style>
-    .square{
-    border:0;
-    width:80px;
-    padding:0px;
+  .square {
+    border: 0;
+    width: 80px;
+    padding: 0px;
     margin-top: 20px;
     margin-left: 10px;
-    }
+  }
 
-    .spin {
+  .spin {
     height: 70px;
     width: 70px;
     border-radius: 50%;
-    border:dashed 5px white;
+    border: dashed 5px white;
     -webkit-animation-name: spin;
     -webkit-animation-duration: 1.5s;
     -webkit-animation-iteration-count: infinite;
     -webkit-animation-timing-function: linear;
-    }
+  }
 
-    @-webkit-keyframes spin {
-    from   {  -webkit-transform: rotate(0deg); }
-    to   {  -webkit-transform: rotate(180deg); }
+  @-webkit-keyframes spin {
+    from {
+      -webkit-transform: rotate(0deg);
     }
+    to {
+      -webkit-transform: rotate(180deg);
+    }
+  }
 
-    .message {
-        margin: 5em;
-        color: olive;
-        border: solid 2px #D2691E;
-        -webkit-transition: 0.5s; transition: 0.5s;
-        width: 50%;
-        padding: 10px 20px;
-        box-sizing: border-box;
-    }
-    .messages {
-        margin: 5em;
-    }
-    .send-btn {
-        background-color: #F4FEE2;
-        padding: 10px 20px;
-    }
-    li {
-        list-style-type: none;
-        margin: 1em;
-        text-align: center;
-        font-size: 2em;
-    }
-
+  .message {
+    margin: 5em;
+    color: olive;
+    border: solid 2px #d2691e;
+    -webkit-transition: 0.5s;
+    transition: 0.5s;
+    width: 50%;
+    padding: 10px 20px;
+    box-sizing: border-box;
+  }
+  .messages {
+    margin: 5em;
+  }
+  .send-btn {
+    background-color: #f4fee2;
+    padding: 10px 20px;
+  }
+  li {
+    list-style-type: none;
+    margin: 1em;
+    text-align: center;
+    font-size: 2em;
+  }
 </style>

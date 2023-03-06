@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
   </head>
   <div class="container" id="container">
     <div class="form-container sign-up-container">
@@ -23,7 +23,7 @@
             placeholder="비밀번호"
           />
         </div>
-        <button onclick="signUpRequest()">확인</button>
+        <div class="cssButton" onclick="signUpRequest()">확인</div>
       </form>
     </div>
     <div class="form-container sign-in-container">
@@ -41,7 +41,7 @@
             placeholder="비밀번호"
           />
         </div>
-        <button onclick="signInRequest()">확인</button>
+        <div class="cssButton" onclick="signInRequest()">확인</div>
       </form>
     </div>
     <div class="overlay-container">
@@ -121,6 +121,19 @@
       font-size: 14px;
       text-decoration: none;
       margin: 15px 0;
+    }
+    .cssButton {
+      border-radius: 25px;
+      border: 0px solid #ff4b2b;
+      background: linear-gradient(45deg, #b7e5dd, #f1f0c0);
+      background-color: #95adfc;
+      color: #656770;
+      font-size: 17px;
+      font-weight: bold;
+      padding: 12px 45px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      transition: transform 80ms ease-in;
     }
     button {
       border-radius: 25px;
@@ -325,6 +338,7 @@
         });
     }
     function signInRequest() {
+      alert("test");
       var settings = {
         url: "http://43.200.42.252:8080/api/auth/signin",
         method: "POST",
@@ -345,7 +359,7 @@
           );
           window.location.href = "./board/board.html";
         })
-        .fail(function (response) {
+        .fail(function (response, status, xhr) {
           console.log(response);
           alert("아이디와 비밀번호를 확인해주세요.");
         });
