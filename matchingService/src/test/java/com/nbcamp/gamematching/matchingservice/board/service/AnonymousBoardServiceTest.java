@@ -79,7 +79,7 @@ class AnonymousBoardServiceTest {
     void getAnonymousBoardList() throws IOException {
         Member findMember = memberRepository.findById(3L).orElseThrow();
 
-        AnonymousBoard boards = new AnonymousBoard(AnonymousBoard.nNick(),"ddddd.jpg","안녕하세요",findMember);
+        AnonymousBoard boards = new AnonymousBoard("ddddd.jpg","안녕하세요",findMember);
 
         boardRepository.save(boards);
 

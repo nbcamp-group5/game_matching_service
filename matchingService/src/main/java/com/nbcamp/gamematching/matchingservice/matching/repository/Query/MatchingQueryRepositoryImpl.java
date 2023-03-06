@@ -1,6 +1,7 @@
 package com.nbcamp.gamematching.matchingservice.matching.repository.Query;
 
 import com.nbcamp.gamematching.matchingservice.matching.dto.QueryDto.MatchingResultQueryDto;
+import com.nbcamp.gamematching.matchingservice.matching.dto.QueryDto.MembersNicknameQueryDto;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static com.nbcamp.gamematching.matchingservice.matching.entity.QMatchingLog.matchingLog;
 import static com.nbcamp.gamematching.matchingservice.matching.entity.QResultMatching.resultMatching;
@@ -32,15 +34,34 @@ public class MatchingQueryRepositoryImpl implements MatchingQueryRepository {
                             .where(matchingLog.member.Id.eq(memberId))
                             .fetch());
 
+        var matchingIdList = matching.get().stream().map(MatchingResultQueryDto::getResultId).toList();
+
+        var resultMatchingMemberNicknames = queryFactory.select(Projections.constructor(
+                MembersNicknameQueryDto.class,
+                resultMatching.id, member.profile.nickname
+            )).from(member)
+            .join(matchingLog).on(member.Id.eq(matchingLog.member.Id))
+            .join(matchingLog.resultMatching,resultMatching)
+            .where(resultMatching.id.in(matchingIdList))
+            .fetch();
+
+        var resultMatchingMemberNicknamesMap = resultMatchingMemberNicknames.stream()
+            .collect(
+                Collectors.toMap(MembersNicknameQueryDto::getResultMatchingId,
+                    MembersNicknameQueryDto::getMembersNicknames));
+
             if (matching.isPresent()){
                 List<MatchingResultQueryDto> matchingResultList = new ArrayList<>();
                 for (MatchingResultQueryDto currentM : matching.get()) {
                     Long matchingId = currentM.getResultId();
-                    List<String> membersNickname = queryFactory.select(member.profile.nickname).from(member)
-                            .join(matchingLog).on(member.Id.eq(matchingLog.member.Id))
-                            .join(matchingLog.resultMatching,resultMatching)
-                            .where(resultMatching.id.eq(matchingId))
-                            .fetch();
+
+                    //List<String> membersNickname = queryFactory.select(member.profile.nickname).from(member)
+                    //        .join(matchingLog).on(member.Id.eq(matchingLog.member.Id))
+                    //        .join(matchingLog.resultMatching,resultMatching)
+                    //        .where(resultMatching.id.eq(matchingId))
+                    //        .fetch();
+
+                    var membersNickname = resultMatchingMemberNicknamesMap.get(matchingId);
                     currentM.addMember(membersNickname);
                     matchingResultList.add(currentM);
                 }

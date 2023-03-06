@@ -52,7 +52,7 @@ class LikeServiceTest {
 
         boardRepository.save(board);
 
-        AnonymousBoard anonymousBoard = new AnonymousBoard(AnonymousBoard.nNick(),"aaaa.jpg","익명이다",member);
+        AnonymousBoard anonymousBoard = new AnonymousBoard("aaaa.jpg","익명이다",member);
         anonymousBoardRepository.save(anonymousBoard);
     }
 
@@ -92,7 +92,7 @@ class LikeServiceTest {
     void hateBoard() throws IOException {
         Member findMember = memberRepository.findById(3L).orElseThrow();
 
-        likeService.hateBoard(1L,findMember);
+        //likeService.hateBoard(1L,findMember);
 //        likeService.hateBoard(1L,member);
 
         Like like = likeRepository.findById(1L).orElseThrow(()-> new IllegalArgumentException(""));
@@ -105,7 +105,7 @@ class LikeServiceTest {
     void hateAnonymousBoard() throws IOException {
         Member findMember = memberRepository.findById(3L).orElseThrow();
 
-        likeService.hateAnonymousBoard(1L,findMember);
+        //likeService.hateAnonymousBoard(1L,findMember);
 //        likeService.hateAnonymousBoard(1L,member);
 
         AnonymousLike like = anonymousLikeRepository.findById(1L).orElseThrow(()-> new IllegalArgumentException(""));

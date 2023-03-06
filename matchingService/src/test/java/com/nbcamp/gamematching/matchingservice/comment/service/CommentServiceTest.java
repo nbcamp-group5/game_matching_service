@@ -58,7 +58,7 @@ class CommentServiceTest {
 
         boardRepository.save(board);
 
-        AnonymousBoard anonymousBoard = new AnonymousBoard(AnonymousBoard.nNick(),"aaaa.jpg","익명이다",member);
+        AnonymousBoard anonymousBoard = new AnonymousBoard("aaaa.jpg","익명이다",member);
         anonymousBoardRepository.save(anonymousBoard);
     }
 
