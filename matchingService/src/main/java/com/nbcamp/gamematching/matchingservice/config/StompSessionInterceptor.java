@@ -13,6 +13,7 @@ import org.springframework.messaging.support.ChannelInterceptor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.SQLOutput;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,8 +32,12 @@ public class StompSessionInterceptor implements ChannelInterceptor {
         StompHeaderAccessor accessor = StompHeaderAccessor.wrap(message);
         var sessionId = accessor.getSessionId();
         switch (accessor.getCommand()) {
-
             case SEND:
+
+                if (accessor.getDestination().equals("/pub/chat/message")) {
+                    break;
+                }
+
                 byte[] a = (byte[]) message.getPayload();
                 String data = new String(a);
                 try {
