@@ -1,14 +1,11 @@
 package com.nbcamp.gamematching.matchingservice.member.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nbcamp.gamematching.matchingservice.member.dto.AnswerBuddyRequestDto;
 import com.nbcamp.gamematching.matchingservice.member.dto.BoardPageDto.BoardContent;
 import com.nbcamp.gamematching.matchingservice.member.dto.BuddyRequestDto;
-import com.nbcamp.gamematching.matchingservice.member.dto.EvaluationOneMember;
-import com.nbcamp.gamematching.matchingservice.member.dto.EvaluationRequest;
-import com.nbcamp.gamematching.matchingservice.member.dto.MannerPointsRequest;
 import com.nbcamp.gamematching.matchingservice.member.dto.MatchingLog2Dto;
 import com.nbcamp.gamematching.matchingservice.member.dto.MatchingLog5Dto;
+import com.nbcamp.gamematching.matchingservice.member.dto.MatchingMemberDto;
 import com.nbcamp.gamematching.matchingservice.member.dto.ProfileDto;
 import com.nbcamp.gamematching.matchingservice.member.dto.RequestAdmin;
 import com.nbcamp.gamematching.matchingservice.member.dto.UpdateProfileRequest;
@@ -30,7 +27,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
@@ -83,20 +79,28 @@ public class MemberController {
         return memberService.getBuddyRequests(member.getId());
     }
 
-    // 2인 매칭 조회
-    @GetMapping("/matching2")
-    public List<MatchingLog2Dto> getMyMatching2List(
-            @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        Member member = userDetails.getMember();
-        return memberService.getMyMatching2List(member.getId());
-    }
+//    // 2인 매칭 조회
+//    @GetMapping("/matching2")
+//    public List<MatchingLog2Dto> getMyMatching2List(
+//            @AuthenticationPrincipal UserDetailsImpl userDetails) {
+//        Member member = userDetails.getMember();
+//        return memberService.getMyMatching2List(member.getId());
+//    }
+//
+//    // 5인 매칭 조회
+//    @GetMapping("/matching5")
+//    public List<MatchingLog5Dto> getMyMatching5List(
+//            @AuthenticationPrincipal UserDetailsImpl userDetails) {
+//        Member member = userDetails.getMember();
+//        return memberService.getMyMatching5List(member.getId());
+//    }
 
-    // 5인 매칭 조회
-    @GetMapping("/matching5")
-    public List<MatchingLog5Dto> getMyMatching5List(
+    // 매칭 조회 test
+    @GetMapping("/matching")
+    public List<MatchingMemberDto> getMatchingMemberList(
             @AuthenticationPrincipal UserDetailsImpl userDetails) {
         Member member = userDetails.getMember();
-        return memberService.getMyMatching5List(member.getId());
+        return memberService.getMyMatchingMemberList(member.getId());
     }
 
     // 친구 신청

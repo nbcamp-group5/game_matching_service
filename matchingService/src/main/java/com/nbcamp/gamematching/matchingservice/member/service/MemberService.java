@@ -1,14 +1,10 @@
 package com.nbcamp.gamematching.matchingservice.member.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nbcamp.gamematching.matchingservice.matching.dto.NicknameDto;
 import com.nbcamp.gamematching.matchingservice.matching.entity.MatchingLog;
 import com.nbcamp.gamematching.matchingservice.member.dto.BoardPageDto;
 import com.nbcamp.gamematching.matchingservice.member.dto.BuddyRequestDto;
-import com.nbcamp.gamematching.matchingservice.member.dto.EvaluationOneMember;
-import com.nbcamp.gamematching.matchingservice.member.dto.EvaluationRequest;
-import com.nbcamp.gamematching.matchingservice.member.dto.MatchingLog2Dto;
-import com.nbcamp.gamematching.matchingservice.member.dto.MatchingLog5Dto;
+import com.nbcamp.gamematching.matchingservice.member.dto.MatchingMemberDto;
 import com.nbcamp.gamematching.matchingservice.member.dto.MemberAdminDto;
 import com.nbcamp.gamematching.matchingservice.member.dto.ProfileDto;
 import com.nbcamp.gamematching.matchingservice.member.dto.UpdateProfileRequest;
@@ -29,9 +25,11 @@ public interface MemberService {
 
     List<BuddyRequestDto> getBuddyRequests(Long memberId);
 
-    List<MatchingLog2Dto> getMyMatching2List(Long memberId);
+//    List<MatchingLog2Dto> getMyMatching2List(Long memberId);
+//
+//    List<MatchingLog5Dto> getMyMatching5List(Long memberId);
 
-    List<MatchingLog5Dto> getMyMatching5List(Long memberId);
+    List<MatchingMemberDto> getMyMatchingMemberList(Long memberId);
 
     ResponseEntity<String> changeMyProfile(Member member, UpdateProfileRequest request,
             MultipartFile image) throws IOException;

@@ -41,9 +41,13 @@ public class MatchingLog {
         this.evaluation = true;
     }
 
-    public MemberLog getMemberAndLog() {
+    public MemberLog getMemberIdAndNickname() {
         return new MemberLog(this.getMember().getId(),
                 this.getMember().getProfile().getNickname());
+    }
+
+    public String getMemberNickname() {
+        return this.getMember().getProfile().getNickname();
     }
 
     public void setMember(Member resultMember) {
