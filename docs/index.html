@@ -1,24 +1,23 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
-    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
-</head>
-
+<header>
+  <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"> 
+</header>
 <div class="container" id="container">
   <div class="form-container sign-up-container">
     <form>
       <h1 class="korean">회원가입</h1>
       <div class="social-container">
-        <a href="#" class="social"><img src="/images/auth/kakao.png"></a>
+        <a href="#" class="social"><img src="/images/auth/kakao.png" /></a>
       </div>
       <div class="input-box">
         <input type="text" id="signup-email" placeholder="이메일" />
         <input type="text" id="signup-nickname" placeholder="닉네임" />
-        <input type="password" id="signup-password" autoComplete="off" placeholder="비밀번호" />
+        <input
+          type="password"
+          id="signup-password"
+          autocomplete="off"
+          placeholder="비밀번호"
+        />
       </div>
       <button onclick="signUpRequest()">확인</button>
     </form>
@@ -27,11 +26,16 @@
     <form>
       <h1 class="korean">로그인</h1>
       <div class="social-container">
-        <a href="https://kauth.kakao.com/oauth/authorize?client_id=8c70ca1b49ada3a6a00aafdf2b0f125a&redirect_uri=http://localhost:8080/api/auth/kakao/callback&response_type=code" class="social"><img src="images/login/kakao.png"></a>
+        <a href="#" class="social"><img src="/images/auth/kakao.png" /></a>
       </div>
       <div class="input-box">
         <input type="text" id="login-email" placeholder="이메일" />
-        <input type="password" id="login-password" autoComplete="off" placeholder="비밀번호" />
+        <input
+          type="password"
+          id="login-password"
+          autocomplete="off"
+          placeholder="비밀번호"
+        />
       </div>
       <button onclick="signInRequest()">확인</button>
     </form>
@@ -40,13 +44,13 @@
     <div class="overlay">
       <div class="overlay-panel overlay-left">
         <h4 class="korean">빡겜러를 위한,</h4>
-        <h1 class="korean name">즐겜<br>빡겜</h1>
+        <h1 class="korean name">즐겜<br />빡겜</h1>
         <p class="explain">같이 게임할 친구들이 기다리고 있어요!</p>
         <button class="ghost" id="signIn">로그인 하기</button>
       </div>
       <div class="overlay-panel overlay-right">
         <h4 class="korean">즐겜러를 위한,</h4>
-        <h1 class="korean name">즐겜<br>빡겜</h1>
+        <h1 class="korean name">즐겜<br />빡겜</h1>
         <p class="explain">함께 하면 더 즐거운 게임, 이제 같이 해요!</p>
         <button class="ghost" id="signUp">가입하러 가기</button>
       </div>
@@ -55,24 +59,26 @@
 </div>
 
 <style>
-  @import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
+  @import url("https://fonts.googleapis.com/css?family=Montserrat:400,800");
 
   @font-face {
-    font-family: 'LeferiPoint-WhiteObliqueA';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/LeferiPoint-WhiteObliqueA.woff') format('woff');
+    font-family: "LeferiPoint-WhiteObliqueA";
+    src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/LeferiPoint-WhiteObliqueA.woff")
+      format("woff");
     font-weight: normal;
     font-style: normal;
   }
 
   @font-face {
-    font-family: 'TTTtangsbudaejjigaeB';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2212@1.0/TTTtangsbudaejjigaeB.woff2') format('woff2');
+    font-family: "TTTtangsbudaejjigaeB";
+    src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2212@1.0/TTTtangsbudaejjigaeB.woff2")
+      format("woff2");
     font-weight: 700;
     font-style: normal;
   }
 
   .korean {
-    font-family: 'TTTtangsbudaejjigaeB';
+    font-family: "TTTtangsbudaejjigaeB";
   }
 
   .name {
@@ -80,9 +86,8 @@
   }
 
   .explain {
-    font-family: 'LeferiPoint-WhiteObliqueA';
+    font-family: "LeferiPoint-WhiteObliqueA";
   }
-
 
   * {
     box-sizing: border-box;
@@ -94,7 +99,7 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    font-family: 'Montserrat', sans-serif;
+    font-family: "Montserrat", sans-serif;
     height: 100vh;
     margin: -20px 0 50px;
   }
@@ -129,8 +134,8 @@
 
   button {
     border-radius: 25px;
-    border: 0px solid #FF4B2B;
-    background: linear-gradient(45deg, #B7E5DD, #F1F0C0);
+    border: 0px solid #ff4b2b;
+    background: linear-gradient(45deg, #b7e5dd, #f1f0c0);
     background-color: #95adfc;
     color: #656770;
     font-size: 17px;
@@ -151,11 +156,11 @@
 
   button.ghost {
     background-color: transparent;
-    border-color: #FFFFFF;
+    border-color: #ffffff;
   }
 
   form {
-    background-color: #FFFFFF;
+    background-color: #ffffff;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -176,8 +181,7 @@
   .container {
     background-color: #fff;
     border-radius: 10px;
-    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25),
-      0 10px 10px rgba(0, 0, 0, 0.22);
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
     position: relative;
     overflow: hidden;
     width: 768px;
@@ -217,7 +221,6 @@
   }
 
   @keyframes show {
-
     0%,
     49.99% {
       opacity: 0;
@@ -247,13 +250,13 @@
   }
 
   .overlay {
-    background: #B1BCE6;
-    background: -webkit-linear-gradient(to right, #9A86A4, #B1BCE6);
-    background: linear-gradient(to right, #9A86A4, #B1BCE6);
+    background: #b1bce6;
+    background: -webkit-linear-gradient(to right, #9a86a4, #b1bce6);
+    background: linear-gradient(to right, #9a86a4, #b1bce6);
     background-repeat: no-repeat;
     background-size: cover;
     background-position: 0 0;
-    color: #FFFFFF;
+    color: #ffffff;
     position: relative;
     left: -100%;
     height: 100%;
@@ -325,63 +328,43 @@
 </style>
 
 <script>
-  const signUpButton = document.getElementById('signUp');
-  const signInButton = document.getElementById('signIn');
-  const container = document.getElementById('container');
+  const signUpButton = document.getElementById("signUp");
+  const signInButton = document.getElementById("signIn");
+  const container = document.getElementById("container");
 
-  const auth = localStorage.getItem('Authorization');
+  const auth = localStorage.getItem("Authorization");
 
-  signUpButton.addEventListener('click', () => {
+  signUpButton.addEventListener("click", () => {
     container.classList.add("right-panel-active");
   });
 
-  signInButton.addEventListener('click', () => {
+  signInButton.addEventListener("click", () => {
     container.classList.remove("right-panel-active");
   });
 
   function signUpRequest() {
     var settings = {
-      "url": "http://43.200.42.252:8080/api/auth/signup",
-      "method": "POST",
-      "timeout": 0,
-      "headers": {
-        "Content-Type": "application/json"
-      },
-      "data": JSON.stringify({
-        "email": $('#signup-email').val(),
-        "nickname": $('#signup-nickname').val(),
-        "password": $('#signup-password').val()
-      })
-    };
-
-    $.ajax(settings).done(function (response) {
-      alert("회원가입이 완료되었습니다.");
-    }).fail(function (response) {
-      alert(response.responseJSON.errorMessage);
-    });
-
-  }
-
-
-  function signInRequest() {
-
-    var settings = {
-      "url": "http://43.200.42.252:8080/api/auth/signin",
-      "method": "POST",
-      "timeout": 0,
-      "headers": {
+      url: "http://43.200.42.252:8080/api/auth/signup",
+      method: "POST",
+      timeout: 0,
+      headers: {
         "Content-Type": "application/json",
       },
-      "data": JSON.stringify({
-        "email": $('#login-email').val(),
-        "password": $('#login-password').val()
+      data: JSON.stringify({
+        email: $("#signup-email").val(),
+        nickname: $("#signup-nickname").val(),
+        password: $("#signup-password").val(),
       }),
     };
 
-    $.ajax(settings).done(function (response, status, xhr) {
-      localStorage.setItem('Authorization', xhr.getResponseHeader('Authorization'));
-      location.href = "./board/board.html";
-    })
+    $.ajax(settings)
+      .done(function (response, status, xhr) {
+        localStorage.setItem(
+          "Authorization",
+          xhr.getResponseHeader("Authorization")
+        );
+        location.href = "board/board.html";
+      })
       .fail(function (response) {
         console.log(response);
         alert("아이디와 비밀번호를 확인해주세요.");
