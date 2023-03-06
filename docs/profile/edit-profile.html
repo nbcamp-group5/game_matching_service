@@ -25,7 +25,7 @@
           url: "http://43.200.42.252:8080/api/profile/",
           headers: {
             "Content-Type": "application/json",
-            "Authorization": localStorage.getItem("accessToken"),
+            "Authorization": localStorage.getItem("Authorization"),
           },
           data: {},
           success: function (response) {
@@ -125,7 +125,7 @@
                 processData: false,
                 contentType: false,
                 headers: {
-                  "Authorization": localStorage.getItem("accessToken"),
+                  "Authorization": localStorage.getItem("Authorization"),
                 },
                 data: formData,
             })
@@ -228,9 +228,6 @@
           class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad"
         >
           <div class="panel panel-info profile-box">
-            <div class="panel-heading profile-box__title" style="width: 100px">
-              <h3 class="panel-title">프로필</h3>
-            </div>
 
             <div class="panel-body" id="profile-edit-form-box">
               <form>
