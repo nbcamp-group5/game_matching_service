@@ -2,9 +2,6 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.0.2'
     id 'io.spring.dependency-management' version '1.1.0'
-
-    //querydsl
-//    id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
 }
 
 group = 'com.nbcamp.gameMatching'
@@ -84,30 +81,3 @@ dependencies {
 tasks.named('test') {
     useJUnitPlatform()
 }
-
-
-def generated = 'src/main/generated'
-
-tasks.withType(JavaCompile) {
-    options.getGeneratedSourceOutputDirectory().set(file(generated))
-}
-
-// java source set 에 QueryDSL Q class 위치 추가
-sourceSets {
-    main.java.srcDirs += [ generated ]
-}
-
-
-// gradle clean 시에 QClass 디렉토리 삭제
-clean {
-    delete file(generated)
-}
-
-//tasks.named("jar") {
-//    enabled = false
-//}
-//
-//tasks.named("bootJar") {
-//    enabled = true
-//    mainClass = "com.nbcamp.gamematching.matchingservice.MatchingServiceApplication"
-//}
