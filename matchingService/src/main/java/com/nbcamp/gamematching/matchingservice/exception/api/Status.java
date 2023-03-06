@@ -11,6 +11,10 @@ public enum Status {
     ALREADY_MEMBER_EXISTS(400, "이미 가입 되어있는 회원입니다."),
     ALREADY_FRIEND(400, "친구목록 존재하는 친구 입니다."),
     ALREADY_APPLIED_FRIEND(400, "이미 친구신청을 했습니다."),
+    INVALID_EMAIL(400, "올바르지 않는 이메일 형식입니다."),
+    INVALID_PASSWORD(400, "올바르지 않는 비밀번호 형식입니다."),
+    INVALID_NICKNAME(400, "올바르지 않는 닉네임 형식입니다."),
+
 
     //불일치
     NOT_FOUND(404, "유효성 오류"),
@@ -18,10 +22,8 @@ public enum Status {
     NOT_FOUND_ROOM(404, "존재하지 않는 방 입니다."),
     NOT_FOUND_DISCORDNAME(404, "존재하지 디스코드계정 입니다."),
     NOT_FOUND_REFRESHTOKEN(404, "토큰이 존재 하지않습니다."),
+    NOT_FOUND_MATCHING(404, "매칭이 존재 하지않습니다."),
     APPLY_NOT_APPLIED(404, "친구 신청한 이력이 없습니다."),
-    INVALID_EMAIL(400, "올바르지 않는 이메일 형식입니다."),
-    INVALID_PASSWORD(400, "올바르지 않는 비밀번호 형식입니다."),
-    INVALID_NICKNAME(400, "올바르지 않는 닉네임 형식입니다."),
 
     //로그인
     SIGN(403, "로그인 오류"),

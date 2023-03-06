@@ -88,7 +88,7 @@ public class MatchingServiceImpl implements MatchingService {
                 .topicName(topicName)
                 .url(url).build();
     }
-    public Optional<List<MatchingResultQueryDto>> findByMatchingResultMemberNiccknameByMemberId(Long id) {
+    public Optional<List<MatchingResultQueryDto>> findByMatchingResultMemberNicknameByMemberId(Long id) {
         return matchingLogRepository.findByMatchingResultMemberNicknameByMemberId(id);
     }
 

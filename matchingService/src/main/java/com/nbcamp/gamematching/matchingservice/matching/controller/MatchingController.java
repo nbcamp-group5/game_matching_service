@@ -27,7 +27,6 @@ import java.util.Optional;
 public class MatchingController {
     private final MatchingService matchingService;
     private final SimpMessagingTemplate template;
-    private final MatchingLogRepository matchingLogRepository;
 
     @PostMapping("/join")
     @ResponseBody
@@ -50,7 +49,7 @@ public class MatchingController {
     @ResponseBody
     @Transactional(readOnly = true)
     public ResponseEntity<Optional<List<MatchingResultQueryDto>>> findByResultMatchingAndMember(@RequestParam Long id) {
-        return ResponseEntity.ok(matchingLogRepository.findByMatchingResultMemberNicknameByMemberId(id));
+        return ResponseEntity.ok(matchingService.findByMatchingResultMemberNicknameByMemberId(id));
     }
 
 }
