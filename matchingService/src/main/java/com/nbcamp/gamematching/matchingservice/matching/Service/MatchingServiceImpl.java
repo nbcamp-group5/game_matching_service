@@ -36,6 +36,8 @@ public class MatchingServiceImpl implements MatchingService {
     private final MemberService memberService;
     private final RedisService redisService;
 
+
+    @Transactional
     public ResponseUrlInfo matchingJoin(RequestMatching request, HttpServletRequest servletRequest)
             throws JsonProcessingException {
         Long matchingQuota = Long.valueOf(request.getMemberNumbers());
@@ -93,15 +95,6 @@ public class MatchingServiceImpl implements MatchingService {
                 .topicName(topicName)
                 .url(url).build();
     }
-
-    @Override
-    public void matchingCancle(HttpServletRequest servletRequest){
-        Map<String, RequestMatching> connectedUserPool = StompSessionInterceptor.connectedUserPool;
-        var userSessionId= servletRequest.getSession().getId();
-        var userInfo= connectedUserPool.get(userSessionId);
-        redisService.matchingCancelByRedis(userInfo);
-    }
-
     public Optional<List<MatchingResultQueryDto>> findByMatchingResultMemberNicknameByMemberId(Long id) {
         return matchingLogRepository.findByMatchingResultMemberNicknameByMemberId(id);
     }

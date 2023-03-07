@@ -25,10 +25,6 @@ public interface MemberService {
 
     List<BuddyRequestDto> getBuddyRequests(Long memberId);
 
-//    List<MatchingLog2Dto> getMyMatching2List(Long memberId);
-//
-//    List<MatchingLog5Dto> getMyMatching5List(Long memberId);
-
     List<MatchingMemberDto> getMyMatchingMemberList(Long memberId);
 
     ResponseEntity<String> changeMyProfile(Member member, UpdateProfileRequest request,
@@ -42,8 +38,6 @@ public interface MemberService {
 
     Member responseMemberByMemberEmail(String memberEmail);
 
-
-
     ResponseEntity<String> deleteMyBuddy(Long memberId, Long buddyId);
 
     List<MemberAdminDto> findAllByAdmin(Integer page);
@@ -53,6 +47,5 @@ public interface MemberService {
     ResponseEntity<String> changeRole(Long id, String adminId);
 
     List<NicknameDto> findNicknamesInMatching(List<MatchingLog> matchingLogs, Long memberId);
-
 
 }

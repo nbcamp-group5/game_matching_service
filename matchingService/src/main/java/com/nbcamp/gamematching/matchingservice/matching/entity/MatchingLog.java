@@ -54,7 +54,7 @@ public class MatchingLog {
         return this.getMember().getProfile().getNickname();
     }
 
-    public void setMember(Member resultMember) {
+    public void addMatchingLogToMember(Member resultMember) {
         resultMember.getMatchingLogs().add(this);
     }
 }
