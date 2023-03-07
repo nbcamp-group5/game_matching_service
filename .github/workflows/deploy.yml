@@ -4,8 +4,8 @@ name: Spring Boot & Gradle CI/CD
 env:
   AWS_REGION: ap-northeast-2
   S3_BUCKET_NAME: game-matching
-  CODE_DEPLOY_APPLICATION_NAME: my-codedeploy-app
-  CODE_DEPLOY_DEPLOYMENT_GROUP_NAME: my-codedeploy-group
+  CODE_DEPLOY_APPLICATION_NAME: my-code-deploy
+  CODE_DEPLOY_DEPLOYMENT_GROUP_NAME: my-code-deploy-group
 on:
   push:
     branches: [ "develop" ]
