@@ -5,6 +5,7 @@ files:
   - source:  /
     destination: /home/ubuntu/app
     overwrite: yes
+file_exists_behavior: OVERWRITE
 
 permissions:
   - object: /
@@ -12,12 +13,13 @@ permissions:
     owner: ubuntu
     group: ubuntu
 
+
 hooks:
   AfterInstall:
-    - location: scripts/stop.sh
+    - location: matchingService/scripts/stop.sh
       timeout: 60
       runas: ubuntu
   ApplicationStart:
-    - location: scripts/start.sh
+    - location: matchingService/scripts/start.sh
       timeout: 60
       runas: ubuntu

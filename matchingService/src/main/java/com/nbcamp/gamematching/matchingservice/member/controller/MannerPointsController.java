@@ -35,4 +35,5 @@ public class MannerPointsController {
         Member member = userDetails.getMember();
         return mannerPointsService.changeMannerPoints(request, member.getId());
     }
+
 }
