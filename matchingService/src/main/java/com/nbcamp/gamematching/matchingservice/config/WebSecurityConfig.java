@@ -60,7 +60,8 @@ public class WebSecurityConfig implements WebMvcConfigurer {
                 .requestMatchers("js/**", "css/**", "images/**", "files/**").permitAll()
                 .anyRequest().authenticated()
                 .and().addFilterBefore(new JwtAuthFilter(jwtUtil),
-                        UsernamePasswordAuthenticationFilter.class);
+                        UsernamePasswordAuthenticationFilter.class)
+                .oauth2Login();
         return http.build();
     }
 
