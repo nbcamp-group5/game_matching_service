@@ -40,7 +40,7 @@ public class BoardServiceImpl implements BoardService{
 
         //이미지파일이 없을 때 기본이미지 넣기
         if(image == null) {
-            String boardImage = "images/5a169b5b-09ba-4e42-8ee0-9850f3a0c483.jpeg";
+            String boardImage = "images/nav/logo.png";
             Board board = new Board(boardImage,
                     createBoardRequest.getContent(), member);
             boardRepository.save(board);

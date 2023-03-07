@@ -40,7 +40,7 @@ public class AnonymousBoardServiceImpl implements AnonymousBoardService{
     public void createAnonymousBoard(CreateBoardRequest createBoardRequest, Member member,
             MultipartFile image) {
         if(image == null) {
-            String boardImage = "images/5a169b5b-09ba-4e42-8ee0-9850f3a0c483.jpeg";
+            String boardImage = "images/nav/logo.png";
             AnonymousBoard board = new AnonymousBoard(boardImage,
                     createBoardRequest.getContent(), member);
             anonymousBoardRepository.save(board);
