@@ -21,7 +21,7 @@
 
         $.ajax({
           type: "GET",
-          url: "http://43.200.42.252:8080/api/matching/" + id + "/members",
+          url: "http://localhost:8080/api/matching/" + id + "/members",
           headers: {
             Authorization: localStorage.getItem("accessToken"),
           },
@@ -118,7 +118,7 @@
 
           $.ajax({
             type: "POST",
-            url: "http://43.200.42.252:8080/api/profile/mannerPoints/evaluation/matching5",
+            url: "http://localhost:8080/api/profile/mannerPoints/evaluation/matching5",
             headers: {
               "Content-Type": "application/json",
               Authorization: localStorage.getItem("accessToken"),
@@ -144,7 +144,7 @@
 
           $.ajax({
             type: "POST",
-            url: "http://43.200.42.252:8080/api/profile/mannerPoints/evaluation/matching2",
+            url: "http://localhost:8080/api/profile/mannerPoints/evaluation/matching2",
             headers: {
               "Content-Type": "application/json",
               Authorization: localStorage.getItem("accessToken"),
