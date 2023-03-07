@@ -1,5 +1,6 @@
 package com.nbcamp.gamematching.matchingservice.comment.dto;
 
+import jakarta.persistence.Column;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -7,6 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CreateCommentRequest {
 
+    @Column(nullable = false)
     private String content;
 
     public CreateCommentRequest(String content) {
