@@ -52,7 +52,7 @@ public class MatchingController {
     public ResponseEntity<Optional<List<MatchingResultQueryDto>>> findByResultMatchingAndMember(@RequestParam Long id) {
         return ResponseEntity.ok(matchingService.findByMatchingResultMemberNicknameByMemberId(id));
     }
-
+    
     @GetMapping("/{matchingId}/members")
     public List<NicknameDto> getMatchingMembers(@PathVariable Long matchingId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         Member member = userDetails.getMember();
