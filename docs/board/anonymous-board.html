@@ -494,7 +494,7 @@
       beforeSend: function (xhr) {
         xhr.setRequestHeader("Authorization", auth);
       },
-      "url": "http://43.200.42.252:8080/api/boards/anonymous",
+      "url": "http://localhost:8080/api/boards/anonymous",
       "method": "POST",
       "timeout": 0,
       "processData": false,
@@ -518,7 +518,7 @@
   function show_board() {
     $.ajax({
       type: "GET",
-      url: "http://43.200.42.252:8080/api/boards/anonymous",
+      url: "http://localhost:8080/api/boards/anonymous",
       beforeSend: function (xhr) {
         xhr.setRequestHeader("Authorization", auth);
       },
@@ -601,7 +601,7 @@
       beforeSend: function (xhr) {
         xhr.setRequestHeader("Authorization", auth);
       },
-      "url": "http://43.200.42.252:8080/api/boards/anonymous/" + boardId,
+      "url": "http://localhost:8080/api/boards/anonymous/" + boardId,
       "method": "DELETE",
       "timeout": 0
     };
@@ -616,7 +616,7 @@
   function save_like(boardId) {
     $.ajax({
       type: "POST",
-      url: "http://43.200.42.252:8080/api/like/anonymous/" + boardId,
+      url: "http://localhost:8080/api/like/anonymous/" + boardId,
       contentType: "application/json",
       data: {},
       beforeSend: function (xhr) {
@@ -638,7 +638,7 @@
 
     let content = $(`#cm-message`).val()
     var settings = {
-      "url": "http://43.200.42.252:8080/api/comments/anonymous/" + boardId,
+      "url": "http://localhost:8080/api/comments/anonymous/" + boardId,
       "method": "POST",
       "timeout": 0,
       "headers": {
@@ -662,7 +662,7 @@
   function search_comment(searchName) {
     let content = $(`#search`).val()
     var settings = {
-      "url": "http://43.200.42.252:8080/search/" + searchName,
+      "url": "http://localhost:8080/search/" + searchName,
       "method": "GET",
       "timeout": 0,
       "headers": {
@@ -706,7 +706,7 @@
 
     $.ajax({
       type: "GET",
-      url: "http://43.200.42.252:8080/api/comments/anonymous/" + boardId,
+      url: "http://localhost:8080/api/comments/anonymous/" + boardId,
       beforeSend: function (xhr) {
         xhr.setRequestHeader("Authorization", auth);
       },
@@ -749,7 +749,7 @@
   //댓글 삭제
   function delete_comment(commentId) {
     var settings = {
-      "url": "http://43.200.42.252:8080/api/comments/anonymous/" + commentId,
+      "url": "http://localhost:8080/api/comments/anonymous/" + commentId,
       "method": "DELETE",
       "timeout": 0,
       "headers": {

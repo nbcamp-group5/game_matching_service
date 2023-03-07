@@ -367,7 +367,7 @@
   function show_comment() {
     $.ajax({
       type: "GET",
-      url: "http://43.200.42.252:8080/api/comments/anonymous/" + commentId,
+      url: "http://localhost:8080/api/comments/anonymous/" + commentId,
       beforeSend: function (xhr) {
         xhr.setRequestHeader("Authorization", auth);
       },
@@ -396,7 +396,7 @@
   function update_comment(commentId) {
     let content = $(`#message`).val();
     var settings = {
-      url: "http://43.200.42.252:8080/api/comments/anonymous/" + commentId,
+      url: "http://localhost:8080/api/comments/anonymous/" + commentId,
       method: "PUT",
       timeout: 0,
       headers: {

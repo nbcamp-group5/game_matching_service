@@ -39,7 +39,7 @@
         $("#profile-content-box").empty();
         $.ajax({
           type: "GET",
-          url: "http://43.200.42.252:8080/api/profile/",
+          url: "http://localhost:8080/api/profile/",
           headers: {
             "Content-Type": "application/json",
             Authorization: localStorage.getItem("Authorization"),
@@ -221,7 +221,7 @@
 
     $.ajax({
       type: "GET",
-      url: "http://43.200.42.252:8080/api/profile/buddies",
+      url: "http://localhost:8080/api/profile/buddies",
       headers: {
         "Content-Type": "application/json",
         Authorization: localStorage.getItem("Authorization"),
@@ -267,7 +267,7 @@
 
     $.ajax({
       type: "GET",
-      url: "http://43.200.42.252:8080/api/profile/boards",
+      url: "http://localhost:8080/api/profile/boards",
       headers: {
         "Content-Type": "application/json",
         Authorization: localStorage.getItem("Authorization"),
@@ -312,7 +312,7 @@
 
     $.ajax({
       type: "GET",
-      url: "http://43.200.42.252:8080/api/profile/matching",
+      url: "http://localhost:8080/api/profile/matching",
       headers: {
         Authorization: localStorage.getItem("Authorization"),
       },
@@ -362,7 +362,7 @@
 
     $.ajax({
       type: "GET",
-      url: "http://43.200.42.252:8080/api/profile/notYetBuddies",
+      url: "http://localhost:8080/api/profile/notYetBuddies",
       headers: {
         "Content-Type": "application/json",
         Authorization: localStorage.getItem("Authorization"),
@@ -406,7 +406,7 @@
   function accept(id) {
     $.ajax({
       type: "POST",
-      url: "http://43.200.42.252:8080/api/profile/notYetBuddies",
+      url: "http://localhost:8080/api/profile/notYetBuddies",
       headers: {
         "Content-Type": "application/json",
         Authorization: localStorage.getItem("Authorization"),
@@ -424,7 +424,7 @@
   function decline(id) {
     $.ajax({
       type: "POST",
-      url: "http://43.200.42.252:8080/api/profile/notYetBuddies",
+      url: "http://localhost:8080/api/profile/notYetBuddies",
       headers: {
         "Content-Type": "application/json",
         Authorization: localStorage.getItem("Authorization"),
@@ -442,7 +442,7 @@
   function deleteBuddy(id) {
     $.ajax({
       type: "DELETE",
-      url: "http://43.200.42.252:8080/api/profile/buddies/" + id,
+      url: "http://localhost:8080/api/profile/buddies/" + id,
       headers: {
         Authorization: localStorage.getItem("Authorization"),
       },
@@ -457,7 +457,7 @@
   function logout() {
     $.ajax({
       type: "POST",
-      url: "http://43.200.42.252:8080/api/auth/signout",
+      url: "http://localhost:8080/api/auth/signout",
       headers: {
         Authorization: localStorage.getItem("Authorization"),
       },
