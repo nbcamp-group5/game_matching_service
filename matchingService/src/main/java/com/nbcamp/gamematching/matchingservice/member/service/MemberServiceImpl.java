@@ -90,52 +90,6 @@ public class MemberServiceImpl implements MemberService {
         return BuddyRequestDto.of(notYetBuddyList);
     }
 
-//    @Override
-//    public List<MatchingLog2Dto> getMyMatching2List(Long memberId) {
-//        List<MatchingLog2Dto> matchingLog2DtoList = new ArrayList<>();
-//
-//        List<ResultMatching> resultMatchingList = getResultMatchingList(
-//                memberId);
-//        for (ResultMatching resultMatching : resultMatchingList) {
-//            if (resultMatching.getGameInfo().contains("2")) {
-//                List<MatchingLog> matching = matchingLogRepository.findAllByResultMatching(
-//                        resultMatching);
-//
-//                List<Member> members = matching.stream().map(MatchingLog::getMember)
-//                        .filter(member -> (member.getId() != memberId))
-//                        .collect(Collectors.toList());
-//
-//                MatchingLog2Dto matchingLog2Dto = new MatchingLog2Dto(members.get(0),
-//                        resultMatching.getId());
-//                matchingLog2DtoList.add(matchingLog2Dto);
-//            }
-//        }
-//        return matchingLog2DtoList;
-//    }
-//
-//    @Override
-//    public List<MatchingLog5Dto> getMyMatching5List(Long memberId) {
-//        List<MatchingLog5Dto> matchingLog5DtoList = new ArrayList<>();
-//
-//        List<ResultMatching> resultMatchingList = getResultMatchingList(memberId);
-//
-//        for (ResultMatching resultMatching : resultMatchingList) {
-//            if (resultMatching.getGameInfo().contains("5")) {
-//                List<MatchingLog> matching = matchingLogRepository.findAllByResultMatching(
-//                        resultMatching);
-//                List<MemberLog> memberAndLogs = matching.stream()
-//                        .map(MatchingLog::getMemberIdAndNickname)
-//                        .filter(memberAndLog -> (memberAndLog.getMemberId() != memberId))
-//                        .collect(Collectors.toList());
-//
-//                MatchingLog5Dto matchingLog5Dto = new MatchingLog5Dto(memberAndLogs,
-//                        resultMatching.getId());
-//                matchingLog5DtoList.add(matchingLog5Dto);
-//            }
-//        }
-//        return matchingLog5DtoList;
-//    }
-
     @Override
     public List<MatchingMemberDto> getMyMatchingMemberList(Long memberId) {
         List<MatchingMemberDto> matchingMemberList = new ArrayList<>();

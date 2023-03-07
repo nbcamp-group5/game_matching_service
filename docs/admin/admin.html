@@ -16,21 +16,6 @@
     <script>
       $(document).ready(function () {
         $("#list-contents").empty();
-        // $(".star").on("click", function () {
-        //   $(this).toggleClass("star-checked");
-        // });
-        // $(".ckbox label").on("click", function () {
-        //   $(this).parents("tr").toggleClass("selected");
-        // });
-        // $(".btn-filter").on("click", function () {
-        //   var $target = $(this).data("target");
-        //   if ($target != "all") {
-        //     $(".table tr").css("display", "none");
-        //     $('.table tr[data-status="' + $target + '"]').fadeIn("slow");
-        //   } else {
-        //     $(".table tr").css("display", "none").fadeIn("slow");
-        //   }
-        // });
       });
     </script>
     <script>
@@ -74,7 +59,7 @@
           },
           data: {},
           success: function (response) {
-            alert("유저가 삭제되었습니다.");
+            alert(response);
             window.location.reload();
           },
         });
@@ -89,7 +74,7 @@
           },
           data: {},
           success: function (response) {
-            alert("게시글이 삭제되었습니다.");
+            alert(response);
             window.location.reload();
           },
         });
@@ -104,7 +89,7 @@
           },
           data: {},
           success: function (response) {
-            alert("게시글이 삭제되었습니다.");
+            alert(response);
             window.location.reload();
           },
         });
@@ -119,7 +104,7 @@
           },
           data: {},
           success: function (response) {
-            alert("댓글이 삭제되었습니다.");
+            alert(response);
             window.location.reload();
           },
         });
