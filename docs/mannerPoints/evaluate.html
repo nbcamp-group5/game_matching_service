@@ -12,6 +12,7 @@
       rel="stylesheet"
       id="bootstrap-css"
     />
+    <link rel="stylesheet" href="evaluate.css" />
     <script>
       $(document).ready(function () {
         $("#evaluate-form").empty();
@@ -23,16 +24,20 @@
           type: "GET",
           url: "http://43.200.42.252:8080/api/matching/" + id + "/members",
           headers: {
-            Authorization: localStorage.getItem("accessToken"),
+            Authorization: localStorage.getItem("Authorization"),
           },
           data: {},
           success: function (response) {
+            if (response.length != 1 && response.length != 4) {
+              alert("매칭 참가자만 평가할 수 있습니다.");
+              window.location.href = "../profile/my-profile.html";
+            }
             $(response).each(function () {
-              let temp = `<div class="form-group">
-                                <label class="col-md-4 control-label" style="color: blue"
+              let temp = `<div class="evaluate-form__member">
+                                <label class="col-md-8 control-label" style="color: blue"
                                     >${this.nickname}에 대한 평가
                                 </label>
-                                <div class="col-md-4">
+                                <div class="col-md-8">
 
                                     <input
                                         type="radio"
@@ -118,10 +123,10 @@
 
           $.ajax({
             type: "POST",
-            url: "http://43.200.42.252:8080/api/profile/mannerPoints/evaluation/matching5",
+            url: "http://43.200.42.252:8080/api/mannerPoints/evaluation/matching5",
             headers: {
               "Content-Type": "application/json",
-              Authorization: localStorage.getItem("accessToken"),
+              Authorization: localStorage.getItem("Authorization"),
             },
             data: JSON.stringify({
               matchingId: id,
@@ -129,7 +134,7 @@
             }),
             success: function (response) {
               alert(response);
-              window.location.href = "my-profile.html";
+              window.location.href = "../profile/my-profile.html";
             },
           });
         } else {
@@ -144,10 +149,10 @@
 
           $.ajax({
             type: "POST",
-            url: "http://43.200.42.252:8080/api/profile/mannerPoints/evaluation/matching2",
+            url: "http://43.200.42.252:8080/api/mannerPoints/evaluation/matching2",
             headers: {
               "Content-Type": "application/json",
-              Authorization: localStorage.getItem("accessToken"),
+              Authorization: localStorage.getItem("Authorization"),
             },
             data: JSON.stringify({
               matchingId: id,
@@ -156,7 +161,7 @@
             }),
             success: function (response) {
               alert(response);
-              window.location.href = "my-profile.html";
+              window.location.href = "../profile/my-profile.html";
             },
           });
         }
@@ -187,27 +192,23 @@
         };
       }
     </script>
-    <style>
-      body {
-        display: flex;
-        flex-direction: column;
-        justify-items: center;
-      }
-    </style>
   </head>
 
   <body>
+    <div id="evaluate-title">
+      <h2>매칭에 참여한 멤버들을 평가해주세요!</h2>
+    </div>
     <div id="evaluate-form">
       <!-- Multiple Radios (inline) -->
-      <div class="form-group">
+      <div class="evaluate-form__member">
         <label
           id="member1"
-          class="col-md-4 control-label"
+          class="col-md-8 control-label"
           style="color: blue"
           for="radios-0"
           >1. 멤버1에 대한 평가
         </label>
-        <div class="col-md-4">
+        <div class="col-md-8">
           <label class="radio-inline" for="radios-0">
             <input
               type="radio"
@@ -225,15 +226,15 @@
         </div>
       </div>
       <!-- Multiple Radios (inline) -->
-      <div class="form-group">
+      <div class="evaluate-form__member">
         <label
           id="member2"
-          class="col-md-4 control-label"
+          class="col-md-8 control-label"
           style="color: blue"
           for="radios"
           >2. 멤버2에 대한 평가
         </label>
-        <div class="col-md-4">
+        <div class="col-md-8">
           <label class="radio-inline" for="radios-2">
             <input
               type="radio"
@@ -252,15 +253,15 @@
       </div>
 
       <!-- Multiple Radios (inline) -->
-      <div class="form-group">
+      <div class="evaluate-form__member">
         <label
           id="member3"
-          class="col-md-4 control-label"
+          class="col-md-8 control-label"
           style="color: blue"
           for="radios"
           >3. 멤버3에 대한 평가
         </label>
-        <div class="col-md-4">
+        <div class="col-md-8">
           <label class="radio-inline" for="radios-4">
             <input
               type="radio"
@@ -279,15 +280,15 @@
       </div>
 
       <!-- Multiple Radios (inline) -->
-      <div class="form-group">
+      <div class="evaluate-form__member">
         <label
           id="member4"
-          class="col-md-4 control-label"
+          class="col-md-8 control-label"
           style="color: blue"
           for="radios"
           >4. 멤버4에 대한 평가
         </label>
-        <div class="col-md-4">
+        <div class="col-md-8">
           <label class="radio-inline" for="radios-6">
             <input
               type="radio"
@@ -306,7 +307,7 @@
       </div>
     </div>
     <!-- Button -->
-    <div>
+    <div id="evaluate-button">
       <button onclick="evaluated()" class="btn btn-primary">평가 완료</button>
     </div>
   </body>

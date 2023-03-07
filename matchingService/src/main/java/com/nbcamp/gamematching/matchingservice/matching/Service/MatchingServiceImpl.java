@@ -80,7 +80,7 @@ public class MatchingServiceImpl implements MatchingService {
             resultMatchingRepository.save(resultMatching);
             MatchingLog matchingLog = new MatchingLog(resultMatching, resultMember);
             matchingLogRepository.save(matchingLog);
-            matchingLog.setMember(resultMember); // 연관관계 편의 메소드때문에 필요해요! 기존 로직을 건드리진 않습니다!
+            matchingLog.addMatchingLogToMember(resultMember);
 
         }
         return ResponseUrlInfo.builder()

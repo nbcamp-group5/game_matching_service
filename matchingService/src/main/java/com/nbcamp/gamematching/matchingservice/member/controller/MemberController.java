@@ -3,8 +3,6 @@ package com.nbcamp.gamematching.matchingservice.member.controller;
 import com.nbcamp.gamematching.matchingservice.member.dto.AnswerBuddyRequestDto;
 import com.nbcamp.gamematching.matchingservice.member.dto.BoardPageDto.BoardContent;
 import com.nbcamp.gamematching.matchingservice.member.dto.BuddyRequestDto;
-import com.nbcamp.gamematching.matchingservice.member.dto.MatchingLog2Dto;
-import com.nbcamp.gamematching.matchingservice.member.dto.MatchingLog5Dto;
 import com.nbcamp.gamematching.matchingservice.member.dto.MatchingMemberDto;
 import com.nbcamp.gamematching.matchingservice.member.dto.ProfileDto;
 import com.nbcamp.gamematching.matchingservice.member.dto.RequestAdmin;
@@ -78,22 +76,6 @@ public class MemberController {
         Member member = userDetails.getMember();
         return memberService.getBuddyRequests(member.getId());
     }
-
-//    // 2인 매칭 조회
-//    @GetMapping("/matching2")
-//    public List<MatchingLog2Dto> getMyMatching2List(
-//            @AuthenticationPrincipal UserDetailsImpl userDetails) {
-//        Member member = userDetails.getMember();
-//        return memberService.getMyMatching2List(member.getId());
-//    }
-//
-//    // 5인 매칭 조회
-//    @GetMapping("/matching5")
-//    public List<MatchingLog5Dto> getMyMatching5List(
-//            @AuthenticationPrincipal UserDetailsImpl userDetails) {
-//        Member member = userDetails.getMember();
-//        return memberService.getMyMatching5List(member.getId());
-//    }
 
     // 매칭 조회 test
     @GetMapping("/matching")
