@@ -19,7 +19,7 @@
 
     function connect(roomName, fnick) {
     getMessage(roomName, fnick);
-    var sockJs = new SockJS("http://localhost:8080/GGMatching");
+    var sockJs = new SockJS("http://43.200.42.252:8080/GGMatching");
     var stomp = Stomp.over(sockJs);
 
     stomp.connect({}, function () {
@@ -42,7 +42,7 @@
       if (hideOrshow == "hide"){
           document.getElementById("popup_content_wrap").style.display = "none";
           var settings = {
-      "url": "http://localhost:8080/api/matching/cancel",
+      "url": "http://43.200.42.252:8080/api/matching/cancel",
       "method": "GET",
       "timeout": 0,
       "headers": {

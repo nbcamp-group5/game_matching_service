@@ -9,15 +9,12 @@
       rel="stylesheet">
   <script>
 
-window.onload = function () {
-          popup_content("hide");
-}
-  
+
   function popup_content(hideOrshow) {
       if (hideOrshow == "hide"){
           document.getElementById("popup_content_wrap").style.display = "none";
           var settings = {
-            "url": "http://localhost:8080/api/matching/cancel",
+            "url": "http://43.200.42.252:8080/api/matching/cancel",
             "method": "GET",
             "timeout": 0,
             "headers": {
@@ -36,10 +33,15 @@ window.onload = function () {
       }
   }
 
-
+  function evaluatePage() {
+    $.ajax().done(function (xhr) {
+      localStorage.setItem('Authorization', xhr.getResponseHeader('Authorization'))
+      window.location = ("/matching/matching-request.html")
+    })};
+  
       function matching() {
       var settings = {
-        "url": "http://localhost:8080/api/matching/join",
+        "url": "http://43.200.42.252:8080/api/matching/join",
         "method": "POST",
         "timeout": 0,
         "headers": {
@@ -54,12 +56,14 @@ window.onload = function () {
           "gameMode": $('#gameMode').val()
         }),
       };
-      
+
+
+
       $.ajax(settings).done(function (response) {
         popup_content("show");
         console.log(response);
         alert("디스코드 연결 성공.")
-        var sockJs = new SockJS("http://localhost:8080/GGTalk");
+        var sockJs = new SockJS("http://43.200.42.252:8080/GGTalk");
         var stomp = Stomp.over(sockJs);
         stomp.connect({},function () {
           console.log("stomp 연결");
@@ -68,7 +72,10 @@ window.onload = function () {
                 let temp_html = `<h1 >매칭 완료
                   <div id="urlbox">
                     <a id="showAddr" style="display: block;" href="${response.body}">${response.body}</a>
-                  </div>
+                    <input id="matchingcancel"
+              type="submit" value="평가하기" class=" btn btn-gray"
+              onClick="popup_content('hide')">
+                    </div>
                 </h1>`;
                 if(response.body!=""){
                   document.getElementById("circle").style.display = "none";
@@ -208,7 +215,7 @@ window.onload = function () {
     </div>
 
 
-      <div id="popup_content_wrap">
+      <div id="popup_content_wrap" style="display:none">
         <div id="popup_content">
           <center id="urlbox">
             <h1 id="circle">매칭 중

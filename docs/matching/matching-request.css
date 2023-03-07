@@ -2,6 +2,10 @@ body {
   background-color: #b1bce62f;
 }
 
+a{
+  color: white;
+}
+
 nav img {
   width: 50px;
 }

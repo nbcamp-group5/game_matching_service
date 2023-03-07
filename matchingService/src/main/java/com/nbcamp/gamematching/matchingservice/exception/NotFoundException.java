@@ -8,7 +8,8 @@ public class NotFoundException extends RuntimeException{
     public static class NotFoundDiscordNameException extends NotFoundException {}
     public static class NotFoundMemberException extends NotFoundException {}
     public static class NotFoundRoomException extends NotFoundException {}
-    public static class APPLYNOTAPPLIED extends NotFoundException {}
+    public static class ApplyNotAppliedException extends NotFoundException {}
     public static class NotFoundMatchingException extends NotFoundException {}
+    public static class NotFoundConnectException extends NotFoundException {}
 
 }

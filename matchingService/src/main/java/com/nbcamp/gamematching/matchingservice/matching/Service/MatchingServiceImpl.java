@@ -2,6 +2,7 @@ package com.nbcamp.gamematching.matchingservice.matching.Service;
 
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.nbcamp.gamematching.matchingservice.config.StompSessionInterceptor;
 import com.nbcamp.gamematching.matchingservice.discord.service.DiscordService;
 import com.nbcamp.gamematching.matchingservice.matching.dto.QueryDto.MatchingResultQueryDto;
 import com.nbcamp.gamematching.matchingservice.exception.NotFoundException.NotFoundMatchingException;
@@ -17,6 +18,7 @@ import com.nbcamp.gamematching.matchingservice.member.service.MemberService;
 import com.nbcamp.gamematching.matchingservice.redis.RedisService;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -34,14 +36,15 @@ public class MatchingServiceImpl implements MatchingService {
     private final MemberService memberService;
     private final RedisService redisService;
 
-
-    @Transactional
     public ResponseUrlInfo matchingJoin(RequestMatching request, HttpServletRequest servletRequest)
             throws JsonProcessingException {
         Long matchingQuota = Long.valueOf(request.getMemberNumbers());
 
         //방 현재 인원 체크
-        if (redisService.waitingUserCountByRedis(request.getKey()) < matchingQuota - 1) {
+        var matchingRoomCapacity = redisService.waitingUserCountAndRedisConnectByRedis(request.getKey());
+        log.info(" 현재 방 입장 인원 =={ }==",matchingRoomCapacity.toString());
+        if (matchingRoomCapacity < matchingQuota - 1) {
+
             redisService.machedEnterByRedis(request.getKey(), request);
             var topicName = "";
             var topicNameSelector
@@ -77,22 +80,31 @@ public class MatchingServiceImpl implements MatchingService {
                     .playMode(resultMemberList.get(i).getGameMode())
                     .discordUrl(url)
                     .build();
-            resultMatchingRepository.save(resultMatching);
+            resultMatchingRepository.saveAndFlush(resultMatching);
             MatchingLog matchingLog = new MatchingLog(resultMatching, resultMember);
-            matchingLogRepository.save(matchingLog);
+            matchingLogRepository.saveAndFlush(matchingLog);
             matchingLog.setMember(resultMember); // 연관관계 편의 메소드때문에 필요해요! 기존 로직을 건드리진 않습니다!
-
         }
+        var currentmatchingId= resultMatchingRepository.findFirstByDiscordUrl(url)
+                    .orElseThrow(NotFoundMatchingException::new);
         return ResponseUrlInfo.builder()
+                .matchingId(currentmatchingId.getId())
                 .member(request)
                 .topicName(topicName)
                 .url(url).build();
     }
+
+    @Override
+    public void matchingCancle(HttpServletRequest servletRequest){
+        Map<String, RequestMatching> connectedUserPool = StompSessionInterceptor.connectedUserPool;
+        var userSessionId= servletRequest.getSession().getId();
+        var userInfo= connectedUserPool.get(userSessionId);
+        redisService.matchingCancelByRedis(userInfo);
+    }
+
     public Optional<List<MatchingResultQueryDto>> findByMatchingResultMemberNicknameByMemberId(Long id) {
         return matchingLogRepository.findByMatchingResultMemberNicknameByMemberId(id);
     }
-
-
 
     @Override
     public List<NicknameDto> findMatchingMembers(Long matchingId, Long memberId) {
