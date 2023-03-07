@@ -75,6 +75,7 @@ public class Member {
      */
     public void addBuddies(Member member) {
         this.getMyBuddies().add(member);
+        member.getMyBuddies().add(this);
     }
 
     public void addNotYetBuddies(Member member) {
@@ -105,7 +106,8 @@ public class Member {
         this.role = role;
     }
 
-    public void deleteBuddy(Long memberId) {
+    public void deleteBuddy(Long memberId, Member buddy) {
         this.getMyBuddies().removeIf(member -> (member.getId() == memberId));
+        buddy.getMyBuddies().removeIf(member -> (member.getId() == this.getId()));
     }
 }

@@ -1,12 +1,8 @@
 package com.nbcamp.gamematching.matchingservice.member.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nbcamp.gamematching.matchingservice.board.entity.Board;
 import com.nbcamp.gamematching.matchingservice.board.service.BoardService;
 import com.nbcamp.gamematching.matchingservice.common.domain.CreatePageable;
-import com.nbcamp.gamematching.matchingservice.exception.NotFoundException.NotFoundMatchingException;
 import com.nbcamp.gamematching.matchingservice.exception.NotFoundException.NotFoundMemberException;
 import com.nbcamp.gamematching.matchingservice.matching.domain.MemberLog;
 import com.nbcamp.gamematching.matchingservice.matching.dto.NicknameDto;
@@ -31,7 +27,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -95,56 +90,75 @@ public class MemberServiceImpl implements MemberService {
         return BuddyRequestDto.of(notYetBuddyList);
     }
 
+//    @Override
+//    public List<MatchingLog2Dto> getMyMatching2List(Long memberId) {
+//        List<MatchingLog2Dto> matchingLog2DtoList = new ArrayList<>();
+//
+//        List<ResultMatching> resultMatchingList = getResultMatchingList(
+//                memberId);
+//        for (ResultMatching resultMatching : resultMatchingList) {
+//            if (resultMatching.getGameInfo().contains("2")) {
+//                List<MatchingLog> matching = matchingLogRepository.findAllByResultMatching(
+//                        resultMatching);
+//
+//                List<Member> members = matching.stream().map(MatchingLog::getMember)
+//                        .filter(member -> (member.getId() != memberId))
+//                        .collect(Collectors.toList());
+//
+//                MatchingLog2Dto matchingLog2Dto = new MatchingLog2Dto(members.get(0),
+//                        resultMatching.getId());
+//                matchingLog2DtoList.add(matchingLog2Dto);
+//            }
+//        }
+//        return matchingLog2DtoList;
+//    }
+//
+//    @Override
+//    public List<MatchingLog5Dto> getMyMatching5List(Long memberId) {
+//        List<MatchingLog5Dto> matchingLog5DtoList = new ArrayList<>();
+//
+//        List<ResultMatching> resultMatchingList = getResultMatchingList(memberId);
+//
+//        for (ResultMatching resultMatching : resultMatchingList) {
+//            if (resultMatching.getGameInfo().contains("5")) {
+//                List<MatchingLog> matching = matchingLogRepository.findAllByResultMatching(
+//                        resultMatching);
+//                List<MemberLog> memberAndLogs = matching.stream()
+//                        .map(MatchingLog::getMemberIdAndNickname)
+//                        .filter(memberAndLog -> (memberAndLog.getMemberId() != memberId))
+//                        .collect(Collectors.toList());
+//
+//                MatchingLog5Dto matchingLog5Dto = new MatchingLog5Dto(memberAndLogs,
+//                        resultMatching.getId());
+//                matchingLog5DtoList.add(matchingLog5Dto);
+//            }
+//        }
+//        return matchingLog5DtoList;
+//    }
+
     @Override
-    public List<MatchingLog2Dto> getMyMatching2List(Long memberId) {
-        List<MatchingLog2Dto> matchingLog2DtoList = new ArrayList<>();
-
-        List<ResultMatching> resultMatchingList = getResultMatchingList(
-                memberId);
-        for (ResultMatching resultMatching : resultMatchingList) {
-            if (resultMatching.getPlayMode().contains("2")) {
-                List<MatchingLog> matching = matchingLogRepository.findAllByResultMatching(
-                        resultMatching);
-
-                List<Member> members = matching.stream().map(MatchingLog::getMember)
-                        .filter(member -> (member.getId() != memberId))
-                        .collect(Collectors.toList());
-
-                MatchingLog2Dto matchingLog2Dto = new MatchingLog2Dto(members.get(0),
-                        resultMatching.getId());
-                matchingLog2DtoList.add(matchingLog2Dto);
-            }
-        }
-        return matchingLog2DtoList;
-    }
-
-    @Override
-    public List<MatchingLog5Dto> getMyMatching5List(Long memberId) {
-        List<MatchingLog5Dto> matchingLog5DtoList = new ArrayList<>();
+    public List<MatchingMemberDto> getMyMatchingMemberList(Long memberId) {
+        List<MatchingMemberDto> matchingMemberList = new ArrayList<>();
 
         List<ResultMatching> resultMatchingList = getResultMatchingList(memberId);
-
         for (ResultMatching resultMatching : resultMatchingList) {
-            if (resultMatching.getPlayMode().contains("5")) {
-                List<MatchingLog> matching = matchingLogRepository.findAllByResultMatching(
-                        resultMatching);
-                List<MemberLog> memberAndLogs = matching.stream()
-                        .map(MatchingLog::getMemberAndLog)
-                        .filter(memberAndLog -> (memberAndLog.getMemberId() != memberId))
-                        .collect(Collectors.toList());
-
-                MatchingLog5Dto matchingLog5Dto = new MatchingLog5Dto(memberAndLogs,
-                        resultMatching.getId());
-                matchingLog5DtoList.add(matchingLog5Dto);
-            }
+            List<MatchingLog> matching = matchingLogRepository.findAllByResultMatching(
+                    resultMatching);
+            List<String> nicknames = matching.stream().map(MatchingLog::getMemberNickname)
+                    .collect(Collectors.toList());
+            MatchingMemberDto matchingMemberDto = new MatchingMemberDto(nicknames,
+                    resultMatching.getId());
+            matchingMemberList.add(matchingMemberDto);
         }
-        return matchingLog5DtoList;
+        return matchingMemberList;
     }
 
     private List<ResultMatching> getResultMatchingList(Long memberId) {
         Member findMember = memberRepository.findById(memberId)
                 .orElseThrow(NotFoundMemberException::new);
         List<MatchingLog> matchingLogList = matchingLogRepository.findAllByMember(findMember);
+        //TODO: 실제 테스트 이후에는 아래와 같이 바꿀 것
+        // List<MatchingLog> matchingLogList = findMember.getMatchingLogs();
 
         return matchingLogList.stream()
                 .map(MatchingLog::getResultMatching).collect(Collectors.toList());
@@ -207,8 +221,10 @@ public class MemberServiceImpl implements MemberService {
     public ResponseEntity<String> deleteMyBuddy(Long memberId, Long buddyId) {
         Member findMember = memberRepository.findById(memberId)
                 .orElseThrow(NotFoundMemberException::new);
+        Member buddy = memberRepository.findById(buddyId)
+                .orElseThrow(NotFoundMemberException::new);
 
-        findMember.deleteBuddy(buddyId);
+        findMember.deleteBuddy(buddyId, buddy);
         return new ResponseEntity<>("친구가 삭제되었습니다.", HttpStatus.OK);
     }
 

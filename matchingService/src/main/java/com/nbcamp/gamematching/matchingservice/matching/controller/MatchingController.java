@@ -52,6 +52,12 @@ public class MatchingController {
         return ResponseEntity.ok(matchingService.findByMatchingResultMemberNicknameByMemberId(id));
     }
 
+    @GetMapping("/{matchingId}/members")
+    public List<NicknameDto> getMatchingMembers(@PathVariable Long matchingId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        Member member = userDetails.getMember();
+        return matchingService.findMatchingMembers(matchingId, member.getId());
+    }
+
     @GetMapping("/cancle")
     @Transactional(readOnly = true)
     public void matchingCancle(HttpServletRequest servletRequest) {
