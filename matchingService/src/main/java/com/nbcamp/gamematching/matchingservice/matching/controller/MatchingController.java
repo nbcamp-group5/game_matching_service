@@ -2,10 +2,11 @@ package com.nbcamp.gamematching.matchingservice.matching.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nbcamp.gamematching.matchingservice.matching.Service.MatchingService;
+import com.nbcamp.gamematching.matchingservice.matching.dto.NicknameDto;
 import com.nbcamp.gamematching.matchingservice.matching.dto.QueryDto.MatchingResultQueryDto;
 import com.nbcamp.gamematching.matchingservice.matching.dto.RequestMatching;
 import com.nbcamp.gamematching.matchingservice.matching.dto.ResponseUrlInfo;
-import com.nbcamp.gamematching.matchingservice.matching.repository.MatchingLogRepository;
+import com.nbcamp.gamematching.matchingservice.member.entity.Member;
 import com.nbcamp.gamematching.matchingservice.security.UserDetailsImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
