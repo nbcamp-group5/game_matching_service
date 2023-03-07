@@ -31,7 +31,8 @@ public class MatchingController {
 
     @MessageMapping(value = "/url")
     public void message(ResponseUrlInfo responseUrlInfo) {
-        template.convertAndSend("/matchingsub/" + responseUrlInfo.getTopicName(), responseUrlInfo.getUrl());
+        template.convertAndSend("/matchingsub/" + responseUrlInfo.getTopicName()
+                , responseUrlInfo);
     }
     @PostMapping("/join")
     @ResponseBody
@@ -64,10 +65,5 @@ public class MatchingController {
         matchingService.matchingCancle(servletRequest);
     }
 
-    @GetMapping("/{matchingId}/members")
-    public List<NicknameDto> getMatchingMembers(@PathVariable Long matchingId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        Member member = userDetails.getMember();
-        return matchingService.findMatchingMembers(matchingId, member.getId());
-    }
 
 }

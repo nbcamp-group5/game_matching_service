@@ -13,7 +13,12 @@ public class ResponseUrlInfo {
     private String topicName;
     private String url;
 
-    public ResponseUrlInfo(RequestMatching member,String topicName) {
+    public ResponseUrlInfo(Long matchingId, String url) {
+        this.matchingId = matchingId;
+        this.url = url;
+    }
+
+    public ResponseUrlInfo(RequestMatching member, String topicName) {
         this.member = member;
         this.topicName = topicName;
         this.url="";
