@@ -5,7 +5,6 @@ import com.nbcamp.gamematching.matchingservice.member.dto.EvaluationOneMember;
 import com.nbcamp.gamematching.matchingservice.member.dto.EvaluationRequest;
 import com.nbcamp.gamematching.matchingservice.member.entity.Member;
 import com.nbcamp.gamematching.matchingservice.member.service.MannerPointsService;
-import com.nbcamp.gamematching.matchingservice.member.service.MemberService;
 import com.nbcamp.gamematching.matchingservice.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
