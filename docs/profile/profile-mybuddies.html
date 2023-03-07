@@ -15,7 +15,7 @@
            $("#users-box-contents").empty();
            $.ajax({
                type:"GET",
-               url:"http://localhost:8080/api/profile/",
+               url:"http://43.200.42.252:8080/api/profile/",
                headers:{
                 "Content-Type": "application/json",
                 "Authorization":localStorage.getItem("accessToken")
@@ -75,7 +75,7 @@
 
           $.ajax({
               type:"GET",
-              url:"http://localhost:8080/api/profile/buddies",
+              url:"http://43.200.42.252:8080/api/profile/buddies",
               headers:{
               "Content-Type": "application/json",
               "Authorization":localStorage.getItem("accessToken")
@@ -104,7 +104,7 @@
       function deleteBuddy(id) {
         $.ajax({
               type:"DELETE",
-              url:"http://localhost:8080/api/profile/buddies/" + id,
+              url:"http://43.200.42.252:8080/api/profile/buddies/" + id,
               headers:{
                 "Authorization":localStorage.getItem("accessToken")
               },

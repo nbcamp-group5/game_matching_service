@@ -19,7 +19,7 @@
 
               $.ajax({
                type:"GET",
-               url:"http://localhost:8080/api/profile/",
+               url:"http://43.200.42.252:8080/api/profile/",
                headers:{
                 "Content-Type": "application/json",
                 "Authorization":localStorage.getItem("accessToken")
@@ -79,7 +79,7 @@
 
               $.ajax({
                 type:"GET",
-                url:"http://localhost:8080/api/profile/matching2",
+                url:"http://43.200.42.252:8080/api/profile/matching2",
                 headers:{
                   "Authorization":localStorage.getItem("accessToken")
                 },
@@ -121,7 +121,7 @@
               $("#matching-list-head").empty();
               $.ajax({
                 type:"GET",
-                url:"http://localhost:8080/api/profile/matching2",
+                url:"http://43.200.42.252:8080/api/profile/matching2",
                 headers:{
                   "Authorization":localStorage.getItem("accessToken")
                 },
@@ -162,7 +162,7 @@
               $("#matching-list-head").empty();
               $.ajax({
                 type:"GET",
-                url:"http://localhost:8080/api/profile/matching5",
+                url:"http://43.200.42.252:8080/api/profile/matching5",
                 headers:{
                   "Authorization":localStorage.getItem("accessToken")
                 },
@@ -202,7 +202,7 @@
             function evaluateUp(targetId, matchingId) {
               $.ajax({
                 type:"POST",
-                url:"http://localhost:8080/api/profile/mannerPoints/evaluation",
+                url:"http://43.200.42.252:8080/api/profile/mannerPoints/evaluation",
                 headers:{
                   "Authorization":localStorage.getItem("accessToken")
                 },

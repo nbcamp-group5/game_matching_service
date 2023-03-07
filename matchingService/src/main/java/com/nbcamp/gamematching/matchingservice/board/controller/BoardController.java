@@ -35,7 +35,7 @@ public class BoardController {
 
     //게시글 작성
     @PostMapping(value = "/normal")
-        public ResponseEntity<String> createBoard(@RequestPart("requestDto") CreateBoardRequest createBoardRequest, @AuthenticationPrincipal UserDetailsImpl userDetails, @RequestPart("image") MultipartFile image) throws IOException {
+    public ResponseEntity<String> createBoard(@RequestPart("requestDto") CreateBoardRequest createBoardRequest, @AuthenticationPrincipal UserDetailsImpl userDetails, @RequestPart("image") MultipartFile image) throws IOException {
         boardService.createBoard(createBoardRequest, userDetails.getUser(),image);
         return new ResponseEntity<>("게시글 작성 완료", HttpStatus.CREATED);
     }
