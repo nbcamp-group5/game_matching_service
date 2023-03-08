@@ -29,7 +29,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Slf4j
 @RequiredArgsConstructor
 public class MatchingServiceImpl implements MatchingService {
-
     private final DiscordService discordService;
     private final ResultMatchingRepository resultMatchingRepository;
     private final MatchingLogRepository matchingLogRepository;
@@ -85,7 +84,7 @@ public class MatchingServiceImpl implements MatchingService {
             resultMatchingRepository.saveAndFlush(resultMatching);
             MatchingLog matchingLog = new MatchingLog(resultMatching, resultMember);
             matchingLogRepository.saveAndFlush(matchingLog);
-            matchingLog.setMember(resultMember); // 연관관계 편의 메소드때문에 필요해요! 기존 로직을 건드리진 않습니다!
+            matchingLog.addMatchingLogToMember(resultMember);
         }
         var currentmatchingId= resultMatchingRepository.findFirstByDiscordUrl(url)
                     .orElseThrow(NotFoundMatchingException::new);
@@ -107,7 +106,6 @@ public class MatchingServiceImpl implements MatchingService {
                 resultMatching);
         return memberService.findNicknamesInMatching(matchingLogs, memberId);
     }
-
     @Override
     public ResultMatching findResultMatchingById(Long matchingId) {
         return resultMatchingRepository.findById(matchingId)

@@ -1,375 +1,383 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-  </head>
-  <div class="container" id="container">
-    <div class="form-container sign-up-container">
-      <form>
-        <h1 class="korean">회원가입</h1>
-        <div class="social-container">
-          <a
-            href="https://kauth.kakao.com/oauth/authorize?client_id=8c70ca1b49ada3a6a00aafdf2b0f125a&redirect_uri=http://43.200.42.252::8080/api/auth/kakao/callback&response_type=code"
-            class="social"
-            ><img src="images/auth/kakao.png"
-          /></a>
-        </div>
-        <div class="input-box">
-          <input type="text" id="signup-email" placeholder="이메일" />
-          <input type="text" id="signup-nickname" placeholder="닉네임" />
-          <input
-            type="password"
-            id="signup-password"
-            autocomplete="off"
-            placeholder="비밀번호"
-          />
-        </div>
-        <div class="cssButton" onclick="signUpRequest()">확인</div>
-      </form>
-    </div>
-    <div class="form-container sign-in-container">
-      <form>
-        <h1 class="korean">로그인</h1>
-        <div class="social-container">
-          <a
-            href="https://kauth.kakao.com/oauth/authorize?client_id=8c70ca1b49ada3a6a00aafdf2b0f125a&redirect_uri=http://43.200.42.252::8080/api/auth/kakao/callback&response_type=code"
-            class="social"
-            ><img src="images/auth/kakao.png"
-          /></a>
-        </div>
-        <div class="input-box">
-          <input type="text" id="login-email" placeholder="이메일" />
-          <input
-            type="password"
-            id="login-password"
-            autocomplete="off"
-            placeholder="비밀번호"
-          />
-        </div>
-        <div class="cssButton" onclick="signInRequest()">확인</div>
-      </form>
-    </div>
-    <div class="overlay-container">
-      <div class="overlay">
-        <div class="overlay-panel overlay-left">
-          <h4 class="korean">빡겜러를 위한,</h4>
-          <h1 class="korean name">즐겜<br />빡겜</h1>
-          <p class="explain">같이 게임할 친구들이 기다리고 있어요!</p>
-          <button class="ghost" id="signIn">로그인 하기</button>
-        </div>
-        <div class="overlay-panel overlay-right">
-          <h4 class="korean">즐겜러를 위한,</h4>
-          <h1 class="korean name">즐겜<br />빡겜</h1>
-          <p class="explain">함께 하면 더 즐거운 게임, 이제 같이 해요!</p>
-          <button class="ghost" id="signUp">가입하러 가기</button>
-        </div>
+<header>
+  <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+</header>
+<div class="container" id="container">
+  <div class="form-container sign-up-container">
+    <form>
+      <h1 class="korean">회원가입</h1>
+      <div class="social-container">
+        <a href="#" class="social"><img src="/images/auth/kakao.png"></a>
+      </div>
+      <div class="input-box">
+        <input type="text" id="signup-email" placeholder="이메일" />
+        <input type="text" id="signup-nickname" placeholder="닉네임" />
+        <input type="password" id="signup-password" autoComplete="off" placeholder="비밀번호" />
+      </div>
+      <button onclick="signUpRequest()">확인</button>
+    </form>
+  </div>
+  <div class="form-container sign-in-container">
+    <form>
+      <h1 class="korean">로그인</h1>
+      <div class="social-container">
+        <a href="#" class="social"><img src="/images/auth/kakao.png"></a>
+      </div>
+      <div class="input-box">
+        <input type="text" id="login-email" placeholder="이메일" />
+        <input type="password" id="login-password" autoComplete="off" placeholder="비밀번호" />
+      </div>
+      <button onclick="signInRequest()">확인</button>
+    </form>
+  </div>
+  <div class="overlay-container">
+    <div class="overlay">
+      <div class="overlay-panel overlay-left">
+        <h4 class="korean">빡겜러를 위한,</h4>
+        <h1 class="korean name">즐겜<br>빡겜</h1>
+        <p class="explain">같이 게임할 친구들이 기다리고 있어요!</p>
+        <button class="ghost" id="signIn">로그인 하기</button>
+      </div>
+      <div class="overlay-panel overlay-right">
+        <h4 class="korean">즐겜러를 위한,</h4>
+        <h1 class="korean name">즐겜<br>빡겜</h1>
+        <p class="explain">함께 하면 더 즐거운 게임, 이제 같이 해요!</p>
+        <button class="ghost" id="signUp">가입하러 가기</button>
       </div>
     </div>
   </div>
-  <style>
-    @import url("https://fonts.googleapis.com/css?family=Montserrat:400,800");
-    @font-face {
-      font-family: "LeferiPoint-WhiteObliqueA";
-      src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/LeferiPoint-WhiteObliqueA.woff")
-        format("woff");
-      font-weight: normal;
-      font-style: normal;
-    }
-    @font-face {
-      font-family: "TTTtangsbudaejjigaeB";
-      src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2212@1.0/TTTtangsbudaejjigaeB.woff2")
-        format("woff2");
-      font-weight: 700;
-      font-style: normal;
-    }
-    .korean {
-      font-family: "TTTtangsbudaejjigaeB";
-    }
-    .name {
-      font-size: 70px;
-    }
-    .explain {
-      font-family: "LeferiPoint-WhiteObliqueA";
-    }
-    * {
-      box-sizing: border-box;
-    }
-    body {
-      background: #f6f5f7;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      font-family: "Montserrat", sans-serif;
-      height: 100vh;
-      margin: -20px 0 50px;
-    }
-    h1 {
-      font-weight: bold;
-      margin: 0;
-    }
-    h2 {
-      text-align: center;
-    }
-    p {
-      font-size: 14px;
-      font-weight: 100;
-      line-height: 20px;
-      letter-spacing: 0.5px;
-      margin: 20px 0 30px;
-    }
-    span {
-      font-size: 12px;
-    }
-    a {
-      color: #333;
-      font-size: 14px;
-      text-decoration: none;
-      margin: 15px 0;
-    }
-    .cssButton {
-      border-radius: 25px;
-      border: 0px solid #ff4b2b;
-      background: linear-gradient(45deg, #b7e5dd, #f1f0c0);
-      background-color: #95adfc;
-      color: #656770;
-      font-size: 17px;
-      font-weight: bold;
-      padding: 12px 45px;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      transition: transform 80ms ease-in;
-    }
-    button {
-      border-radius: 25px;
-      border: 0px solid #ff4b2b;
-      background: linear-gradient(45deg, #b7e5dd, #f1f0c0);
-      background-color: #95adfc;
-      color: #656770;
-      font-size: 17px;
-      font-weight: bold;
-      padding: 12px 45px;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      transition: transform 80ms ease-in;
-    }
-    button:active {
-      transform: scale(0.95);
-    }
-    button:focus {
-      outline: none;
-    }
-    button.ghost {
-      background-color: transparent;
-      border-color: #ffffff;
-    }
-    form {
-      background-color: #ffffff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      padding: 0 50px;
-      height: 100%;
-      text-align: center;
-    }
-    input {
-      background-color: #eee;
-      border: none;
-      padding: 12px 15px;
-      margin: 8px 0;
-      width: 100%;
-    }
-    .container {
-      background-color: #fff;
-      border-radius: 10px;
-      box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25),
-        0 10px 10px rgba(0, 0, 0, 0.22);
-      position: relative;
-      overflow: hidden;
-      width: 768px;
-      max-width: 100%;
-      min-height: 480px;
-    }
-    .form-container {
-      position: absolute;
-      top: 0;
-      height: 100%;
-      transition: all 0.6s ease-in-out;
-    }
-    .sign-in-container {
-      left: 0;
-      width: 50%;
-      z-index: 2;
-    }
-    .container.right-panel-active .sign-in-container {
-      transform: translateX(100%);
-    }
-    .sign-up-container {
-      left: 0;
-      width: 50%;
+</div>
+​
+<style>
+  @import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
+​
+  @font-face {
+    font-family: 'LeferiPoint-WhiteObliqueA';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/LeferiPoint-WhiteObliqueA.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+  }
+​
+  @font-face {
+    font-family: 'TTTtangsbudaejjigaeB';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2212@1.0/TTTtangsbudaejjigaeB.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+  }
+​
+  .korean {
+    font-family: 'TTTtangsbudaejjigaeB';
+  }
+​
+  .name {
+    font-size: 70px;
+  }
+​
+  .explain {
+    font-family: 'LeferiPoint-WhiteObliqueA';
+  }
+​
+​
+  * {
+    box-sizing: border-box;
+  }
+​
+  body {
+    background: #f6f5f7;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    font-family: 'Montserrat', sans-serif;
+    height: 100vh;
+    margin: -20px 0 50px;
+  }
+​
+  h1 {
+    font-weight: bold;
+    margin: 0;
+  }
+​
+  h2 {
+    text-align: center;
+  }
+​
+  p {
+    font-size: 14px;
+    font-weight: 100;
+    line-height: 20px;
+    letter-spacing: 0.5px;
+    margin: 20px 0 30px;
+  }
+​
+  span {
+    font-size: 12px;
+  }
+​
+  a {
+    color: #333;
+    font-size: 14px;
+    text-decoration: none;
+    margin: 15px 0;
+  }
+​
+  button {
+    border-radius: 25px;
+    border: 0px solid #FF4B2B;
+    background: linear-gradient(45deg, #B7E5DD, #F1F0C0);
+    background-color: #95adfc;
+    color: #656770;
+    font-size: 17px;
+    font-weight: bold;
+    padding: 12px 45px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: transform 80ms ease-in;
+  }
+​
+  button:active {
+    transform: scale(0.95);
+  }
+​
+  button:focus {
+    outline: none;
+  }
+​
+  button.ghost {
+    background-color: transparent;
+    border-color: #FFFFFF;
+  }
+​
+  form {
+    background-color: #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 0 50px;
+    height: 100%;
+    text-align: center;
+  }
+​
+  input {
+    background-color: #eee;
+    border: none;
+    padding: 12px 15px;
+    margin: 8px 0;
+    width: 100%;
+  }
+​
+  .container {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25),
+      0 10px 10px rgba(0, 0, 0, 0.22);
+    position: relative;
+    overflow: hidden;
+    width: 768px;
+    max-width: 100%;
+    min-height: 480px;
+  }
+​
+  .form-container {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    transition: all 0.6s ease-in-out;
+  }
+​
+  .sign-in-container {
+    left: 0;
+    width: 50%;
+    z-index: 2;
+  }
+​
+  .container.right-panel-active .sign-in-container {
+    transform: translateX(100%);
+  }
+​
+  .sign-up-container {
+    left: 0;
+    width: 50%;
+    opacity: 0;
+    z-index: 1;
+  }
+​
+  .container.right-panel-active .sign-up-container {
+    transform: translateX(100%);
+    opacity: 1;
+    z-index: 5;
+    animation: show 0.6s;
+  }
+​
+  @keyframes show {
+​
+    0%,
+    49.99% {
       opacity: 0;
       z-index: 1;
     }
-    .container.right-panel-active .sign-up-container {
-      transform: translateX(100%);
+​
+    50%,
+    100% {
       opacity: 1;
       z-index: 5;
-      animation: show 0.6s;
     }
-    @keyframes show {
-      0%,
-      49.99% {
-        opacity: 0;
-        z-index: 1;
-      }
-      50%,
-      100% {
-        opacity: 1;
-        z-index: 5;
-      }
-    }
-    .overlay-container {
-      position: absolute;
-      top: 0;
-      left: 50%;
-      width: 50%;
-      height: 100%;
-      overflow: hidden;
-      transition: transform 0.6s ease-in-out;
-      z-index: 100;
-    }
-    .container.right-panel-active .overlay-container {
-      transform: translateX(-100%);
-    }
-    .overlay {
-      background: #b1bce6;
-      background: -webkit-linear-gradient(to right, #9a86a4, #b1bce6);
-      background: linear-gradient(to right, #9a86a4, #b1bce6);
-      background-repeat: no-repeat;
-      background-size: cover;
-      background-position: 0 0;
-      color: #ffffff;
-      position: relative;
-      left: -100%;
-      height: 100%;
-      width: 200%;
-      transform: translateX(0);
-      transition: transform 0.6s ease-in-out;
-    }
-    .container.right-panel-active .overlay {
-      transform: translateX(50%);
-    }
-    .overlay-panel {
-      position: absolute;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      padding: 0 40px;
-      text-align: center;
-      top: 0;
-      height: 100%;
-      width: 50%;
-      transform: translateX(0);
-      transition: transform 0.6s ease-in-out;
-    }
-    .overlay-left {
-      transform: translateX(-20%);
-    }
-    .container.right-panel-active .overlay-left {
-      transform: translateX(0);
-    }
-    .overlay-right {
-      right: 0;
-      transform: translateX(0);
-    }
-    .container.right-panel-active .overlay-right {
-      transform: translateX(20%);
-    }
-    .social-container {
-      margin: 20px 0;
-    }
-    .social-container a {
-      border: 1px solid #eceaea;
-      border-radius: 50%;
-      display: inline-flex;
-      justify-content: center;
-      align-items: center;
-      margin: 0 5px;
-      height: 40px;
-      width: 40px;
-    }
-    .social img {
-      display: block;
-      width: 100%;
-      height: auto;
-    }
-    .input-box {
-      margin-bottom: 30px;
-    }
-  </style>
-  <script>
-    const signUpButton = document.getElementById("signUp");
-    const signInButton = document.getElementById("signIn");
-    const container = document.getElementById("container");
-    const auth = localStorage.getItem("Authorization");
-    signUpButton.addEventListener("click", () => {
-      container.classList.add("right-panel-active");
+  }
+​
+  .overlay-container {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 50%;
+    height: 100%;
+    overflow: hidden;
+    transition: transform 0.6s ease-in-out;
+    z-index: 100;
+  }
+​
+  .container.right-panel-active .overlay-container {
+    transform: translateX(-100%);
+  }
+​
+  .overlay {
+    background: #B1BCE6;
+    background: -webkit-linear-gradient(to right, #9A86A4, #B1BCE6);
+    background: linear-gradient(to right, #9A86A4, #B1BCE6);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: 0 0;
+    color: #FFFFFF;
+    position: relative;
+    left: -100%;
+    height: 100%;
+    width: 200%;
+    transform: translateX(0);
+    transition: transform 0.6s ease-in-out;
+  }
+​
+  .container.right-panel-active .overlay {
+    transform: translateX(50%);
+  }
+​
+  .overlay-panel {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 0 40px;
+    text-align: center;
+    top: 0;
+    height: 100%;
+    width: 50%;
+    transform: translateX(0);
+    transition: transform 0.6s ease-in-out;
+  }
+​
+  .overlay-left {
+    transform: translateX(-20%);
+  }
+​
+  .container.right-panel-active .overlay-left {
+    transform: translateX(0);
+  }
+​
+  .overlay-right {
+    right: 0;
+    transform: translateX(0);
+  }
+​
+  .container.right-panel-active .overlay-right {
+    transform: translateX(20%);
+  }
+​
+  .social-container {
+    margin: 20px 0;
+  }
+​
+  .social-container a {
+    border: 1px solid #eceaea;
+    border-radius: 50%;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 5px;
+    height: 40px;
+    width: 40px;
+  }
+​
+  .social img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+​
+  .input-box {
+    margin-bottom: 30px;
+  }
+</style>
+​
+<script>
+  const signUpButton = document.getElementById('signUp');
+  const signInButton = document.getElementById('signIn');
+  const container = document.getElementById('container');
+​
+  const auth = localStorage.getItem('Authorization');
+​
+  signUpButton.addEventListener('click', () => {
+    container.classList.add("right-panel-active");
+  });
+​
+  signInButton.addEventListener('click', () => {
+    container.classList.remove("right-panel-active");
+  });
+​
+  function signUpRequest() {
+    var settings = {
+      "url": "http://43.200.42.252:8080/api/auth/signup",
+      "method": "POST",
+      "timeout": 0,
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "data": JSON.stringify({
+        "email": $('#signup-email').val(),
+        "nickname": $('#signup-nickname').val(),
+        "password": $('#signup-password').val()
+      })
+    };
+​
+    $.ajax(settings).done(function (response) {
+      alert("회원가입이 완료되었습니다.");
+    }).fail(function (response) {
+      alert(response.responseJSON.errorMessage);
     });
-    signInButton.addEventListener("click", () => {
-      container.classList.remove("right-panel-active");
-    });
-    function signUpRequest() {
-      var settings = {
-        url: "http://43.200.42.252:8080/api/auth/signup",
-        method: "POST",
-        timeout: 0,
-        headers: {
-          "Content-Type": "application/json",
-        },
-        data: JSON.stringify({
-          email: $("#signup-email").val(),
-          nickname: $("#signup-nickname").val(),
-          password: $("#signup-password").val(),
-        }),
-      };
-      $.ajax(settings)
-        .done(function (response) {
-          alert("회원가입이 완료되었습니다.");
-        })
-        .fail(function (response) {
-          alert(response.responseJSON.errorMessage);
-        });
-    }
-    function signInRequest() {
-      var settings = {
-        url: "http://localhost:8080/api/auth/signin",
-        method: "POST",
-        timeout: 0,
-        headers: {
-          "Content-Type": "application/json",
-        },
-        data: JSON.stringify({
-          email: $("#login-email").val(),
-          password: $("#login-password").val(),
-        }),
-      };
-      $.ajax(settings)
-        .done(function (response, status, xhr) {
-          localStorage.setItem(
-            "Authorization",
-            xhr.getResponseHeader("Authorization")
-          );
-          window.location.href = "./board/board.html";
-        })
-        .fail(function (response, status, xhr) {
-          console.log(response);
-          alert("아이디와 비밀번호를 확인해주세요.");
-        });
-    }
-  </script>
-</html>
+​
+  }
+​
+​
+  function signInRequest() {
+​
+    var settings = {
+      "url": "http://43.200.42.252:8080/api/auth/signin",
+      "method": "POST",
+      "timeout": 0,
+      "headers": {
+        "Content-Type": "application/json",
+      },
+      "data": JSON.stringify({
+        "email": $('#login-email').val(),
+        "password": $('#login-password').val()
+      }),
+    };
+​
+    $.ajax(settings).done(function (response, status, xhr) {
+      localStorage.setItem('Authorization', xhr.getResponseHeader('Authorization'));
+      location.href = "./board/board.html";
+    })
+      .fail(function (response) {
+        console.log(response);
+        alert("아이디와 비밀번호를 확인해주세요.");
+      });
+  }
+</script>

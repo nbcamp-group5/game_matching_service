@@ -17,7 +17,6 @@ public interface MatchingService {
 
     ResponseUrlInfo matchingJoin(RequestMatching requestMatching,
                                  HttpServletRequest servletRequest) throws JsonProcessingException;
-    void matchingCancle(HttpServletRequest servletRequest);
     Optional<List<MatchingResultQueryDto>> findByMatchingResultMemberNicknameByMemberId(Long id);
     List<NicknameDto> findMatchingMembers(Long matchingId, Long memberId);
     ResultMatching findResultMatchingById(Long matchingId);

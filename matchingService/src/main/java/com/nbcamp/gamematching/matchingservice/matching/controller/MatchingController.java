@@ -59,11 +59,5 @@ public class MatchingController {
         return matchingService.findMatchingMembers(matchingId, member.getId());
     }
 
-    @GetMapping("/cancle")
-    @Transactional(readOnly = true)
-    public void matchingCancle(HttpServletRequest servletRequest) {
-        matchingService.matchingCancle(servletRequest);
-    }
-
 
 }

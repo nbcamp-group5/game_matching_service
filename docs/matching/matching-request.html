@@ -13,7 +13,7 @@
       if (hideOrshow == "hide"){
           document.getElementById("popup_content_wrap").style.display = "none";
           var settings = {
-            "url": "http://localhost:8080/api/matching/cancel",
+            "url": "http://43.200.42.252:8080/api/matching/cancel",
             "method": "GET",
             "timeout": 0,
             "headers": {
@@ -22,7 +22,7 @@
     };
     $.ajax(settings).done(function (xhr) {
       localStorage.setItem('Authorization', xhr.getResponseHeader('Authorization'))
-      window.location = ("/matching/matching-request.html")
+      window.location = ("/matching-request.html")
     });
   }
     else{
@@ -41,7 +41,7 @@ function matchingCancel() {
 
   function matching() {
   var settings = {
-    "url": "http://localhost:8080/api/matching/join",
+    "url": "http://43.200.42.252:8080/api/matching/join",
     "method": "POST",
     "timeout": 0,
     "headers": {
@@ -60,7 +60,7 @@ function matchingCancel() {
         popup_content("show");
         var matchingroom = "";
         alert("디스코드 연결 성공.")
-        var sockJs = new SockJS("http://localhost:8080/GGTalk");
+        var sockJs = new SockJS("http://43.200.42.252:8080/GGTalk");
         var stomp = Stomp.over(sockJs);
         stomp.connect({},function () {
           stomp.subscribe("/matchingsub/" + response.topicName, function (response){
@@ -142,7 +142,7 @@ function matchingCancel() {
         </li>
     
         <li class="menu__btn" style="background-color: #b1bce66c;">
-          <a class="menu__link" href="/matching/matching-request.html">
+          <a class="menu__link" href="/matching-request.html">
             <div class="menu__link__explain">
               <!-- <span><i class="fa-solid fa-gamepad"></i></span> -->
               <span>🎮 매칭</span>
