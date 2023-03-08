@@ -16,6 +16,21 @@
     <script>
       $(document).ready(function () {
         $("#list-contents").empty();
+        // $(".star").on("click", function () {
+        //   $(this).toggleClass("star-checked");
+        // });
+        // $(".ckbox label").on("click", function () {
+        //   $(this).parents("tr").toggleClass("selected");
+        // });
+        // $(".btn-filter").on("click", function () {
+        //   var $target = $(this).data("target");
+        //   if ($target != "all") {
+        //     $(".table tr").css("display", "none");
+        //     $('.table tr[data-status="' + $target + '"]').fadeIn("slow");
+        //   } else {
+        //     $(".table tr").css("display", "none").fadeIn("slow");
+        //   }
+        // });
       });
     </script>
     <script>
@@ -55,11 +70,11 @@
           type: "DELETE",
           url: "http://localhost:8080/api/admin/members/" + id,
           headers: {
-            Authorization: localStorage.getItem("Authorization"),
+            Authorization: localStorage.getItem("accessToken"),
           },
           data: {},
           success: function (response) {
-            alert(response);
+            alert("유저가 삭제되었습니다.");
             window.location.reload();
           },
         });
@@ -70,11 +85,11 @@
           type: "DELETE",
           url: "http://localhost:8080/api/admin/normalBoards/" + id,
           headers: {
-            Authorization: localStorage.getItem("Authorization"),
+            Authorization: localStorage.getItem("accessToken"),
           },
           data: {},
           success: function (response) {
-            alert(response);
+            alert("게시글이 삭제되었습니다.");
             window.location.reload();
           },
         });
@@ -85,11 +100,11 @@
           type: "DELETE",
           url: "http://localhost:8080/api/admin/anonymousBoards/" + id,
           headers: {
-            Authorization: localStorage.getItem("Authorization"),
+            Authorization: localStorage.getItem("accessToken"),
           },
           data: {},
           success: function (response) {
-            alert(response);
+            alert("게시글이 삭제되었습니다.");
             window.location.reload();
           },
         });
@@ -100,11 +115,11 @@
           type: "DELETE",
           url: "http://localhost:8080/api/admin/comments/" + id,
           headers: {
-            Authorization: localStorage.getItem("Authorization"),
+            Authorization: localStorage.getItem("accessToken"),
           },
           data: {},
           success: function (response) {
-            alert(response);
+            alert("댓글이 삭제되었습니다.");
             window.location.reload();
           },
         });
@@ -120,7 +135,7 @@
           type: "GET",
           url: "http://localhost:8080/api/admin/members?page=" + page,
           headers: {
-            Authorization: localStorage.getItem("Authorization"),
+            Authorization: localStorage.getItem("accessToken"),
           },
           data: {},
           success: function (response) {
@@ -228,7 +243,7 @@
           url: "http://localhost:8080/api/admin/boards?page=" + page,
           headers: {
             "Content-Type": "application/json",
-            Authorization: localStorage.getItem("Authorization"),
+            Authorization: localStorage.getItem("accessToken"),
           },
           data: {},
           success: function (response) {
@@ -337,7 +352,7 @@
           url: "http://localhost:8080/api/admin/anonymousBoards?page=" + page,
           headers: {
             "Content-Type": "application/json",
-            Authorization: localStorage.getItem("Authorization"),
+            Authorization: localStorage.getItem("accessToken"),
           },
           data: {},
           success: function (response) {
@@ -443,7 +458,7 @@
           url:
             "http://localhost:8080/api/admin/boards/" + boardId + "/comments",
           headers: {
-            Authorization: localStorage.getItem("Authorization"),
+            Authorization: localStorage.getItem("accessToken"),
           },
           data: {},
           success: function (response) {
