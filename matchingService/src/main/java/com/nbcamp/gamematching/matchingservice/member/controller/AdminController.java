@@ -78,4 +78,9 @@ public class AdminController {
         return adminService.deleteComment(commentId);
     }
 
+    @DeleteMapping("/anonymousComments/{commentId}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<String> deleteAnonymousComment(@PathVariable Long commentId) {
+        return adminService.deleteAnonymousComment(commentId);
+    }
 }

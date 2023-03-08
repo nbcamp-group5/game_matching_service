@@ -74,4 +74,10 @@ public class AdminServiceImpl implements AdminService {
         return commentService.showAnonymousComment(boardId);
     }
 
+    @Override
+    public ResponseEntity<String> deleteAnonymousComment(Long commentId) {
+        commentService.deleteAnonymousCommentByAdmin(commentId);
+        return new ResponseEntity<>("댓글이 삭제되었습니다.", HttpStatus.OK);
+    }
+
 }
