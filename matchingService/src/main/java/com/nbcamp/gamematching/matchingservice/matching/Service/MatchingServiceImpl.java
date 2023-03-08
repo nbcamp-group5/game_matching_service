@@ -2,6 +2,7 @@ package com.nbcamp.gamematching.matchingservice.matching.Service;
 
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.nbcamp.gamematching.matchingservice.config.StompSessionInterceptor;
 import com.nbcamp.gamematching.matchingservice.discord.service.DiscordService;
 import com.nbcamp.gamematching.matchingservice.matching.dto.QueryDto.MatchingResultQueryDto;
 import com.nbcamp.gamematching.matchingservice.exception.NotFoundException.NotFoundMatchingException;
@@ -17,6 +18,7 @@ import com.nbcamp.gamematching.matchingservice.member.service.MemberService;
 import com.nbcamp.gamematching.matchingservice.redis.RedisService;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,7 +29,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Slf4j
 @RequiredArgsConstructor
 public class MatchingServiceImpl implements MatchingService {
-
     private final DiscordService discordService;
     private final ResultMatchingRepository resultMatchingRepository;
     private final MatchingLogRepository matchingLogRepository;
@@ -41,7 +42,10 @@ public class MatchingServiceImpl implements MatchingService {
         Long matchingQuota = Long.valueOf(request.getMemberNumbers());
 
         //방 현재 인원 체크
-        if (redisService.waitingUserCountByRedis(request.getKey()) < matchingQuota - 1) {
+        var matchingRoomCapacity = redisService.waitingUserCountAndRedisConnectByRedis(request.getKey());
+        log.info(" 현재 방 입장 인원 =={ }==",matchingRoomCapacity.toString());
+        if (matchingRoomCapacity < matchingQuota - 1) {
+
             redisService.machedEnterByRedis(request.getKey(), request);
             var topicName = "";
             var topicNameSelector
@@ -77,13 +81,15 @@ public class MatchingServiceImpl implements MatchingService {
                     .playMode(resultMemberList.get(i).getGameMode())
                     .discordUrl(url)
                     .build();
-            resultMatchingRepository.save(resultMatching);
+            resultMatchingRepository.saveAndFlush(resultMatching);
             MatchingLog matchingLog = new MatchingLog(resultMatching, resultMember);
-            matchingLogRepository.save(matchingLog);
+            matchingLogRepository.saveAndFlush(matchingLog);
             matchingLog.addMatchingLogToMember(resultMember);
-
         }
+        var currentmatchingId= resultMatchingRepository.findFirstByDiscordUrl(url)
+                    .orElseThrow(NotFoundMatchingException::new);
         return ResponseUrlInfo.builder()
+                .matchingId(currentmatchingId.getId())
                 .member(request)
                 .topicName(topicName)
                 .url(url).build();
@@ -91,8 +97,6 @@ public class MatchingServiceImpl implements MatchingService {
     public Optional<List<MatchingResultQueryDto>> findByMatchingResultMemberNicknameByMemberId(Long id) {
         return matchingLogRepository.findByMatchingResultMemberNicknameByMemberId(id);
     }
-
-
 
     @Override
     public List<NicknameDto> findMatchingMembers(Long matchingId, Long memberId) {
@@ -102,7 +106,6 @@ public class MatchingServiceImpl implements MatchingService {
                 resultMatching);
         return memberService.findNicknamesInMatching(matchingLogs, memberId);
     }
-
     @Override
     public ResultMatching findResultMatchingById(Long matchingId) {
         return resultMatchingRepository.findById(matchingId)

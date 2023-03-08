@@ -29,6 +29,11 @@ public class MatchingController {
     private final MatchingService matchingService;
     private final SimpMessagingTemplate template;
 
+    @MessageMapping(value = "/url")
+    public void message(ResponseUrlInfo responseUrlInfo) {
+        template.convertAndSend("/matchingsub/" + responseUrlInfo.getTopicName()
+                , responseUrlInfo);
+    }
     @PostMapping("/join")
     @ResponseBody
     public ResponseEntity<ResponseUrlInfo> joinRequest(@RequestBody RequestMatching requestMatching,
@@ -41,22 +46,18 @@ public class MatchingController {
         return ResponseEntity.ok(urlInfo);
     }
 
-    @MessageMapping(value = "/url")
-    public void message(ResponseUrlInfo responseUrlInfo) {
-        template.convertAndSend("/matchingsub/" + responseUrlInfo.getTopicName(), responseUrlInfo.getUrl());
-    }
-
     @GetMapping("/findmember")
     @ResponseBody
     @Transactional(readOnly = true)
     public ResponseEntity<Optional<List<MatchingResultQueryDto>>> findByResultMatchingAndMember(@RequestParam Long id) {
         return ResponseEntity.ok(matchingService.findByMatchingResultMemberNicknameByMemberId(id));
     }
-    
+
     @GetMapping("/{matchingId}/members")
     public List<NicknameDto> getMatchingMembers(@PathVariable Long matchingId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         Member member = userDetails.getMember();
         return matchingService.findMatchingMembers(matchingId, member.getId());
     }
+
 
 }

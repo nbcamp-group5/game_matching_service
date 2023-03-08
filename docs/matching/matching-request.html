@@ -8,11 +8,7 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" type="text/css"
       rel="stylesheet">
   <script>
-
-window.onload = function () {
-          popup_content("hide");
-}
-  
+  var matchingId = "";
   function popup_content(hideOrshow) {
       if (hideOrshow == "hide"){
           document.getElementById("popup_content_wrap").style.display = "none";
@@ -26,7 +22,7 @@ window.onload = function () {
     };
     $.ajax(settings).done(function (xhr) {
       localStorage.setItem('Authorization', xhr.getResponseHeader('Authorization'))
-      window.location = ("/matching/matching-request.html")
+      window.location = ("/matching-request.html")
     });
   }
     else{
@@ -34,51 +30,59 @@ window.onload = function () {
         .getElementById("popup_content_wrap")
         .removeAttribute("style");
       }
+  };
+
+  function evaluatePage() {
+    window.location = "/mannerPoints/evaluate.html?matchingId="+matchingId;
+}
+function matchingCancel() {
+          window.location = `/matching-decline.html`;
   }
 
-
-      function matching() {
-      var settings = {
-        "url": "http://43.200.42.252:8080/api/matching/join",
-        "method": "POST",
-        "timeout": 0,
-        "headers": {
-          "Authorization" : localStorage.getItem("Authorization"),
-          "Content-Type": "application/json",
-        },
-        "data": JSON.stringify({
-          "discordId": $('#discordId').val(),
-          "discordNum": $('#discordNum').val(),
-          "gameName": $('#gameSelect').val(),
-          "memberNumbers": $('#memberNumbers').val(),
-          "gameMode": $('#gameMode').val()
-        }),
-      };
-      
+  function matching() {
+  var settings = {
+    "url": "http://43.200.42.252:8080/api/matching/join",
+    "method": "POST",
+    "timeout": 0,
+    "headers": {
+      "Authorization" : localStorage.getItem("Authorization"),
+      "Content-Type": "application/json",
+    },
+    "data": JSON.stringify({
+      "discordId": $('#discordId').val(),
+      "discordNum": $('#discordNum').val(),
+      "gameName": $('#gameSelect').val(),
+      "memberNumbers": $('#memberNumbers').val(),
+      "gameMode": $('#gameMode').val()
+    }),
+  };
       $.ajax(settings).done(function (response) {
         popup_content("show");
-        console.log(response);
+        var matchingroom = "";
         alert("디스코드 연결 성공.")
         var sockJs = new SockJS("http://43.200.42.252:8080/GGTalk");
         var stomp = Stomp.over(sockJs);
         stomp.connect({},function () {
-          console.log("stomp 연결");
           stomp.subscribe("/matchingsub/" + response.topicName, function (response){
-                console.log("stomp 구독");
+            var jsonbody = JSON.parse(response.body);
                 let temp_html = `<h1 >매칭 완료
                   <div id="urlbox">
-                    <a id="showAddr" style="display: block;" href="${response.body}">${response.body}</a>
-                  </div>
+                    <a id="showAddr" style="display: block;" href="${jsonbody.url}">${jsonbody.url}</a>
+                    <input
+              type="submit" value="평가하기" class="btn btn-gray"
+              onClick="evaluatePage()">
+                    </div>
                 </h1>`;
-                if(response.body!=""){
+                
+                console.log(jsonbody.matchingId)
+                if(jsonbody.url!=""){
                   document.getElementById("circle").style.display = "none";
                   document.getElementById("matchingcancel").style.display = "none";
                   $(`#urlbox`).append(temp_html);
                 };
             })
-              if(response.url!=""){
-                  stomp.send('/matchingpub/url', {}, JSON.stringify({topicName: response.topicName,url:response.url}))
-                }
+            stomp.send('/matchingpub/url', {}, JSON.stringify({matchingId: response.matchingId, topicName: response.topicName,url:response.url,member : response.member}))
+            matchingId = jsonbody.matchingId;
       });
           })
         .fail(function (response) {
@@ -138,7 +142,7 @@ window.onload = function () {
         </li>
     
         <li class="menu__btn" style="background-color: #b1bce66c;">
-          <a class="menu__link" href="/matching/matching-request.html">
+          <a class="menu__link" href="/matching-request.html">
             <div class="menu__link__explain">
               <!-- <span><i class="fa-solid fa-gamepad"></i></span> -->
               <span>🎮 매칭</span>
@@ -208,7 +212,7 @@ window.onload = function () {
     </div>
 
 
-      <div id="popup_content_wrap">
+      <div id="popup_content_wrap" style="display:none">
         <div id="popup_content">
           <center id="urlbox">
             <h1 id="circle">매칭 중
@@ -219,7 +223,7 @@ window.onload = function () {
             <input
             id="matchingcancel"
               type="submit" name="cancel" value="취소하기" class="cancelbtn btn btn-primary"
-              onClick="popup_content('hide')">
+              onclick="matchingCancel()">
           </center>
         </div>
       </div>
@@ -231,4 +235,5 @@ window.onload = function () {
       src="https://kit.fontawesome.com/0f7e35127c.js"
       crossorigin="anonymous">
 </script>
+
 </html>

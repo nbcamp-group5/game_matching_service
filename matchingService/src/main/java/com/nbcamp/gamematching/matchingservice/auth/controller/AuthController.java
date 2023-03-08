@@ -33,7 +33,6 @@ public class AuthController {
             throws UnsupportedEncodingException {
         authService.signIn(signinRequest, response);
     }
-
     @PostMapping("/signout")
     @ResponseBody
     public void signOut(HttpServletRequest request) {

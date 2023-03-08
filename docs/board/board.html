@@ -629,7 +629,7 @@
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="mr-2">
-                                    <img class="rounded-circle" width="45" src="https://game-matching.s3.ap-northeast-2.amazonaws.com/${this.memberImage}" alt="">
+                                    <img class="rounded-circle" width="45" src="${this.memberImage}" alt="">
                                 </div>
                                 <div class="ml-2">
                                     <input type="hidden" id="boardId" value="boardId">
@@ -653,7 +653,7 @@
                     </div>
                     <div class="card-body" style="padding: 0;">
                         <div style="position: relative;">
-                            <img src="https://game-matching.s3.ap-northeast-2.amazonaws.com/${this.boardImage}" alt="" style="width: 100%; height: 100%; object-fit: cover;">
+                            <img src="${this.boardImage}" alt="" style="width: 100%; height: 100%; object-fit: cover;">
                             <div class="text-muted h7 mb-2" style="position: absolute; bottom: 1%; padding-left: 15px;"> <i
                                     class="fa fa-clock-o"></i>${this.modifiedAt}</div>
                         </div>
@@ -791,7 +791,7 @@
 
           let temp_html = `<div class="comment">
                                 <div class="comment-header">
-                                    <img class="rounded-circle" width="30" height="30" src="https://game-matching.s3.ap-northeast-2.amazonaws.com/${this.memberImage}" alt="">
+                                    <img class="rounded-circle" width="30" height="30" src="${this.memberImage}" alt="">
                                     <p>${this.nickname}</p>
                                     <div class="dropdown">
                                         <button id="boardId" value="" class="btn btn-link dropdown-toggle" type="button" id="gedf-drop1" data-toggle="dropdown"
