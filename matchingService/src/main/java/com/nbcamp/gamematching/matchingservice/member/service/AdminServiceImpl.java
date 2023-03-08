@@ -4,6 +4,7 @@ import com.nbcamp.gamematching.matchingservice.board.dto.AnonymousBoardAdminDto;
 import com.nbcamp.gamematching.matchingservice.board.dto.BoardAdminDto;
 import com.nbcamp.gamematching.matchingservice.board.service.AnonymousBoardServiceImpl;
 import com.nbcamp.gamematching.matchingservice.board.service.BoardService;
+import com.nbcamp.gamematching.matchingservice.comment.dto.AnonymousCommentResponse;
 import com.nbcamp.gamematching.matchingservice.comment.dto.CommentResponse;
 import com.nbcamp.gamematching.matchingservice.comment.service.CommentServiceImpl;
 import com.nbcamp.gamematching.matchingservice.member.dto.MemberAdminDto;
@@ -66,6 +67,11 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public List<CommentResponse> getAllCommentsInBoard(Long boardId) {
         return commentService.showComment(boardId);
+    }
+
+    @Override
+    public List<AnonymousCommentResponse> getAllCommentsInAnonymousBoard(Long boardId) {
+        return commentService.showAnonymousComment(boardId);
     }
 
 }

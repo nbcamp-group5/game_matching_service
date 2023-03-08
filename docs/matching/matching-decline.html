@@ -6,16 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="matching-decline.css" />
     <title>Document</title>
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
-    <link
-      href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css"
-      rel="stylesheet"
-      id="bootstrap-css"
-    />
-    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" type="text/css"
+          rel="stylesheet">
   </head>
   <body>
-    <nav class="menu">
+    <link rel="stylesheet" href="../menu.css" />
+    <link rel="stylesheet" href="matching-request.css" />
+    <nav class="menu">      
       <div>
         <h1>ㅈㄱ</h1>
         <h1>ㅃㄱ</h1>
@@ -75,10 +77,9 @@
 
     <div class="matching-decline__content">
       <div class="matching-decline__content__box">
-        <h1>매칭 실패!</h1>
-        <h5>매칭된 인원 중 거절한 유저가 있습니다.</h5>
+        <h1>매칭 취소!</h1>
         <h5>다시 매칭하시겠습니까?</h5>
-        <a href="matching-request.html" class="btn btn-primary"
+        <a href="/matching-request.html" class="btn btn-primary"
           >다시 매칭하기</a
         >
       </div>
