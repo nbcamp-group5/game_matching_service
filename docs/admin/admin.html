@@ -59,7 +59,7 @@
           },
           data: {},
           success: function (response) {
-            alert("유저가 삭제되었습니다.");
+            alert(response);
             window.location.reload();
           },
         });
@@ -74,7 +74,7 @@
           },
           data: {},
           success: function (response) {
-            alert("게시글이 삭제되었습니다.");
+            alert(response);
             window.location.reload();
           },
         });
@@ -89,7 +89,7 @@
           },
           data: {},
           success: function (response) {
-            alert("게시글이 삭제되었습니다.");
+            alert(response);
             window.location.reload();
           },
         });
@@ -104,7 +104,7 @@
           },
           data: {},
           success: function (response) {
-            alert("댓글이 삭제되었습니다.");
+            alert(response);
             window.location.reload();
           },
         });
@@ -334,7 +334,8 @@
 
         $.ajax({
           type: "GET",
-          url: "http://43.200.42.252:8080/api/admin/anonymousBoards?page=" + page,
+          url:
+            "http://43.200.42.252:8080/api/admin/anonymousBoards?page=" + page,
           headers: {
             "Content-Type": "application/json",
             Authorization: localStorage.getItem("Authorization"),
@@ -357,7 +358,7 @@
                                 ><a onclick="deleteAnonymousBoard(${this.id})">게시글 삭제</a></span
                               >
                               <h4 class="title">
-                                <a onclick="showComments(${this.id})">게시글 작성자: ${this.nickname}</a>
+                                <a onclick="showAnonymousComments(${this.id})">게시글 작성자: ${this.nickname}</a>
                                 <span class="pull-right cancelado">익명</span>
                                 <span class="pull-right pagado">${this.createAt}</span>
                               </h4>
@@ -441,7 +442,9 @@
         $.ajax({
           type: "GET",
           url:
-            "http://43.200.42.252:8080/api/admin/boards/" + boardId + "/comments",
+            "http://43.200.42.252:8080/api/admin/boards/" +
+            boardId +
+            "/comments",
           headers: {
             Authorization: localStorage.getItem("Authorization"),
           },
@@ -467,6 +470,59 @@
                       </tr>`;
               $("#list-contents").append(temp);
             });
+          },
+        });
+      }
+
+      function showAnonymousComments(boardId) {
+        $("#list-contents").empty();
+
+        $.ajax({
+          type: "GET",
+          url:
+            "http://43.200.42.252:8080/api/admin/anonymousBoards/" +
+            boardId +
+            "/anonymousComments",
+          headers: {
+            Authorization: localStorage.getItem("Authorization"),
+          },
+          data: {},
+          success: function (response) {
+            $(response).each(function () {
+              let temp = ` <tr data-status="comment">
+                        <td>
+                          <div class="media">
+                            <span class="pull-left">${this.id}</span>
+                            <div class="media-body">
+                              <span class="media-meta pull-right"
+                                ><a onclick="deleteAnonymousComment(${this.id})">댓글 삭제</a></span
+                              >
+                              <h4 class="title">
+                                댓글 작성자: ${this.nickname}
+                                <span class="pull-right pagado">${this.createAt}</span>
+                              </h4>
+                              <p class="summary">${this.content}</p>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>`;
+              $("#list-contents").append(temp);
+            });
+          },
+        });
+      }
+
+      function deleteAnonymousComment(id) {
+        $.ajax({
+          type: "DELETE",
+          url: "http://43.200.42.252:8080/api/admin/anonymousComments/" + id,
+          headers: {
+            Authorization: localStorage.getItem("Authorization"),
+          },
+          data: {},
+          success: function (response) {
+            alert(response);
+            window.location.reload();
           },
         });
       }
@@ -715,5 +771,4 @@
       </div>
     </div>
   </body>
-  
 </html>

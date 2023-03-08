@@ -32,4 +32,6 @@ public interface CommentService {
     AnonymousCommentResponse getAnonymousComment(Long commentId);
 
     void deleteCommentByAdmin(Long commentId);
+
+    void deleteAnonymousCommentByAdmin(Long commentId);
 }

@@ -27,4 +27,6 @@ public interface AdminService {
     List<CommentResponse> getAllCommentsInBoard(Long boardId);
 
     List<AnonymousCommentResponse> getAllCommentsInAnonymousBoard(Long boardId);
+
+    ResponseEntity<String> deleteAnonymousComment(Long commentId);
 }
