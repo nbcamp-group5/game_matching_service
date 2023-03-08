@@ -5,7 +5,7 @@ import com.nbcamp.gamematching.matchingservice.board.dto.BoardResponse;
 import com.nbcamp.gamematching.matchingservice.board.dto.CreateBoardRequest;
 import com.nbcamp.gamematching.matchingservice.board.dto.UpdateBoardRequest;
 import com.nbcamp.gamematching.matchingservice.board.service.AnonymousBoardServiceImpl;
-import com.nbcamp.gamematching.matchingservice.board.service.BoardServiceImpl;
+import com.nbcamp.gamematching.matchingservice.board.service.BoardService;
 import com.nbcamp.gamematching.matchingservice.member.service.FileUploadService;
 import com.nbcamp.gamematching.matchingservice.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +24,7 @@ import java.util.List;
 @RequestMapping("/api/boards")
 public class BoardController {
 
-    private final BoardServiceImpl boardService;
+    private final BoardService boardService;
     private final AnonymousBoardServiceImpl anonymousBoardService;
 
     private final FileUploadService fileUploadService;
@@ -73,6 +73,7 @@ public class BoardController {
     //게시글 삭제
     @DeleteMapping(value = "/normal/{boardId}")
     public ResponseEntity<String> deleteBoard(@PathVariable("boardId") Long boardId,@AuthenticationPrincipal UserDetailsImpl userDetails) {
+
         boardService.deleteBoard(boardId,userDetails.getMember());
         return new ResponseEntity<>("게시글 삭제완료",HttpStatus.OK);
     }

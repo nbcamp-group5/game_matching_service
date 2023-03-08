@@ -32,6 +32,7 @@ public class BoardServiceImpl implements BoardService{
 
     private final BoardRepository boardRepository;
     private final LikeRepository likeRepository;
+    private final CommentRepository commentRepository;
     private final FileUploadService fileUploadService;
 
     //게시글 작성
@@ -85,6 +86,7 @@ public class BoardServiceImpl implements BoardService{
     public void deleteBoard(Long boardId, Member member) {
         Board board = boardRepository.findById(boardId).orElseThrow(NotFoundException::new);
         board.checkUser(board, member);
+        commentRepository.deleteAllByBoardId(boardId);
         likeRepository.deleteAllByBoardId(boardId);
         boardRepository.deleteById(boardId);
     }
