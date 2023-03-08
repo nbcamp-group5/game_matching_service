@@ -18,12 +18,14 @@ public enum Status {
 
     //불일치
     NOT_FOUND(404, "유효성 오류"),
+    NOT_FOUND_CONNECT(404, "잘못된 접근 입니다."),
     NOT_FOUND_MEMBER(404, "회원을 찾을 수 없습니다."),
     NOT_FOUND_ROOM(404, "존재하지 않는 방 입니다."),
     NOT_FOUND_DISCORDNAME(404, "존재하지 디스코드계정 입니다."),
     NOT_FOUND_REFRESHTOKEN(404, "토큰이 존재 하지않습니다."),
     NOT_FOUND_MATCHING(404, "매칭이 존재 하지않습니다."),
     APPLY_NOT_APPLIED(404, "친구 신청한 이력이 없습니다."),
+
 
     //로그인
     SIGN(403, "로그인 오류"),
@@ -34,6 +36,7 @@ public enum Status {
     REFRESHTOKEN_NOT_FOUND(403, "잘못된 토큰 입니다."),
     MEMBER_AUTHORITY(403, "접근 권한이 없습니다."),
     ILLEGAL_ARGUMENT(400, "잘못된 입력 입니다.");
+
 
     Status(int code, String msg) {
         this.code = code;

@@ -24,7 +24,7 @@ import static com.nbcamp.gamematching.matchingservice.redis.RedisService.objectM
 @Slf4j
 public class StompSessionInterceptor implements ChannelInterceptor {
     private final RedisService redisService;
-    private final Map<String, RequestMatching> connectedUserPool = new HashMap<>();
+    public static final Map<String, RequestMatching> connectedUserPool = new HashMap<>();
 
     @Override
     @Transactional
@@ -33,11 +33,9 @@ public class StompSessionInterceptor implements ChannelInterceptor {
         var sessionId = accessor.getSessionId();
         switch (accessor.getCommand()) {
             case SEND:
-
                 if (accessor.getDestination().equals("/pub/chat/message")) {
                     break;
                 }
-
                 byte[] a = (byte[]) message.getPayload();
                 String data = new String(a);
                 try {
@@ -48,12 +46,10 @@ public class StompSessionInterceptor implements ChannelInterceptor {
                 }break;
 
             case DISCONNECT:
-
                 var request = connectedUserPool.get(sessionId);
                 redisService.matchingCancelByRedis(request);
                 connectedUserPool.remove(sessionId);
                 break;
-
         } return message;
     }
 }

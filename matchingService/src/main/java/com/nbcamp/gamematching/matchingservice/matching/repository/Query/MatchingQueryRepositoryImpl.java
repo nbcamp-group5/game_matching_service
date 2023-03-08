@@ -3,6 +3,7 @@ package com.nbcamp.gamematching.matchingservice.matching.repository.Query;
 import com.nbcamp.gamematching.matchingservice.matching.dto.QueryDto.MatchingResultQueryDto;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,6 +18,7 @@ import static com.nbcamp.gamematching.matchingservice.member.entity.QMember.memb
 @RequiredArgsConstructor
 public class MatchingQueryRepositoryImpl implements MatchingQueryRepository {
     private final JPAQueryFactory queryFactory;
+    private final EntityManager em;
     @Override
     @Transactional
     public Optional<List<MatchingResultQueryDto>> findByMatchingResultMemberNicknameByMemberId(Long memberId) {
@@ -48,5 +50,10 @@ public class MatchingQueryRepositoryImpl implements MatchingQueryRepository {
             return Optional.of(matchingResultList);
         } else return Optional.empty();
     }
+
+    public void find(Long memberId) {
+        var a = em.createQuery("select mL from MatchingLog mL join fetch mL.member m join fetch mL.resultMatching rs ");
+    }
+
 
 }

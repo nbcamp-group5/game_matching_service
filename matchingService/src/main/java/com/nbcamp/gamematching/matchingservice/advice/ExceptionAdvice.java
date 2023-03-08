@@ -20,8 +20,7 @@ public class ExceptionAdvice {
     @ExceptionHandler(NotFoundException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public RestApiException NotFoundException(NotFoundException e) {
-        log.info("Erorr Message = {}", e.getMessage());
-        if (e instanceof NotFoundException.APPLYNOTAPPLIED){
+        if (e instanceof NotFoundException.ApplyNotAppliedException){
             return new RestApiException(Status.APPLY_NOT_APPLIED);}
         else if (e instanceof NotFoundException.NotFoundMemberException){
             return new RestApiException(Status.NOT_FOUND_MEMBER);}
@@ -33,27 +32,29 @@ public class ExceptionAdvice {
             return new RestApiException(Status.NOT_FOUND_REFRESHTOKEN);
         } else if (e instanceof NotFoundException.NotFoundMatchingException) {
             return new RestApiException(Status.NOT_FOUND_MATCHING);
+        }else if (e instanceof NotFoundException.NotFoundConnectException) {
+            return new RestApiException(Status.NOT_FOUND_CONNECT);
         }
+        log.info("Erorr Message = {}", e.getMessage());
         return new RestApiException(Status.NOT_FOUND);
     }
 
     @ExceptionHandler(CommonException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public RestApiException CommonException(CommonException e) {
-        log.info("Erorr Message = {}", e.getMessage());
         if (e instanceof CommonException.MemberAuthorityException) {
             return new RestApiException(Status.MEMBER_AUTHORITY);
         } else if (e instanceof CommonException.RefreshTokenNotFoundException) {
             return new RestApiException(Status.REFRESHTOKEN_NOT_FOUND);
         } else if (e instanceof CommonException.IllegalAgumentException) {
             return new RestApiException(Status.ILLEGAL_ARGUMENT);}
+        log.info("Erorr Message = {}", e.getMessage());
         return new RestApiException(Status.AUTHORITY);
     }
 
     @ExceptionHandler(ExistsException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public RestApiException ExistsException(ExistsException e) {
-        log.info("Erorr Message = {}", e.getMessage());
         if (e instanceof ExistsException.DuplicatedEmail) {
             return new RestApiException(Status.DUPLICATED_EMAIL);
         } else if (e instanceof ExistsException.AlreadyFriendException) {
@@ -63,6 +64,7 @@ public class ExceptionAdvice {
         } else if (e instanceof ExistsException.AlreadyApplyFriendException) {
             return new RestApiException(Status.ALREADY_APPLIED_FRIEND);
         }
+        log.info("Erorr Message = {}", e.getMessage());
         return new RestApiException(Status.DUPLICATED);
     }
 
@@ -90,7 +92,6 @@ public class ExceptionAdvice {
     @ExceptionHandler(SignException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public RestApiException SignException(SignException e) {
-        log.info("Erorr Message = {}", e.getMessage());
         if (e instanceof SignException.InvalidPassword) {
             return new RestApiException(Status.INVALID_PASSWORD);
         } else if (e instanceof SignException.InvalidNickname) {
@@ -98,6 +99,7 @@ public class ExceptionAdvice {
         } else if (e instanceof SignException.InvalidEmail) {
             return new RestApiException(Status.INVALID_EMAIL);
         }
+        log.info("Erorr Message = {}", e.getMessage());
         return new RestApiException(Status.NOT_FOUND_MEMBER_NOT_MATCHES);
     }
 }

@@ -59,7 +59,7 @@
           },
           data: {},
           success: function (response) {
-            alert(response);
+            alert("유저가 삭제되었습니다.");
             window.location.reload();
           },
         });
@@ -74,7 +74,7 @@
           },
           data: {},
           success: function (response) {
-            alert(response);
+            alert("게시글이 삭제되었습니다.");
             window.location.reload();
           },
         });
@@ -89,7 +89,7 @@
           },
           data: {},
           success: function (response) {
-            alert(response);
+            alert("게시글이 삭제되었습니다.");
             window.location.reload();
           },
         });
@@ -104,7 +104,7 @@
           },
           data: {},
           success: function (response) {
-            alert(response);
+            alert("댓글이 삭제되었습니다.");
             window.location.reload();
           },
         });
@@ -334,8 +334,7 @@
 
         $.ajax({
           type: "GET",
-          url:
-            "http://43.200.42.252:8080/api/admin/anonymousBoards?page=" + page,
+          url: "http://43.200.42.252:8080/api/admin/anonymousBoards?page=" + page,
           headers: {
             "Content-Type": "application/json",
             Authorization: localStorage.getItem("Authorization"),
@@ -442,9 +441,7 @@
         $.ajax({
           type: "GET",
           url:
-            "http://43.200.42.252:8080/api/admin/boards/" +
-            boardId +
-            "/comments",
+            "http://43.200.42.252:8080/api/admin/boards/" + boardId + "/comments",
           headers: {
             Authorization: localStorage.getItem("Authorization"),
           },
@@ -718,4 +715,5 @@
       </div>
     </div>
   </body>
+  
 </html>
