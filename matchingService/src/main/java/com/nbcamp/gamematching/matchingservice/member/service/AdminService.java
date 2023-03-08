@@ -2,6 +2,7 @@ package com.nbcamp.gamematching.matchingservice.member.service;
 
 import com.nbcamp.gamematching.matchingservice.board.dto.AnonymousBoardAdminDto;
 import com.nbcamp.gamematching.matchingservice.board.dto.BoardAdminDto;
+import com.nbcamp.gamematching.matchingservice.comment.dto.AnonymousCommentResponse;
 import com.nbcamp.gamematching.matchingservice.comment.dto.CommentResponse;
 import com.nbcamp.gamematching.matchingservice.member.dto.MemberAdminDto;
 import java.util.List;
@@ -24,4 +25,6 @@ public interface AdminService {
     ResponseEntity<String> deleteAnonymousBoard(Long boardId);
 
     List<CommentResponse> getAllCommentsInBoard(Long boardId);
+
+    List<AnonymousCommentResponse> getAllCommentsInAnonymousBoard(Long boardId);
 }
