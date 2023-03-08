@@ -53,7 +53,7 @@
       function deleteMember(id) {
         $.ajax({
           type: "DELETE",
-          url: "http://localhost:8080/api/admin/members/" + id,
+          url: "http://43.200.42.252:8080/api/admin/members/" + id,
           headers: {
             Authorization: localStorage.getItem("Authorization"),
           },
@@ -68,7 +68,7 @@
       function deleteNormalBoard(id) {
         $.ajax({
           type: "DELETE",
-          url: "http://localhost:8080/api/admin/normalBoards/" + id,
+          url: "http://43.200.42.252:8080/api/admin/normalBoards/" + id,
           headers: {
             Authorization: localStorage.getItem("Authorization"),
           },
@@ -83,7 +83,7 @@
       function deleteAnonymousBoard(id) {
         $.ajax({
           type: "DELETE",
-          url: "http://localhost:8080/api/admin/anonymousBoards/" + id,
+          url: "http://43.200.42.252:8080/api/admin/anonymousBoards/" + id,
           headers: {
             Authorization: localStorage.getItem("Authorization"),
           },
@@ -98,7 +98,7 @@
       function deleteComment(id) {
         $.ajax({
           type: "DELETE",
-          url: "http://localhost:8080/api/admin/comments/" + id,
+          url: "http://43.200.42.252:8080/api/admin/comments/" + id,
           headers: {
             Authorization: localStorage.getItem("Authorization"),
           },
@@ -118,7 +118,7 @@
 
         $.ajax({
           type: "GET",
-          url: "http://localhost:8080/api/admin/members?page=" + page,
+          url: "http://43.200.42.252:8080/api/admin/members?page=" + page,
           headers: {
             Authorization: localStorage.getItem("Authorization"),
           },
@@ -225,7 +225,7 @@
 
         $.ajax({
           type: "GET",
-          url: "http://localhost:8080/api/admin/boards?page=" + page,
+          url: "http://43.200.42.252:8080/api/admin/boards?page=" + page,
           headers: {
             "Content-Type": "application/json",
             Authorization: localStorage.getItem("Authorization"),
@@ -334,7 +334,7 @@
 
         $.ajax({
           type: "GET",
-          url: "http://localhost:8080/api/admin/anonymousBoards?page=" + page,
+          url: "http://43.200.42.252:8080/api/admin/anonymousBoards?page=" + page,
           headers: {
             "Content-Type": "application/json",
             Authorization: localStorage.getItem("Authorization"),
@@ -441,7 +441,7 @@
         $.ajax({
           type: "GET",
           url:
-            "http://localhost:8080/api/admin/boards/" + boardId + "/comments",
+            "http://43.200.42.252:8080/api/admin/boards/" + boardId + "/comments",
           headers: {
             Authorization: localStorage.getItem("Authorization"),
           },
