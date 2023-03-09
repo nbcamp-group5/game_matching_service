@@ -1,7 +1,7 @@
 package com.nbcamp.gamematching.matchingservice.like.controller;
 
 
-import com.nbcamp.gamematching.matchingservice.like.service.LikeServiceImpl;
+import com.nbcamp.gamematching.matchingservice.like.service.LikeService;
 import com.nbcamp.gamematching.matchingservice.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/like")
 public class LikeController {
 
-    private final LikeServiceImpl likeService;
+    private final LikeService likeService;
 
     @PostMapping("/{boardId}")
     public ResponseEntity<String> likeBoard(@PathVariable Long boardId, @AuthenticationPrincipal UserDetailsImpl userDetails) {

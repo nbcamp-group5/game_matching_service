@@ -31,7 +31,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class BoardServiceImplTest {
 
     @Autowired
-    private BoardServiceImpl boardServiceImpl;
+    private BoardService boardService;
 
     @Autowired
     private CommentServiceImpl commentServiceImpl;
@@ -47,7 +47,7 @@ class BoardServiceImplTest {
     public static MockMultipartFile multipartFile = new MockMultipartFile("file", "test.txt", "text/plain", "Spring Framework".getBytes());
 
     @BeforeEach
-    public void beforeEach() throws IOException {
+    public void beforeEach()  {
         Member member = new Member("dddd1@ddd.com", "123456789", new Profile("www11", "sdadad.jpg", Tier.BRONZE, GameType.LOL), MemberRoleEnum.USER,null,null);
         memberRepository.save(member);
         Member member1 = new Member("dddd2@ddd.com", "123456789", new Profile("www12", "sdadad2.jpg", Tier.BRONZE, GameType.LOL), MemberRoleEnum.USER,null,null);
@@ -58,14 +58,14 @@ class BoardServiceImplTest {
 
     @Test
     @DisplayName("게시글 등록 테스트")
-    void createBoard() throws IOException {
+    void createBoard()  {
         Member findMember = memberRepository.findById(3L).orElseThrow();
         Member findMember1 = memberRepository.findById(4L).orElseThrow();
 
         CreateBoardRequest createBoardRequest = new CreateBoardRequest("안녕");
 
-        boardServiceImpl.createBoard(createBoardRequest,findMember,multipartFile);
-        boardServiceImpl.createBoard(createBoardRequest,findMember1,multipartFile);
+        boardService.createBoard(createBoardRequest,findMember,multipartFile);
+        boardService.createBoard(createBoardRequest,findMember1,multipartFile);
 
         Board board = boardRepository.findById(1L).orElseThrow(()-> new IllegalArgumentException(""));
         Board board1 = boardRepository.findById(2L).orElseThrow(()-> new IllegalArgumentException(""));
@@ -78,7 +78,7 @@ class BoardServiceImplTest {
 
     @Test
     @DisplayName("게시글 조회 테스트")
-    void getBoardList() throws IOException {
+    void getBoardList()  {
         Member findMember = memberRepository.findById(3L).orElseThrow();
 
 
@@ -90,7 +90,7 @@ class BoardServiceImplTest {
 
         commentServiceImpl.createComment(1L,createCommentRequest.getContent(),findMember);
 
-        List<BoardResponse> boardList = boardServiceImpl.getBoardList();
+        List<BoardResponse> boardList = boardService.getBoardList();
 
         assertEquals(0,boardList.get(0).getLikeCount());
         assertEquals("안녕하세요",boardList.get(0).getContent());
@@ -98,13 +98,13 @@ class BoardServiceImplTest {
 
     @Test
     @DisplayName("게시글 수정 테스트")
-    void updateBoard() throws IOException {
+    void updateBoard()  {
 
         Member findMember = memberRepository.findById(3L).orElseThrow();
 
         UpdateBoardRequest updateBoardRequest = new UpdateBoardRequest("잘가");
 
-        boardServiceImpl.updateBoard(1L,updateBoardRequest,findMember, multipartFile);
+        boardService.updateBoard(1L,updateBoardRequest,findMember, multipartFile);
 
         Board board = boardRepository.findById(1L).orElseThrow();
 
@@ -113,7 +113,7 @@ class BoardServiceImplTest {
 
     @Test
     @DisplayName("게시글 삭제 테스트")
-    void deleteBoard() throws IOException {
+    void deleteBoard()  {
 
         Member findMember = memberRepository.findById(3L).orElseThrow();
 
@@ -121,9 +121,9 @@ class BoardServiceImplTest {
 
         MockMultipartFile multipartFile = new MockMultipartFile("file", "test.txt", "text/plain", "Spring Framework".getBytes());
 
-        boardServiceImpl.createBoard(createBoardRequest,findMember,multipartFile);
+        boardService.createBoard(createBoardRequest,findMember,multipartFile);
 
-        boardServiceImpl.deleteBoard(1L,findMember);
+        boardService.deleteBoard(1L,findMember);
 
         Board board = boardRepository.findById(1L).orElseThrow(()-> new IllegalArgumentException("게시글을 찾을 수 없습니다."));
 

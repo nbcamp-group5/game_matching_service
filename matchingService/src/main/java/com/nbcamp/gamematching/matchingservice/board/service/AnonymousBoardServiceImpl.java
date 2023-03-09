@@ -72,7 +72,7 @@ public class AnonymousBoardServiceImpl implements AnonymousBoardService{
                 .orElseThrow(NotFoundException::new);
         board.checkUser(board, member);
         if(image == null) {
-            String boardImage = "images/5a169b5b-09ba-4e42-8ee0-9850f3a0c483.jpeg";
+            String boardImage = "images/nav/logo.png";
             board.updateAnonymousBoard(boardRequest, boardImage, member);
             anonymousBoardRepository.save(board);
         } else {
@@ -95,7 +95,7 @@ public class AnonymousBoardServiceImpl implements AnonymousBoardService{
     public Pageable pageableSetting(int page) {
         Sort.Direction direction = Sort.Direction.DESC;
         Sort sort = Sort.by(direction, "modifiedAt");
-        Pageable pageable = PageRequest.of(page - 1, 10, sort);
+        Pageable pageable = PageRequest.of(page - 1, 300, sort);
         return pageable;
     }
 

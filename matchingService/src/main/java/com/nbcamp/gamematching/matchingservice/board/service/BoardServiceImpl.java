@@ -71,7 +71,7 @@ public class BoardServiceImpl implements BoardService{
         Board board = boardRepository.findById(boardId).orElseThrow(NotFoundException::new);
         board.checkUser(board, member);
         if(image == null) {
-            String boardImage = "images/5a169b5b-09ba-4e42-8ee0-9850f3a0c483.jpeg";
+            String boardImage = "images/nav/logo.png";
             board.updateBoard(boardRequest, boardImage, member);
             boardRepository.save(board);
         } else {
@@ -97,25 +97,6 @@ public class BoardServiceImpl implements BoardService{
         return pageable;
     }
 
-//    //게시글 검색
-//    public List<BoardResponse> getBoardList1(String searchName) {
-//        BooleanBuilder booleanBuilder = new BooleanBuilder();
-//        QBoard qboard = QBoard.board;
-//        booleanBuilder.and(qboard.content.contains(searchName));
-//        booleanBuilder.or(qboard.member.profile.nickname.contains(searchName));
-//        Page<Board> boardPage = boardRepository.findAll(booleanBuilder, pageableSetting(1));
-//        List<BoardResponse> boardResponseList = new ArrayList<>();
-//        for (Board board : boardPage) {
-//            Page<Comment> commentPage = commentRepository.findAllByBoardId(board.getId(), pageableSetting(1));
-//            List<CommentResponse> commentList = new ArrayList<>();
-//            for (Comment comment : commentPage) {
-//                commentList.add(new CommentResponse(comment));
-//            }
-//            Long likeCount = likeRepository.countByBoardId(board.getId());
-//            boardResponseList.add(new BoardResponse(board, commentList, likeCount));
-//        }
-//        return boardResponseList;
-//    }
 
     public BoardResponse getBoard(Long boardId) {
         Board board = boardRepository.findById(boardId)

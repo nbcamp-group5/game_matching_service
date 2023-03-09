@@ -10,6 +10,7 @@ public class AnonymousBoardResponse {
 
 
     private final Long id;
+    private final Long memberId;
     private final String nickname;
     private final String boardImage;
     private final String content;
@@ -20,6 +21,7 @@ public class AnonymousBoardResponse {
 
     public AnonymousBoardResponse(AnonymousBoard board, Long likeCount) {
         this.id = board.getId();
+        this.memberId = board.getMember().getId();
         this.nickname = board.getNickname();
         this.boardImage = board.getBoardImage();
         this.content = board.getContent();
@@ -30,6 +32,7 @@ public class AnonymousBoardResponse {
 
     public AnonymousBoardResponse(AnonymousBoard board) {
         this.id = board.getId();
+        this.memberId = board.getMember().getId();
         this.nickname = board.getNickname();
         this.boardImage = board.getBoardImage();
         this.content = board.getContent();

@@ -4,7 +4,7 @@ import com.nbcamp.gamematching.matchingservice.comment.dto.AnonymousCommentRespo
 import com.nbcamp.gamematching.matchingservice.comment.dto.CommentResponse;
 import com.nbcamp.gamematching.matchingservice.comment.dto.CreateCommentRequest;
 import com.nbcamp.gamematching.matchingservice.comment.dto.UpdateCommentRequest;
-import com.nbcamp.gamematching.matchingservice.comment.service.CommentServiceImpl;
+import com.nbcamp.gamematching.matchingservice.comment.service.CommentService;
 import com.nbcamp.gamematching.matchingservice.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,7 +19,7 @@ import java.util.List;
 @RequestMapping("/api/comments")
 public class CommentController {
 
-    private final CommentServiceImpl commentService;
+    private final CommentService commentService;
 
     //댓글 작성
     @PostMapping("/{boardId}")

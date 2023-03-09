@@ -72,22 +72,22 @@ public class MatchingServiceImpl implements MatchingService {
             throw new IllegalArgumentException("url을 찾을 수 없습니다.");
         }
         var topicName = resultMemberList.get(0).getMemberEmail();
-
+        var resultMatching = ResultMatching.builder()
+                .gameInfo(resultMemberList.get(0).getKey())
+                .playMode(resultMemberList.get(0).getGameMode())
+                .discordUrl(url)
+                .build();
+        resultMatchingRepository.saveAndFlush(resultMatching);
 
         for (int i = 0; i < resultMemberList.size(); i++) {
             var resultMember = members.get(i);
-            var resultMatching = ResultMatching.builder()
-                    .gameInfo(resultMemberList.get(i).getKey())
-                    .playMode(resultMemberList.get(i).getGameMode())
-                    .discordUrl(url)
-                    .build();
-            resultMatchingRepository.saveAndFlush(resultMatching);
+
             MatchingLog matchingLog = new MatchingLog(resultMatching, resultMember);
             matchingLogRepository.saveAndFlush(matchingLog);
             matchingLog.addMatchingLogToMember(resultMember);
         }
         var currentmatchingId= resultMatchingRepository.findFirstByDiscordUrl(url)
-                    .orElseThrow(NotFoundMatchingException::new);
+                .orElseThrow(NotFoundMatchingException::new);
         return ResponseUrlInfo.builder()
                 .matchingId(currentmatchingId.getId())
                 .member(request)
@@ -113,12 +113,3 @@ public class MatchingServiceImpl implements MatchingService {
     }
 
 }
-
-
-
-
-
-
-
-
-
