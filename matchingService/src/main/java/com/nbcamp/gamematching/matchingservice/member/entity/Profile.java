@@ -23,7 +23,7 @@ public class Profile {
     private String nickname;
 
     @Column
-    private String profileImage;
+    private String profileImage = "images/man.png";
 
     @Enumerated(EnumType.STRING)
     private Tier tier;
@@ -35,13 +35,16 @@ public class Profile {
 
     @Builder
     public Profile(String nickname, String profileImage, Tier tier, GameType game) {
-        if (Pattern.matches(".*[ㄱ-ㅎㅏ-ㅣ가-힣|a-z|A-Z|]{1,20}.*", nickname)) {
+        if (Pattern.matches("[ㄱ-ㅎ가-힣a-zA-Z0-9]{1,20}", nickname)) {
             this.nickname = nickname;
         } else {
             throw new InvalidNickname();
         }
 
-        this.profileImage = profileImage;
+        if (profileImage != null) {
+            this.profileImage = profileImage;
+        }
+
 
         if (Tier.isContains(tier)) {
             this.tier = tier;
