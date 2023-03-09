@@ -46,7 +46,7 @@ public class AnonymousBoard extends BaseEntity {
         this.member = member;
     }
 
-    public void checkUser(AnonymousBoard board, Member member) {
+    public void checkAnonymousUser(AnonymousBoard board, Member member) {
         if (!board.getMember().getEmail().equals(member.getEmail()));
     }
 
