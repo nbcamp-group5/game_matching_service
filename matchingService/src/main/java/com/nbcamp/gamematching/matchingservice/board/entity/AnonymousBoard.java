@@ -43,12 +43,11 @@ public class AnonymousBoard extends BaseEntity {
     public void updateAnonymousBoard(UpdateBoardRequest boardRequestDto,String boardImage, Member member) {
         this.boardImage = boardImage;
         this.content = boardRequestDto.getContent();
-        this.nickname = member.getProfile().getNickname();
-        this.id = member.getId();
+        this.member = member;
     }
 
     public void checkUser(AnonymousBoard board, Member member) {
-        if (!board.getMember().getEmail().equals(member.getEmail())) throw new IllegalArgumentException("유저 불일치");
+        if (!board.getMember().getEmail().equals(member.getEmail()));
     }
 
     public static String nNick() {

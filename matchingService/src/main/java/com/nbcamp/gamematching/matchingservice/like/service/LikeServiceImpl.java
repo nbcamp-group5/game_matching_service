@@ -2,8 +2,8 @@ package com.nbcamp.gamematching.matchingservice.like.service;
 
 import com.nbcamp.gamematching.matchingservice.board.entity.AnonymousBoard;
 import com.nbcamp.gamematching.matchingservice.board.entity.Board;
-import com.nbcamp.gamematching.matchingservice.board.service.AnonymousBoardServiceImpl;
-import com.nbcamp.gamematching.matchingservice.board.service.BoardServiceImpl;
+import com.nbcamp.gamematching.matchingservice.board.service.AnonymousBoardService;
+import com.nbcamp.gamematching.matchingservice.board.service.BoardService;
 import com.nbcamp.gamematching.matchingservice.like.entity.AnonymousLike;
 import com.nbcamp.gamematching.matchingservice.like.entity.Like;
 import com.nbcamp.gamematching.matchingservice.like.repository.AnonymousLikeRepository;
@@ -19,8 +19,8 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class LikeServiceImpl implements LikeService{
 
-    private final BoardServiceImpl boardService;
-    private final AnonymousBoardServiceImpl anonymousBoardService;
+    private final BoardService boardService;
+    private final AnonymousBoardService anonymousBoardService;
     private final LikeRepository likeRepository;
     private final AnonymousLikeRepository anonymousLikeRepository;
 

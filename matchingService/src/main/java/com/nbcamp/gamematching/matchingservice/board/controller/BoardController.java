@@ -4,12 +4,11 @@ import com.nbcamp.gamematching.matchingservice.board.dto.AnonymousBoardResponse;
 import com.nbcamp.gamematching.matchingservice.board.dto.BoardResponse;
 import com.nbcamp.gamematching.matchingservice.board.dto.CreateBoardRequest;
 import com.nbcamp.gamematching.matchingservice.board.dto.UpdateBoardRequest;
-import com.nbcamp.gamematching.matchingservice.board.service.AnonymousBoardServiceImpl;
+import com.nbcamp.gamematching.matchingservice.board.service.AnonymousBoardService;
 import com.nbcamp.gamematching.matchingservice.board.service.BoardService;
 import com.nbcamp.gamematching.matchingservice.member.service.FileUploadService;
 import com.nbcamp.gamematching.matchingservice.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -25,7 +24,7 @@ import java.util.List;
 public class BoardController {
 
     private final BoardService boardService;
-    private final AnonymousBoardServiceImpl anonymousBoardService;
+    private final AnonymousBoardService anonymousBoardService;
 
     private final FileUploadService fileUploadService;
 
@@ -59,14 +58,14 @@ public class BoardController {
     //게시글 수정
     @PutMapping(value = "/normal/{boardId}") //수정할 때 이미지나 내용중 하나만 변경하고 싶을 때는?
     public ResponseEntity<String> updateBoard(@PathVariable("boardId") Long boardId, @RequestPart("requestDto") UpdateBoardRequest updateBoardRequest, @AuthenticationPrincipal UserDetailsImpl userDetails,@RequestPart(value = "image", required = false) MultipartFile image) throws IOException {
-        boardService.updateBoard(boardId,updateBoardRequest,userDetails.getMember(),image);
+        boardService.updateBoard(boardId,updateBoardRequest,userDetails.getUser(),image);
         return new ResponseEntity<>("게시글 수정완료",HttpStatus.OK);
     }
 
     //익명 게시글 수정
     @PutMapping(value = "/anonymous/{boardId}")
     public ResponseEntity<String> updateAnonymousBoard(@PathVariable("boardId") Long boardId, @RequestPart("requestDto") UpdateBoardRequest updateBoardRequest, @AuthenticationPrincipal UserDetailsImpl userDetails,@RequestPart(value = "image", required = false) MultipartFile image) throws IOException {
-        anonymousBoardService.updateAnonymousBoard(boardId,updateBoardRequest,userDetails.getMember(),image);
+        anonymousBoardService.updateAnonymousBoard(boardId,updateBoardRequest,userDetails.getUser(),image);
         return new ResponseEntity<>("게시글 수정완료",HttpStatus.OK);
     }
 
@@ -74,14 +73,14 @@ public class BoardController {
     @DeleteMapping(value = "/normal/{boardId}")
     public ResponseEntity<String> deleteBoard(@PathVariable("boardId") Long boardId,@AuthenticationPrincipal UserDetailsImpl userDetails) {
 
-        boardService.deleteBoard(boardId,userDetails.getMember());
+        boardService.deleteBoard(boardId,userDetails.getUser());
         return new ResponseEntity<>("게시글 삭제완료",HttpStatus.OK);
     }
 
     //익명 게시글 삭제
     @DeleteMapping(value = "/anonymous/{boardId}")
     public ResponseEntity<String> deleteAnonymousBoard(@PathVariable("boardId") Long boardId,@AuthenticationPrincipal UserDetailsImpl userDetails) {
-        anonymousBoardService.deleteAnonymousBoard(boardId,userDetails.getMember());
+        anonymousBoardService.deleteAnonymousBoard(boardId,userDetails.getUser());
         return new ResponseEntity<>("게시글 삭제완료",HttpStatus.OK);
     }
 
