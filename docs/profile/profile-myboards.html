@@ -14,7 +14,7 @@
            $("#boards-box-contents").empty();
            $.ajax({
                type:"GET",
-               url:"http://43.200.42.252:8080/api/profile/",
+               url:"http://localhost:8080/api/profile/",
                headers:{
                 "Content-Type": "application/json",
                 "Authorization":localStorage.getItem("accessToken")
@@ -74,7 +74,7 @@
            
            $.ajax({
               type:"GET",
-              url:"http://43.200.42.252:8080/api/profile/boards",
+              url:"http://localhost:8080/api/profile/boards",
               headers:{
               "Content-Type": "application/json",
               "Authorization":localStorage.getItem("accessToken")
@@ -86,7 +86,7 @@
                   let temp = `<tr>
                       <td>1</td>
                       <td>
-                        <img class="list-picture" src="43.200.42.252:8080/resources/static/files/${this.boardImageUrl}">
+                        <img class="list-picture" src="localhost:8080/resources/static/files/${this.boardImageUrl}">
                       </td>
                       <td>${this.id}</td>
                       <td>${this.nickname}</td>

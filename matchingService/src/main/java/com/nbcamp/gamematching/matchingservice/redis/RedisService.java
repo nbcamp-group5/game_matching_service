@@ -29,7 +29,10 @@ public class RedisService {
         redisTemplate.opsForList().leftPush(key, mappperv);
     }
 
-    public Long waitingUserCountByRedis(String key) {
+    public Long waitingUserCountAndRedisConnectByRedis(String key) {
+        if(redisTemplate.isExposeConnection()){
+            throw new NotFoundException.NotFoundConnectException();
+        }
         return redisTemplate.opsForList().size(key);
     }
 

@@ -52,6 +52,7 @@ public class WebSecurityConfig implements WebMvcConfigurer {
                 .requestMatchers("/").permitAll()
                 .requestMatchers("/api/matching/**").permitAll()
                 .requestMatchers("/api/auth/**").permitAll()
+                .requestMatchers("/api/auth/kakao/**").permitAll()
                 .requestMatchers("/api/**").permitAll()
                 .requestMatchers("/GGMatching/**","/matchingpub/**","/matchingsub/**").permitAll()
                 .requestMatchers("/GGTalk/**").permitAll()

@@ -127,4 +127,9 @@ public class CommentServiceImpl implements CommentService {
     public void deleteCommentByAdmin(Long commentId) {
         commentRepository.deleteById(commentId);
     }
+
+    @Override
+    public void deleteAnonymousCommentByAdmin(Long commentId) {
+        anonymousCommentRepository.deleteById(commentId);
+    }
 }

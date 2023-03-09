@@ -2,6 +2,7 @@ package com.nbcamp.gamematching.matchingservice.member.controller;
 
 import com.nbcamp.gamematching.matchingservice.board.dto.AnonymousBoardAdminDto;
 import com.nbcamp.gamematching.matchingservice.board.dto.BoardAdminDto;
+import com.nbcamp.gamematching.matchingservice.comment.dto.AnonymousCommentResponse;
 import com.nbcamp.gamematching.matchingservice.comment.dto.CommentResponse;
 import com.nbcamp.gamematching.matchingservice.member.dto.MemberAdminDto;
 import com.nbcamp.gamematching.matchingservice.member.service.AdminService;
@@ -47,6 +48,12 @@ public class AdminController {
         return adminService.getAllCommentsInBoard(boardId);
     }
 
+    @GetMapping("/anonymousBoards/{boardId}/AnonymousComments")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public List<AnonymousCommentResponse> getAllCommentsInAnonymousBoard(@PathVariable Long boardId) {
+        return adminService.getAllCommentsInAnonymousBoard(boardId);
+    }
+
     @DeleteMapping("/members/{memberId}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<String> deleteMember(@PathVariable Long memberId) {
@@ -71,4 +78,9 @@ public class AdminController {
         return adminService.deleteComment(commentId);
     }
 
+    @DeleteMapping("/anonymousComments/{commentId}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<String> deleteAnonymousComment(@PathVariable Long commentId) {
+        return adminService.deleteAnonymousComment(commentId);
+    }
 }
