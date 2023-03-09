@@ -3,6 +3,7 @@ package com.nbcamp.gamematching.matchingservice.board.entity;
 import com.nbcamp.gamematching.matchingservice.board.dto.UpdateBoardRequest;
 import com.nbcamp.gamematching.matchingservice.comment.entity.AnonymousComment;
 import com.nbcamp.gamematching.matchingservice.common.entity.BaseEntity;
+import com.nbcamp.gamematching.matchingservice.exception.NotFoundException;
 import com.nbcamp.gamematching.matchingservice.member.entity.Member;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -46,8 +47,10 @@ public class AnonymousBoard extends BaseEntity {
         this.member = member;
     }
 
-    public void checkAnonymousUser(AnonymousBoard board, Member member) {
-        if (!board.getMember().getEmail().equals(member.getEmail()));
+    public void checkUser(AnonymousBoard anonymousBoard, Member member) {
+        if (!anonymousBoard.getMember().getId().equals(member.getId()))  {
+            throw new NotFoundException();
+        }
     }
 
     public static String nNick() {

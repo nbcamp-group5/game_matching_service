@@ -70,7 +70,7 @@ public class AnonymousBoardServiceImpl implements AnonymousBoardService{
             MultipartFile image) {
         AnonymousBoard board = anonymousBoardRepository.findById(boardId)
                 .orElseThrow(NotFoundException::new);
-        board.checkAnonymousUser(board, member);
+        board.checkUser(board, member);
         if(image == null) {
             String boardImage = "images/nav/logo.png";
             board.updateAnonymousBoard(boardRequest, boardImage, member);
@@ -86,7 +86,7 @@ public class AnonymousBoardServiceImpl implements AnonymousBoardService{
     public void deleteAnonymousBoard(Long boardId, Member member) {
         AnonymousBoard board = anonymousBoardRepository.findById(boardId)
                 .orElseThrow(NotFoundException::new);
-        board.checkAnonymousUser(board, member);
+        board.checkUser(board, member);
         anonymousLikeRepository.deleteAllByAnonymousBoardId(boardId);
         anonymousBoardRepository.deleteById(boardId);
     }
