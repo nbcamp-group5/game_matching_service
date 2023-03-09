@@ -4,6 +4,7 @@ import com.nbcamp.gamematching.matchingservice.exception.SignException;
 import com.nbcamp.gamematching.matchingservice.matching.entity.MatchingLog;
 import com.nbcamp.gamematching.matchingservice.member.domain.MemberRoleEnum;
 import jakarta.persistence.*;
+import java.util.Optional;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -109,5 +110,23 @@ public class Member {
     public void deleteBuddy(Long memberId, Member buddy) {
         this.getMyBuddies().removeIf(member -> (member.getId() == memberId));
         buddy.getMyBuddies().removeIf(member -> (member.getId() == this.getId()));
+    }
+
+    public boolean existBuddy(Long memberId) {
+        Optional<Member> result = this.getMyBuddies().stream()
+                .filter(member -> (member.getId() == memberId)).findFirst();
+        if (result.isPresent()) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean existBuddyRequest(Long memberId) {
+        Optional<Member> result = this.getNotYetBuddies().stream()
+                .filter(member -> (member.getId() == memberId)).findFirst();
+        if (result.isPresent()) {
+            return true;
+        }
+        return false;
     }
 }

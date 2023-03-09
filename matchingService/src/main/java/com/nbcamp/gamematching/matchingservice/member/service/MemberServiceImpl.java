@@ -151,6 +151,14 @@ public class MemberServiceImpl implements MemberService {
                 .orElseThrow(NotFoundMemberException::new);
         Member targetMember = memberRepository.findById(targetUserId)
                 .orElseThrow(NotFoundMemberException::new);
+        boolean ifBuddy = targetMember.existBuddy(memberId);
+        if (ifBuddy) {
+            return new ResponseEntity<>("이미 친구인 유저입니다.", HttpStatus.OK);
+        }
+        boolean existBuddyRequest = targetMember.existBuddyRequest(memberId);
+        if (existBuddyRequest) {
+            return new ResponseEntity<>("이미 친구 신청하였습니다.", HttpStatus.OK);
+        }
 
         targetMember.addNotYetBuddies(findMember);
         return new ResponseEntity<>("친구 요청되었습니다.", HttpStatus.OK);
@@ -161,6 +169,10 @@ public class MemberServiceImpl implements MemberService {
             Boolean answer) {
         Member findMember = memberRepository.findById(memberId)
                 .orElseThrow(NotFoundMemberException::new);
+        if (findMember.existBuddy(requestMemberId)) {
+            findMember.changeNotYetBuddies(requestMemberId, false);
+            return new ResponseEntity<>("이미 친구 등록된 유저입니다.",HttpStatus.OK);
+        }
         findMember.changeNotYetBuddies(requestMemberId, answer);
         String message = answer ? "친구 등록되었습니다." : "요청이 거부되었습니다.";
         return new ResponseEntity<>(message, HttpStatus.OK);
