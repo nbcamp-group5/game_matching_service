@@ -2,8 +2,8 @@ package com.nbcamp.gamematching.matchingservice.comment.service;
 
 import com.nbcamp.gamematching.matchingservice.board.entity.AnonymousBoard;
 import com.nbcamp.gamematching.matchingservice.board.entity.Board;
-import com.nbcamp.gamematching.matchingservice.board.service.AnonymousBoardServiceImpl;
-import com.nbcamp.gamematching.matchingservice.board.service.BoardServiceImpl;
+import com.nbcamp.gamematching.matchingservice.board.service.AnonymousBoardService;
+import com.nbcamp.gamematching.matchingservice.board.service.BoardService;
 import com.nbcamp.gamematching.matchingservice.comment.dto.AnonymousCommentResponse;
 import com.nbcamp.gamematching.matchingservice.comment.dto.CommentResponse;
 import com.nbcamp.gamematching.matchingservice.comment.dto.UpdateCommentRequest;
@@ -24,8 +24,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CommentServiceImpl implements CommentService {
 
-    private final BoardServiceImpl boardService;
-    private final AnonymousBoardServiceImpl anonymousBoardService;
+    private final BoardService boardService;
+    private final AnonymousBoardService anonymousBoardService;
     private final CommentRepository commentRepository;
     private final AnonymousCommentRepository anonymousCommentRepository;
 

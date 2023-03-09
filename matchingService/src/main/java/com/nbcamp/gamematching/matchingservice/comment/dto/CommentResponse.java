@@ -18,7 +18,7 @@ public class CommentResponse {
     public CommentResponse(Comment comment) {
         this.id = comment.getId();
         this.nickname = comment.getNickname();
-        this.memberImage = comment.getBoard().getMember().getProfile().getProfileImage();
+        this.memberImage = comment.getMember().getProfile().getProfileImage();
         this.content = comment.getContent();
         this.createAt = comment.getCreatedAt();
         this.modifiedAt = comment.getModifiedAt();

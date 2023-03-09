@@ -1,6 +1,6 @@
 package com.nbcamp.gamematching.matchingservice.member.service;
 
-import com.nbcamp.gamematching.matchingservice.board.service.BoardServiceImpl;
+import com.nbcamp.gamematching.matchingservice.board.service.BoardService;
 import com.nbcamp.gamematching.matchingservice.common.domain.CreatePageable;
 import com.nbcamp.gamematching.matchingservice.member.domain.FileStore;
 import com.nbcamp.gamematching.matchingservice.member.domain.GameType;
@@ -33,7 +33,7 @@ class MemberServiceImplTest {
     private MemberService memberService;
 
     @Autowired
-    private BoardServiceImpl boardService;
+    private BoardService boardService;
 
     @Autowired
     private MemberRepository memberRepository;
