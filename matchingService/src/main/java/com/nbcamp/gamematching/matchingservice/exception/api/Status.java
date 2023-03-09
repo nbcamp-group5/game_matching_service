@@ -12,8 +12,8 @@ public enum Status {
     ALREADY_FRIEND(400, "친구목록 존재하는 친구 입니다."),
     ALREADY_APPLIED_FRIEND(400, "이미 친구신청을 했습니다."),
     INVALID_EMAIL(400, "올바르지 않는 이메일 형식입니다."),
-    INVALID_PASSWORD(400, "올바르지 않는 비밀번호 형식입니다."),
-    INVALID_NICKNAME(400, "올바르지 않는 닉네임 형식입니다."),
+    INVALID_PASSWORD(400, "비밀번호는 특수문자를 제외하여 8~16글자로 입력해주세요."),
+    INVALID_NICKNAME(400, "닉네임은 특수문자를 제외하여 1~20글자까지 입력해주세요."),
 
 
     //불일치
