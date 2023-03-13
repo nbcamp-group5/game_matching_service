@@ -30,7 +30,7 @@
 
 ### 
 
-![architec](game_matching_service/docs/images/nav/architec.png)
+![architec](docs/images/nav/architec.png)
 
 ## ❓ 기술적 의사 결정
 <details><summary>CICD
