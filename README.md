@@ -11,32 +11,21 @@
 - 트롤방지 ... (악의성 플레이어 방지)
 
 [🙋‍♂️ 소개 페이지 링크  Notion =:3](https://www.notion.so/6fecce0f474f440ab5e43dea66022df2)
+
 ## 🛠️ 사용기술 
 <img src="https://img.shields.io/badge/JAVA 17-007396?style=for-the-badge&logo=java&logoColor=white"><img src="https://img.shields.io/badge/Spring 3.x-6DB33F?style=for-the-badge&logo=Spring&logoColor=white">
 
 ### Data base
-<img src="https://img.shields.io/badge/postgresql-4479A1?style=for-the-badge&logo=postgresql&logoColor=white">
-<img src="https://img.shields.io/badge/redis-F80000?style=for-the-badge&logo=redis&logoColor=white">
+<img src="https://img.shields.io/badge/postgresql-4479A1?style=for-the-badge&logo=postgresql&logoColor=white"><img src="https://img.shields.io/badge/redis-F80000?style=for-the-badge&logo=redis&logoColor=white">
 
 ### Infra
-<img src="https://img.shields.io/badge/nas (synology)-FCC624?style=for-the-badge&logo=synology&logoColor=black">
-<img src="https://img.shields.io/badge/ec2 (aws)-232F3E?style=for-the-badge&logo=aws &logoColor=white">
-<img src="https://img.shields.io/badge/docker-0769AD?style=for-the-badge&logo=docker&logoColor=white">
-<img src="https://img.shields.io/badge/websocket-F8DC75?style=for-the-badge&logo=websocket&logoColor=white">
-<img src="https://img.shields.io/badge/stomp-232F3E?style=for-the-badge&logo=stomp &logoColor=white"><img 
+<img src="https://img.shields.io/badge/nas (synology)-FCC624?style=for-the-badge&logo=synology&logoColor=black"><img src="https://img.shields.io/badge/ec2 (aws)-232F3E?style=for-the-badge&logo=aws &logoColor=white"><img src="https://img.shields.io/badge/docker-0769AD?style=for-the-badge&logo=docker&logoColor=white"><img src="https://img.shields.io/badge/websocket-F8DC75?style=for-the-badge&logo=websocket&logoColor=white"><img src="https://img.shields.io/badge/stomp-232F3E?style=for-the-badge&logo=stomp &logoColor=white"><img 
 
 ### FrontEnd
-<img src="https://img.shields.io/badge/html-E34F26?style=for-the-badge&logo=html5&logoColor=white">
-<img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black">
-<img src="https://img.shields.io/badge/css-1572B6?style=for-the-badge&logo=css3&logoColor=white">
-<img src="https://img.shields.io/badge/bootstrap-7952B3?style=for-the-badge&logo=bootstrap&logoColor=white">
-<img src="https://img.shields.io/badge/jquery-0769AD?style=for-the-badge&logo=jquery&logoColor=white">
-
-
+<img src="https://img.shields.io/badge/html-E34F26?style=for-the-badge&logo=html5&logoColor=white"><img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black"><img src="https://img.shields.io/badge/css-1572B6?style=for-the-badge&logo=css3&logoColor=white"><img src="https://img.shields.io/badge/bootstrap-7952B3?style=for-the-badge&logo=bootstrap&logoColor=white"><img src="https://img.shields.io/badge/jquery-0769AD?style=for-the-badge&logo=jquery&logoColor=white">
 
 ### Tools & Collaboration
-<img src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white">
-<img src="https://img.shields.io/badge/jira-0769AD?style=for-the-badge&logo=jira&logoColor=white">
+<img src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white"><img src="https://img.shields.io/badge/jira-0769AD?style=for-the-badge&logo=jira&logoColor=white">
 
 
 ### 
