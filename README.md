@@ -88,4 +88,4 @@ Jenkins vs GithubActions
 ### ERD
 
 
-![erd](game_matching_service/docs/images/nav/gameMatchingServiceERD.png)
+![erd](docs/images/nav/gameMatchingServiceERD.png)
