@@ -12,8 +12,7 @@
 
 [🙋‍♂️ 소개 페이지 링크  Notion =:3](https://www.notion.so/6fecce0f474f440ab5e43dea66022df2)
 ## 🛠️ 사용기술 
-<img src="https://img.shields.io/badge/JAVA 17-007396?style=for-the-badge&logo=java&logoColor=white">
-<img src="https://img.shields.io/badge/Spring 3.x-6DB33F?style=for-the-badge&logo=Spring&logoColor=white">
+<img src="https://img.shields.io/badge/JAVA 17-007396?style=for-the-badge&logo=java&logoColor=white"><img src="https://img.shields.io/badge/Spring 3.x-6DB33F?style=for-the-badge&logo=Spring&logoColor=white">
 
 ### Data base
 <img src="https://img.shields.io/badge/postgresql-4479A1?style=for-the-badge&logo=postgresql&logoColor=white">
