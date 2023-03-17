@@ -11,6 +11,8 @@ import com.nbcamp.gamematching.matchingservice.member.entity.Member;
 import com.nbcamp.gamematching.matchingservice.member.service.FileUploadService;
 import com.nbcamp.gamematching.matchingservice.member.service.MemberService;
 import com.nbcamp.gamematching.matchingservice.security.UserDetailsImpl;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +29,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -133,6 +136,16 @@ public class MemberController {
             @RequestBody RequestAdmin request) {
         Member member = userDetails.getMember();
         return memberService.changeRole(member.getId(), request.getAdminId());
+    }
+
+    @PostMapping("/image")
+    public String getPreSignedURL(@RequestParam MultipartFile uploadFile) throws IOException {
+        File convFile = new File(uploadFile.getOriginalFilename());
+        convFile.createNewFile();
+        FileOutputStream fos = new FileOutputStream(convFile);
+        fos.write(uploadFile.getBytes());
+        fos.close();
+        return fileUploadService.getPreSignedURL(convFile);
     }
 
 }
